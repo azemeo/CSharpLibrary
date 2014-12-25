@@ -1,0 +1,7 @@
+if (!IsPostBack) 
+	{
+		lblURL.Text = Request.Url + "<hr>";
+
+		DataList1.DataSource = CreateDataSource();
+		DataList1.DataBind();
+	}

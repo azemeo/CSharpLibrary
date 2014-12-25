@@ -1,0 +1,73 @@
+
+类型成员:由MemberInfo定义,它包括字段、构造器、方法、属性、事件、卡套类型。
+GetMembers  返回类型中的所有成员。
+
+//只有公有成员才被显示出来
+
+using System;
+using System.Reflection;
+namespace TestReflector
+{
+	
+	//演示类型
+	class SomeType
+	{
+		public class InenerType{}
+		public Int32 SomeField=0;
+		private static String goo=null;
+		private void SomeMethod(){}
+		private TimeSpan SomeProperty
+		{
+			get{return new TimeSpan();}
+			set{}
+		}
+		public static event System.Threading.ThreadStart SomeEvent;
+
+		private void NoCompilerWarnings()
+		{
+			SomeEvent.ToString();
+			goo.ToString();
+		}
+	}
+
+	public class  Reflector
+	{
+		
+		public static void RefectOnAssembly(Assembly assem)
+		{
+			WriteLine(0,"Assembly:{0}",assem);//程序集全名
+			
+			//查找模块
+			foreach(Module m in assem.GetModules())//获取此程序集的所有模块并遍历
+			{
+				WriteLine(1,"Module:{0}",m);//模块名称
+				//查找类型
+				foreach(Type t in m.GetTypes())//获取此模块的所有类型并遍历
+				{
+					WriteLine(2,"Type:{0}",t);//类型名称
+					//查找成员(构造器、方法、字段、属性、事件、枚举、内部类型)
+					foreach(MemberInfo mi in t.GetMembers())//获取此类型的所有成员并遍历
+					{
+						WriteLine(3,"{0}:{1}:",mi.MemberType,mi);
+					}
+				}
+			}
+		}
+		private static void WriteLine(Int32 indent,String format,params Object[] args)
+		{
+			Console.WriteLine(new String(' ',3*indent)+format,args);
+		}
+	}
+	class App
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Assembly assem=Assembly.GetExecutingAssembly();//得到当前程序集
+			Reflector.RefectOnAssembly(assem);
+		}
+	}
+}

@@ -1,0 +1,65 @@
+using System.IO;
+using System.Xml;
+------------------------
+private void FormHistory_Load(object sender, System.EventArgs e)
+		{
+			//初始化ListView控件
+			listViewReco.View=View.Details;
+			listViewReco.FullRowSelect=true;
+			this.listViewReco.Columns.Add("姓名",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("移动电话",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("发送内容",500,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("发送时间",500,HorizontalAlignment.Left);
+			//
+			LoadHistory();
+
+		}
+--------------------------
+		private void LoadHistory()
+		{
+			//填充数据
+			listViewReco.Items.Clear();			
+			listViewReco.BeginUpdate();			
+			
+			//
+			FileStream fs=new FileStream("history.xml",FileMode.Open);
+			XmlTextReader tr=new XmlTextReader(fs);
+			while(!tr.EOF)
+			{
+				if(tr.MoveToContent()==XmlNodeType.Element&&tr.Name=="record")
+				
+				{
+					LoadList(tr);//忽略异常					
+				}
+				else
+				{
+					tr.Read();
+				}
+			}
+
+			listViewReco.EndUpdate();
+		}
+--------------------
+		private void LoadList(XmlReader reader)
+		{
+			try
+			{				
+				ListViewItem lvi;
+				lvi = new ListViewItem();
+				for(int i=0;i<reader.AttributeCount;i++)
+				{
+					
+					if(i==0)
+						lvi.Text=reader.GetAttribute(i).ToString();
+					else
+						lvi.SubItems.Add(reader.GetAttribute(i).ToString());										
+					
+				}
+				listViewReco.Items.Add(lvi);
+				reader.ReadElementString();
+
+			}
+			catch(XmlException er){}//ignore
+
+		}
+------------------------

@@ -1,0 +1,49 @@
+显式卸载应用程序域 AppDomain.Unload
+跨越应用程序边界、并通通引用的方式来进行封送处理的类型。
+
+
+
+using System;
+using System.Reflection;
+
+
+using System.Threading;
+
+class MarshalByRefType:MarshalByRefObject
+{
+	public void SomeMethod(String sourceAppDomain)
+	{
+		Console.WriteLine("Code from the '{0}' AppDomain\n"+
+			"called into the '{1}' AppDomain.",sourceAppDomain,Thread.GetDomain().FriendlyName);
+	}
+}
+class App
+{
+	/// <summary>
+	/// 应用程序的主入口点。
+	/// </summary>
+	[STAThread]
+	static void Main(string[] args)
+	{
+		//创建一个新应用程序域
+		AppDomain ad=AppDomain.CreateDomain("MyNewAppDomain",null,null);
+		//在新的程序域中创建对象
+		MarshalByRefType mbrt=(MarshalByRefType)ad.CreateInstanceAndUnwrap(Assembly.GetCallingAssembly().FullName,"MarshalByRefType");
+		//调用对象的方法
+		mbrt.SomeMethod(Thread.GetDomain().FriendlyName);
+		//卸载应有程序域及其内所有程序集
+		AppDomain.Unload(ad);
+		try
+		{
+			//试图再调用卸载对象的方法,有异常
+			mbrt.SomeMethod(Thread.GetDomain().FriendlyName);
+			Console.WriteLine("Called SomeMethod on object in other AppDomain.\nThis shouldn't happen.");
+		}
+		catch(AppDomainUnloadedException)
+		{
+			Console.WriteLine("Fail to Called SomeMethod on object in other AppDomain.\nThis should happen.");
+		}
+		Console.WriteLine();
+	}
+}
+

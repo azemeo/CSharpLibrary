@@ -1,0 +1,4 @@
+无法向bin下拷贝DLL
+通过任务管理器(Ctrl+Alt+Del)将进程aspnet_wp.exe停止。
+或在服务中重启WWW服务
+ 

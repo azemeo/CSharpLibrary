@@ -1,0 +1,212 @@
+描述:
+EventHandlerSet.cs 用于管理事件/委托对,不用修改
+
+SomeEvent.cs 定义的事件和定阅对象，需要修改
+
+App.cs 主程序
+
+
+
+1.EventHandlerSet.cs
+
+using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
+namespace Movecont
+{
+	#region 管理事件/委托对(非专业人员不要修改)
+
+	public class EventHandlerSet:IDisposable
+	{
+		private Hashtable events=new Hashtable();//散列表
+		public virtual Delegate this[Object eventKey]//索引器
+		{
+			get
+			{
+				return (Delegate)events[eventKey];
+			}
+			set
+			{
+				events[eventKey]=value;
+			}
+		}
+		public virtual void AddHandler(Object eventKey,Delegate handler)//添加
+		{
+			events[eventKey]=Delegate.Combine((Delegate)events[eventKey],handler);
+		}
+		public virtual void RemoveHandler(Object eventKey,Delegate handler)//移除
+		{
+			events[eventKey]=Delegate.Remove((Delegate)events[eventKey],handler);
+		}
+		public virtual void Fire(Object eventKey,object sender,EventArgs e)//触发事件
+		{
+			Delegate d=(Delegate)events[eventKey];
+			if(d!=null)
+				d.DynamicInvoke(new object[]{sender,e});
+		}
+		public void Dispose()//释放资源
+		{
+			events=null;
+		}
+		public static EventHandlerSet Synchronized(EventHandlerSet eventHandlerSet)
+		{
+			if(eventHandlerSet==null)
+				throw new ArgumentNullException("eventHandlerSet");
+			return new SynchronizedEventHandlerSet(eventHandlerSet);
+		}
+		//线程安全类型(非专业人员不要修改)
+		private class SynchronizedEventHandlerSet:EventHandlerSet
+		{
+			private EventHandlerSet eventHandlerSet;
+			public SynchronizedEventHandlerSet(EventHandlerSet eventHandlerSet)
+			{
+				this.eventHandlerSet=eventHandlerSet;
+				Dispose();
+			}
+			public override Delegate this[Object eventKey]
+			{
+				[MethodImpl(MethodImplOptions.Synchronized)]
+				get
+				{
+					return eventHandlerSet[eventKey];
+				}
+				[MethodImpl(MethodImplOptions.Synchronized)]
+				set
+				{
+					eventHandlerSet[eventKey]=value;
+				}
+			}
+			[MethodImpl(MethodImplOptions.Synchronized)]
+			public override void AddHandler(Object eventKey,Delegate handler)
+			{
+				eventHandlerSet.AddHandler(eventKey,handler);
+			}
+
+			[MethodImpl(MethodImplOptions.Synchronized)]
+			public override void RemoveHandler(Object eventKey,Delegate handler)
+			{
+				eventHandlerSet.RemoveHandler(eventKey,handler);
+			}
+			[MethodImpl(MethodImplOptions.Synchronized)]
+			public override void Fire(Object eventKey,Object sender,EventArgs e)
+			{
+				eventHandlerSet.Fire(eventKey,sender,e);
+			}
+		}	
+	}
+	#endregion
+}
+
+
+2.EventHandlerSet.cs
+using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
+namespace Movecont
+{
+	class TypeWithLotsOfEvents
+	{
+		protected EventHandlerSet eventSet=EventHandlerSet.Synchronized(new EventHandlerSet());
+		
+		//第一个事件(Foo)定义必要的成员
+		protected static readonly object fooEventKey=new object();
+		#region 经常改动1:(根据FooEventArgs内容改变而改变))
+		public class FooEventArgs:EventArgs
+		{
+			public FooEventArgs(string from,string to)
+			{
+				this.from=from;
+				this.to=to;
+			}
+			public readonly string from,to;
+		
+		}
+		#endregion
+		public delegate void FooEventHandler(object sender,FooEventArgs e);
+		public event FooEventHandler Foo
+		{
+			add{eventSet.AddHandler(fooEventKey,value);}
+			remove{eventSet.RemoveHandler(fooEventKey,value);}
+		}
+		protected virtual void OnFoo(FooEventArgs e)
+		{
+			eventSet.Fire(fooEventKey,this,e);
+		}
+		//经常改动2:(根据FooEventArgs内容改变而改变))
+		public void SimulateFoo(string from,string to)
+		{
+			OnFoo(new FooEventArgs(from,to));
+		}
+
+		#region 第二个事件(Bar)定义必要的成员
+		protected static readonly Object barEventKey=new object();//多个实例是节省内存
+		public class BarEventArgs:EventArgs{}
+		public delegate void BarEventHandler(Object sender,BarEventArgs e);
+		public event BarEventHandler Bar
+		{
+			add{eventSet.AddHandler(barEventKey,value);}
+			remove{eventSet.RemoveHandler(barEventKey,value);}
+		} 
+		protected virtual void OnBar(BarEventArgs e)
+		{
+			eventSet.Fire(barEventKey,this,e);
+		}
+		public void SimulateBar()
+		{
+			OnBar(new BarEventArgs());
+		}
+		#endregion
+
+	}
+	//寻呼机
+	class Pager
+	{
+		//订阅事件
+		public Pager(TypeWithLotsOfEvents mm)
+		{
+			//(使用了事件,委托,回调方法)
+			mm.Foo+=new TypeWithLotsOfEvents.FooEventHandler(PagerMsg);
+		}
+		//回调方法(根据FooEventArgs内容改变而改变)
+		private void PagerMsg(Object sender,TypeWithLotsOfEvents.FooEventArgs e)
+		{
+			//触发者通信
+			Console.WriteLine(((TypeWithLotsOfEvents)sender).GetType().ToString());
+			//附加信息
+			Console.WriteLine("Pagering mail message!");
+			Console.WriteLine("From:{0}",e.from);
+			Console.WriteLine("To:{0}",e.to);
+		}
+		//注销事件
+		public void Unregister(TypeWithLotsOfEvents mm)
+		{
+			TypeWithLotsOfEvents.FooEventHandler callback=new TypeWithLotsOfEvents.FooEventHandler(PagerMsg);
+			mm.Foo-=callback;
+		}
+	}
+	
+}
+
+3.App.cs
+using System;
+using System.Collections;
+namespace Movecont
+{
+	/// <summary>
+	/// 事件。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			TypeWithLotsOfEvents mymail=new TypeWithLotsOfEvents();
+			Pager mypager=new Pager(mymail);
+			mymail.SimulateFoo("Beiing","NewYoke");
+
+		}
+	}
+}

@@ -1,0 +1,65 @@
+1.引用
+using System.Runtime.InteropServices;
+2.声明
+		[DllImport("MFDLL.dll",EntryPoint="rf_init")]
+		public static extern int rf_init(int port,int baud);
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_beep")]
+		public static extern int rf_beep(int mac_num,int beep_time);
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_HL_read")]
+		public static extern int rf_HL_read(int mac_num,int mode,byte snr,int authmode,int adr,int sdata);
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_exit")]
+		public static extern int rf_exit();
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_halt")]
+		public static extern int rf_halt(byte Mac_Num);
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_get_info")]
+		public static extern int rf_get_info(byte Mac_Num,char[] pstring);
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_request")]
+		public unsafe static extern int rf_request(byte Mac_Num,byte mode,int* tag_type);
+
+		[DllImport("MFDLL.dll",EntryPoint="rf_anticoll")]
+		public static extern int rf_anticoll(byte Mac_Num,byte Bcnt,byte[] Snr); 
+3.使用
+		private string ReadCard(byte U_DevNo)
+		{
+						unsafe
+			{
+				char []info=new char[50];
+				byte Qmode;
+				int c_type=0,t;
+				int* px1=&c_type;
+				byte []CardNo=new byte[4];
+				rf_halt(U_DevNo);//需要定义
+				t=rf_get_info(U_DevNo,info);//需要定义
+				if(t<0)
+				{
+					//MessageBox.Show("连接失败!","读卡");
+					return "";
+				}			
+				Qmode=1;
+				t=rf_request(U_DevNo,Qmode,px1);//需要定义
+				if(t<0)
+				{
+					//MessageBox.Show("找不到卡","读卡");
+					return "";
+				}
+				t=rf_anticoll(U_DevNo,0,CardNo);   //需要定义
+				if(t<0)
+				{			
+					//MessageBox.Show("卡防重叠失败!","读卡");
+					return "";
+				}
+				//StringBuilder myStr=new StringBuilder();
+				string myStr="";
+				for(int i=0;i<4;i++)
+					myStr+=CardNo[i].ToString();
+				rf_beep(1,10);
+				//MessageBox.Show("读取卡号成功!","读卡");
+				return myStr;
+			}
+		}

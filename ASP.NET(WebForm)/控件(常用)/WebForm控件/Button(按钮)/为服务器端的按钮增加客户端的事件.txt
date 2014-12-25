@@ -1,0 +1,6 @@
+为服务器端的按钮增加
+客户端事件			this.BtnSubBatchDel.Attributes.Add("onclick","javascript:OpenDelFrm();");
+
+
+在HTML中这样增加是错误的
+ onclick="javascrip: location.href='Form_Opp_phaseDetail.aspx';"

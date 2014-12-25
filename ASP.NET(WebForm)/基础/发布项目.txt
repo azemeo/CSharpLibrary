@@ -1,0 +1,6 @@
+1.新建一个虑拟目录Pub1
+2.在VS中项目|复制项目...
+	a.http://localhost/Pub1/
+	b.文件共享 d:\temp\pub1
+	c.仅限于运行该应用程序所需的文件
+3.OK

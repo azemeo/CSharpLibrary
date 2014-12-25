@@ -1,0 +1,3 @@
+观察者模式(Observer Pattern):以多种形式显示数据。
+
+在观察者模式中，把数据称为目标(Subject),把每种显示称为观察者(Observer)

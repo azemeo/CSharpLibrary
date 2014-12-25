@@ -1,0 +1,4 @@
+1.变量申明处,在构造函数下
+2.初始化 InitializeComponent头部.
+3.添加 ColorTagItem属性下
+4.设置 WrapText属性下

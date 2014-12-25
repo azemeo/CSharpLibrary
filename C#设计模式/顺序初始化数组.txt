@@ -1,0 +1,7 @@
+int i = 0;
+empls = new Employee [7];
+empls[i++] = new Employee("Susan Bear", 55000, 12, 1);
+empls[i++] = new Employee("Adam Gehr", 150000, 9, 0);
+empls[i++] = new Employee("Fred Harris", 50000, 15, 2);
+empls[i++] = new Employee("David Oakley", 57000, 12, 2);
+empls[i++] = new Employee("Larry Thomas", 100000, 20, 6);

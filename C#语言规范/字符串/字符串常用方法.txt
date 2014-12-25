@@ -1,0 +1,41 @@
+//获得汉字的区位码
+byte[] array = new byte[2];
+array = System.Text.Encoding.Default.GetBytes("啊");
+
+int i1 = (short)(array[0] - '\0');
+int i2 = (short)(array[1] - '\0');
+
+//unicode解码方式下的汉字码
+array = System.Text.Encoding.Unicode.GetBytes("啊");
+i1 = (short)(array[0] - '\0');
+i2 = (short)(array[1] - '\0');
+
+//unicode反解码为汉字
+string str = "4a55";
+string s1 = str.Substring(0,2);
+string s2 = str.Substring(2,2);
+
+int t1 = Convert.ToInt32(s1,16);
+int t2 = Convert.ToInt32(s2,16);
+
+array[0] = (byte)t1;
+array[1] = (byte)t2;
+
+string s = System.Text.Encoding.Unicode.GetString(array);
+
+//default方式反解码为汉字
+array[0] = (byte)196;
+array[1] = (byte)207;
+s = System.Text.Encoding.Default.GetString(array);
+
+//取字符串长度
+s = "iam方枪枪";
+int len = s.Length;//will output as 6
+byte[] sarr = System.Text.Encoding.Default.GetBytes(s);
+len = sarr.Length;//will output as 3+3*2=9
+
+//字符串相加
+System.Text.StringBuilder sb = new System.Text.StringBuilder("");
+sb.Append("i ");
+sb.Append("am ");
+sb.Append("方枪枪");

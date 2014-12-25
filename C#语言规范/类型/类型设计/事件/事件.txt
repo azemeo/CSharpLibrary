@@ -1,0 +1,91 @@
+事件(event):在某些特定事情发生的时候通知其他对象。
+
+为类型提供三种能力:
+1.允许对象登记事件。
+2.允许对象注销事件。
+3.允许定义事件对象维持一个登记的集合，并在某些特定事情发生时通知这些对象。
+
+事件模型建在委托(delegate)机制上。
+
+1.示例
+
+using System;
+namespace Movecont
+{
+	class MailManager
+	{
+		//保存事件信息(可选)
+		public class MailMsgEventArgs:EventArgs
+		{
+			public MailMsgEventArgs(String from,String to,String Subject,String body)
+			{
+				this.from=from;
+				this.to=to;
+				this.subject=subject;
+				this.body=body;
+			}
+			public readonly String from,to,subject,body;
+		}
+		//方法原型(可选)
+		public delegate void MailMsgEventHandler(Object sender,MailMsgEventArgs args);
+		//事件成员(自动维护订阅对象)
+		public event MailMsgEventHandler MailMsg;
+		//通知对象
+		protected virtual void OnMailMsg(MailMsgEventArgs e)
+		{
+			if(MailMsg!=null)
+				MailMsg(this,e);
+		}
+		//输入转化为事件
+		public void SimulateArrivingMsg(String from,String to,String subject,String body)
+		{
+			MailMsgEventArgs e=new MailMsgEventArgs(from,to,subject,body);
+			OnMailMsg(e);
+		}
+	}
+
+	class Fax
+	{
+		//订阅事件
+		public Fax(MailManager mm)
+		{
+			//(使用了事件,委托,回调方法)
+			mm.MailMsg+=new MailManager.MailMsgEventHandler(FaxMsg);
+		}
+		//回调方法
+		private void FaxMsg(Object sender,MailManager.MailMsgEventArgs e)
+		{
+			Console.WriteLine("Faxing mail message:");
+			Console.WriteLine("From:{0}\n To:{1}\n Subject:{2}\n Body:{3}\n",e.from,e.to,e.subject,e.body);
+		}
+		//注销事件
+		public void Unregister(MailManager mm)
+		{
+			MailManager.MailMsgEventHandler callback=new MailManager.MailMsgEventHandler(FaxMsg);
+			mm.MailMsg-=callback;
+		}
+	}
+}
+
+using System;
+using System.Collections;
+namespace Movecont
+{
+	/// <summary>
+	/// 事件。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			MailManager mymail=new MailManager();
+			Fax myfax=new Fax(mymail);
+			mymail.SimulateArrivingMsg("gelifeng","chi","Hi,beibei","Best regard!");
+
+		}
+	}
+}

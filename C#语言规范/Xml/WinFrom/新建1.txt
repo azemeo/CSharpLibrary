@@ -1,0 +1,24 @@
+			string fileName="booknew.xml";
+			XmlTextWriter tw=new XmlTextWriter(fileName,null);
+			tw.Formatting=Formatting.Indented;
+			tw.WriteStartDocument();
+				tw.WriteStartElement("book");
+					tw.WriteAttributeString("genre","Mystery");
+					tw.WriteAttributeString("ISBN","123456789");
+					tw.WriteElementString("title","Case of the Missing Cookie");
+					tw.WriteStartElement("author");
+						tw.WriteElementString("name","Cookie Monster");
+					tw.WriteEndElement();
+					tw.WriteElementString("price","9.99");
+				tw.WriteEndElement();
+			tw.WriteEndDocument();
+			tw.Flush();
+			tw.Close();
+//要点
+1.引用
+using System.Xml;
+2.
+WriteStartDocument();要求有WriteEndDocument();呼应
+WriteStartElement();要求有WriteEndElement();呼应//多次才能完
+tw.WriteElementString();中间有内容
+

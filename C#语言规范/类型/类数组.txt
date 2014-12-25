@@ -1,0 +1,18 @@
+
+//定义
+protected class Item1
+		{
+			public Item1(string text)
+			{
+				m_text=text;		
+			}
+			public string Text
+			{
+				get{return m_text;}
+			}
+			private string m_text;
+
+		}
+//调用
+			Item1[]stuff=new Item1[]{new Item1("One"),new Item1("Two"),new Item1("Three")};
+			dataGrid1.SetDataBinding(stuff,null);

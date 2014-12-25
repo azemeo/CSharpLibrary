@@ -1,0 +1,11 @@
+1.将窗体的属性KeyPrieview设置为true
+2.在窗体KeyDown事件中加如下代码
+private void FormVali_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			//屏掉alt+f4
+			if ((e.KeyCode == Keys.F4)&&(e.Alt == true))
+			{
+				e.Handled = true;
+			}
+
+		}

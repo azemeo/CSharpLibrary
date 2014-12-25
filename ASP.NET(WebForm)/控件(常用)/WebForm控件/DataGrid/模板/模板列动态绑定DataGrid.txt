@@ -1,0 +1,19 @@
+		
+lbtName为模板列中的LinkButton
+
+
+private void DGMain_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			ListItemType elemType=e.Item.ItemType;
+			
+			if (elemType==ListItemType.Item || elemType==ListItemType.SelectedItem || elemType==ListItemType.AlternatingItem)
+			{	
+				if (e.Item.Cells[3].Text.Trim()=="是")	//已报到
+				{
+					((LinkButton)e.Item.Cells[0].FindControl("lbtName")).CommandArgument=e.Item.Cells[5].Text.Trim();
+					((LinkButton)e.Item.Cells[0].FindControl("lbtName")).Enabled=true;
+				}
+				else
+					((LinkButton)e.Item.Cells[0].FindControl("lbtName")).Enabled=false;				
+			}
+		}

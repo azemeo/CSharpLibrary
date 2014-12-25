@@ -1,0 +1,35 @@
+
+写入XML文件
+ds.WriteXml(strFile,XmlWriteMode.DiffGram);//记录被修改及删除的行
+
+从XML文件读出
+ds.ReadXml(strFile);
+
+
+//序列化到XML文件(写入)
+		private void SerializeDataSource(DataSet ds)
+		{
+			string strFile=Server.MapPath(Session.SessionID+".xml");
+			XmlTextWriter xtw=new XmlTextWriter(strFile,null);
+			ds.WriteXml(xtw);
+			xtw.Close();			
+		}
+		//反序列XML文件(读出)
+		private DataSet DeserializeDataSource()
+		{
+			string strFile=Server.MapPath(Session.SessionID+".xml");
+			XmlTextReader xtr=new XmlTextReader(strFile);
+			DataSet ds=new DataSet();
+			ds.ReadXml(xtr);
+			xtr.Close();
+			return ds;
+		}
+
+
+应用
+1.保存
+//Session["MyDataSet"]=oDS;//保存数据集
+SerializeDataSource(oDS);
+2.加载
+//DataSet ds=(DataSet)Session["MyDataSet"];
+DataSet ds=DeserializeDataSource();

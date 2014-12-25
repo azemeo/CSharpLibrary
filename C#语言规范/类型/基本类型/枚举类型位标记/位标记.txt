@@ -1,0 +1,47 @@
+位标记：是一个基础为Int32的枚举类型。
+
+1.[Flags]，将枚举值看作是一组标记
+2.[Flags],特性会影响ToString,Format,Parse方法.
+3.VS.NET窗体设计器在应[Flags]时出显示可能的值。
+4.定义的符号不必为2的整数次方。
+using System;
+namespace TestEnum
+{
+	[Flags]
+	enum Actions
+	{
+		Read	=0x0001,
+		Write	=0x0002,
+		Delete	=0x0004,
+		Query	=0x0008,
+		Sync	=0x0010,
+	}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//打印
+			Actions actions=Actions.Read|Actions.Write;
+			Console.WriteLine(actions.ToString());
+			//转换
+			Actions a=(Actions)Enum.Parse(typeof(Actions),"Query",true);
+			Actions b=(Actions)Enum.Parse(typeof(Actions),"Query,Read",false);
+			Console.WriteLine(a);
+			Console.WriteLine(b);
+		}
+	}
+}
+
+
+
+
+应用系统中的位标记			
+using System.IO;
+//判断文件是否为隐藏
+			String file=@"C:\Boot.ini";
+			FileAttributes att=File.GetAttributes(file);
+			Console.WriteLine("Is {0} hidden ?{1}",file,(att&FileAttributes.Hidden)!=0);

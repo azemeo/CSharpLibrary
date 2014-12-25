@@ -1,0 +1,40 @@
+//建立DataTable的测试数据(无数据库时)
+		private DataTable CreateTable()
+		{
+			//创建空表
+			DataTable dt=new DataTable("Customers");
+			
+			//创建三列
+			DataColumn dcolID=new DataColumn("ID");			
+			dcolID.DataType=typeof(int);
+			dcolID.AutoIncrement=true;
+			dcolID.AutoIncrementSeed=1;
+			dcolID.AutoIncrementStep=1;
+			
+			DataColumn dcolName=new DataColumn("Name");
+			dcolName.DataType=typeof(string);
+
+			DataColumn dcolAddress=new DataColumn("Address");
+			dcolAddress.DataType=typeof(string);
+
+			//添加列
+			dt.Columns.Add(dcolID);
+			dt.Columns.Add(dcolName);
+			dt.Columns.Add(dcolAddress);
+
+			//添加主键
+			dt.Constraints.Add("PKCust",dcolID,true);
+
+			//添加行
+			DataRow drowCust;
+			drowCust=dt.NewRow();
+			drowCust["Name"]="Gelifeng";
+			drowCust["Address"]="Bei jing";
+			dt.Rows.Add(drowCust);
+
+			drowCust=dt.NewRow();
+			drowCust["Name"]="Chi hi ying";
+			drowCust["Address"]="Hei bei";
+			dt.Rows.Add(drowCust);
+			return dt;
+		}

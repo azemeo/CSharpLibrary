@@ -1,0 +1,4 @@
+InvokeMember 运态调用
+
+FCL通CAS机制确保私有成员不会被调用。
+

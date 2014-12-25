@@ -1,0 +1,36 @@
+using System;
+using System.Collections;
+namespace MySortList
+{
+	/// <summary>
+	/// 排序表。
+	/// 按键自排序,速度比哈希表慢
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SortedList mySortList=new SortedList();
+			mySortList.Add("bbb","b");
+			mySortList.Add("aaa","a");
+			mySortList.Add("ddd","d");
+			mySortList.Add("ccc","c");
+			PrintKeysAndValues(mySortList);
+
+		}
+		public static void PrintKeysAndValues( SortedList myList )  
+		{
+			Console.WriteLine( "\t-KEY-\t-VALUE-" );
+			for ( int i = 0; i < myList.Count; i++ )  
+			{
+				Console.WriteLine( "\t{0}:\t{1}", myList.GetKey(i), myList.GetByIndex(i) );
+			}
+			Console.WriteLine();
+		}
+
+	}
+}

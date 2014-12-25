@@ -1,0 +1,15 @@
+private void setPanel() {
+     		pnl.Location = new Point(152, 24);
+			pnl.Size = new Size(128, 168);
+			pnl.TabIndex = 1;
+			Controls.Add(pnl);
+		}
+
+
+private void lsEquities_SelectedIndexChanged(object sender, System.EventArgs e) {		
+			this.Controls.Remove (pnl);
+			pnl = mchoice.getWindow ();
+			setPanel();
+		}
+
+private Panel pnl;

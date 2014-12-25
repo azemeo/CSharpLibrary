@@ -1,0 +1,1 @@
+wsdl /urlkey:CalcUrl http://localhost/Second/Calc.asmx

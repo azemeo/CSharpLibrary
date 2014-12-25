@@ -1,0 +1,39 @@
+优点:
+1.捕获对个对象的返回值。
+2.调用委托时一个失败，不会阻塞其它的。
+
+
+GetInvocationList 返回委托对象列表,可以显式调用委托链上的每个一个对象。
+
+static void Main(string[] args)
+		{
+
+			Set.Feedback fb1=new Set.Feedback(App.FeedbackToConsole);
+			Set.Feedback fb2=new Set.Feedback(App.FeedbackToMsgBox);
+			Set.Feedback fbChain=(Set.Feedback)Delegate.Combine(fb1,fb2);
+
+			//返回调用链表
+			Delegate[] arrayOfDelegates=fbChain.GetInvocationList();
+
+			Set setOfItems=new Set(5);
+
+			StringBuilder report=new StringBuilder();
+			foreach(Set.Feedback fb in arrayOfDelegates)
+			{
+				try
+				{
+					setOfItems.ProcessItems(fb);
+				}
+				catch(Exception e)
+				{
+					Object component=fb.Target;
+					report.AppendFormat("Failed to ProcessItems form {1}{2}{0} Error:{3}{0}{0}",
+						Environment.NewLine,
+						((component==null)?"":component.GetType()+"."),
+						fb.Method.Name,e.Message);
+					Console.WriteLine(report.ToString());
+				}
+			}
+
+			
+		}

@@ -1,0 +1,31 @@
+数据库访问客户端
+System.Data 
+System.Data.Common
+System.Data.SqlClient
+System.Data.SqlServerCE
+不包括 System.Data.OleDb
+
+
+
+数据访问
+System.Data.SqlClient
+与framework中的API一致，
+除以下几方面 
+无连接池 
+无分布式事务 
+无加密的连接 
+必须通过 TCP/IP 连接 
+Windows 认证
+必须在connection字符串中提供身份信息
+
+
+数据访问System.Data
+
+DataSet 
+DataTable 
+IDataAdapter
+IDataReader 
+
+强类型的数据集
+在VS中不支持 
+可以手工修改自动产生的代码

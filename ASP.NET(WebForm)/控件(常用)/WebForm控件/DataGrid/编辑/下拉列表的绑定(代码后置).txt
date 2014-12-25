@@ -1,0 +1,20 @@
+1.编辑时绑定下拉列表的选定
+
+要点:
+a.要命名隐藏列变为只读状态(属性生成器|列|选定列勾选只读),否则e.Item.Cells[count-2].Text总为空.
+
+private void Datagridex2_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{			
+			if(e.Item.ItemType == ListItemType.EditItem)//编辑状态
+			{
+				int count = this.Datagridex2.Columns.Count;
+				if(e.Item.Cells[count-2].Text=="0")
+				{
+					((DropDownList)e.Item.Cells[count-7].FindControl("DDLevel")).SelectedIndex=0;
+				}
+				else
+				{
+					((DropDownList)e.Item.Cells[count-7].FindControl("DDLevel")).SelectedIndex=1;
+				}
+			}
+		}

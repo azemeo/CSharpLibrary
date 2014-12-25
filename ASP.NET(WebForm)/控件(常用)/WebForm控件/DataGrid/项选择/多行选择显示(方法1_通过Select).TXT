@@ -1,0 +1,21 @@
+			//多行选择显示
+			//方法1:
+			string RowSelectFilter="Employeeid=1 or Employeeid=3 or Employeeid=5";
+			ListItemType itemType=e.Item.ItemType;//获得被创建项的类型
+			if(itemType==ListItemType.Item||itemType==ListItemType.AlternatingItem)
+			{
+				DataRowView drv=(DataRowView)e.Item.DataItem;
+				if(drv!=null&&RowSelectFilter!="")
+				{
+					DataTable dt=drv.Row.Table;
+					DataRow[]a=dt.Select(RowSelectFilter);//满足标准的行(需要一段时间)
+					foreach(DataRow dr in a)
+					{
+						if(dr==drv.Row)//当前数据项的行比较
+						{
+							e.Item.BackColor=Color.DarkBlue;
+							break;
+						}
+					}
+				}						
+			}

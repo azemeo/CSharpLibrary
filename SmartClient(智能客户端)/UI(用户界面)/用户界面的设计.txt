@@ -1,0 +1,21 @@
+用户界面的设计
+Device Form Factor
+320 X 240 标准分辨率
+不太需要调整大小 
+无多文档界面 
+分割大窗体 
+
+内存 
+图像大小
+存储在控件中的数据
+DataGrid 
+Tab control
+
+Smartclient 窗体
+缺少的功能 
+拖拉 
+KeyPreview 
+图标 
+开始位置 
+透明度 
+Accept/Cancel按钮

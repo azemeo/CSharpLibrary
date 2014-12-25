@@ -1,0 +1,2 @@
+EventArgs es = new EventArgs();			
+BtDecryptFile_Click(this,es);

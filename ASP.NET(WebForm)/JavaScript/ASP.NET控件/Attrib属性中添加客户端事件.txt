@@ -1,0 +1,7 @@
+Button3.Attributes.Add("onclick","javascript:if(!DelAffirmFrm()) return false;else return;");
+cmdDelete.Attributes.Add("onclick","javascript:if(CancelAffirmFrm()) return true;else return false;");
+
+
+注意:return true;与return; 都是返回服务器端
+
+而return false;则是不返回

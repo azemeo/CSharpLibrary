@@ -1,0 +1,2 @@
+1、放入一个服务端容器控件内，如;Panel
+2、该html table设成服务端控件，然后 table.Style["display"] ="none"; or table.Style["display"] ="block";

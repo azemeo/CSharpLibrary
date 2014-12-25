@@ -1,0 +1,115 @@
+private void Form1_Load(object sender, System.EventArgs e)
+		{
+			//主菜单
+			MainMenu menu=new MainMenu();
+			MenuItem item=menu.MenuItems.Add("&File");
+			item.MenuItems.Add("&New",new EventHandler(OnFileNew));
+			item.MenuItems.Add(new MenuItem("&Open...",new EventHandler(OnFileOpen),Shortcut.CtrlO));
+			item.MenuItems.Add("&Save",new EventHandler(OnFileSave));
+			item.MenuItems.Add("Save &As...",new EventHandler(OnFileSaveAs));
+			item.MenuItems.Add("-");
+			item.MenuItems.Add("E&xit",new EventHandler(OnFileExit));
+			//
+			item=menu.MenuItems.Add("&Edit");
+			item.Popup+=new EventHandler(OnPopupEdit);//更新处理程序
+			item.MenuItems.Add("Cu&t",new EventHandler(OnEditCut));
+			item.MenuItems.Add("&Copy",new EventHandler(OnEditCopy));
+			item.MenuItems.Add("&Paste",new EventHandler(OnEditPaste));
+			Menu=menu;
+			//快捷菜单
+			ContextMenu cmenu=new ContextMenu();
+			cmenu.MenuItems.Add("&Open",new EventHandler(OnOpen));
+			cmenu.MenuItems.Add("&Rname",new EventHandler(OnRename));
+			cmenu.MenuItems.Add("&Delete",new EventHandler(OnDelete));
+			ContextMenu=cmenu;
+			
+			
+
+		}
+		void OnFileNew(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnFileOpen(Object sender,EventArgs e)
+		{
+			MessageBox.Show("Open.");
+		}
+		void OnFileSave(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnFileSaveAs(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnFileExit(Object sender,EventArgs e)
+		{
+			Close();
+		}
+		void OnEditCut(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnEditCopy(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnEditPaste(Object sender,EventArgs e)
+		{
+		
+		}
+		//快捷菜单事件
+		void OnOpen(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnRename(Object sender,EventArgs e)
+		{
+		
+		}
+		void OnDelete(Object sender,EventArgs e)
+		{
+		
+		}
+		//菜单状态更新程序
+		void OnPopupEdit(Object sender,EventArgs e)
+		{
+			MenuItem menu=(MenuItem)sender;
+			foreach(MenuItem item in menu.MenuItems)
+			{
+				switch(item.Text)
+				{
+					case "Cu&t":
+					case "&Copy":
+					case "&Paste":
+						item.Enabled=(textBox1.Text!="");
+						break;
+				}
+			}
+		}
+---------------------------------------------
+						string strLanguageName=WordLine.Substring(iStart+1,iEnd-iStart-1);
+						MenuItem menuItemN = new MenuItem(strLanguageName,new EventHandler(OnToolCM));
+						ToolCM.MenuItems.Add(menuItemN);
+
+/// <summary>
+		/// 工具栏下拉按钮事件处理
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void OnToolCM(Object sender,EventArgs e)
+		{
+			MenuItem item=(MenuItem)sender;
+			switch(item.Text)
+			{
+				case "C#":
+					MessageBox.Show("C#");
+					break;
+				case "PHP":
+					MessageBox.Show("PHP");
+					break;
+				default:
+					break;
+			}
+
+		}

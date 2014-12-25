@@ -1,0 +1,6 @@
+1.
+using System.Reflection;
+2.
+Assembly assembly = Assembly.GetCallingAssembly();  
+string strVersion = assembly.GetName().Version.ToString();
+MessageBox.Show(strVersion);

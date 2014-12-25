@@ -1,0 +1,26 @@
+1.避免过我的finally块。
+	使用using可以使编译自动产生finally块。
+2.避免捕获异常。
+	从异常中恢复。
+3.当异常无法修复时，回滚部分完成的操作。
+
+4.隐藏实现细节,发现捕获异常再抛出另外一个不同的异常会非常有用。
+
+try
+			{
+				int m=int.Parse("11111111111111111111111111");;
+			}
+			catch(ArgumentNullException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			catch(FormatException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			catch(OverflowException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+
+	

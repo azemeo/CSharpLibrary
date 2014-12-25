@@ -1,0 +1,43 @@
+private void btnUpload_Click(object sender, System.EventArgs e)
+		{
+			//上传,不仅是上传图片,还要记录文件名称
+			//Html选择卡的File field组件,设置为服务器端运行
+			if (FilePath.PostedFile != null) 
+			{
+				try 
+				{
+					string filepath=string.Empty;	
+					//从上传文件中读取二进制流(*****)
+					long length=FilePath.PostedFile.InputStream.Length;
+					byte[]buffer=new byte[length];
+					FilePath.PostedFile.InputStream.Read(buffer,0,(int)length);
+
+					//缓存中添加项
+					ImageObj pi=(ImageObj)Session["ZW_PRODUCT_IMAGE_LIST"];//恢复缓冲图片
+					ProductFileObj pf=new ProductFileObj();
+					pf.Name=Path.GetFileName(FilePath.Value);
+			
+					pf.Miniature_Pic=buffer;//将二进制的流保存(*****)
+
+					pf.File_Type_Flag=dlFileType.SelectedValue;//文件类型
+					pf.Note=tbNote.Text;//注释
+					pf.Description=tbFileDescription.Text;//描述
+					pi.AddPicture(pf);
+					pi.Curr=pi.Count-1;//设置本项为当前图片
+					Session["ZW_PRODUCT_IMAGE_LIST"]=pi;//再次缓冲
+					PageTools.ClientMessage(this.Page,"上传成功");
+
+					//回发后显示
+				}
+				catch (Exception exc) 
+				{
+					//出错
+					PageTools.ClientMessage(this.Page,"上传失败:"+exc.Message);
+				}
+			}
+			else
+			{
+				return;
+			}
+
+		}

@@ -1,0 +1,66 @@
+1.在webform1.aspx包含引用
+
+<%@ Import Namespace="System.Data.SqlClient" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.IO" %>
+2.在webform1.aspx的html下定义repeater
+<form id="Form1" method="post" runat="server">
+			<asp:repeater id="Repeater1" runat="server">
+				<HeaderTemplate>
+					<table style="border:1px solid black;" class="stdtext">
+						<thead bgcolor="blue" style="color:white">
+							<td><b>ID</b></td>
+							<td><b>First Name</b></td>
+							<td><b>Last Name</b></td>
+						</thead>
+				</HeaderTemplate>
+				<ItemTemplate>
+					<tr>
+						<td bgcolor="white">
+							<%# ((DataRowView)Container.DataItem)["EmployeeID"] %>
+						</td>
+						<td bgcolor="white">
+							<%# ((DataRowView)Container.DataItem)["FirstName"] %>
+						</td>
+						<td bgcolor="white">
+							<%# ((DataRowView)Container.DataItem)["LastName"] %>
+						</td>
+					</tr>
+				</ItemTemplate>
+				<AlternatingItemTemplate>
+					<tr>
+						<td bgcolor="lightblue">
+							<%# ((DataRowView)Container.DataItem)["EmployeeID"] %>
+						</td>
+						<td bgcolor="lightblue">
+							<%# ((DataRowView)Container.DataItem)["FirstName"] %>
+						</td>
+						<td bgcolor="lightblue">
+							<%# ((DataRowView)Container.DataItem)["LastName"] %>
+						</td>
+					</tr>
+				</AlternatingItemTemplate>
+				<SeparatorTemplate>
+				</SeparatorTemplate>
+				<FooterTemplate>
+					<tfoot>
+						<td bgcolor="silver" colspan="3">
+							<%# "<b>" + ((DataView)Repeater1.DataSource).Count + "</b> employees found."%>
+						</td>
+					</tfoot>
+					</table>
+				</FooterTemplate>
+			</asp:repeater></form>
+3.在webform1.aspx.cs中加入代码
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			DataSet ds = new DataSet();
+			String sConn = "server=localhost;uid=sa;Initial Catalog=Northwind;";
+			String sText = "SELECT employeeid, firstname, lastname FROM Employees ";			
+			SqlDataAdapter cmd = new SqlDataAdapter(sText, sConn);
+			cmd.Fill(ds, "EmpTable");
+			Repeater1.DataSource = ds.Tables["EmpTable"].DefaultView;
+			Repeater1.DataBind();
+		}
+
+

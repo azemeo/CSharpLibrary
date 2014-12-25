@@ -1,0 +1,142 @@
+在服务器端不能存在自增字段。
+SqlCeRemoteDataAccess
+
+Pull数据:将数据从远程接回存入本地。
+Push数据:将数据本地改变提交到远程。
+
+
+rdaNW.SubmitSql("Insert/Update/Delete语句",strConnRemote) 向服务器提交语句
+
+示例:
+
+1.在服务器上建立数据库Test\表Categories
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[Categories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[Categories]
+GO
+
+CREATE TABLE [dbo].[Categories] (
+	[CategoryID] [char] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CategoryName] [char] (10) COLLATE Chinese_PRC_CI_AS NULL 
+) ON [PRIMARY]
+GO
+并加入3条数据。
+
+
+注意:
+1.本地数据不要打开.
+2.PPC可以访问本地。(模逆器可能不行)
+
+//数据库文件
+		private string  strFile = @"My Documents\MyCate.sdf";
+		//本地连接字符串
+		private string  strConn = "Data Source=" + 
+			@"My Documents\MyCate.sdf";
+		//远程连接字符串
+		private string strConnRemote="Provider=sqloledb;"
+			+"Data Source=chihy;"
+			+"Initial Catalog=Test;"
+			+"Integrated Security=SSPI;";
+		//URL 地址
+		private string strURL="http://chihy/sqlce/sscesa20.dll";
+
+
+		private void btnCreate_Click(object sender, System.EventArgs e)
+		{
+			//创建数据库
+			if ( File.Exists(strFile) )
+			{ 
+				File.Delete(strFile); 
+			}
+
+			SqlCeEngine dbEngine = new SqlCeEngine();
+			dbEngine.LocalConnectionString = strConn;
+			try
+			{
+				dbEngine.CreateDatabase();
+				CreateTables();
+			}
+			catch( SqlCeException exSQL )
+			{
+				MessageBox.Show("Unable to create database at " + 
+					strFile + 
+					". Reason:  " + 
+					exSQL.Errors[0].Message );
+			}
+		}
+		private void CreateTables()
+		{
+			//创建表
+			SqlCeConnection  connDB = new SqlCeConnection();
+			SqlCeCommand  cmndDB = new SqlCeCommand();
+
+			connDB.ConnectionString = strConn;
+			connDB.Open();
+
+			cmndDB.Connection = connDB;
+
+			cmndDB.CommandText =
+				" CREATE TABLE Categories " +
+				"  ( CategoryID integer not null " +
+				"         CONSTRAINT PKCategories PRIMARY KEY " +
+				"  , CategoryName nchar(20) not null " +
+				"  )";
+			cmndDB.ExecuteNonQuery();			
+
+			connDB.Close();
+		}
+
+		private void btnpull_Click(object sender, System.EventArgs e)
+		{
+			SqlCeRemoteDataAccess rdaNW=new SqlCeRemoteDataAccess();
+			try
+			{
+				rdaNW.LocalConnectionString=strConn;//本地连接字符串
+				rdaNW.InternetUrl=strURL;//SQL CE Agent Web地址
+				rdaNW.InternetLogin="";
+				rdaNW.InternetPassword="";
+				//取回数据:1.本地表名称 2.远程数据选择语句 3.远程连接字符串
+				rdaNW.Pull("Categories","Select CategoryID,CategoryName From Categories",
+					strConnRemote,RdaTrackOption.TrackingOffWithIndexes);
+				MessageBox.Show("同步成功!");
+			}
+			catch(SqlCeException exSQL)
+			{
+				MessageBox.Show(exSQL.Message);
+			}
+			finally
+			{
+				rdaNW.Dispose();
+			}
+
+
+		}
+
+		private void btnDispay_Click(object sender, System.EventArgs e)
+		{
+		
+		}
+
+		private void btnPush_Click(object sender, System.EventArgs e)
+		{
+			SqlCeRemoteDataAccess rdaNW=new SqlCeRemoteDataAccess();
+			try
+			{
+				rdaNW.LocalConnectionString=strConn;//本地连接字符串
+				rdaNW.InternetUrl=strURL;//SQL CE Agent Web地址
+				rdaNW.InternetLogin="";
+				rdaNW.InternetPassword="";
+				//将改变的数据推到服务器上:1.本地表名称 2.远程数据选择语句 3.远程连接字符串
+				rdaNW.Push("Categories",strConnRemote);
+				MessageBox.Show("同步成功!");
+			}
+			catch(SqlCeException exSQL)
+			{
+				MessageBox.Show(exSQL.Message);
+			}
+			finally
+			{
+				rdaNW.Dispose();
+			}
+		}
+
+

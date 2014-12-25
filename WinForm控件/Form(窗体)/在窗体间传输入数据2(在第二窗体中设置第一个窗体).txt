@@ -1,0 +1,43 @@
+1.第一窗体
+public class MainForm : Form
+{
+public string cc="";
+public MainForm()
+	{
+		//
+		// Required for Windows Form Designer support
+		//
+		InitializeComponent();
+		
+		DevicesForm devices = new DevicesForm(this);
+		devices.ShowDialog(this);//得到设备标识
+}
+}
+
+2.第二窗体
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+public class DevicesForm : Form
+{
+	private aa;
+	private MainForm mf = null;//主窗体
+
+	public DevicesForm(MainForm mf)
+	{
+		
+		this.mf = mf;		
+	}
+//...
+	private void buttonOk_Click(object sender, System.EventArgs e)
+	{
+
+		mf.cc = aa
+	}
+
+	private void DevicesForm_Load(object sender, System.EventArgs e)
+	{
+	
+	}
+}

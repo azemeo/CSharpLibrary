@@ -1,0 +1,239 @@
+链接列
+
+NavigateUrl/Text   静态
+
+或
+DataTextField/DataNavigateUrlField 动态绑定
+注：DataTextField和Text属性是互斥的，如果同时设置了两个属性，优先采用DataTextField
+
+HyperLinkColumn类的关键属性
+DataNavigateUrlField                     项跳转URL的绑定字段　
+DataNavigateUrlFormatString              项URL的格式
+DataTextField                            项显示的绑定字段
+DataTextFormatString                     项显示的格式
+FooterText                               在列脚注显示的文本
+HeaderImageUrl                           标题图像的URL
+HeaderText                               标题文本
+NavigateUrl                              跳转URL(静态) 
+SortExpresstion                          排序表达式
+Target                                   链接页的目标框架
+Text                                     项显示文本
+
+{n} 其中n为数字，是一个占位符，从0开始，表示一个序列中的第n个参数
+
+与ButtonColumn的区别
+不用DataKeyField及Itecommand事件
+需要目标页面，及框架。
+
+以编程的方式绑定与按钮列及绑定列相同，只是类名不同，设置的属性不同。
+HyperLinkColumn类,另外，在页面回发时，动态生成的列不能自动添加到DataGrid.
+必须用如下结构确保在Page_load外理程序中以编程的方式添加您自己的列
+private void Page_Load(object sender, System.EventArgs e)
+{			
+if(!Page.IsPostBack)
+{
+   //第一次
+}
+else
+{
+    BindColoumnPorg();//添加额外列
+}
+}
+
+
+例一:
+1.MyGrid2.aspx
+<%@ Page language="c#" Codebehind="MyGrid2.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MyGrid2" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyGrid</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<style>
+		IFRAME { BORDER: solid 1px black; FILTER: progid:DXImageTransform.Microsoft.dropshadow(OffX=2,OffY=2,Color='gray',Positive='true'); }
+		</style>
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:datagrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 16px; POSITION: absolute; TOP: 24px" runat="server"
+				AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="FirstName"></asp:BoundColumn>
+					<asp:BoundColumn DataField="lastname" HeaderText="LastName"></asp:BoundColumn>
+					<asp:HyperLinkColumn Target="frInfo" DataNavigateUrlField="employeeid" DataNavigateUrlFormatString="moreinfo.aspx?id={0}"
+						DataTextField="lastname" DataTextFormatString="More on {0}"></asp:HyperLinkColumn>
+				</Columns>
+			</asp:datagrid>
+			<iframe frameborder="no" name="frInfo" style="Z-INDEX: 103; LEFT: 312px; WIDTH: 308px; POSITION: absolute; TOP: 24px; HEIGHT: 216px">
+			</iframe>
+		</form>
+	</body>
+</HTML>
+2.MyGrid2.aspx.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+namespace Co_112
+{
+	/// <summary>
+	/// MyGrid 的摘要说明。
+	/// </summary>
+	public class MyGrid2 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label LabelMoreInfo;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select employeeid,firstName,lastName From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];				
+				DataGrid1.DataSource=oDS.Tables["EmployeesList"];
+				DataGrid1.DataBind();
+
+				oDS.Dispose();
+				oDS=null;
+				oCMD.Dispose();
+				oCMD=null;
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+
+		
+	}
+}
+3.MoreInfo.aspx
+<%@ Page language="c#" Codebehind="MoreInfo.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MoreInfo" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MoreInfo</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:Label id="LabelMoreInfo" style="Z-INDEX: 101; LEFT: 32px; POSITION: absolute; TOP: 24px"
+					runat="server">Label</asp:Label></FONT>
+		</form>
+	</body>
+</HTML>
+4.MoreInfo.aspx.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+namespace Co_112
+{
+	/// <summary>
+	/// MoreInfo 的摘要说明。
+	/// </summary>
+	public class MoreInfo : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label LabelMoreInfo;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				string nEmpID=Request["id"];
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select * From employees Where employeeid="+nEmpID;
+				SqlConnection conn=new SqlConnection(strConn);
+				SqlCommand cmd=new SqlCommand(strCmd,conn);
+				conn.Open();
+				SqlDataReader dr=cmd.ExecuteReader();
+				dr.Read();
+				LabelMoreInfo.Text=BuilderMoreInfoText(dr);
+				dr.Close();
+				conn.Close();
+			}
+		}
+		private string BuilderMoreInfoText(SqlDataReader dr)
+		{
+			StringBuilder sb=new StringBuilder();
+			sb.Append("<b>"+dr["title"]+"</b><br>");
+			DateTime dtime=Convert.ToDateTime(dr["hiredate"]);
+			sb.Append("Hired on"+dtime.ToShortDateString()+" from "+
+				dr["country"]+"<hr>");
+			sb.Append("<i>"+dr["Notes"]+"<hr>");
+			return sb.ToString();
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+	}
+
+}
+

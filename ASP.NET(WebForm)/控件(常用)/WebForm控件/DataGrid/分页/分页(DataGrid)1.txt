@@ -1,0 +1,49 @@
+支持默认分页和自定义分页
+DataGrid分页的关键属性
+AllowPaging             启用或者禁用分页(true/false),默认为false
+CurrentPageIndex  获得或设置当前页索引
+PageSize                  获得或设置当前页大小
+PageCount              页数
+AllowCustomPaging 启用或禁用自定分页(ture/false),默认为false
+VirtualItemCount    获得或设置计划显示的项总数(自定义分页时)
+
+
+1.设置AllowPaging=Ture,PageSize=xx,AutoGenateColumn=false(决定是否命使用户在设计时建立的列)
+2.设置Columns的具体内容
+3.Page_load代码:
+	private void Page_Load(object sender, System.EventArgs e)
+	{
+		if(!IsPostBack)
+		{
+			SqlDataAdapter adapter=new SqlDataAdapter("select * from products",
+				"server=localhost;database=northwind;uid=sa;pwd=;");
+			DataSet ds=new DataSet();
+			adapter.Fill(ds);
+			MyDataGrid.DataSource=ds;
+			MyDataGrid.DataBind();
+		}
+	
+	}
+4.DataGrid的PageIndexChanged事件处理程序
+	private void MyDataGrid_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
+	{
+		MyDataGrid.CurrentPageIndex=e.NewPageIndex;
+		SqlDataAdapter adapter=new SqlDataAdapter("select * from products",
+			"server=localhost;database=northwind;uid=sa;pwd=;");
+		DataSet ds=new DataSet();
+		adapter.Fill(ds);
+		MyDataGrid.DataSource=ds;
+		MyDataGrid.DataBind();
+
+	}
+5.定义分页显示外观
+PagerStyle.NextPageText="下一页"
+PagerStyle.PrevPageText="上一页"
+PagerStyle.Mode,决定是按钮，还是数字。
+如查设置PagerStyle.Mode=Numerics
+则可以通PageButtonCount定义页导航栏最大按钮数量。
+如果设置PagerStyle.Mode=NextPrev
+则可以设置按钮显示文本
+PagerStyle.NextPageText="<img src=prev.gif>";显示了图像
+PagerStyle.NextPageText="<b>Next..</b>";显了为文本
+

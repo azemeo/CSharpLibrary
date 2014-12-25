@@ -1,0 +1,5 @@
+1.安装时必须选择VS developer.
+2.右击项目:WSE settings2.0...
+	a.Enable this project for Web Service Enhancements(勾选)
+	b.Enable Microsoft Web Services Enhancement Soap Extensions(勾选)
+3.在Web References下一级，右击更新Web引用.

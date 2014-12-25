@@ -1,0 +1,3 @@
+string strTitle="Mrs.";
+string[] aTitleOfCourtesy=new string[4]{"Ms.","Mr.","Mrs.","Dr."};
+int nIndex=Array.IndexOf(aTitleOfCourtesy,strTitle);//在字符数组中搜索匹配索引

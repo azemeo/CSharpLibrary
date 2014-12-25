@@ -1,0 +1,10 @@
+1.加号后换行
+			string msg="Created:"+created.ToLongDateString()+
+				"at "+created.ToLongTimeString()+"\n"+
+				"Modfied:"+modified.ToLongDateString()+
+				"at "+modified.ToLongTimeString();
+
+2,逗号后换行
+3.等于号后换行
+			ShowFileNamesButton.Click+=
+				new EventHandler(OnShowFileName);

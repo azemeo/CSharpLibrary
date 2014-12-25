@@ -1,0 +1,3 @@
+Control.PreRender 事件
+
+当服务器控件将要呈现给其包含的 Page 对象时发生。

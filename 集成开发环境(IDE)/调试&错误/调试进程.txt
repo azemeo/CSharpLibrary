@@ -1,0 +1,7 @@
+在PC上VS.NET中
+要确保存aspnet_wp.exe在任务管理器中.
+调试|进程...
+选择aspnet_wp.exe,双击,确定。 关闭。
+加入断点
+
+在PPC上启动程序

@@ -1,0 +1,6 @@
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			return keyData==Keys.Enter?
+				false:base.ProcessDialogKey(keyData);
+
+		}

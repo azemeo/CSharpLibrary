@@ -1,0 +1,12 @@
+Eric Gunnerson 是 C# 编译器组的首席 QA 人员、C# 设计组的成员以及 A Programmer's Introduction to C# 一书的作者。他从事编程工作的时间如此之长，以至于他知道什么是 8 寸软盘，并且能用一只手装磁带。 
+
+http://www.cshrp.net/ 
+http://www.csharphelp.com 
+http://dotnetwire.com 
+http://www.worldofdotnet.net 
+http://www.csharpfree.com/
+http://csharpindex.com/
+http://www.c-sharpcorner.com/
+http://www.sjoerd.org/projects/enhance/
+http://www.technicallead.com/
+http://www.softsteel.co.uk/  

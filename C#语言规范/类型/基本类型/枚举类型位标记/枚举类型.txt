@@ -1,0 +1,113 @@
+枚举类型:定义了一组符号名称和数值对。
+通常和需要它的类型定义在同一个层次上。
+
+原因：
+1.枚举类型使得程序更容易编写、阅读和维护。
+2.枚举是强类型的。
+
+继承自System.Enum->System.ValueType->System.Object
+不能定义方法、属性、事件。
+内部看，枚举类型就是定义了一组常数字段的结构。
+
+	
+每个枚举类型都有一个基础类型，它们可以是byte,sbyte,short,ushort,int(常用,C#默认)
+C#编译器要求我们只能使用基元类型。
+
+1.申明一个基础类型为byte的枚举
+2.返回枚举的基础类型
+3.四种表达形式.ToString
+4.定义时，多个符号可以有相同的值.
+using System;
+
+namespace TestEnum
+{
+	//申明一个基础类型为byte的枚举
+	enum Color:byte
+	{
+		Red,
+		Green,
+		Blue,
+		Orange
+	}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Console.WriteLine(Enum.GetUnderlyingType(typeof(Color)));//返回枚举的基础类型
+
+			Color c=Color.Blue;
+			//四种表达形式
+			Console.WriteLine(c.ToString());//常规
+			Console.WriteLine(c.ToString("G"));
+			Console.WriteLine(c.ToString("D"));//十进制
+			Console.WriteLine(c.ToString("X"));//十六进制
+			
+		}
+	}
+}
+
+操作
+5.获得一个枚举类型中所有定义的符号。GetValues
+6.返回数值的字符串
+7.返回所有名称到数组中
+8.判断一个数值对于某个枚举是否合法(区分大小写)
+using System;
+
+namespace TestEnum
+{
+	//申明一个基础类型为byte的枚举
+	enum Color
+	{
+		Red,
+		Green,
+		Blue,
+		Orange
+	}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+
+			//获得所有定义的符号
+			Color[]colors=(Color[])Enum.GetValues(typeof(Color));
+			Console.WriteLine("Number of symbols defined:"+colors.Length);
+			Console.WriteLine("Value\t Symbol\n-----\t------");
+			foreach(Color c in colors)
+				Console.WriteLine("{0,5:D}\t{0:G}",c);//以十进制和常规格式显示
+
+			//返回数值的字符串
+			string name1=Enum.GetName(typeof(Color),1);
+			Console.WriteLine(name1);
+			
+			//返回所有名称到数组中
+			string[]name2=Enum.GetNames(typeof(Color));
+			foreach(string s in name2)
+				Console.WriteLine(s);
+
+			//文本符号转换为枚举类型.
+			Color c1=(Color)Enum.Parse(typeof(Color),"orange",true);
+			Color c2=(Color)Enum.Parse(typeof(Color),"1",false);
+			Console.WriteLine(c1);
+			Console.WriteLine(c2);
+			
+			//判断一个数值对于某个枚举是否合法(区分大小写)
+			Console.WriteLine(Enum.IsDefined(typeof(Color),1));
+			Console.WriteLine(Enum.IsDefined(typeof(Color),"Red"));
+			Console.WriteLine(Enum.IsDefined(typeof(Color),"red"));
+			Console.WriteLine(Enum.IsDefined(typeof(Color),10));
+
+
+		}
+	}
+}
+
+
+

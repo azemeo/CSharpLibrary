@@ -1,0 +1,3 @@
+单击服务器管理器增加连接：可使用向导建立到SQL Server连接
+将服务管理器在已建立的连接拖到Form1,可建立sqlConnection1对象。
+将服务管理器中的表拖到Form1,可建立sqlDataAdapter1对象。

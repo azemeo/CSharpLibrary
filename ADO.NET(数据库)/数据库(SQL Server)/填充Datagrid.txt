@@ -1,0 +1,31 @@
+			//Open Connection. 
+			SqlConnection con = new SqlConnection("server=glf;uid=sa;pwd=;database=northwind");
+
+			//Set the DataAdapter's query.
+			da = new SqlDataAdapter("select * from customers", con);
+			ds = new DataSet();
+
+			//Fill the DataSet.
+			da.Fill(ds, "customers");
+
+			//Set the source table.
+			dtSource = ds.Tables["customers"];
+			//
+			// Set the start and max records. 
+			//pageSize = Convert.ToInt32(txtPageSize.Text);
+			pageSize=20;
+			maxRec = dtSource.Rows.Count;
+			PageCount = maxRec / pageSize;
+
+			//Adjust the page number if the last page contains a partial page.
+			if ((maxRec % pageSize) > 0) 
+			{
+				PageCount += 1;
+			}
+
+			// Initial seeings
+			currentPage = 1;
+			recNo = 0;
+
+			// Display the content of the current page.
+			LoadPage();

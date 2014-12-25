@@ -1,0 +1,6 @@
+如何用分隔符，将字串组合
+
+					if(HidIDStr.Value=="")
+						HidIDStr.Value+=dt.Rows[i]["ID"].ToString();//存放用逗号分隔的ID串
+					else
+						HidIDStr.Value+=","+dt.Rows[i]["ID"].ToString();//加分隔符","

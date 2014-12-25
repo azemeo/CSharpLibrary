@@ -1,0 +1,31 @@
+using System.Data;
+using System.Data.SqlClient;
+SqlConnection connection=new SqlConnection("server=localhost;uid=sa;pwd=;database=pubs");
+			try
+			{
+				connection.Open();
+				//方案一:SqlConnection+SqlDataReder+SqlCommand
+				//方案二:SqlDataAdpter+DatSet
+				//查询
+//				SqlCommand command=new SqlCommand("select * from titles",connection);
+//				SqlDataReader reader=command.ExecuteReader();
+//				while(reader.Read())
+//					Console.WriteLine(reader.GetString(1));
+				//插入、更新、删除
+				string sqlcmd="insert into titles(title_id,title,type,pub_id,"+
+					"price,advance,royalty,ytd_sales,notes,pubdate)"+
+					"values('BU1001','Programming Microsoft .NET',"+
+					"'Business','1389',NULL,NULL,NULL,NULL,"+
+					"'Learn to program Microsoft .NET','2002-1-1')";
+				SqlCommand command=new SqlCommand(sqlcmd,connection);
+				command.ExecuteNonQuery();
+
+			}
+			catch(SqlException e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			finally
+			{
+				connection.Close();
+			}

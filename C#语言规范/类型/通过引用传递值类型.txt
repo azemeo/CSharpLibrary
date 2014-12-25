@@ -1,0 +1,20 @@
+using System;
+class PassingValByRef
+{
+    static void SquareIt(ref int x)
+    // The parameter x is passed by reference.
+    // Changes to x will affect the original value of myInt.
+    {
+        x *= x;
+        Console.WriteLine("The value inside the method: {0}", x);
+    }
+    public static void Main()
+    {
+        int myInt = 5;
+        Console.WriteLine("The value before calling the method: {0}",
+           myInt);
+        SquareIt(ref myInt);   // Passing myInt by reference.
+        Console.WriteLine("The value after calling the method: {0}",
+           myInt);
+    }
+}

@@ -1,0 +1,11 @@
+基于 反射程类型.txt
+
+MSCorLib.dll 1400个类型
+
+static void Main(string[] args)
+		{
+			foreach(Assembly assem in AppDomain.CurrentDomain.GetAssemblies())//得到当前应用程序域中程序集
+			{
+				Reflector.RefectOnAssembly(assem);
+			}
+		}

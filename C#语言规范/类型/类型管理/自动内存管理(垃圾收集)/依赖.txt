@@ -1,0 +1,27 @@
+调用一个类的close方法会导致另一个类的close方法被调用.
+
+BinaryWriter 允许写更多的类型(Int32,String,Double...)
+
+using System;
+using System.IO;
+namespace TestDisp
+{
+	
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+
+			FileStream fs=new FileStream("Temp.dat",FileMode.Create);
+			using(BinaryWriter bw=new BinaryWriter(fs))
+			{
+				bw.Write("Hi here");
+				bw.Write(123);
+				bw.Write(45.67);
+			}
+			//不必显示的调用FileStream.Close方法,如果调用不执行任何操作而返回
+			File.Delete("Temp.dat");
+		}
+	}
+}

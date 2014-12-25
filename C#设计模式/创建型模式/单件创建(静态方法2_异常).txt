@@ -1,0 +1,62 @@
+using System;
+
+namespace SingExample
+{
+	//异常类
+	public class SingletonException:Exception
+	{
+		public SingletonException(string s):base(s){}
+	}
+	
+	//单件类
+	public class Spooler
+	{
+		private static bool instance_flag=false;
+		public Spooler()
+		{
+			if(!instance_flag)
+			{
+				instance_flag=true;
+				Console.WriteLine("printer opened");
+			}
+			else
+				throw new SingletonException("Only one priner allowed");
+		}
+	}
+	/// <summary>
+	/// 主程序。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Spooler sp1,sp2;
+			Console.WriteLine("Opening one spooler");
+			try
+			{
+				sp1=new Spooler();
+			}
+			catch(SingletonException e)
+			{
+				Console.WriteLine(e.Message);
+			}			
+			
+			
+			Console.WriteLine("Opening two spooler");
+			try
+			{
+				sp2=new Spooler();
+			}
+			catch(SingletonException e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			
+
+		}
+	}
+}

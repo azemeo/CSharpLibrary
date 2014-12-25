@@ -1,0 +1,18 @@
+//检查网格是否连接(连通性)
+		[DllImport("wininet.dll")] 
+		private extern static bool InternetGetConnectedState(out int Description,int ReservedValue); 
+
+		public static bool IsConnectedToInternet() 
+		{ 
+			int Desc=0; 
+			return InternetGetConnectedState(out Desc,0) ; 
+		} 
+
+
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			if(HelperTools.IsConnectedToInternet())
+				MessageBox.Show("OK");
+			else
+				MessageBox.Show("No");
+		}

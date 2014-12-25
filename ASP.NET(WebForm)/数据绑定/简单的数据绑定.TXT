@@ -1,0 +1,55 @@
+简单的数据绑定:一块数据与服务器控件之间的连接。
+
+数据绑定表达式：由尖括号和百分号<%...%>围起来的文字加一个编号符号(#)前缀。
+
+在分隔符内可以调用用户定义的页方法、静态方法、属性、其它页组件的方法。
+
+例1:第一个简单绑定
+
+1.*.aspx
+
+<asp:TextBox id="TextBox1" runat="server" Text='<%# "Hello,world" %>' >	</asp:TextBox>
+
+2.*.aspx.cs
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				//计算绑定表达式
+				//Page.DataBind();
+				TextBox1.DataBind();
+			}
+		}
+
+3.属性设计器
+DataBindings中单击...,自定义表达式,"Hello,world"
+
+例2:将标签控件Text属性绑定到下位列表控件中当前选定元素的名称
+1.*.aspx
+<asp:Label id=Label1 runat="server" Text='<%# DropDownList1.SelectedItem.Text %>'>
+			</asp:Label>
+			<asp:DropDownList id="DropDownList1" 
+				runat="server" AutoPostBack="True">
+				<asp:ListItem Value="aa">aa</asp:ListItem>
+				<asp:ListItem Value="bb">bb</asp:ListItem>
+				<asp:ListItem Value="cc">cc</asp:ListItem>
+			</asp:DropDownList>
+2.*.cs
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				//第一次加载页面时计算绑定表达式
+				Label1.DataBind();
+			}
+		}
+
+		private void DropDownList1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			//索引变化时计算绑定表达式
+			Label1.DataBind();
+		}
+3.属性设计器
+Label1控件:DataBindings中单击...,自定义表达式,DropDownList1.SelectedItem.Text
+DropDownList1:AutoPostBack=true

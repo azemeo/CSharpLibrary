@@ -1,0 +1,11 @@
+如何调试Javascript代码
+1.在*.aspx加放debug
+function OpenSearchFrm()
+			{
+				debugger;
+				var	returnvalue="";
+}
+2.设置IE,Insernet 选项
+ a.常规|Internet 临时文件|设置...|每次访问此页时检查。
+ b.高级|浏览|去掉禁止脚本调试。
+

@@ -1,0 +1,3 @@
+在.NET 1.0/1.1 Web Service的返回或者输入参数不能是DataTable,原因是它不支持序列化,
+只用DataSet支持。
+.NET 2.0 中支持DataTable 做为返回值。

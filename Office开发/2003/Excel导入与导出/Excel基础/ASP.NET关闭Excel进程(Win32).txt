@@ -1,0 +1,38 @@
+1.ASP.NET不可行
+using System.Runtime.InteropServices;
+ 
+[DllImport("User32.dll", CharSet = CharSet.Auto)]
+    public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Excel.ApplicationClass excel = new Microsoft.Office.Interop.Excel.ApplicationClass();
+        excel.Workbooks.Open("d:\\aaa.xls", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+        IntPtr t = new IntPtr(excel.Hwnd);
+        int k = 0;
+        GetWindowThreadProcessId(t, out k);
+        System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(k);
+        p.Kill();        
+    }
+2.远程计算机不行
+//杀死Excel进程
+			Process []procs=Process.GetProcessesByName("excel");
+			foreach(Process proc in procs)
+			{
+				if(!proc.CloseMainWindow())
+					proc.Kill();
+			}
+3.在远程计算机可行
+
+xlBook.Close(false,Type.Missing,Type.Missing);
+			xlApp.Workbooks.Close();
+			xlApp.Quit();
+
+			//杀死Excel进程
+			System.Runtime.InteropServices.Marshal.ReleaseComObject (xlApp);
+			System.Runtime.InteropServices.Marshal.ReleaseComObject (xlSheet);
+			System.Runtime.InteropServices.Marshal.ReleaseComObject (xlBook);
+			xlApp=null;
+			xlSheet=null;
+			xlBook = null;
+			GC.Collect() ;
+			GC.WaitForPendingFinalizers();

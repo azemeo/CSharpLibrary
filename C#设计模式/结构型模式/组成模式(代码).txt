@@ -1,0 +1,340 @@
+1.Form1.cs
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace Composite
+{
+	/// <summary>
+	/// Summary description for Form1.
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form {
+		private System.Windows.Forms.Label lbSalary;//显示薪金
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+		TreeNode rootNode;
+		AbstractEmployee prez, marketVP, salesMgr;//雇员
+		AbstractEmployee advMgr, emp, prodVP, prodMgr, shipMgr;
+		private System.Windows.Forms.TreeView EmpTree;//公司组织树
+		private Random rand;
+	
+		//初始化
+		private void init() {
+			rand = new Random ();
+			buildEmployeeList();//建立公司树
+			buildTree();//显示公司的树
+		}
+		//---------------
+		private void buildEmployeeList() {
+			prez = new Boss("CEO", 200000);
+			marketVP = new Boss("Marketing VP", 100000);
+			prez.add(marketVP);
+			salesMgr = new Boss("Sales Mgr", 50000);
+			advMgr = new Boss("Advt Mgr", 50000);
+			marketVP.add(salesMgr);
+			marketVP.add(advMgr);
+			prodVP = new Boss("Production VP", 100000);
+			prez.add(prodVP);
+			advMgr.add("Secy", 20000);
+
+			//add salesmen reporting to sales manager
+			for (int i = 1; i<=5; i++){
+				salesMgr.add("Sales" + i.ToString(), rand_sal(30000));
+			}
+
+			prodMgr = new Boss("Prod Mgr", 40000);
+			shipMgr = new Boss("Ship Mgr", 35000);
+			prodVP.add(prodMgr);
+			prodVP.add(shipMgr);
+
+			for (int i = 1; i<=3; i++){
+				shipMgr.add("Ship" + i.ToString(), rand_sal(25000));
+			}
+			for (int i = 1; i<=4; i++){
+				prodMgr.add("Manuf" + i.ToString(), rand_sal(20000));
+			}
+		}
+		//-----显示
+		private void buildTree() {
+			EmpNode nod;
+			nod = new EmpNode(prez);//构造继承的TreeNode子类
+			rootNode = nod;//根节点
+			EmpTree.Nodes.Add(nod);//加在树上
+			addNodes(nod, prez);
+		}
+		
+		//------
+		private void getNodeSum(EmpNode node) {
+			AbstractEmployee emp;
+			float sum;
+
+        emp = node.getEmployee();
+        sum = emp.getSalaries();
+        lbSalary.Text = sum.ToString ();
+		}
+		//------
+		//1-继随于TreeNode但保含AbstractEmployee
+		//2-父节点
+		private void addNodes(EmpNode nod, AbstractEmployee emp) {
+			AbstractEmployee newEmp;
+			EmpNode newNode;
+			IEnumerator empEnum;
+			empEnum = emp.getSubordinates();
+
+			while (empEnum.MoveNext()) {
+				newEmp = (AbstractEmployee)empEnum.Current;
+				newNode = new EmpNode(newEmp);
+				nod.Nodes.Add(newNode);
+					addNodes(newNode, newEmp);//递归所有数据
+					}
+		}
+		//------
+		private float rand_sal(float sal) {
+			float rnum = rand.Next ();
+			rnum = rnum / Int32.MaxValue;
+			return rnum * sal / 5 + sal;
+		}
+		//------
+		public Form1() {
+			//
+			// Required for Windows Form Designer support
+			//
+			InitializeComponent();
+			init();
+			//
+			// TODO: Add any constructor code after InitializeComponent call
+			//
+		}
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing ) {
+			if( disposing ) {
+				if (components != null) {
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent() {
+			this.lbSalary = new System.Windows.Forms.Label();
+			this.EmpTree = new System.Windows.Forms.TreeView();
+			this.SuspendLayout();
+			// 
+			// lbSalary
+			// 
+			this.lbSalary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.lbSalary.Location = new System.Drawing.Point(77, 224);
+			this.lbSalary.Name = "lbSalary";
+			this.lbSalary.Size = new System.Drawing.Size(182, 26);
+			this.lbSalary.TabIndex = 1;
+			// 
+			// EmpTree
+			// 
+			this.EmpTree.ImageIndex = -1;
+			this.EmpTree.Location = new System.Drawing.Point(38, 26);
+			this.EmpTree.Name = "EmpTree";
+			this.EmpTree.SelectedImageIndex = -1;
+			this.EmpTree.Size = new System.Drawing.Size(269, 181);
+			this.EmpTree.TabIndex = 0;
+			this.EmpTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.EmpTree_AfterSelect);
+			// 
+			// Form1
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
+			this.ClientSize = new System.Drawing.Size(350, 294);
+			this.Controls.Add(this.lbSalary);
+			this.Controls.Add(this.EmpTree);
+			this.Name = "Form1";
+			this.Text = "Basic composite";
+			this.Load += new System.EventHandler(this.Form1_Load);
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
+		static void Main() {
+			Application.Run(new Form1());
+		}
+
+		private void EmpTree_AfterSelect(object sender, TreeViewEventArgs e) {
+			EmpNode node;
+			node = (EmpNode)EmpTree.SelectedNode;
+			getNodeSum(node);
+		}
+
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+		
+		}
+	}
+}
+
+2.AbstractEmployee.cs
+using System;
+using System.Collections ;
+namespace Composite
+{
+	/// <summary>
+	/// Summary description for AbstractEmployee.
+	/// </summary>
+	public interface AbstractEmployee  	{
+		float getSalary();					//get current salary
+		string getName();					//get name
+		bool isLeaf();						//true if leaf
+		void add(string nm, float salary);	//add subordinate
+		void add(AbstractEmployee emp);		//add subordinate
+		IEnumerator getSubordinates();		//get subordinates
+		AbstractEmployee getChild();		//get child
+		float getSalaries();				//get salaries of all 
+	}
+}
+3.Boss.cs
+using System;
+using System.Collections ;
+namespace Composite
+{
+	/// <summary>
+	/// 老板类.
+	/// </summary>
+	public class Boss:Employee
+	{
+		public Boss(string name, float salary):base(name,salary) 	{
+		}
+		//------
+		public Boss(AbstractEmployee emp):base(emp.getName() , emp.getSalary()) 	{
+		}
+		//------重写了增加下属
+		public override void add(string nm, float salary) {
+			AbstractEmployee emp = new Employee(nm,salary);
+			subordinates.Add (emp);
+		}
+		//------重写了增加下属
+		public override void add(AbstractEmployee emp){
+			subordinates.Add(emp);
+		}
+		//------得到
+		public override AbstractEmployee getChild() {
+			bool found;
+			AbstractEmployee tEmp = null;
+			IEnumerator esub ;
+        
+        if (getName().Equals (getName())) 
+            return this;
+        else {
+            found = false;
+            esub = subordinates.GetEnumerator ();
+            while (! found && esub.MoveNext()) {
+				tEmp = (AbstractEmployee)esub.Current; 
+				found = (tEmp.getName().Equals(name));
+                if (! found) {
+                    if (! tEmp.isLeaf()) {
+                        tEmp = tEmp.getChild();
+						found = (tEmp.getName().Equals(name));
+					 }      
+				}                             
+			}
+			if (found) 
+			   return tEmp;
+			  else                
+			   return new Employee("New person", 0);
+            }
+		}
+	}
+}
+4.Employee.cs
+using System;
+using System.Collections ;
+namespace Composite
+{
+	/// <summary>
+	/// Summary description for Employee.
+	/// </summary>
+	public class Employee :AbstractEmployee 	{
+		protected float salary;
+		protected string name;
+		protected ArrayList subordinates;//下属雇员列表
+		//------
+		public Employee(string nm, float salry) 		{
+			subordinates = new ArrayList();
+			name = nm;
+			salary = salry;
+		}
+		//------自己的薪金
+		public float getSalary() {
+			return salary;
+		}
+		//------自己的姓名
+		public string getName() {
+			return name;
+		}
+		//------是否有下属
+		public bool isLeaf() {
+			return subordinates.Count == 0;
+		}
+		//------增加下属方法不可用(虚拟成员的实现可由派生类中的重写成员更改)
+		public virtual void add(string nm, float salary) {
+			  throw new Exception("No subordinates in base employee class");
+		}
+		//------增加下属方法不可用
+		public virtual void add(AbstractEmployee emp) {
+			throw new Exception("No subordinates in base employee class");
+		}
+		//------得到下属的列表枚举
+		public IEnumerator getSubordinates() {
+			return subordinates.GetEnumerator ();
+		}
+		//-----得到下属
+		public virtual AbstractEmployee getChild() {
+			return null;
+		}
+		//------得到本身及下属的薪金总和		
+		public float getSalaries() {
+			float sum;
+			AbstractEmployee esub;
+			//get the salaries of the boss and subordinates
+			sum = getSalary();
+			IEnumerator enumSub = subordinates.GetEnumerator() ;
+			while (enumSub.MoveNext())  {
+				esub = (AbstractEmployee)enumSub.Current;
+				sum += esub.getSalaries();//回调
+			}
+			return sum;
+		}
+	}
+}
+5.EmpNode.cs
+using System;
+using System.Windows.Forms;
+namespace Composite
+{
+	/// <summary>
+	/// 继承于TreeNode.
+	/// </summary>
+	public class EmpNode:TreeNode 	{
+		private AbstractEmployee emp;
+		public EmpNode(AbstractEmployee aemp ):base(aemp.getName ()) {
+			emp = aemp;	
+		}
+		//-----
+		public AbstractEmployee getEmployee() {
+			return emp;
+		}
+	}
+}

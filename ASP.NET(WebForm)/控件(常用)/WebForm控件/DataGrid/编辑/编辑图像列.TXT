@@ -1,0 +1,214 @@
+编辑图像列
+
+加表employees的photopath列中存储着图像文件相对路径(默认的数据库中没有，需要自己做文件)
+
+在页中的两处用IsFile函数有加!的区别,并加上string
+<%# !IsFile((string)DataBinder.Eval(Container.DataItem,"photopath")) %>
+
+使用<img>和<lable>互斥，隐藏不适用的一个。
+
+编辑链接列与其相似，只不过用HyperLink
+
+1.页面
+<%@ Page language="c#" Codebehind="MyForm411.aspx.cs" AutoEventWireup="false" Inherits="Co_411.MyForm411" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyForm411</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:datagrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 144px; POSITION: absolute; TOP: 184px"
+					runat="server" AutoGenerateColumns="False" DataKeyField="employeeid">
+					<EditItemStyle Font-Bold="True" BackColor="Blue"></EditItemStyle>
+					<Columns>
+						<asp:BoundColumn DataField="employeeid" ReadOnly="True" HeaderText="ID"></asp:BoundColumn>
+						<asp:TemplateColumn HeaderText="EmployeeName">
+							<ItemTemplate>
+								<asp:Label id=Label1 runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"TitleOfCourtesy")+"<b>"+DataBinder.Eval(Container.DataItem,"LastName")+"</b>"+DataBinder.Eval(Container.DataItem,"FirstName") %>'>
+								</asp:Label>
+							</ItemTemplate>
+							<EditItemTemplate>
+								<asp:DropDownList id=ddTitles runat="server" DataSource="<%# aTitleOfCourtesy %>">
+								</asp:DropDownList>
+								<asp:TextBox id=txtFirstName runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"firstname") %>' Width="80px">
+								</asp:TextBox>
+								<asp:TextBox id=txtLastName runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"lastname") %>' Width="140px">
+								</asp:TextBox>
+							</EditItemTemplate>
+						</asp:TemplateColumn>
+						<asp:BoundColumn DataField="title" HeaderText="Position"></asp:BoundColumn>
+						<asp:TemplateColumn HeaderText="Photo">
+							<ItemTemplate>
+								<asp:Image id=Image1 runat="server" Visible='<%# IsFile((string)DataBinder.Eval(Container.DataItem,"photopath")) %>' Width="50px" ImageUrl='<%# DataBinder.Eval(Container.DataItem,"photopath") %>'>
+								</asp:Image>
+								<asp:Label id="Label2" runat="server" Visible='<%# !IsFile((string)DataBinder.Eval(Container.DataItem,"photopath")) %>'>
+									<i><small>No picture available.</small></i></asp:Label>
+							</ItemTemplate>
+							<EditItemTemplate>
+								<asp:TextBox id="TextBox1" runat="server"></asp:TextBox>
+								<asp:Image id=Image2 runat="server" Width="100px" ImageUrl='<%# DataBinder.Eval(Container.DataItem,"photopath") %>'>
+								</asp:Image>
+							</EditItemTemplate>
+						</asp:TemplateColumn>
+						<asp:EditCommandColumn ButtonType="LinkButton" UpdateText="Ok" CancelText="Cancel" EditText="&lt;img src=edit.ico border=0 align=absmiddle alt='Edit this item'&gt;">
+							<ItemStyle HorizontalAlign="Center" BackColor="Yellow"></ItemStyle>
+						</asp:EditCommandColumn>
+					</Columns>
+				</asp:datagrid>
+				<asp:Label id="lblCurrent" style="Z-INDEX: 102; LEFT: 144px; POSITION: absolute; TOP: 128px"
+					runat="server">Label</asp:Label></FONT></form>
+	</body>
+</HTML>
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+using System.IO;
+namespace Co_411
+{
+	/// <summary>
+	/// MyForm411 的摘要说明。
+	/// </summary>
+	public class MyForm411 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label lblCurrent;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+		public string[] aTitleOfCourtesy=new string[4]{"Ms.","Mr.","Mrs.","Dr."};
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select employeeid,titleofcourtesy,firstname,lastname,title,country,photopath From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataGrid1.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_CancelCommand);
+			this.DataGrid1.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_EditCommand);
+			this.DataGrid1.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_UpdateCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_EditCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//编辑模式
+			DataGrid1.EditItemIndex=e.Item.ItemIndex;
+			UpdateView();
+		}
+
+		private void DataGrid1_UpdateCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//检索新的文本
+			TextBox txtFirstName=(TextBox)e.Item.FindControl("txtFirstName");
+			TextBox txtLastName=(TextBox)e.Item.FindControl("txtLastName");
+			DropDownList ddTitles=(DropDownList)e.Item.FindControl("ddTitles");
+
+			//显示检索到的值
+			StringBuilder sb=new StringBuilder("");
+			sb.Append("<b>[First] will contain:</b>");
+			sb.Append(txtFirstName.Text);
+			sb.Append("<br>");
+			sb.Append("<b>[Last] will contain:</b>");
+			sb.Append(txtLastName.Text);
+			sb.Append("<br>");
+			sb.Append("<b>[Title] will contain:</b>");
+			sb.Append(ddTitles.SelectedValue);
+			lblCurrent.Text=sb.ToString();
+			//更新数据源
+			//略
+			//恢复呈现状态
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}
+		//更新缓冲
+		private void UpdateCache(int nEmpID,string sNewPosition,string sNewCountry)
+		{
+			//略
+		}
+		private void UpdateView()
+		{
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			DataGrid1.DataSource=dv;
+			DataGrid1.DataBind();
+		}
+
+		private void DataGrid1_CancelCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}
+
+		private void DataGrid1_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			ListItemType lit=e.Item.ItemType;
+			if(lit==ListItemType.EditItem)
+			{
+				//为控件设置初始值
+				DropDownList ddTitles;
+				ddTitles=(DropDownList)e.Item.FindControl("ddTitles");//寻找控件
+				DataRowView drv=(DataRowView)e.Item.DataItem;//寻找一行数据项
+				if(drv!=null)
+				{
+					string strTitle=drv["titleofcourtesy"].ToString();//得到项中的值
+					int nIndex=Array.IndexOf(aTitleOfCourtesy,strTitle);//在数组中搜索索引
+					ddTitles.SelectedIndex=nIndex;//为为控件赋值
+				}
+			}
+		}
+		public bool IsFile(string strFile)
+		{
+			return File.Exists(Server.MapPath(strFile));
+		}
+	}
+}

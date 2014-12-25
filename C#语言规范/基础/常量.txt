@@ -1,0 +1,74 @@
+const 关键字用于修改字段或局部变量的声明。它指定字段或局部变量的值不能被修改。常数声明引入给定类型的一个或多个常数。此声明采用的形式为：
+
+[attributes] [modifiers] const type declarators;
+其中： 
+
+attributes（可选） 
+可选的声明信息。有关属性和属性类的更多信息，请参见 C# 属性。 
+modifiers（可选） 
+包括 new 修饰符和四个访问修饰符之一的可选修饰符。 
+type 
+这些类型之一：byte、char、short、int、long、float、double、decimal、bool、string、枚举类型或引用类型。 
+declarators 
+以逗号分隔的声明符列表。声明符采取的形式为： 
+标识符 = 常量表达式 
+
+attributes 和 modifiers 适用于所有由常数声明声明的成员。
+
+常数声明的 type 指定声明引入的成员类型。常数表达式必须产生具有目标类型或者可隐式转换为目标类型的类型的值。
+
+常数表达式是在编译时可被完全计算的表达式。因此，对于引用类型的常数，可能的值只能是 string 和 null。
+
+备注
+常数声明可以声明多个常数，例如：
+
+public const double x = 1.0, y = 2.0, z = 3.0;
+不允许在常数声明中使用 static 修饰符。
+
+常数可以参与常数表达式，例如：
+
+public const int c1 = 5.0;
+public const int c2 = c1 + 100;
+示例
+// const_keyword.cs
+// Constants
+using System;
+public class ConstTest 
+{
+   class MyClass 
+   {
+      public int x;
+      public int y;
+      public const int c1 = 5;
+      public const int c2 = c1 + 5;
+
+      public MyClass(int p1, int p2) 
+      {
+         x = p1; 
+         y = p2;
+      }
+   }
+
+   public static void Main() 
+   {
+      MyClass mC = new MyClass(11, 22);   
+      Console.WriteLine("x = {0}, y = {1}", mC.x, mC.y);
+      Console.WriteLine("c1 = {0}, c2 = {1}", MyClass.c1, MyClass.c2 );
+   }
+}
+输出
+x = 11, y = 22
+c1 = 5, c2 = 10
+示例
+该示例说明如何将常数用作局部变量。
+
+// const_keyword2.cs
+using System;
+public class TestClass 
+{
+   public static void Main() 
+   {
+      const int c = 707;
+      Console.WriteLine("My local constant = {0}", c);
+   }
+}

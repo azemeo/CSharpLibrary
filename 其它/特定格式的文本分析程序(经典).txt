@@ -1,0 +1,137 @@
+1.
+public class StringTokenizer 	{
+		private string data, delimiter;
+		private string[] tokens;
+		private int index;
+		public StringTokenizer(string dataLine) 		{
+			init(dataLine, " ");
+				}
+		private void init(String dataLine, string delim) {
+			delimiter = delim;
+			data = dataLine;
+			tokens = data.Split (delimiter.ToCharArray() );
+			index = 0;
+		}
+		public StringTokenizer(string dataLine, string delim) {
+   		init(dataLine, delim);	
+		}
+		public bool hasMoreElements() {
+			return (index < (tokens.Length));
+		}
+		public string nextToken() {
+			return nextElement();
+		}
+		public string nextElement() {
+			string s = tokens[index++];
+			while((s.Length <=0) && (index<tokens.Length ))
+				s = tokens[index++];
+		return s;
+		}
+	}
+2.
+public class Kid
+	{
+		private string frname, lname, club;
+		private int age;
+		private float time;
+		private Hashtable hash;
+		public Kid(string line) {
+			hash = new Hashtable ();
+			StringTokenizer tok = new StringTokenizer (line);
+			string lnum = tok.nextToken ();
+			frname = tok.nextToken ();
+			hash.Add (ParseVar.FRNAME , frname);
+			lname = tok.nextToken ();
+			hash.Add (ParseVar.LNAME , lname);
+			age = Convert.ToInt32 ( tok.nextToken ());
+			hash.Add (ParseVar.AGE , age);
+			club = tok.nextToken ();
+			hash.Add (ParseVar.CLUB , club);
+			time = Convert.ToSingle (tok.nextToken ());
+			hash.Add (ParseVar.TIME , time);
+		}
+		//-------
+		public object getData(int key) {
+			return hash[key];
+		}
+		//-----
+		public bool compare(Kid kd, int key) {
+			return compareTo(getData(key) , kd.getData (key));
+		}
+		//-----
+		private bool compareTo(object o1, object o2) {
+			if (o1.GetType().Name.Equals  ("String") )
+				return compare_To((string)o1, (string) o2);
+			else
+				return compare_To((float)o1, (float)o2);
+		}
+		private bool compare_To(String s1, String s2) {
+			return s1.CompareTo (s2) >0;
+		}
+		private bool compare_To(int k1, int k2){ 
+			return k1 > k2;
+		}
+		private bool compare_To(float f1, float f2) {
+			return f1 > f2;
+		}
+	}
+3.
+public class KidData 	{
+		private ArrayList kids;
+		public KidData(string filename) 		{
+			kids = new ArrayList ();
+			csFile fl = new csFile (filename);
+			fl.OpenForRead ();
+			string line = fl.readLine ();
+			while(line != null) {
+				Kid kd = new Kid (line);
+				kids.Add (kd);
+				line = fl.readLine ();
+			}
+			fl.close ();
+		}
+		//------
+		public Kid[] getData() {
+			Kid[] kds = new Kid [kids.Count ];
+			for(int i=0; i< kids.Count ; i++ ) {
+				kds[i] = (Kid)kids[i];
+			}
+			return kds;
+		}
+		//-----
+		public int size() {
+			return kids.Count ;
+		}
+		//-----
+		public Kid getKid(int i) {
+			if(i>=0 && i< kids.Count )
+				return (Kid)kids[i];
+			else
+				return null;
+		}
+		//-----
+		public ArrayList getKidData(int key) {
+			ArrayList ara = new ArrayList ();
+			for(int i =0; i< kids.Count ; i++ ) {
+				Kid kd = (Kid)kids[i];
+				ara.Add (kd.getData (key));
+			}
+			return ara;
+		}
+		public int getTableKey(string tbName) {
+			return ParseVar.computeValue (tbName.ToLower ());
+		}
+		public string getTableName(int key) {
+			return ParseVar.getTableName (key);
+		}
+	}
+4.
+private KidData kdata;
+		public InterpForm()
+		{
+			InitializeComponent();
+			init();
+		}
+		private void init() {
+			kdata = new KidData ("50free.txt");
+		}

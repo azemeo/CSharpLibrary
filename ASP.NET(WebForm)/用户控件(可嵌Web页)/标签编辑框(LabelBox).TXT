@@ -1,0 +1,142 @@
+这是一个标签编辑框的用户控件
+
+1.WebForm3.aspx
+<%@ Register TagPrefix="expo" TagName="LabelBox" Src="labelbox.ascx" %>
+<%@ Page language="c#" Codebehind="WebForm3.aspx.cs" AutoEventWireup="false" Inherits="Co_5.WebForm3" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm3</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体"></FONT>
+			<expo:labelbox runat="server" id="thePagelet"></expo:labelbox>
+		</form>
+	</body>
+</HTML>
+2.WebForm3.aspx.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace Co_5
+{
+	/// <summary>
+	/// WebForm3 的摘要说明。
+	/// </summary>
+	public class WebForm3 : System.Web.UI.Page
+	{
+		protected labelbox thePagelet;
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				thePagelet.TheLabel.Text="This is the label";
+				thePagelet.TheTextBox.Text="This is the text";
+			}
+
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+	}
+}
+3.labelbox.ascx
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="labelbox.ascx.cs" Inherits="Co_5.labelbox" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<FONT face="宋体">
+	<asp:Label id="lblTheLabel" runat="server" Font-Bold="True" style="FONT-FAMILY:verdana"></asp:Label>
+	<asp:TextBox id="txtTheTextBox" runat="server" BackColor="Ivory" style="FONT-FAMILY:verdana"></asp:TextBox></FONT>
+4.labelbox.ascx.cs
+namespace Co_5
+{
+	using System;
+	using System.Data;
+	using System.Drawing;
+	using System.Web;
+	using System.Web.UI.WebControls;
+	using System.Web.UI.HtmlControls;
+
+	/// <summary>
+	///		labelbox 的摘要说明。
+	/// </summary>
+	public class labelbox : System.Web.UI.UserControl
+	{
+		protected System.Web.UI.WebControls.TextBox txtTheTextBox;
+		protected System.Web.UI.WebControls.Label lblTheLabel;
+		//增加在页面中设置的属性
+		public string LablelText="";
+		public string EditText="";
+		
+
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+		}
+		public Label TheLabel
+		{
+			get{return lblTheLabel;}
+		}
+		public TextBox TheTextBox
+		{
+			get{return txtTheTextBox;}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		///		设计器支持所需的方法 - 不要使用代码编辑器
+		///		修改此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.Load += new System.EventHandler(this.Page_Load);
+			this.Init += new System.EventHandler(this.labelbox_Init);
+
+		}
+		#endregion
+
+		private void labelbox_Init(object sender, System.EventArgs e)
+		{
+			txtTheTextBox.Text=EditText;
+			lblTheLabel.Text=LablelText;
+		}
+	}
+}

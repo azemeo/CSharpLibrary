@@ -1,0 +1,46 @@
+解决了这个问题，总结一下：
+收发邮件都可以使用jmail,在.net下通过以下步骤生成所需的dll,
+1.安装jmail4.3 
+2.找到jmail.dll（Program Files\Dimac\w3JMail4下）
+3.执行Program Files\Microsoft Visual Studio .NET\FrameworkSDK\Bin\ildasm.exe,
+格式如下：tlbimp jmail.dll /out:myJmail.dll /namespace:myJmail
+生成myJmail.dll后，copy到web的根目录的bin目录，
+在vs.net中引用 using jmail;
+
+在其他机器上注册
+在运行窗口中运行 regsvr32 E:\jmail\jmail.dll 然后在项目中引用jmail
+
+using myJmail;
+　　　　　　　　　　　　　　Message jmailobj=new Message();
+
+jmailobj.Logging=true;
+jmailobj.Silent=true;
+
+jmailobj.MailServerUserName="username"; //发信邮件服务器的帐号
+jmailobj.MailServerPassWord="pwd"; //密码
+
+jmailobj.Body="ok";
+jmailobj.Charset="gb2312"; 
+jmailobj.Subject="这个是ＪＭＡＩＬ测试！";
+jmailobj.From="gfkd_2003@yahoo.com.cn";
+jmailobj.FromName="test";
+jmailobj.AddRecipient("wangwei@efu.com.cn","Name","A"); //收件人地址
+
+//jmailobj.AddRecipientBCC("shao9979@hotmail.com","ok");//抄送
+//jmailobj.AddRecipientBCC("gaoang2003@sohu.com.cn","ok");
+
+
+jmailobj.Priority =1;
+
+//jmailobj.AddAttachment(@"C:\Documents and Settings\Administrator\My Documents\DOTNET中华网技术论坛--『C#_NET技术专题』 浏览：介绍一批C#的学习网站",true,"htm"); //附件 
+if(jmailobj.Send("mailserver.com",false)) {
+//mailserver.com邮件服务器
+Response.Write("ok"); 
+}
+else {
+Response.Write("false");
+}
+
+
+//----------
+包可用！

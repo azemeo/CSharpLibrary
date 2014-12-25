@@ -1,0 +1,6 @@
+int[][]divs={new int[]{1},
+new int[]{1,2},
+new int[]{2,4,6,8}};														  
+foreach(int[]gdivs in divs)
+  foreach(int gdiv in gdivs)
+	Console.WriteLine(gdiv);

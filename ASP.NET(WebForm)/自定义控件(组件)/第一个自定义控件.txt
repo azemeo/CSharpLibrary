@@ -1,0 +1,28 @@
+1.Hello1.cs,csc /t:library /out:HelloControl.dll hello1.cs,编译后放入bin目录下
+using System;
+using System.Web.UI;
+namespace Wintellect
+{
+	public class Hello:Control
+	{
+		protected override void Render(HtmlTextWriter writer)
+		{
+			writer.Write("Hello,world");
+		}
+	}
+}
+2.Hello1.aspx
+<%@ Register TagPrefix="win" Namespace="Wintellect" Assembly="HelloControl" %>
+<html>
+	<body>
+		<form runat="server">
+			<win:Hello RunAt="server" />
+		</form>
+	</body>
+</html>
+3.关键:
+a.派生自System.Web.UI.Control
+b.通过重写Render方法呈现自己
+c.必须属于某个命名空间
+d.Assembly为组件的文件名
+c.控件的名称就是类名

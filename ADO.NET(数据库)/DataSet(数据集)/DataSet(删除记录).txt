@@ -1,0 +1,35 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyDataset1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlDataAdapter adapter=new SqlDataAdapter("select * from titles",
+				"server=localhost;database=pubs;uid=sa;pwd=");
+			SqlCommandBuilder builder=new SqlCommandBuilder(adapter);
+			DataSet ds=new DataSet();
+			adapter.Fill(ds,"Titles");
+
+			DataTable table=ds.Tables["Titles"];
+			DataRow[] rows=table.Select("title_id='JP1001'");//选取
+			foreach(DataRow row in rows)
+				row.Delete();//逻辑删除
+			adapter.Update(ds,"Titles");//真正更新数据库
+			Console.WriteLine("OK");
+		}
+	}
+}
+
+注意：所有操作都是在断开式的DataSet上进行的。
+Delete 逻辑删除,可以用RejectChanges方法恢复.
+Remove 物理删除.

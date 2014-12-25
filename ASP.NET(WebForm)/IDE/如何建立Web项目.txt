@@ -1,0 +1,4 @@
+1.设置解决方案的路径为D:\c#2\WebProj(防止解决方案文件存在默认的位置)
+2.在D:\c#2\WebProj下建立新的文件夹Home5
+3.右击Home5,Web共享为Home5(用虚拟目录，防止文件放在c:\interpub\wwwroot)
+4.在VS.NET建立Web解决方案,并输入Home5,确定。（在第一次生成是一定要检查解决方案的路径）

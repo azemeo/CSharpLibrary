@@ -1,0 +1,31 @@
+private SqlTransaction m_Trans;		
+public void TransBegin()
+		{
+			m_Trans = this.m_cnnConnection.BeginTransaction();
+		}
+
+		public void TransCommit()
+		{
+			if(m_Trans != null)
+			{
+				m_Trans.Commit();
+				m_Trans.Dispose();
+				m_Trans = null;
+			}
+
+		}
+
+		public void TransRollback()
+		{
+			if(m_Trans != null)
+			{
+				m_Trans.Rollback();
+				m_Trans.Dispose();
+				m_Trans = null;
+			}
+		}
+this.m_Trans.Dispose();
+
+
+this.m_cmdCommand.Connection  = this.m_cnnConnection;
+this.m_cmdCommand.Transaction = this.m_Trans;

@@ -1,0 +1,57 @@
+Web.config文件
+常见结构如下:
+<configuration>
+  <appSettings>
+  <!--appSettings go here>
+  </appSettings>
+  <system.web>    
+   <!--ASP.NET configuration setting go here-->
+  </system.web>
+</configuration>
+
+解释:
+1.<appSettings>部分含有应用程序特定的值(字符串)目的是用参数表示应用程序的行为，并能够在不改变源代码的前提下修改这些行为。
+
+<configuration>
+  <appSettings>
+  <add key="MyConn" value="server=localhost"></add>
+  </appSettings> 
+  <system.web>
+  </system.web>
+</configuration>
+
+在程序中
+using System.Configuration;
+ConfigurationSettings.AppSettings["MyConn"]; 读取
+
+AppSettings是System.Configuration名称空间ConfigurationSettings类的静态方法
+使用AppSettings部分的名称来取值。
+
+2.<system.web>部分保存着ASP.NET使用的配置设置
+<authentication> 验证的模式
+<authorization> 访问目录及其子目录下资源的人
+<compilation> 指定运行时编译设置 Debug设置为true时启用调试，false是提升性能。
+<customErrors>启动自定义错误的页面,指定如何在客户端报告错误信息。
+<globalization> 指定请求和响应的字符编码 (YK为gb2312)
+<sessionState> 指定会话状态设置
+<trace> 启用或禁用跟踪,并指定跟踪设置
+
+以上为VS.NET默认的配置
+
+Machine.config 中保存着主机上所有托管程序的配置设置,WinDir\Microsft.NET\Framework\vn.n.nnnn\Config
+
+配置继承是指将Web.config文件中指定配置应用于主目录（包含该Web.config的目录）及其子目录的所有文件。
+自已的设置将覆盖上级的同名设置。
+
+自由到下的顺序为
+WinDir下的Machine.config
+wwwroot 下的Web.config
+虑拟目录下的Web.config
+
+
+
+
+
+
+         
+

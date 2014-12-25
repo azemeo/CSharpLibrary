@@ -1,0 +1,17 @@
+数据库的连接性
+移动端
+	-SQL Server CE
+	-SQL Server CE Client Agent
+服务器端
+	-SQL Server
+	-SQL Server CE Server Agent
+	-IIS Server
+且SQL Server CE Server Agent和IIS Server必须在同一台机器上。
+
+在服务器端安装SQL Server CE Server Agent
+1.安装 SQL Server 2000 SP3
+2.安装 sqlce20sql2ksp3a.exe (根据sp的不而不同)
+
+http://chihy/sqlce/sscesa20.dll
+
+

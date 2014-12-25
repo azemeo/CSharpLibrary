@@ -1,0 +1,4 @@
+DateTime t1 = new DateTime(2002,5,30);
+			DateTime t2 = new DateTime(2002,5,23);
+			TimeSpan diff=t1-t2;
+			MessageBox.Show(diff.Days.ToString());

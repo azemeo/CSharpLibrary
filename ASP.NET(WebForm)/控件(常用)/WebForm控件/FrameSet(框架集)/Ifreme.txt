@@ -1,0 +1,119 @@
+<%@ Page CodeBehind="Main.aspx.cs" Language="c#" AutoEventWireup="false" Inherits="ZeroWire.Web.SFA.Product.Activity_Main" %>
+<HTML>
+	<HEAD>
+		<title>Zero Global Sales Force Automation(SFA)-Web Version</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<meta name="keywords" content="wireless, CRM, Customer Relationship Management, Enterprise, implementation,  collaborative, mCommerce, mobile, SFA, Sales Force Automation, Field Service, mobile marketing, system integration, pocket PC, ZeroWire Enterprise, ZeroWire, wireless security, mobile business">
+		<style type="text/css"> TD { FONT-SIZE: 12px; FONT-FAMILY: "宋体", "Verdana", }
+	</style>
+		<link rel="stylesheet" href="Style/StandStyle.css" type="text/css">
+	</HEAD>
+	<body bgcolor="#ffffff" text="#000000" leftmargin="0" topmargin="0">
+		<form id="Form1" method="post" runat="server">
+			<table width="<%=ResoW%>" border="0" cellspacing="0" cellpadding="0" height="130" background="..\\images\\Common\\bbg.gif"
+				align="center">
+				<tr>
+					<td width="4">&nbsp;</td>
+					<td>
+						<iframe frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="..\NavBar.aspx"
+							width="100%" height="170"></iframe>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" height="<%=ResoH%>">
+							<tr>
+								<td valign="top" width="<%=LeftFrame%>"><iframe frameborder="0"  marginheight="0" marginwidth="0" scrolling="no" src="<%=LeftPartUrl%>" 
+							width="100%" height="<%=ResoH%>"></iframe>
+								</td>
+								<td valign="top" width="<%=RightFrame%>"><iframe name="iframe_Right" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="<%=RightPartUrl%>"
+							width="100%" height="<%=ResoH%>"></iframe>
+								</td>
+							</tr>
+						</table>
+						<div align="center">
+						</div>
+						<iframe frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="..\BottomBar.htm"
+							width="100%"></iframe>
+					</td>
+					<td width="4">&nbsp;</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</HTML>
+
+
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using ZeroWire.Web.SFA.Utility;
+namespace ZeroWire.Web.SFA.Product
+{
+	/// <summary>
+	/// 产品主框架。
+	/// </summary>
+	public class Activity_Main : System.Web.UI.Page
+	{
+
+		//用户变量
+		public string LeftPartUrl=string.Empty;
+		public string RightPartUrl=string.Empty;
+		public int ResoW=ZeroConst.ResoltionWidth;
+		public int ResoH=ZeroConst.ResoltionHeight;
+		public string LeftFrame=ZeroConst.LeftFrame;
+		public string RightFrame=ZeroConst.RightFrame;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				
+				//左边的客户区大部分情况不变
+				LeftPartUrl="LeftPart.aspx";
+				
+				//用不同页面填充客户区
+				string action=Request.QueryString["Action"].Trim();
+				switch(action)
+				{
+					case "New":
+						RightPartUrl="Form_Home.aspx";
+						break;
+					case "Mten"://维护
+						RightPartUrl="Form_HomeDetail.aspx";
+						break;
+					default:
+						RightPartUrl=FileName.ProductFillRightPart;
+						break;
+				}
+				
+			}
+		}
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+
+	}
+}

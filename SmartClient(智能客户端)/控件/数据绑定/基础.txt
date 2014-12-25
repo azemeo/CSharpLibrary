@@ -1,0 +1,15 @@
+数据对象里的数据发生改变，直接会映射到控件的表现，反之亦然。
+
+绑定是双向的。
+
+以DataTable为例
+
+DataGrid可以显示一张表格,只读的。
+ListBox/ComboBox可以显示一列	DataSource(DisplayMember,ValueMember,SelectedItem)
+TextBox/Label可以显示一条	ControlBindingsCollection DataBindings
+
+可绑定的对象必须具有表列的数据结构且公共其属性:
+ArrayList
+DataTable
+DataView
+

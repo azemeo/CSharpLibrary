@@ -1,0 +1,54 @@
+1.引用类型(reference type):两个对象赋值后，相互影响。(分配在托管堆上)
+2.值类型(value type):两个对象赋值后，不相互影响。(分配在线程堆栈上)
+
+两种类型就在内存中
+
+
+引用类型的识别:
+被称为类的类型：系统中,System.Object,System.Exception,FileStream,Random等
+接口
+自定义时使用class的类型
+
+
+值类型的识别:
+被称为结构或枚举的:系统中简单常用类型,int,bool,long...,System.DayOfWeek,IO.FileAttributes,Drawing.FontStyle
+自定义时使用struct的类型
+
+
+例程:
+
+using System;
+class SomeRef{public Int32 x;}//引用类型(因为'class'修饰符)
+struct SomeVal{public Int32 x;}//值类型(因为'struct'修饰符)
+
+class Hello 
+{
+   static void Main() 
+   {
+      SomeRef r1=new SomeRef();//分配在托管堆上
+      SomeVal v1=new SomeVal();//分配在堆栈上
+      r1.x=5;
+      v1.x=5;
+      
+      Console.WriteLine(r1.x);//显示为5
+      Console.WriteLine(v1.x);//5
+      
+      SomeRef r2=r1;//仅拷贝引用(指针)
+      SomeVal v2=v1;//先在堆栈上分配，然后再拷贝成员
+      
+      r1.x=8;//改变了r1.x及r2.x
+      v1.x=9;//改变了v1.x,没有改变v2.x
+      
+      Console.WriteLine(r1.x);//8
+      Console.WriteLine(r2.x);//8
+      Console.WriteLine(v1.x);//9
+      Console.WriteLine(v2.x);//5
+      
+   }
+}
+
+值类型优点：
+1.
+缺点(或限制):
+1.装箱和拆箱，在频繁参数传递、频繁返回值、用于ArrayList,HashTable集合中，损伤性能。
+2.不能做为基类。

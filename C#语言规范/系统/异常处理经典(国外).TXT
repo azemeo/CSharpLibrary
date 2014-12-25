@@ -1,0 +1,21 @@
+		public bool ExuteOneCode()
+		{
+			bool IsSucess=false;
+			DataService dbOper=new DataService();
+			try
+			{
+				string strsql="SELECT CODE,DESCRIPTION FROM SM_CODEITEM WHERE CODEID='ZC' AND PPTR='ZC'";
+				//...
+				IsSucess=true;
+			}
+			catch
+			{
+				IsSucess=false;
+			}
+			finally
+			{
+				dbOper.Dispose();
+				dbOper=null;
+			}
+			return IsSucess;
+		}

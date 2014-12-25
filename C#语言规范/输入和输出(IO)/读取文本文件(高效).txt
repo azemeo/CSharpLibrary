@@ -1,0 +1,38 @@
+OpenFileDialog dlg = new OpenFileDialog(); 
+ 
+          dlg.Title = "Open text file" ; 
+ 
+          dlg.InitialDirectory = @"c:\" ; 
+ 
+          dlg.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*" ; 
+ 
+           
+ 
+          if(dlg.ShowDialog() == DialogResult.OK) 
+ 
+          { 
+ 
+               StreamReader sr = File.OpenText(dlg.FileName); 
+ 
+
+ 
+               string s = sr.ReadLine(); 
+ 
+               StringBuilder sb = new StringBuilder(); 
+ 
+               while (s != null) 
+ 
+               { 
+ 
+                    sb.Append(s); 
+ 
+                    s = sr.ReadLine(); 
+ 
+               } 
+ 
+               sr.Close(); 
+ 
+               textBox1.Text = sb.ToString(); 
+ 
+          } 
+ 

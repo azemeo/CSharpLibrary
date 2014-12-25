@@ -1,0 +1,66 @@
+1.default.aspx中按钮的单击事件
+private void OnSignMeUp(object sender, System.EventArgs e)
+{
+	if(IsValid)
+	{
+		StringBuilder sb=new StringBuilder("Thanks.aspx?Name=",256);
+		sb.Append(Name.Text);
+		sb.Append("&EMail=");
+		sb.Append(Email.Text);
+
+		string address=Address.Text;
+		string city=City.Text;
+		string state=StateList.SelectedItem.Text;
+		string zip=ZipCode.Text;
+
+		if(address.Length>0&&city.Length>0&&zip.Length>0)
+		{
+			sb.Append("&Address=");
+			sb.Append(address);
+			sb.Append("&City=");
+			sb.Append(city);
+			sb.Append("&State=");
+			sb.Append(state);
+			sb.Append("&ZipCode=");
+			sb.Append(zip);
+		}
+		string number=CreditCardNumber.Text;
+		if(number.Length>0)
+		{
+			sb.Append("&CreditCardNumber=");
+			sb.Append(number);
+		}
+		Response.Redirect(sb.ToString());
+
+		
+	}
+}
+2.thanks.aspx接收页面的Page_Load事件
+private void Page_Load(object sender, System.EventArgs e)
+{
+	// 在此处放置用户代码以初始化页面
+	if(!IsPostBack)
+	{				
+		StringBuilder sb=new StringBuilder();
+		sb.Append("<li>Name:"+Request["Name"]+
+			"<li>Email address:"+Request["Email"]);
+		if(Request["Address"]!=null)
+		{
+			sb.Append("<li>Address:");
+			sb.Append(Request["Address"]);
+			sb.Append(",");
+			sb.Append(Request["City"]);
+			sb.Append(",");
+			sb.Append(Request["State"]);
+			sb.Append("");
+			sb.Append(Request["ZipCode"]);
+			if(Request["CreditCardNumber"]!=null)
+			{
+				sb.Append("<li>Credit card number:");
+				sb.Append(Request["CreditCardNumber"]);
+			}
+		}
+		this.Output.Text=sb.ToString();
+
+	}
+}

@@ -1,0 +1,9 @@
+ListBox
+DropDownList
+CheckboxList
+RadioButtonList
+---------------------
+Item表示各条项目
+item.Text文本
+item.Selected表示是否选中
+listbox.SelectedIndex表示索引

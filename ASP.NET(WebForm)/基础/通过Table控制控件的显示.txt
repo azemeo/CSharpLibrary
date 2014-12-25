@@ -1,0 +1,6 @@
+右击Table,选择任为服务器控件运行
+
+
+				TableDown.Visible=see;
+				TableFree.Visible=see;
+				TableUser.Visible=see;

@@ -1,0 +1,20 @@
+1.Application xlApp=new ApplicationClass();出错
+解决方法:
+在Web.config 中<system.web></system.web>加上
+<identity impersonate="true" userName="" password=""/>
+
+2.连接Excel时打不开连接
+1.
+C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\CONFIG\machine.config
+userName="machine" 改为
+userName="system"
+2.不打开加逗事分隔的Excel文件。
+
+3.将ExcelFloder(写Excel文件)设为EveryOne访问权限。
+
+4.服务>组件服务>DCOM配置>Microsoft Excel>属性
+
+安全：启动，访问，配置权限，分别自定义，增加EveryOne用户。
+
+
+

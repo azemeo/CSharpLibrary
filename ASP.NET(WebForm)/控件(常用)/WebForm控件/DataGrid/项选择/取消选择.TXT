@@ -1,0 +1,21 @@
+理想的方式是：用户再次单此刚才选择的行，取消选择，但实际是不可能的。
+可行方式是提供一个链接按钮
+
+private void DataGrid1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{			
+			LinkButton1.Visible=true;			
+		}
+
+		private void LinkButton1_Click(object sender, System.EventArgs e)
+		{
+			DataGrid1.SelectedIndex=-1;//取消选择
+			LinkButton1.Visible=false;
+		}
+
+		private void DataGrid1_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				LinkButton1.Visible=false;
+			}
+		}

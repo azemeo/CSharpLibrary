@@ -1,0 +1,4 @@
+			Set.Feedback fb1=new Set.Feedback(App.FeedbackToConsole);
+			Set.Feedback fb2=new Set.Feedback(App.FeedbackToConsole);
+			Console.WriteLine(fb1.Equals(fb2)); //еп╣х
+			Console.WriteLine(fb1==fb2);

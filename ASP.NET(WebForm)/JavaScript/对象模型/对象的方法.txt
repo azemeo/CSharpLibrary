@@ -1,0 +1,29 @@
+对象的方法:对象自己的函数
+<html>
+	<title>Please see my computer</title>
+	<head>
+	<script language="Javascript">
+	function computer(brand,year,owner)
+	{
+		this.brand=brand;
+		this.year=year;
+		this.owner=owner;
+	}
+	
+	function Show(obj)
+	{
+		document.writeln(obj.brand+"<BR>");
+		document.writeln(obj.year+"<BR>");
+		document.writeln(obj.owner);
+	}
+	
+	</script>
+	</head>
+	<body>
+	<script language=javascript>
+		var MyComputer=new computer("IBM",1996,"Liu");//申明对象并初始化
+		MyComputer.CompShow=Show;//联系方法
+		MyComputer.CompShow(MyComputer);//调用方法				
+	</script>
+	</body>
+</html>

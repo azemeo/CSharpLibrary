@@ -1,0 +1,4 @@
+private bool[]		InputFormatSupported = new bool[20];
+
+
+InputFormatSupported[ iIndex ] = true;

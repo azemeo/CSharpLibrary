@@ -1,0 +1,7 @@
+数据结构	时间复杂性        备注
+一维数组[]	O(n)
+ArrayList	O(n)
+Query           O(n)              ArrayList变种,最大利用空间
+Stack           O(n)              ArrayList变种,最大利用空间
+Hashtable	O(1)
+

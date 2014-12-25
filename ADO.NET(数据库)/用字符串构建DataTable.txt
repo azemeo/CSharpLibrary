@@ -1,0 +1,18 @@
+//用字符串构建DataTable	
+
+						DataTable dt= new DataTable();     
+
+						System.Data.DataColumn[] dcs=new System.Data.DataColumn[1];
+						dt.Columns.Add(new DataColumn("fielddesc", typeof(string)));
+						dt.Columns.Add(new DataColumn("fieldname", typeof(string)));
+						dcs[0]=dt.Columns[0];//主键,如果此列重复则，不会新建
+						dt.PrimaryKey=dcs;
+		
+
+DataTable dt= new DataTable();					
+			string[] dr = new string[2];
+			dr[0] = "aaa";
+			dr[1] = "bbb";
+			dt.BeginLoadData(); 
+			dt.LoadDataRow(dr,true); 
+			dt.EndLoadData(); 

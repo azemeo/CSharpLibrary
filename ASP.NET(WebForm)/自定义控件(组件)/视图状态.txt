@@ -1,0 +1,19 @@
+
+
+不能使用数据成员在不同的请求之间保存状态
+
+它只能保持控件被实例化时的初始值
+
+ASP.NET 通过视图状态(ViewState) 保存不同请求之间的信息
+
+ViewState Control属性来公开它的视图状态机息(StateBag类型)
+
+ViewState["Count"]=1;添加状态
+
+int count=(int)ViewState["Count"];读取整数
+
+作用：在多次页面调用之间保持控件的内部状态。
+
+
+
+

@@ -1,0 +1,10 @@
+Microsoft.Web.UI.WebControls.TreeView
+TreeView的节点定位
+if(!Page.IsPostBack)
+			{
+				if(Session["SeetCorp_Finish_Jump"]!=null)//是从公司设置页跳来
+				{
+					TreeView1.SelectedNodeIndex = "4.1";
+					Session["SeetCorp_Finish_Jump"]=null;//销掉
+				}
+			}

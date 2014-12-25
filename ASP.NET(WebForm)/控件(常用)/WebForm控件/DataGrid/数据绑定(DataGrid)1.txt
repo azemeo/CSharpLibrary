@@ -1,0 +1,52 @@
+1.控件
+			<asp:DataGrid id="MyDataGrid" style="Z-INDEX: 101; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
+				AutoGenerateColumns="False">
+				<AlternatingItemStyle ForeColor="DarkBlue" BackColor="Beige"></AlternatingItemStyle>
+				<ItemStyle ForeColor="DarkBlue" BackColor="White"></ItemStyle>
+				<HeaderStyle Font-Bold="True" ForeColor="White" BackColor="Teal"></HeaderStyle>
+				<Columns>
+					<asp:BoundColumn DataField="title_id" HeaderText="Item ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="title" HeaderText="Title"></asp:BoundColumn>
+					<asp:BoundColumn DataField="price" HeaderText="Price" DataFormatString="{0:c}">
+						<HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+						<ItemStyle HorizontalAlign="Right"></ItemStyle>
+					</asp:BoundColumn>
+					<asp:ButtonColumn Text="Add to Cart" HeaderText="Action" CommandName="AddToCart">
+						<HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+						<ItemStyle HorizontalAlign="Center"></ItemStyle>
+					</asp:ButtonColumn>
+				</Columns>
+			</asp:DataGrid>
+			<asp:Label id="Output" style="Z-INDEX: 102; LEFT: 8px; POSITION: absolute; TOP: 376px" runat="server"></asp:Label>
+2.代码
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!IsPostBack)
+			{
+				SqlConnection conn=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=;");
+				try
+				{
+					conn.Open();
+					SqlCommand comm=new SqlCommand("select * from titles where price!=0",conn);
+					SqlDataReader reader=comm.ExecuteReader();
+					MyDataGrid.DataSource=reader;
+					MyDataGrid.DataBind();
+				}
+				finally
+				{
+					conn.Close();
+				}
+			}
+
+		}
+3.代码2
+private void MyDataGrid_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			if(e.CommandName=="AddToCart")
+				Output.Text=e.Item.Cells[1].Text;
+
+		}
+4.重要的属性
+AutoGenerateColumns,决定的自动生成列，还是手动生成
+Columns指定显示在表格中的列

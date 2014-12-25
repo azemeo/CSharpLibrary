@@ -1,0 +1,44 @@
+using System;
+using System.Data;
+using Oracle.DataAccess.Client;
+using Oracle.DataAccess.Types;
+//>csc /r:Oracle.DataAccess.dll nn.cs
+//Oracle.DataAccess.dll将复制到当前目录
+namespace OracleApp
+{
+	public class Test
+	{
+	    
+	    static void Main()
+	    {
+	     OracleConnection conn=null;
+       OracleDataAdapter ad;
+       OracleCommandBuilder cb;
+       
+       DataSet dSet;              
+       try
+	     {
+	        string ConnectionString ="User Id=sfa;Password=zwsfa;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.1.6)(PORT=1521)))(CONNECT_DATA=(SID=ZWORA)(SERVER=DEDICATED)))";
+	        conn = new OracleConnection(ConnectionString);
+	        conn.Open();	
+	      ad = new OracleDataAdapter("SELECT user_name  FROM user_info",conn); //user_info        
+        cb = new OracleCommandBuilder(ad); 
+        dSet = new DataSet("user_info");
+        ad.Fill(dSet, "user_info");
+        DataTable dt=dSet.Tables["user_info"];
+
+				foreach (DataRow row in dt.Rows) 
+				{
+					Console.WriteLine((string)row["user_name"]);
+				}
+        conn.Close(); 
+	      }
+	      catch (Exception ex) // catch exception when error in connecting to database occurs
+	      {
+	        Console.WriteLine(ex.ToString());
+	        return;
+	      }          	     
+	   }
+	 }
+}
+	

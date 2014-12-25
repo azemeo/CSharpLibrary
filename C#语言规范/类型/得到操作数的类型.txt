@@ -1,0 +1,4 @@
+×Ö·û×ª»»ÎªÃ¶¾Ù
+string c;
+c="east";
+(orie)Enum.Parse(typeof(orie),c)

@@ -1,0 +1,81 @@
+	void CreateRIFF()
+	{
+		/**************************************************************************
+			 
+			Here is where the file will be created. A
+			wave file is a RIFF file, which has chunks
+			of data that describe what the file contains.
+			A wave RIFF file is put together like this:
+			 
+			The 12 byte RIFF chunk is constructed like this:
+			Bytes 0 - 3 :	'R' 'I' 'F' 'F'
+			Bytes 4 - 7 :	Length of file, minus the first 8 bytes of the RIFF description.
+							(4 bytes for "WAVE" + 24 bytes for format chunk length +
+							8 bytes for data chunk description + actual sample data size.)
+			Bytes 8 - 11:	'W' 'A' 'V' 'E'
+			
+			The 24 byte FORMAT chunk is constructed like this:
+			Bytes 0 - 3 :	'f' 'm' 't' ' '
+			Bytes 4 - 7 :	The format chunk length. This is always 16.
+			Bytes 8 - 9 :	File padding. Always 1.
+			Bytes 10- 11:	Number of channels. Either 1 for mono,  or 2 for stereo.
+			Bytes 12- 15:	Sample rate.
+			Bytes 16- 19:	Number of bytes per second.
+			Bytes 20- 21:	Bytes per sample. 1 for 8 bit mono, 2 for 8 bit stereo or
+							16 bit mono, 4 for 16 bit stereo.
+			Bytes 22- 23:	Number of bits per sample.
+			
+			The DATA chunk is constructed like this:
+			Bytes 0 - 3 :	'd' 'a' 't' 'a'
+			Bytes 4 - 7 :	Length of data, in bytes.
+			Bytes 8 -...:	Actual sample data.
+			
+		***************************************************************************/
+
+		// Open up the wave file for writing.
+		WaveFile = new FileStream(FileName, FileMode.Create);
+		Writer = new BinaryWriter(WaveFile);
+
+		// Set up file with RIFF chunk info.
+		char[] ChunkRiff = {'R','I','F','F'};
+		char[] ChunkType = {'W','A','V','E'};
+		char[] ChunkFmt	= {'f','m','t',' '};
+		char[] ChunkData = {'d','a','t','a'};
+			
+		short shPad = 1; // File padding
+		int nFormatChunkLength = 0x10; // Format chunk length.16(十进制)
+		int nLength = 0; // File length, minus first 8 bytes of RIFF description. This will be filled in later.
+		short shBytesPerSample = 0; // Bytes per sample.
+
+		// Figure out how many bytes there will be per sample.
+		// 计算每个采样有多少个字节
+		if (8 == InputFormat.BitsPerSample && 1 == InputFormat.Channels)
+			shBytesPerSample = 1;
+		else if ((8 == InputFormat.BitsPerSample && 2 == InputFormat.Channels) || (16 == InputFormat.BitsPerSample && 1 == InputFormat.Channels))
+			shBytesPerSample = 2;
+		else if (16 == InputFormat.BitsPerSample && 2 == InputFormat.Channels)
+			shBytesPerSample = 4;
+
+		// Fill in the riff info for the wave file.
+		// 填充 riff信息
+
+		Writer.Write(ChunkRiff);
+		Writer.Write(nLength);
+		Writer.Write(ChunkType);
+
+		// Fill in the format info for the wave file.
+		// 填充Wave文件格式信息
+		Writer.Write(ChunkFmt);
+		Writer.Write(nFormatChunkLength);//块长度,总是16
+		Writer.Write(shPad);//补白,总是1
+		Writer.Write(InputFormat.Channels);//声道(1或2)
+		Writer.Write(InputFormat.SamplesPerSecond);//采样速度
+		Writer.Write(InputFormat.AverageBytesPerSecond);//每秒字节数
+		Writer.Write(shBytesPerSample);//采样
+		Writer.Write(InputFormat.BitsPerSample);//每个采样的位数
+			
+		// Now fill in the data chunk.
+		// 填充数据块
+		Writer.Write(ChunkData);
+		Writer.Write((int)0);	// The sample length will be written in later.(在录制过程中累加,在用户停止时写)
+	}

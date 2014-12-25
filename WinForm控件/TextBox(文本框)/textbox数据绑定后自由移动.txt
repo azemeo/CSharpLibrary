@@ -1,0 +1,19 @@
+1.定义
+private DataSet ds2;
+2.绑定
+private void button9_Click(object sender, System.EventArgs e)
+		{
+		
+			ds2=CreateDataSet2();
+			textName.DataBindings.Add("Text",ds2,"Products.ProductName");
+			textQuan.DataBindings.Add("Text",ds2,"Products.QuantityPerUnit");
+			trackBar1.Minimum=0;
+			trackBar1.Maximum=this.BindingContext[ds2,"Products"].Count-1;
+
+		}
+3.移动
+
+		private void trackBar1_Scroll(object sender, System.EventArgs e)
+		{
+			this.BindingContext[ds2,"Products"].Position=trackBar1.Value;
+		}

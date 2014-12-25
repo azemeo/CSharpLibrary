@@ -1,0 +1,2 @@
+Image 是抽象类:
+Bitmap,Cusor,Icon,Metafile 它的派生类

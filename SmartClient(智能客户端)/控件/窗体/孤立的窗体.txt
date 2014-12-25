@@ -1,0 +1,107 @@
+窗体FormPres默认的情况下,MinimizeBox=true,即最小化按钮.
+代面的代码会产生孤立的窗体，从而失去控制。
+//修改前			
+FormPres frm=new FormPres();
+			frm.Show();
+
+
+解决问题的方法有两种:
+1)将MinimizeBox=flase,即关闭按钮.
+2)保存它的引用，当隐藏后可以再显示或关闭它。
+新建一个文件Global.cs
+
+using System;
+namespace SC_Weather
+{
+	public class Global
+	{
+		static internal FormPrec fromPrec=null;//仅可在程序集内访问
+		static internal FormPres fromPres=null;
+		static internal FormTemp fromTemp=null;
+		public Global()
+		{}
+	}
+}
+
+
+
+			//修改后
+			if(Global.fromPres==null)
+			{
+				Global.fromPres=new FormPres();
+			}
+			Global.fromPres.Show();
+3)改进:大量窗体存在时直接声明引用显的很笨拙。我们使用ArrayList类。
+优点:类活
+缺点:复杂
+a.窗体
+		Form frmX=null;//受管理的窗体
+		private void button3_Click(object sender, System.EventArgs e)
+		{			
+			//SC_Weather为窗体所在的名称空间
+			frmX=Global.OpenForm(Type.GetType("SC_Weather.FormPres"));//建立窗体(创建并向列表中增加)
+			frmX.Show();//显示
+		}
+
+		private void btnRemove_Click(object sender, System.EventArgs e)
+		{
+			
+			Global.RemoveForm(frmX);//从列表中删除
+			frmX.Close();//关闭
+		}
+
+b.Global.cs
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+namespace SC_Weather
+{
+	public class Global
+	{
+		static internal ArrayList arrForms=new ArrayList();//窗体列表
+		public Global()
+		{}
+		//返回一个窗体(包含增加)
+		static internal Form OpenForm(Type typeForm)
+		{
+			foreach(Form frmLoop in arrForms)
+			{
+				if(frmLoop.GetType()==typeForm)
+				{
+					return frmLoop;//返回存在的工作窗体
+				}
+			}
+			Form frmWork=null;//工作窗体
+			if(typeForm==Type.GetType("SC_Weather.FormTemp"))
+			{
+				frmWork=new FormTemp();//新建窗体
+			}
+			if(typeForm==Type.GetType("SC_Weather.FormPres"))
+			{
+				frmWork=new FormPres();
+			}
+			if(typeForm==Type.GetType("SC_Weather.FormPrec"))
+			{
+				frmWork=new FormPrec();
+			}
+			if(frmWork!=null)
+				arrForms.Add(frmWork);
+			return frmWork;	//返回新建的工作窗体			
+		}
+		//移除一个窗体
+		static internal void RemoveForm(Form frmRemove)
+		{
+			arrForms.Remove(frmRemove);
+		}
+
+	}
+}
+ 
+
+ 
+
+
+

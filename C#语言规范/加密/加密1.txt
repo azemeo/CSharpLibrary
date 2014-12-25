@@ -1,0 +1,44 @@
+using System.Security.Cryptography;		
+
+public bool UpdatePassword(string userLoginID,string newPWD)
+		{
+			bool result = false;
+			string newPwdInDB = HashString(newPWD);
+			try
+			{
+				string MyKey = "I_LoginIn_UpdatePWD";
+				string[] Parames = {userLoginID,newPwdInDB};
+				int iResult = dataAccess.executeNonQuery(MyKey,Parames); 
+				if (iResult == 1)
+					result = true;
+				else
+					result = false;
+			}
+			catch
+			{
+				return result;
+			}
+			return result;
+		}
+
+
+		/// <summary>
+		/// 用SHA1加密字符串，在创建用和和验证用户密码时使用
+		/// </summary>
+		/// <param name="textToHash">源字符串</param>
+		/// <returns>加密后的字符串</returns>
+		private string HashString(string textToHash) 
+		{
+			SHA1CryptoServiceProvider SHA1 = new SHA1CryptoServiceProvider();
+			byte[] byteValue = System.Text.Encoding.UTF8.GetBytes(textToHash);
+			byte[] byteHash = SHA1.ComputeHash(byteValue);
+			SHA1.Clear();
+
+			return Convert.ToBase64String(byteHash);
+		}	
+
+
+
+<data name="I_LoginIn_UpdatePWD">
+		<value>UPDATE ZW_User set Password='{0}' WHERE	Login_ID='{1}' </value>
+	</data>

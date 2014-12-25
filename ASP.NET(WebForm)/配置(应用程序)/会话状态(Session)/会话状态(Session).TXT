@@ -1,0 +1,125 @@
+会话(Session):为标识每个用户提供了一个方易用的方案。
+
+ASP会话缺点:
+1.保存在内存中，IIS重启，服务器重启将丢失。
+2.依赖Cookie将用户与会话相关联，如果用户不启用浏览器的Cookie,将无法使用。
+
+ASP.NET会话克服了如上的缺点，提功了相同的功能
+
+1.可以保存在不同的地方:进程中、其他进程中、其他机器上、数据库中。支持无Cookie操作。
+2.默认的情况与ASP相同，使用Cookie将用户与会话相联系。
+
+会话状态的处理模式(保存在什么地方)
+
+1.进程内  保存在ASP的进程内(ASPnet_wp.net)中存储会话状态    (与ASP相同,是默认的方式)
+        1.在Web.config中表示为  sessionState  mode="InProc"
+        2.最快、最不稳定
+        3.受重启服务器及重启IIS影响
+        4.适用于关心性能，不注重稳定性的场合。
+2.状态服务器 保存在Web服务器上(在服务aspnet_state.exe中存储)
+        1.在Web.config中表示为  sessionState  mode="StateServer"
+        2.在Web.config中 stateConnectionString="tcpip=127.0.0.1:42424" 表示为指定状态服务器的主机
+        3.默认使用42424端口,通过注册表的 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\aspnet_state\Parameters\Port可修改。
+        4.通过net start aspnet_state 手工启动(或服务中ASP.NET State Service启动)
+        5.慢速较慢。
+        6.状态服务器使得IIS重启时不会丢失会话,如果状态服务器保存在另一个机器上，可以在Web器重启下保留会话状态。
+ 
+        
+3.SQL Server会话状态  保存在SQL Server数据库中
+        1.在Web.config中表示为  sessionState  mode="SQLServer"
+        2.最稳定，但最慢
+        3.重启IIS,重启计算机,重新数据库服务器(是群集，或指抵抗生大失误),会话仍然保留。
+        4.执行脚本创建会话状态数据库。C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\installsqlstate.sql
+        5.另外可卸载.C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\UninstallPersistSqlState.sql
+        6.sqlConnectionString="server=localhost;uid=sa;pwd="
+        7.构建大型的、工业强度级的电子商务网站。
+
+如何使用?
+
+Session是HttpSessionState的一个实例
+
+页面(或Global.asax):Session属性
+
+添加:Seesion.Add或Session[]
+
+获取:Session[]
+
+列举所有条目
+NameObjectCollectionBase.KeysCollection keys=Session.Keys;
+foreach(string key in keys)
+{
+Session[key]
+}
+
+删除
+
+HtttpSessionState.Remove(RemoveAt,RemoveAll,Clear)
+
+SessionID 是随机产生的(不是唯一的)
+
+Session.IsNewSession 确定是否为新的
+Session.SessionID 标识
+
+内在机制使的两个请求不可能同时对会话状态进行读或写的操作。
+
+注意：
+
+每次新打开一个IE代表一个会话。
+
+IE/文件/新建窗口，却与原窗口代表同一个会话。
+
+
+对于在状态服务器及SQL Server会话状态模式下.
+其保存的对象必是可序列化的。
+对于新类加上[Serializeable],否则会引发异常。
+例如:
+using System;
+namespace MySessionSpy
+{	
+	[Serializable]
+	public class Class1
+	{
+		public Class1()
+		{
+			
+		}
+	}
+}
+
+会话生存期(默认为20分钟)
+ 
+<sessionState ... timeout="20"/>
+
+修改会话期:
+1.编辑Web.config中timeout(针对所有页面)
+2.将<sessionState timeout="60"> 放入页面文件中(针对当前页面)
+3.写HttpSessionState对属性,Session.Timeout=60;(针对当前页面)
+
+Session.Abandon();
+
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			//注销
+			Session.Abandon();
+		}
+
+
+禁用会话状态
+
+页指令
+<%@ Page EnableSessionState="false" %>
+在Web.config中
+<sessionState mode="Off" />
+
+
+
+
+
+
+
+
+
+
+
+
+

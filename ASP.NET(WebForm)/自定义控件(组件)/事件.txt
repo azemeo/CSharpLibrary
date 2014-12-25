@@ -1,0 +1,22 @@
+IPostBackDataHandler 的另一方法是: RaisePostDataChangedEvent
+
+在LoadPostData调用后被调用：只有LoadPostData返回True调用
+
+		//支持回发
+		public bool LoadPostData(string postDataKey,NameValueCollection postCollection)
+		{
+			//			Text=postCollection[postDataKey];
+			//			return false;
+			string temp=Text;
+			Text=postCollection[postDataKey];
+			return (temp!=Text);
+		}
+		//支持事件
+		public void RaisePostDataChangedEvent()
+		{
+			if(TextChanged!=null)
+				TextChanged(this,new EventArgs());
+		}
+
+
+

@@ -1,0 +1,16 @@
+内置对象:
+String:字符串
+Math:数学
+Date:日期
+Array:数组
+Event:事件
+RegExp:正则表达式
+内置函数(Microsft JScript)
+escape();
+eval();
+parseFloat();
+parseInt();
+unescape();
+isNaN();
+--------------------------
+Math对象,不能申明实例

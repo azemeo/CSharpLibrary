@@ -1,0 +1,10 @@
+AllowSorting=true
+DataGrid便会呈现标题的链接按钮。
+当用户单击一个列时，触发SortCommand事件
+
+在列中指定排充表达式，可以用逗号分隔及指定ASC或DESC
+
+SortExpression="lastname,firstname"
+
+SortExpression="country desc,lastname,firstname"
+

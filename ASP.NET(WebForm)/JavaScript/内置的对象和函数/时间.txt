@@ -1,0 +1,14 @@
+		<script language="javascript">
+			var curr=new Date();
+			switch(curr.getDay())
+			{
+				case 0:document.writeln("1");break;
+				case 1:document.writeln("2");break;
+				case 2:document.writeln("3");break;
+				case 3:document.writeln("4");break;
+				case 4:document.writeln("5");break;
+				case 5:document.writeln("6");break;
+				case 6:document.writeln("Sun");break;
+			}
+			document.writeln(curr);
+		</script>

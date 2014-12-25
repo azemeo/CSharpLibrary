@@ -1,0 +1,21 @@
+异常处理
+即使用了return,也会执行finally语句			
+
+			JYK.eHR.DB.DataService DB=new JYK.eHR.DB.DataService();
+			try	
+			{
+				if (DTS.Rows.Count>0 )
+				{ 					
+					return ;
+				}
+				
+			}
+			catch 
+			{
+				
+			}
+			finally
+			{
+				DB.Dispose();
+				DB=null;
+			}

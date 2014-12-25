@@ -1,0 +1,38 @@
+public void ToExcel3(string FileName)
+		{		
+
+			Application xlApp=new ApplicationClass();		
+			Workbook xlBook=xlApp.Workbooks.Add(Missing.Value);
+			Worksheet xlSheet=(Worksheet)xlBook.Sheets[1];
+			xlApp.Cells[1,1]="名称";
+			xlApp.Cells[1,2]="种类";			
+
+			Range rng = xlApp.get_Range("B1", "B1");//B1为Excel的坐标
+			
+			if (rng.Comment != null ) 
+			{
+				rng.Comment.Delete();
+			}
+			rng.AddComment("Comment added " + DateTime.Now);
+			
+			//建立一个专门存放Excel文件的目录
+			string cd="";
+			cd=Page.Server.MapPath("..\\..\\")+"ExcelFolder\\";
+			if(!Directory.Exists(cd))
+				Directory.CreateDirectory(cd);
+			//删除服务端临时文件: download.xls
+			if(File.Exists(cd+"download.xls"))
+				File.Delete(cd+"download.xls");
+			//在服务端保存download.xls,Missing.Value 来自System.Reflection; 命名空间
+			xlSheet.SaveAs(cd+"download.xls",Missing.Value,Missing.Value,Missing.Value,Missing.Value,
+				Missing.Value,Missing.Value,Missing.Value,Missing.Value,Missing.Value); 
+
+			//杀死Excel进程
+			Process []procs=Process.GetProcessesByName("excel");
+			foreach(Process proc in procs)
+			{
+				if(!proc.CloseMainWindow())
+					proc.Kill();
+			}
+
+		}

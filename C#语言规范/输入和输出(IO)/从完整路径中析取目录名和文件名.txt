@@ -1,0 +1,2 @@
+			string s11=Path.GetDirectoryName(url);//从完整路径中获得目录名称
+			string s12=Path.GetFileName(url);//从完整路径中获得文件名称

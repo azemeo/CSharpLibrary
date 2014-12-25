@@ -1,0 +1,49 @@
+前提：安装Oracle10g服务器/客户端.
+
+
+目标：
+1.通过ODP.NET连接数据库(Oracle10g自带)
+2.在资源文件中存放SQL语句,并读取.
+
+
+1.建立一个WinForm项目(C#),名称为TestOracle.
+2.放置两上控件.button1,dataGrid1,增加button的click事件
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			OracleDbAccess db=new OracleDbAccess();
+			DataSet ds=db.executeDataSet("SQL1");
+			dataGrid1.DataSource=ds.Tables[0];			
+		}
+3.增加源码引用
+using ZeroWire.WS.Common.Database;
+4.增加编译引用(右击项目引用)
+Oracle.DataAccess.dll(必须安装Oracle客户端)
+5.OracleDbAccess.cs重点部分解释(完整源码放在OracleResx源码目录)
+
+private void getConnectionString() 
+		{
+			//获得连接字符串(重要*****),不同的程序不同的方法
+			//Web,Web Service可以存放在Web.Config文件
+                        //WinFrom可以存在*.exe.config文件中
+                        //也可直接赋值
+                        //就是一个连接Oralce字符串
+                        //实际中:sfa用具体的用户名替代,zwsfa用具体的用户名替代,172.16.1.6用Oracle数据库服务的IP地址替代,zwora用数据库名称(服务名)替代
+			ConnectionString="User Id=sfa;Password=zwsfa;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.1.6)(PORT=1521)))(CONNECT_DATA=(SID=zwora)(SERVER=DEDICATED)))";
+		}
+
+		/// <summary>
+		/// 获得Resources file 
+		/// </summary>
+		private void getResourcesFileSQL()
+		{
+			//得到资源文件(重要*****)当目录的相对路径
+                        //实际中:TestOracle用具体项目名称替代,Resource用存放OralSql.rex的目录替代,OrclSql是资源文件名(不包括扩展名称)			
+			ResourceBundle.SetSQLResourceManager(new System.Resources.ResourceManager("TestOracle.Resources.OrclSql",System.Reflection.Assembly.GetExecutingAssembly()));
+		}
+
+6.OrclSql.resx中可在Vs.NET打开(实际上是xml文件)
+name输入在代码中访问的键如:SQL1
+value输入实际的SQL语句
+
+
+

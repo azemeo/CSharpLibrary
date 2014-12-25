@@ -1,0 +1,11 @@
+WinForm
+System.Threading.TreadExceptionEventHandler
+AooDomain.UnhandledException
+
+WebForm
+
+System.Web.UI.TempldateControl中的Error事件
+
+WebServices
+
+System.Web.Services.Protocals.SoapException

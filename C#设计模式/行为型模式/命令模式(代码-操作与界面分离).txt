@@ -1,0 +1,167 @@
+1.Command.cs 命令按口
+using System;
+
+namespace ButtonMenu
+{
+	/// <summary>
+	/// 命令接口
+	/// </summary>
+	public interface Command 	{
+		void Execute();
+	}
+}
+2.FileOpen.cs 菜单项
+using System;
+using System.Windows.Forms;
+
+namespace ButtonMenu
+{
+	/// <summary>
+	/// Summary description for FileOpen.
+	/// </summary>
+	public class FileOpen : System.Windows.Forms.MenuItem , Command
+	{
+		public FileOpen():base("Open")
+		{
+		}
+		public void Execute() {
+			OpenFileDialog fd = new OpenFileDialog ();
+			fd.ShowDialog ();
+		}
+	}
+}
+3.FileExit.cs
+using System;
+using System.Windows.Forms;
+namespace ButtonMenu
+{
+	/// <summary>
+	/// Summary description for FileExit.
+	/// </summary>
+	public class FileExit :MenuItem, Command 	{
+		private Form form;
+		//----------
+		public FileExit(Form frm) :base ("Exit") {
+			form = frm;
+		}
+		//----------
+		public void Execute() {
+			form.Close ();
+		}
+	}
+}
+
+4.RedButton.cs 按钮
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Windows.Forms;
+
+namespace ButtonMenu
+{
+	/// <summary>
+	/// Summary description for RedButton.
+	/// </summary>
+	public class RedButton : System.Windows.Forms.Button, Command 	{
+		//A Command button that turns the background red
+		private System.ComponentModel.Container components = null;
+		//-----
+		public  void Execute() {
+			Control c = this.Parent;
+			c.BackColor =Color.Red ;
+			this.BackColor =Color.LightGray  ;
+		}
+		public RedButton() 		{
+			InitializeComponent();
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Component Designer generated code
+		/// <summary> 
+		/// Required method for Designer support - do not modify 
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+		}
+		#endregion
+5.Form1.cs 调用窗体
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace ButtonMenu
+{
+	/// <summary>
+	/// Summary description for Form1.
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form
+	{
+		private ButtonMenu.RedButton btRed;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+
+		public Form1() 		{
+			InitializeComponent();
+			init();
+		}
+		private void init() {
+			//手工建立菜单(无法使用设计器)
+			MainMenu main = new MainMenu();
+			this.Menu =main;
+			
+			//两个菜单，一个按钮指向通过事件处理器
+			//create a click-event handler
+			EventHandler evh = new EventHandler (commandClick);
+			btRed.Click += evh;		//add to existing red button
+
+			//create a "File" top level entry
+			MenuItem file = new MenuItem("File");
+
+			//create File Open command
+			FileOpen mnflo = new FileOpen ();
+			mnflo.Click += evh;		//add same handler
+			main.MenuItems.Add ( file );
+
+			//create a File-Exit command(需要特定参数的类)
+			FileExit fex = new FileExit(this);
+			fex.Click += evh;		//add same handler
+			file.MenuItems.AddRange( new MenuItem[]{ mnflo, fex});	
+			
+		}
+		[STAThread]
+		static void Main() 		{
+			Application.Run(new Form1());
+		}
+		//两个菜单项，一个按钮共同事件处理器
+		private void commandClick(object sender, System.EventArgs e) {
+			Command comd = (Command)sender;
+			comd.Execute ();
+		}
+	}
+}
+	}
+}
+

@@ -1,0 +1,51 @@
+如何判断系统中是否安装了.NET Framework?
+ 
+
+本文提供一个函数专门用来判断系统中是否安装了.NET Framework环境。这个函数名为：IsNETPresent() ；其工作原理是通过RegOpenKeyEx API函数打开当前系统中下面的注册表键值：
+
+HKEY_LOCAL_MACHINE\Software\Microsoft\.NETFramework\policy\v1.0 
+
+如果找到了这个注册项，然后再用RegQueryValueEx API函数检查 .NET Framework 发布版本是否为：
+
+3705
+
+如果以上两个条件均满足，则函数返回TRUE：
+
+BOOL IsNETPresent()
+{
+   BOOL bRetVal = FALSE;
+   TCHAR szNETRegKey[] = TEXT("Software\\Microsoft\\.NETFramework\\policy\\v1.0");
+   TCHAR szValue[MAX_PATH];
+   DWORD dwValue = 0;
+   HKEY hKLM = NULL;
+   LONG lReg = 0;
+   LONG lszReg = 0;
+   DWORD dwKeySize = 0;
+
+   lReg = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+            szNETRegKey,
+            0,
+            KEY_READ,
+            &hKLM);
+
+   if(ERROR_SUCCESS == lReg)
+   {
+      dwKeySize = sizeof(szValue)/sizeof(TCHAR);
+      lszReg = RegQueryValueEx(hKLM, TEXT("3705"), NULL, NULL, (BYTE*) szValue, &dwKeySize);
+      if((ERROR_SUCCESS == lszReg))
+      {
+         RegCloseKey(hKLM);
+         return TRUE;
+      }
+      else
+      {
+         RegCloseKey(hKLM);
+         return FALSE;
+      }
+   }
+   else
+   {
+      return FALSE;
+   }
+}
+ 

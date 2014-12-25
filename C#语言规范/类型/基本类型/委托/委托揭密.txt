@@ -1,0 +1,21 @@
+1.委托都有一个构造器，编译器分析源码，确定对象的引用和标识。
+
+_target System.Object 指向回调函数被调用时应该操作的对象。用于实例回调。
+
+_methodPtr System.Int32 内容整数值，标识回调方法
+
+_prev System.MulticastDelegate 指向另一个委托对象
+
+
+		public void ProcessItems(Feedback feedback)
+		{
+			for(Int32 item=0;item<items.Length;item++)
+			{
+				if(feedback!=null)
+					feedback(items[item],item+1,items.Length);//调用回调函数
+					//产生的代码如编译这样的源码Feedback.Invoke(items[item],item+1,items.Length)
+			}
+		}
+
+
+

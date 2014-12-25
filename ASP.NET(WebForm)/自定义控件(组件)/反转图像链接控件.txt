@@ -1,0 +1,51 @@
+using System;
+using System.Web.UI;
+namespace Wintellect
+{
+	public class RolloverImageLink:Control
+	{
+		string MyNavigateUrl="";
+		string MyOnImageUrl="";
+		string MyOffImageUrl="";
+		public string NavigateUrl
+		{
+			get{return MyNavigateUrl;}
+			set{MyNavigateUrl=value;}
+		}
+		public string OnImageUrl
+		{
+			get{return MyOnImageUrl;}
+			set{MyOnImageUrl=value;}
+		}
+		public string OffImageUrl
+		{
+			get{return MyOffImageUrl;}
+			set{MyOffImageUrl=value;}
+		}
+		protected override void Render(HtmlTextWriter writer)
+		{
+			writer.WriteBeginTag("a");
+			if(NavigateUrl.Length>0)
+				writer.WriteAttribute("href",NavigateUrl);
+			if(OnImageUrl.Length>0&&OffImageUrl.Length>0)
+			{
+				writer.WriteAttribute("onmouseover",
+				"javascript:document."+ClientID+".src=\'"+
+				OnImageUrl+"\'");
+				writer.WriteAttribute("onmouseout",
+				"javascript:document."+ClientID+".src=\'"+
+				OffImageUrl+"\'");
+			}
+			writer.Write(HtmlTextWriter.TagRightChar);
+			
+			writer.WriteBeginTag("img");
+			writer.WriteAttribute("name",ClientID);
+			if(OffImageUrl.Length>0)
+				writer.WriteAttribute("src",OffImageUrl);
+			writer.Write(HtmlTextWriter.TagRightChar);
+			
+			writer.WriteEndTag("a");
+			
+		}
+	} 
+}

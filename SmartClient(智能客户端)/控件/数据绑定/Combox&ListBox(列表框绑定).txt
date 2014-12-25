@@ -1,0 +1,49 @@
+//通过设置DataSource,DisplayMember,ValueMember属性绑定,只读的。
+
+	public class Form1 : System.Windows.Forms.Form
+	{
+ArrayList al=new ArrayList();
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+			
+			
+		}
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			al.Add(new Person("China",0));
+			al.Add(new Person("USA",1));
+			al.Add(new Person("Japan",2));
+			this.comboBox1.DataSource=al;
+			this.comboBox1.DisplayMember="Country";
+			this.comboBox1.ValueMember="Code";
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			 //this.label2.Text=((Person)comboBox1.SelectedItem).Country;
+			this.label2.Text=comboBox1.Text.ToString();
+		}
+
+}
+
+public class Person
+	{
+		private string country=string.Empty;
+		public string Country
+		{
+			get{return country;}
+			set{country=value;}
+		}
+		private int code=0;
+		public int Code
+		{
+			get{return code;}
+			set{code=value;}
+		}
+		public Person(string country,int code)
+		{
+			this.country=country;
+			this.code=code;
+		}
+	}

@@ -1,0 +1,8 @@
+SqlDataAdapter adapter=new SqlDataAdapter("select * from titles where price!=0",
+	"server=localhost;database=pubs;uid=sa;pwd=;");
+DataSet ds=new DataSet();
+adapter.Fill(ds);
+DataView view=new DataView(ds.Tables[0]);
+view.Sort="Title ASC";
+MyDataGrid.DataSource=view;
+MyDataGrid.DataBind();

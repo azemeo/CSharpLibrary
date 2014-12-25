@@ -1,0 +1,31 @@
+1.表达式
+mysql> SELECT 2+2,"Hello world",VERSION();
+2.查询为Null的值
+mysql> SELECT last_name,first_name FROM president WHERE death IS NULL;
+3.非空
+mysql> SELECT last_name,first_name,suffix
+    -> FROM president WHERE suffix IS NOT NULL;
+4.为空
+mysql> SELECT last_name,first_name FROM president  WHERE death<=>NULL;
+5.排序
+mysql> SELECT last_name,first_name FROM president
+    -> ORDER BY last_name;
+6.倒序
+mysql> SELECT last_name,first_name FROM president
+    -> ORDER BY last_name DESC;
+5.限制查询
+mysql> SELECT last_name,first_name FROM president
+    -> ORDER BY birth LIMIT 2;
+6.从何处开始的限制查询(从0行开始)
+mysql> SELECT last_name,first_name FROM president
+    -> ORDER BY birth LIMIT 1,2;
+7.随机查询
+mysql> SELECT last_name,first_name FROM president
+    -> ORDER BY RAND() LIMIT 1;
+8.计算并输出
+mysql> SELECT 17,FORMAT(SQRT(3*3+4*4),0);
+9.引用表列
+mysql> SELECT CONCAT(first_name," ",last_name),CONCAT(city,", ",state)
+    -> FROM president;
+10.重新命名标题(标题含有空格要用引号)
+mysql> SELECT CONCAT(first_name," ",last_name) AS name,CONCAT(city,", ",state) AS birthplace FROM president;

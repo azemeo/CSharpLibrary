@@ -1,0 +1,81 @@
+ Visual Basic 和 Visual C# 概念   
+
+使用样式自定义 ASP.NET 服务器控件的外观请参见
+Web 窗体编程 | ASP.NET 服务器控件和 CSS 样式 | Web 服务器控件模板 | ASP.NET 服务器控件 | ASP.NET 服务器控件和浏览器功能
+部分服务器控件允许您通过设置样式对象的属性来自定义单个元素的外观。例如在 Calendar Web 服务器控件中，您可以设置所选日的外观，方法是设置 SelectedDayStyle 对象的属性。与此类似，在 DataList Web 服务器控件中，您可以设置单个项和所选项的外观，方法是使用 ItemStyle 和 SelectedItemStyle 对象的属性。
+
+在 Web 窗体设计器中设置样式属性
+Web 窗体设计器提供了轻松设置样式属性的便捷工具。
+
+在 Web 窗体设计器中设置样式属性 
+
+在“设计”视图中，选择要设置样式的控件。 
+在“属性”窗口中，完成以下操作： 
+展开样式对象，然后设置该对象的属性。例如，要设置 DataList 控件的 ItemStyle 对象的属性，在“属性”窗口中展开 ItemStyle。 
+- 或 - 
+
+如果控件支持属性生成器（例如 DataList 和 DataGrid 控件），单击“属性”窗口底部的“属性生成器”，打开“属性”对话框。选择“格式”选项，选择“对象”列表中的一个样式对象，然后设置其属性。 
+设置样式属性
+您可以在 .aspx 文件中以两种方式直接设置样式属性。
+
+直接在 .aspx 文件中设置样式属性 
+
+使用样式对象名和属性的连字符约定声明样式属性： 
+<asp:Calendar ID="MyCalendar" 
+   SelectionMode="DayWeek"
+   runat="server" 
+   TitleStyle-Backcolor="#3366ff"
+   TitleStyle-ForeColor="White" />
+－ 或 － 
+
+在您声明适当数据类型的属性元素中声明显式元素： 
+<asp:Calendar id="MyCalendar"
+   SelectionMode="DayWeek"
+   runat="server">
+   <TitleStyle BackColor="#3366ff"
+               ForeColor="white" />
+</asp:Calendar>
+注意   如果 Web 窗体设计器无法正确呈现某 Web 服务器控件，它将显示一个灰色框，上面显示文字“创建控件时出错”。这通常意味着该控件的 ASP.NET 语法不正确，例如，如果某 Web 服务器控件元素中缺少 runat="server" 属性，则将显示此错误。指向信息图标 ()；此时将显示工具提示，它包含有关该错误的详细信息。
+通过编程设置样式属性
+您可以通过编程设置控件的样式属性，这样设置允许您有条件地更改控件外观。
+
+通过编程设置样式属性外观 
+
+使用以下分层约定指定要设置的样式对象和属性： 
+Control.StyleObject.Property = value
+以下示例显示如何设置 Calendar 控件的 DayStyle 对象的 BackColor 属性： 
+
+' Visual Basic
+Calendar1.DayStyle.BackColor = Color.Green
+
+// C#
+Calendar1.DayStyle.BackColor = Color.Green;
+您还可以创建单独的 Style 对象并将其属性值复制或合并为控件上的样式之一。这是将相同样式应用于项目中若干不同列表对象的有效方法。为此，您可以创建一个虚拟的样式表作为 Style 对象，并随后将其应用于一系列控件。
+
+创建样式对象并将其应用到控件 
+
+创建 Style 对象的实例并设置其属性： 
+' Visual Basic
+Dim s As Style = New Style()
+s.BackColor = Color.Red
+
+// C#
+Style s = new Style();
+s.BackColor = Color.Red;
+使用以下方法之一将 Style 对象分配给控件： 
+CopyFrom 方法应用来自 Style 对象的所有设置，其中包括空设置。 
+MergeWith 方法只复制已在 Style 对象上设置的属性，略过了没有设置的 Style 属性。此外，MergeWith 方法将不会覆盖任何现有的样式元素。 
+以下示例显示了使用下列方法之一，如何创建 Style 对象，设置其一个属性，并随后将其应用于两个不同的控件样式对象： 
+
+' Visual Basic
+' Apply all values in s, including nulls.
+Calendar1.SelectedDayStyle.CopyFrom(s)
+' Apply only values in s that are null in HeaderStyle.
+DataGrid1.HeaderStyle.MergeWith(s)
+
+// C#
+// Apply all values in s, including nulls.
+Calendar1.SelectedDayStyle.CopyFrom(s);
+// Apply only values in s that are null in HeaderStyle.
+DataGrid1.HeaderStyle.MergeWith(s);
+请参见

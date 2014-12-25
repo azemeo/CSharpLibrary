@@ -1,0 +1,13 @@
+//初始化ListView控件
+			listViewReco.View=View.Details;
+			//listViewReco.CheckBoxes=true;
+			listViewReco.FullRowSelect=true;
+			listViewReco.MultiSelect=true;
+			this.listViewReco.Columns.Add("学号",50,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("姓名",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("身份证",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("性别",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("地址",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("电话",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("生日",100,HorizontalAlignment.Left);
+			this.listViewReco.Columns.Add("卡号",100,HorizontalAlignment.Left);

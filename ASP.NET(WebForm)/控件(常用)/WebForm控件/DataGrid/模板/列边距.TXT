@@ -1,0 +1,5 @@
+列边距
+
+CellSpacing(单元格内间距)
+CellPadding(单元格之间的间距)
+GridLine(是否加水平线、垂直线、或两者)

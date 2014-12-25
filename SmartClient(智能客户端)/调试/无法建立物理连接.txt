@@ -1,0 +1,8 @@
+安装Windows CE Utilities for Visual Studio .NET 2003 Add-on package 
+
+1.原来是由于security key container过期了，后，在命令行中到Program Files\Microsoft Visual Studio .NET 2003\CompactFrameworkSDK\WinCE Utilities\DelDesktopCryptKey目录下运行DelDesktopCryptKey.exe，然后在重启一下计算机.
+2.将如下文件导入注册表，重启计算机。(卸载 ActiveSync version 3.5, 3.6, 3.7 or 3.71造成)
+\Program Files\Microsoft Visual Studio .NET 2003\CompactFrameworkSDK\WinCE Utilities\WinCE Proxy Ports Reg\ProxyPorts.reg
+
+
+安装了4.0(安装时不要卸载旧版本)

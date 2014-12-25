@@ -1,0 +1,336 @@
+<script language="javascript">
+<!--
+function killErrors() {
+return true;
+}
+window.onerror = killErrors;
+// <summary>
+// 使用正则表达式来验证输入。
+// </summary>
+// <param name="input">要验证的文本</param>
+// <param name="index">要验证的正则表达式的索引</param>
+// <param name="isShowMsg">是否弹出已经定义好的错误消息框</param>
+// <remark>
+// Made by qxw, 2004-11-16
+// </remark>
+// <return>
+// 返回真假值
+// </return>
+function IsMatchEx(input, index, isShowMsg)
+{
+	var re = new Array();
+	var NTC = new Array();
+	re[0] = /^(0|[1-9]\d*)$/;                           // 整数
+	re[1] = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;	// 邮箱格式 
+	re[2] = /^(\d{6})$/;                                // 邮政编码
+	re[3] = /^(0\d{2})$|^(0\d{3})$/;					// 电话格式区号
+	re[4] = /^(\d{6,8})$/;								// 电话号码格式
+	re[5] = /^(13\d{9})$|^(013\d{9})$/;                 // 移动电话、手机
+	re[6] = /^[\u4e00-\u9fa5]*/;                        // 汉字
+	re[7] = /^(\d{1,5})$/;								// 电话号码格式
+	re[8] = /^(0[1-9])$|^([1-9])$|^(1[0,2])$/
+	re[9] = /^(0|[1-9]\d*)$|^(0|[1-9]\d*)\.(\d+)$/;     // 数值
+	re[10]= /^((0\d{2})|(0\d{3}))-(\d{6,8})$/				// 电话号码格式
+	
+	NTC[0] = "请输入正确的整数格式；如 0、1 等 ";	
+	NTC[1] = "请输入正确的邮箱格式；如 YouName@sina.com 等 ";
+	NTC[2] = "请输入正确的邮政编码格式；如 100080 等 ";
+	NTC[3] = "请输入正确的区号格式；如 010、0413 等 ";	
+	NTC[4] = "请输入正确的电话格式；如 123456、1234567、12345678 等 ";	
+	NTC[5] = "请输入正确的移动电话格式；如 13812345678、013312345678 等 ";
+	NTC[6] = "请输入汉字； ";
+	NTC[7] = "请输入正确的分机号码格式；如；9、86、308、8845、64887 ";
+	NTC[8] = "请输入正确的月份格式；如 1、05、12 等 ";
+	NTC[9] = "请输入正确的数值格式；比如 1、0.1、1.01 等 ";
+	NTC[10]= "请输入正确的电话；比如 010-12345678 等 ";
+	
+	if(input != "")
+	{
+		if( !re[index].test( document.all(input).value ) )
+		{
+			if(isShowMsg)
+			{
+				alert(NTC[index]);
+			}
+			//document.all(input).focus();
+			document.all(input).select();
+			return false;
+		}
+	}
+	return true;
+}
+
+function validate()
+{
+	if( check('radio','JoinCity',false,'请您选择参加活动的城市!','','') != true )
+	{
+		return false;
+	}	
+/*		
+	if( txtIsNullAlertDiv('Name') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNullAlertDiv('Rank') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNullAlertDiv('Email') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('Email',1,true) != true) return false;		
+	}
+	
+	if( txtIsNullAlertDiv('City') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNullAlertDiv('UnitName') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNullAlertDiv('Department') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNullAlertDiv('UnitAddress') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNullAlertDiv('PostCode') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('PostCode',2,true) != true) return false;		
+	}
+	
+	if( Trim(document.forms[0].Mobile.value) != "")
+	{
+		if( IsMatchEx('Mobile',5,true) != true) return false;
+	}
+	
+	if( txtIsNullAlertDiv('Tel_1') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('Tel_1',3,true) != true) return false;
+	}
+	
+	if( txtIsNullAlertDiv('Tel_2') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('Tel_2',4,true) != true) return false;
+	}
+*/	
+	
+	if( txtIsNull('Name','请输入姓名！') != true)
+	{
+		return false;
+	}
+	
+	if( document.all('Title').value == "")
+	{
+		alert("请选择称谓！");
+		document.all('Title').focus();
+		return false;
+	}
+	
+	if( txtIsNull('Rank','请输入职务！') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNull('Email','请输入您的电子邮箱！') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('Email',1,true) != true) return false;		
+	}
+	
+	if( document.all('Province').value == "")
+	{
+		alert("请选择所在省份/地区！");
+		document.all('Province').focus();
+		return false;
+	}
+	
+	if( txtIsNull('City','请输入城市！') != true)
+	{
+		return false;
+	}	
+	
+	if( txtIsNull('UnitName','请输入单位名称！') != true)
+	{
+		return false;
+	}	
+	
+	if( txtIsNull('Department','请输入所在部门！') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNull('UnitAddress','请输入单位地址！') != true)
+	{
+		return false;
+	}
+	
+	if( txtIsNull('PostCode','请输入您的邮政编码！') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('PostCode',2,true) != true) return false;		
+	}
+	
+	if( Trim(document.forms[0].Mobile.value) != "")
+	{
+		if( IsMatchEx('Mobile',5,true) != true) return false;
+	}	
+
+	if( txtIsNull('Tel_1','请输入电话区号！') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('Tel_1',3,true) != true) return false;
+	}
+	
+	if( txtIsNull('Tel_2','请输入电话号码！') != true)
+	{
+		return false;
+	}
+	else
+	{
+		if( IsMatchEx('Tel_2',4,true) != true) return false;
+	}
+	
+	if( Trim( document.forms[0].Tel_3.value ) != "")
+	{
+		if( IsMatchEx('Tel_3',7,true) != true) return false;
+	}	
+	
+	if( Trim( document.forms[0].Fax_1.value ) != "")
+	{
+		if( IsMatchEx('Fax_1',4,false) != true) 
+		{
+			alert("请输入正确的传真格式；如 123456、1234567、12345678 等 ");
+			return false;
+		}
+		if( Trim( document.forms[0].Fax_2.value ) != "")
+		{
+			if( IsMatchEx('Fax_2',7,true) != true) return false;
+		}		
+	}
+	else if( Trim( document.forms[0].Fax_2.value ) != "" )
+	{
+		alert("请填写传真号码！");
+		document.forms[0].Fax_1.focus();
+		return false;
+		//document.forms[0].Fax_2.value = "";//update 05-03-31
+	}	
+	
+	if( check('radio','UnitCharacter',true,'请选择贵单位性质！','UnitCharacter_txt','请输入贵单位性质！') != true )
+	{
+		return false;
+	}
+	
+	if( check('radio','UnitDomain',true,'请选择贵单位所在领域！','UnitDomain_txt','请输入贵单位所在领域！') != true )
+	{
+		return false;
+	}
+	
+	if( check('radio','UnitServerNum',false,'请选择贵单位的服务器数量！','','') != true )
+	{
+		return false;
+	}
+	
+	if( check('radio','UnitPCNum',false,'请选择贵单位的PC数量！','','') != true )
+	{
+		return false;
+	}
+	
+	if( check('checkbox','AttentionSolution',true,'请选择贵公司目前关注哪些方面的解决方案！','AttentionSolution_txt','请输入贵公司目前关注哪些方面的解决方案！') != true )
+	{
+		return false;
+	}	
+	
+	if( check_null('checkbox','AttentionProduct','AttentionProduct_txt','请输入您选用微软产品时，关心哪些产品的特性！') != true )
+	{
+		return false;
+	}	
+	
+	if( check_null('checkbox','NeedHelp','NeedHelp_txt','请输入您在评估和使用微软产品过程中，最需要什么帮助！') != true )
+	{
+		return false;
+	}	
+	
+	if( check('checkbox','HopeHear',true,'请选择您希望在本次活动中听到哪些方面的内容！','HopeHear_txt','请输入您希望在本次活动中听到哪些方面的内容！') != true )
+	{
+		return false;
+	}
+	
+	if( check_null('checkbox','GetMessage','GetMessage_txt','请输入您希望在本次活动中，通过何种方式获得您需要的信息！') != true )
+	{
+		return false;
+	}
+}
+
+function CheckTxt(Txt)
+{
+	document.Form1.GetMessage_txt
+}
+
+function DisableTextBox(srcId, objId, disabledObj)
+{
+	//if(srcId.id != objId )
+	//{
+	//	disabledObj.disabled = true;
+	//}
+	//else
+	//{
+		if( document.all(objId).checked )
+		{
+			disabledObj.disabled = false;
+		}
+		else
+		{
+			disabledObj.disabled = true;
+		}
+	//}
+}
+
+function window.onload()
+{
+	DisableTextBox(document.all('q15_5'),'q15_5',document.all('UnitCharacter_txt'));
+	DisableTextBox(document.all('q16_26'),'q16_26',document.all('UnitDomain_txt'));
+	DisableTextBox(document.all('AttentionSolution_10'),'AttentionSolution_10',document.all('AttentionSolution_txt'));
+	DisableTextBox(document.all('AttentionProduct_9'),'AttentionProduct_9',document.all('AttentionProduct_txt'));
+	DisableTextBox(document.all('NeedHelp_5'),'NeedHelp_5',document.all('NeedHelp_txt'));
+	DisableTextBox(document.all('HopeHear_9'),'HopeHear_9',document.all('HopeHear_txt'));
+	DisableTextBox(document.all('GetMessage_6'),'GetMessage_6',document.all('GetMessage_txt'));
+}
+//-->
+		</script>
+
+
+<form id="Form1" method="post" action="Confirm.aspx" onsubmit="return validate();">

@@ -1,0 +1,4 @@
+using System.Diagnostics;
+Process ps=new Process();
+ps.StartInfo.FileName=@"E:\CSharp3\QXKMeTone\bin\Debug\cardtest.exe";
+ps.Start();

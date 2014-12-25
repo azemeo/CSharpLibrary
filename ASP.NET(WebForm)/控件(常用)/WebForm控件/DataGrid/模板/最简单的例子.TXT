@@ -1,0 +1,99 @@
+多个字段及HTML元素组合的表达式
+
+1.页面
+
+<%@ Page language="c#" Codebehind="MyTemp.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MyTemp" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyTemp</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 96px; POSITION: absolute; TOP: 56px" runat="server"
+				AllowCustomPaging="True" AutoGenerateColumns="False">
+				<Columns>
+					<asp:TemplateColumn HeaderText="EmployeeName">
+						<ItemTemplate>
+							<asp:Label id=Label1 runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"TitleOfCourtesy")+"<b>"+DataBinder.Eval(Container.DataItem,"LastName")+"</b>"+DataBinder.Eval(Container.DataItem,"FirstName") %>'>
+							</asp:Label>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+				</Columns>
+			</asp:DataGrid>
+		</form>
+	</body>
+</HTML>
+2.代码
+
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace Co_112
+{
+	/// <summary>
+	/// MyTemp 的摘要说明。
+	/// </summary>
+	public class MyTemp : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Literal Literal1;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select titleofcourtesy,employeeid,firstName,lastName From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+	}
+}

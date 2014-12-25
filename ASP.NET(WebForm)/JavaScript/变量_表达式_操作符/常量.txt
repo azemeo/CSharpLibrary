@@ -1,0 +1,43 @@
+常量：不变的数值
+1.整型
+范围:2^32
+11109  //十进制,不能以0开头
+0x011fa  //十六进制
+0345 //八进制,以0开头
+
+2.浮点:E表示指数
+3.1425
+-3.1E12
+0.1E12
+2E-12
+
+3.布尔常量
+true,false
+
+4.字符串常量
+
+由双引号("")或单引号('')包围的多个字符
+
+var Astring="movecont 1994"
+var Astring='movecont 1994'
+
+5.特殊常量
+\b 退格
+\f 换页
+\n 换行
+\r 回车
+\t Tab
+\' 单引号
+\" 双引号
+
+
+		var Astring="movecont 1994"
+		var Bstring='gelifeng'
+		window.alert(Astring+'\n'+Bstring);
+
+6.null
+可以同任何类型完全的转换
+典型应用是初始化变量。
+
+搜索关键字：常量，Javascript
+

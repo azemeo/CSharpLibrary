@@ -1,0 +1,8 @@
+使用VB组件时:
+请包括msvbvm60.dll、注册引用的动态链接库、安装文件夹使用8.3格式
+1.右击项目/添加/合并模块/comcat.dll/oleaut32.dll
+2.hardinfodll.dll/Register:vsdrfCOMSelfReg
+3.单击应用程序文件夹:属性窗口中:DefaultLocation:c:\emay\metonec1_3
+
+-------------------
+使用VC组件时:

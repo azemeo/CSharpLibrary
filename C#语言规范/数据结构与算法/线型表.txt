@@ -1,0 +1,59 @@
+using System;
+using System.Collections;
+namespace MyLinkList
+{
+	/// <summary>
+	/// 线性表。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			ArrayList al=new ArrayList();
+			al.Add("aa");
+			al.Add("bb");
+			al.Add("cc");
+			PrintValues(al);//打印(遍历)
+			Console.WriteLine("引用型操作:");
+			if(al.Count==0) //是否为空及长度
+				Console.WriteLine("It is empty.");
+			else
+				Console.WriteLine("It is not empty:{0}.",al.Count);
+			string strExample=al[1].ToString();//得到元素的值
+			Console.WriteLine("Get...");
+			Console.WriteLine("1:{0}",strExample);
+			int local=al.IndexOf("cc");//定位
+			Console.WriteLine("Local...");
+			Console.WriteLine("Index={0}",local);
+			Console.WriteLine("加工型操作:");
+			Console.WriteLine("Insert...");
+			al.Insert(1,"dd");//插入
+			PrintValues(al);
+			Console.WriteLine("Delete...");
+			al.RemoveAt(1);//删除
+			PrintValues(al);
+			Console.WriteLine("Put...");
+			al[2]="ccc";//给元素赋值
+			PrintValues(al);
+			Console.WriteLine("Clear...");
+			al.Clear(); //清空
+			PrintValues(al);
+			
+
+
+			
+		}
+		public static void PrintValues( IEnumerable myList )  
+		{
+			System.Collections.IEnumerator myEnumerator = myList.GetEnumerator();
+			while ( myEnumerator.MoveNext() )
+				Console.Write( "\t{0}", myEnumerator.Current );
+			Console.WriteLine();
+		}
+
+	}
+}

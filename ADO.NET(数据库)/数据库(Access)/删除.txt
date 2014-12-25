@@ -1,0 +1,4 @@
+--ЛљгкВщев
+Console.WriteLine("Deleting...");
+findRow.Delete();
+Console.WriteLine("OK!");

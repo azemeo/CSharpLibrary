@@ -1,0 +1,41 @@
+using Microsoft.Web.UI.WebControls;//树状控件
+
+GetSpecFF("D:\\Microsoft\\ASPX2\\Co-6\\C#(.Net)",TreeView1.Nodes[0].Nodes);//加载当前目录
+
+		/// 得到文件列表
+		/// </summary>
+		/// <param name="Folder"></param>
+		private void GetSpecFF(string Folder,TreeNodeCollection who)
+		{	
+			//得到文件夹
+			string[]dires=Directory.GetDirectories(Folder);
+			foreach(string dire in dires)
+			{
+				filepart=dire.Split('\\');
+				filename=filepart[filepart.Length-1].ToString();//析取文件名
+				TreeNode newNode = new TreeNode();
+				newNode.Text=filename;
+				who.Add(newNode);	
+				GetSpecFF(dire,newNode.Nodes);
+			}
+			//得到文件
+			string[]files=Directory.GetFiles(Folder);
+			foreach(string file in files)
+			{
+				filepart=file.Split('\\');
+				filename=filepart[filepart.Length-1].ToString();//文件名
+				extnames=filename.Split('.');
+				extname=extnames[extnames.Length-1].ToString().ToUpper();//扩展名
+
+				if(extname=="TXT"||extname=="ASM"||extname=="C"||extname=="CPP"||
+					extname=="H"||extname=="BMP"||extname=="GIF"||extname=="JPG"||
+					extname=="png"||extname=="emf")
+				{
+					
+					
+					TreeNode newNode = new TreeNode();
+					newNode.Text=file;//保存全路径
+					who.Add(newNode);
+				}
+			}			
+		}

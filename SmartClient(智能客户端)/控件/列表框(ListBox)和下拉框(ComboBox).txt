@@ -1,0 +1,12 @@
+
+
+关键属性:
+	Items 列表中项的集合
+	SelectedIndex 当前选择项的索引
+	SelectedItem 当前选择项(返回所选项的引用)
+	SelectedValue 当前选择值
+关键方法:
+	GetItemText 得到指定项的值
+关键事件:
+	SelectedIndexChanged 选择项改变
+	SelectedValueChanged 选择项的值改变

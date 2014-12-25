@@ -1,0 +1,26 @@
+基础
+
+如果一个项的索引匹配EditItemIndex中的值，那么相应的行就用文本框而不是文字呈现。
+
+EditCommandColumn 就本编辑的特殊类型
+
+如果EditItemIndex=-1,那么就没有一行呈现成编辑模式。
+
+模板列或明确标记为只读的列不受编辑模式影响。
+
+模板列通过模板布局进行编辑。
+
+EditItemStyle 可行修改被编辑行的默认外观。
+
+<EditItemStyle BackColor="blue" Font-Bold="True"></EditItemStyle>
+
+优选级别
+<EditItemStyle>
+<SelectedStyle>
+<AlternatingItemStyle>
+<ItemStyle>
+
+
+TextBox txtPosition=ion=(TextBox)e.Item.Cells[1].Controls[0];//得到第2列的TextBox控件
+
+

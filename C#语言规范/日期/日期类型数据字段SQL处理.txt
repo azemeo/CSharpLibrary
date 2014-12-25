@@ -1,0 +1,1 @@
+string sql = " select 序号,节日,'每年'+ CStr(month(日期)) +'月'+ CStr(day(日期)) +'日' as 日期,祝福话语 from CustFestavel

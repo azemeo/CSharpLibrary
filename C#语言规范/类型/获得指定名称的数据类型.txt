@@ -1,0 +1,2 @@
+//GetType获得指定名称的数据类型
+CustClum.DataType = System.Type.GetType("System.String");

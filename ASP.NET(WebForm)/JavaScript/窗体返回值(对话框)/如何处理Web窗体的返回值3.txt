@@ -1,0 +1,64 @@
+调用者
+1.a1.aspx
+
+	<HEAD>
+		function OpenTargeKind(lang)
+		{			
+			
+			var rvalue=window.showModalDialog('a2.aspx','','dialogHeight: 280px; dialogWidth: 310px;  edge: Raised; center: Yes; help: no;scroll:no;resizable: No; status: no;');		
+			if(rvalue=="Dialog_OK")//OK
+			{
+				window.document.all("HidSelect").value="True";
+			}
+			else                 //Cancel,Close
+			{
+				window.document.all("HidSelect").value="False";						
+			}				
+			
+		}
+		//-->
+		</script>
+	</HEAD>
+2.a1.aspx.cs
+private void BtnExecAdd_Click(object sender, System.EventArgs e)
+{
+	if(HidSelect.Value=="True")//OK
+	{
+		//确定
+	}
+}
+
+被调用者
+1.a2.aspx
+	<HEAD>
+		<script language="javascript">
+<!--
+			function Dialog_OK()		//确定
+			{
+				window.returnValue="Dialog_OK";
+				window.close();
+			}
+			function Dialog_Cancel()        //取消
+			{
+				window.returnValue="Dialog_Cancel";
+				window.close();
+			}
+//-->
+		</script>
+	</HEAD>
+
+2.
+		private void ButtonOK_Click(object sender, System.EventArgs e)
+		{
+			//你的代码
+			//...
+			//确定
+			Page.RegisterStartupScript("clientScript","<script>Dialog_OK();</script>");
+		}
+
+		private void ButtonCancel_Click(object sender, System.EventArgs e)
+		{
+			//取消
+			Page.RegisterStartupScript("clientScript","<script>Dialog_Cancel();</script>");
+		}
+

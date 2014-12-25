@@ -1,0 +1,13 @@
+//更新
+			int count = this.Datagridex2.Columns.Count;
+			string  Level=((DropDownList)e.Item.Cells[3].FindControl("DDLevel")).SelectedValue.ToString();//级别
+			string User_ID=e.Item.Cells[count-1].Text;//用户ID
+			SystemSetLogic log=new SystemSetLogic();			
+			if(log.UpdateUserTerrLevel(HiddenID.Value,Session["Terr_ID_Cache"].ToString(),User_ID,Level))
+			{
+				this.Datagridex2.EditItemIndex = -1;
+				InitUserList(HiddenID.Value.ToString(),Session["Terr_ID_Cache"].ToString(),"");
+				LabelStatus.Text="更新成功.";
+			}
+			else
+				LabelStatus.Text="更新失败.";	

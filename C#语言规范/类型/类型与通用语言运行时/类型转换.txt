@@ -1,0 +1,58 @@
+各个编程语言决定如何提供这些转型的操作
+
+C#中
+
+转为基类(Employee->Object)隐式
+转为子类(Ojbect->Employee)显式
+
+is 操作符检查对象是否与给定的类型兼容并返回true/false.永远不会抛出异常。
+
+1.
+using System;
+namespace CA_Base
+{
+	//隐式继承System.Object
+	public class Employee
+	{
+		
+	}
+}
+2.
+using System;
+
+namespace CA_Base
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Employee ep=new Employee();
+			object o=ep;//派生类->基类
+			Employee ep2=(Employee)o;//基类->派生类
+			
+		}
+	}
+}
+
+一种新型的转型方式as,简化代又高效
+
+if(o is Employee)
+{
+	Employee e=(Employee)o;
+	//使用
+}
+
+等同
+
+Employee e= o as Employee;//如果兼容返回一个指向对象的指针，否则返回null
+if(e!=null)
+{
+	//使用
+}

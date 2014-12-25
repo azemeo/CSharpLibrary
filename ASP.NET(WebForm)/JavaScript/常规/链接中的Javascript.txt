@@ -1,0 +1,12 @@
+对链接中的Javascript只能有一句，多于一句必须使用函数
+
+
+javascript:SelectType("+per_code2[j].ToString()+");"
+
+//葛利峰 2004-04-08 增加 类别选择
+			function SelectType(code)
+			{
+				//Hidden3新增，用于类别选择
+				window.document.all("Hidden3").value=code;
+				document.all.ButtonTest.click();
+			}

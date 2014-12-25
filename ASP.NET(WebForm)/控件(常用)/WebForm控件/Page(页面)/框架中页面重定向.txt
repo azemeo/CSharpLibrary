@@ -1,0 +1,18 @@
+框架中页面重定向到父页面
+
+string strURL="Activity/WebForm1.aspx";
+Response.Write("<script>window.parent.location='"+strURL+"'</script>");
+
+
+
+
+
+
+
+
+
+//性能更好
+			StringBuilder sb=new StringBuilder("<script>window.parent.location='",256);
+			sb.Append(strURL);
+			sb.Append("'</script>");
+			Response.Write(sb.ToString());

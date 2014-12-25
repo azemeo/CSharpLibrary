@@ -1,0 +1,7 @@
+private void TreeView1_SelectedIndexChange(object sender, Microsoft.Web.UI.WebControls.TreeViewSelectEventArgs e)
+		{
+			string sIndex=this.TreeView1.SelectedNodeIndex;
+			if(sIndex=="0")//根节点不能编辑
+			{
+}
+}

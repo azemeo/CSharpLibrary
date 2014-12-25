@@ -1,0 +1,7 @@
+			ContextMenu ToolCM = new ContextMenu();
+			for(int i=0;i<10;i++)
+			{
+				MenuItem menuItemN = new MenuItem(i.ToString()+"ÓïÑÔ");
+				ToolCM.MenuItems.Add(menuItemN);
+			}
+			toolBarMain.Buttons[3].DropDownMenu=ToolCM;

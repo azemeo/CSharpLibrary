@@ -1,0 +1,7 @@
+<INPUT style="Z-INDEX: 105; LEFT: 16px; POSITION: absolute; TOP: 48px" type="radio" CHECKED
+				value="1" name="rbprod" id="r1"><INPUT style="Z-INDEX: 106; LEFT: 136px; POSITION: absolute; TOP: 48px" type="radio" value="2"
+				name="rbprod" onclick="popWin2('Form_PopupAdd.aspx',720,420);" id="r2"> <span onclick="document.all.r2.checked=false;document.all.r1.checked=true;" style="CURSOR:hand">
+				<asp:Label id="Label1" style="Z-INDEX: 107; LEFT: 48px; POSITION: absolute; TOP: 56px" runat="server">非标准产品</asp:Label></span>
+			<span onclick="document.all.r1.checked=false;document.all.r2.checked=true;popWin2('Form_PopupAdd.aspx',720,420);"
+				style="CURSOR:hand">
+				<asp:Label id="Label2" style="Z-INDEX: 108; LEFT: 168px; POSITION: absolute; TOP: 56px" runat="server">标准产品</asp:Label></span>

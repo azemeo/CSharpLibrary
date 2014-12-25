@@ -1,0 +1,9 @@
+<div style="border:1px solid #C0C0C0;width:182px;height:19px;clip:rect(0px,181px,18px,0px);overflow:hidden;">
+<div style="border:1px solid #F4F4F4;width:180px;height:17px;clip:rect(0px,179px,16px,0px);overflow:hidden;">
+<select style="position:relative;left:-2px;top:-2px;font-size:11px;width:183px;line-height:14px;border:0px;color:#909993;">
+<option>项目一</option>
+<option>项目二</option>
+<option>项目三</option>
+</select>
+</div>
+</div>

@@ -1,0 +1,378 @@
+插入行不是DataGrid控件功能的一部分。
+
+窗体插仍是最好的方式。
+
+在有限列时这种方式更适合。
+
+最后一页时，增加一行的按钮才可用。
+
+正确的设置CurrentPageIndex和EditIndex是很关键的
+
+DataSet在修、增、删时，状态会变成DataRowState中的一个(Added,Modified,Deleted)
+使受影响的行挂起。
+挂起的更改可以在任何级别(DataSet,DataTable,DataRow)上接受或拒绝
+
+DataRow dr=dt.Rows[dt.Rows.Count-1];
+dt.AcceptChanges();//接受改变,清除更改的挂起状态
+dt.RejectChanges();//拒绝改变
+1.页面
+<%@ Page language="c#" Codebehind="MyForm433.aspx.cs" AutoEventWireup="false" Inherits="Co_411.MyForm433" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyForm411</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:datagrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 144px; POSITION: absolute; TOP: 184px"
+					runat="server" AutoGenerateColumns="False" DataKeyField="employeeid" ShowFooter="True" AllowPaging="True">
+					<EditItemStyle Font-Bold="True" BackColor="Blue"></EditItemStyle>
+					<Columns>
+						<asp:BoundColumn DataField="employeeid" ReadOnly="True" HeaderText="ID"></asp:BoundColumn>
+						<asp:TemplateColumn HeaderText="Employee Name">
+							<ItemTemplate>
+								<asp:Label id="Label1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"LastName") %>'>
+								</asp:Label>
+							</ItemTemplate>
+							<FooterTemplate>
+								<asp:LinkButton id="LinkButton1" onclick="AddNewRow" runat="server" Enabled='<%# IsLastPage() %>'>Add new row...</asp:LinkButton>
+							</FooterTemplate>
+						</asp:TemplateColumn>
+						<asp:BoundColumn DataField="title" HeaderText="Position"></asp:BoundColumn>
+						<asp:BoundColumn DataField="country" HeaderText="From"></asp:BoundColumn>
+						<asp:EditCommandColumn ButtonType="LinkButton" UpdateText="&lt;img src=ok.ico border=0 align=absmiddle alt='Save changes'&gt;"
+							CancelText="&lt;img src=cancel.ico border=0 align=absmiddle alt='Cancel changes'&gt;" EditText="&lt;img src=edit.ico border=0 align=absmiddle alt='Edit this item'&gt;">
+							<ItemStyle HorizontalAlign="Center" BackColor="Yellow"></ItemStyle>
+						</asp:EditCommandColumn>
+					</Columns>
+					<PagerStyle Mode="NumericPages"></PagerStyle>
+				</asp:datagrid>
+				<asp:Label id="lblCurrent" style="Z-INDEX: 102; LEFT: 144px; POSITION: absolute; TOP: 152px"
+					runat="server">Label</asp:Label>
+				<asp:Label id="Label2" style="Z-INDEX: 103; LEFT: 64px; POSITION: absolute; TOP: 64px" runat="server">增加一个新行</asp:Label></FONT></form>
+	</body>
+</HTML>
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+namespace Co_411
+{
+	/// <summary>
+	/// 增加编辑。
+	/// 说明
+	/// ViewState["OptState"]用于记录当的的操作
+	/// 0-显示
+	/// 1-添加
+	/// 2-编辑
+	/// 3-删除
+	/// </summary>
+	public class MyForm433 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label lblCurrent;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+		protected System.Web.UI.WebControls.Label Label2;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+//				this.DataGrid1.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_CancelCommand);
+//				this.DataGrid1.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_EditCommand);
+//				this.DataGrid1.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_UpdateCommand);
+//				this.Load += new System.EventHandler(this.Page_Load);
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select employeeid,titleofcourtesy,firstname,lastname,title,country From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataGrid1.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_CancelCommand);
+			this.DataGrid1.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_EditCommand);
+			this.DataGrid1.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_UpdateCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_EditCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+
+			ViewState["OptState"]=2;//编辑模式			
+			DataGrid1.EditItemIndex=e.Item.ItemIndex;
+			UpdateView();
+		}
+		//增加一条记录
+		private void AddRecord(DataGridCommandEventArgs e)
+		{
+			//检索新的文本
+			int nColPositionInex=2;//从0开始始列的位置
+			int nColFromIndex=3;
+			TextBox txtPosition,txtFrom;
+			txtPosition=(TextBox)e.Item.Cells[nColPositionInex].Controls[0];
+			txtFrom=(TextBox)e.Item.Cells[nColFromIndex].Controls[0];
+
+			//SQL Server 连接字串
+			string strConn;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			SqlConnection conn=new SqlConnection(strConn);
+
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataTable dt=ds.Tables["MyList"];
+			DataRow drLast=dt.Rows[dt.Rows.Count-1];
+			if(drLast.RowState==DataRowState.Added)
+			{
+
+				//更新数据源
+				SqlCommand cmd=new SqlCommand("MySampleInsert",conn);
+				cmd.CommandType=CommandType.StoredProcedure;
+				SqlParameter p1,p2,po1;
+
+				//设置Position参数以传递新值
+				p1=new SqlParameter("@sPosition",SqlDbType.NVarChar,30);
+				p1.Direction=ParameterDirection.Input;
+				p1.Value=txtPosition.Text;
+				cmd.Parameters.Add(p1);
+				//设置Country参数以传递新值
+				p2=new SqlParameter("@sCountry",SqlDbType.NVarChar,15);
+				p2.Direction=ParameterDirection.Input;
+				p2.Value=txtFrom.Text;
+				cmd.Parameters.Add(p2);
+				//输出参数以得到Position的新值
+				po1=new SqlParameter("@NewEmpID",SqlDbType.Int);
+				po1.Direction=ParameterDirection.Output;
+				cmd.Parameters.Add(po1);
+				//执行这个过程
+				conn.Open();
+				cmd.ExecuteNonQuery();
+				conn.Close();
+				//更新缓冲
+				UpdateCacheAdd((string)p1.Value,(string)p2.Value,(int)po1.Value);
+				lblCurrent.Text="增加成功！";
+			}
+		}
+		//编辑一条记录
+		private void EditRecord(DataGridCommandEventArgs e)
+		{
+			//检索新的文本
+			int nColPositionInex=2;//从0开始始列的位置
+			int nColFromIndex=3;
+			TextBox txtPosition,txtFrom;
+			txtPosition=(TextBox)e.Item.Cells[nColPositionInex].Controls[0];
+			txtFrom=(TextBox)e.Item.Cells[nColFromIndex].Controls[0];
+
+			//SQL Server 连接字串
+			string strConn;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			SqlConnection conn=new SqlConnection(strConn);
+
+			//更新数据源
+			SqlCommand cmd=new SqlCommand("MySampleUpdate",conn);
+			cmd.CommandType=CommandType.StoredProcedure;
+			SqlParameter p1,p2,p3,po1,po2;
+			//设置EmployeeID参数以标识要更新的行
+			p1=new SqlParameter("@nEmpID",SqlDbType.Int);
+			p1.Direction=ParameterDirection.Input;
+			p1.Value=DataGrid1.DataKeys[e.Item.ItemIndex];
+			cmd.Parameters.Add(p1);
+			//设置Position参数以传递新值
+			p2=new SqlParameter("@sPosition",SqlDbType.NVarChar,30);
+			p2.Direction=ParameterDirection.Input;
+			p2.Value=txtPosition.Text;
+			cmd.Parameters.Add(p2);
+			//设置Country参数以传递新值
+			p3=new SqlParameter("@sCountry",SqlDbType.NVarChar,15);
+			p3.Direction=ParameterDirection.Input;
+			p3.Value=txtFrom.Text;
+			cmd.Parameters.Add(p3);
+			//输出参数以得到Position的新值
+			po1=new SqlParameter("@NewPosition",SqlDbType.NVarChar,30);
+			po1.Direction=ParameterDirection.Output;
+			cmd.Parameters.Add(po1);
+			//输出参数以得到Country的新值
+			po2=new SqlParameter("@NewCountry",SqlDbType.NVarChar,30);
+			po2.Direction=ParameterDirection.Output;
+			cmd.Parameters.Add(po2);
+			//执行这个过程
+			conn.Open();
+			cmd.ExecuteNonQuery();
+			conn.Close();
+			//更新缓冲
+			UpdateCacheEdit((int)p1.Value,(string)po1.Value,(string)po2.Value);
+		}
+		//保存命令
+		private void DataGrid1_UpdateCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{			
+			if(ViewState["OptState"]!=null)
+			{
+
+				if((int)ViewState["OptState"]==1)//增加
+				{
+					AddRecord(e);
+				}	
+				else if((int)ViewState["OptState"]==2)//编辑
+				{
+					EditRecord(e);
+				}
+				else //其它
+				{
+				
+				}
+					
+			}
+			//恢复呈现状态
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}
+		//更新缓冲(编辑)
+		private void UpdateCacheEdit(int nEmpID,string sNewPosition,string sNewCountry)
+		{
+			//从会话或其它缓冲它的地方检索网格的数据源
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataTable dt=ds.Tables["MyList"];
+			//根据主键检索要更新的行
+			//应该只有一行
+			DataRow[] adr=dt.Select("employeeid="+nEmpID);
+			//更新这一行并用DataTable持久保留这个改变
+			adr[0]["title"]=sNewPosition;
+			adr[0]["country"]=sNewCountry;
+			dt.AcceptChanges();
+			//缓冲更新的DataSet以例将来使用
+			Session["MyDataSet"]=ds;
+		}
+		//更新缓冲(增加)
+		private void UpdateCacheAdd(string sNewPosition,string sNewCountry,int nEmpID)
+		{
+			//从会话或其它缓冲它的地方检索网格的数据源
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataTable dt=ds.Tables["MyList"];
+			//根据主键检索要更新的行
+			//应该只有一行
+			DataRow dr=dt.Rows[dt.Rows.Count-1];
+			//更新这一行并用DataTable持久保留这个改变
+			dr["employeeid"]=nEmpID;
+			dr["title"]=sNewPosition;
+			dr["country"]=sNewCountry;
+			dt.AcceptChanges();//接受改变
+			//缓冲更新的DataSet以例将来使用
+			Session["MyDataSet"]=ds;
+		}
+		//最新状态显示
+		private void UpdateView()
+		{
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			DataGrid1.DataSource=dv;
+			DataGrid1.DataBind();
+		}
+
+		private void DataGrid1_CancelCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//取消更新
+			DataGrid1.EditItemIndex=-1;
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataTable dt=ds.Tables["MyList"];
+			DataRow drLast=dt.Rows[dt.Rows.Count-1];
+			if(drLast.RowState==DataRowState.Added)
+			{
+				drLast.RejectChanges();//拒绝改变				
+				if(DataGrid1.Items.Count==1)//如果拒绝的行是当前页的唯一行，那么就移到前一页
+					DataGrid1.CurrentPageIndex--;
+			}
+			UpdateView();
+		}
+		public bool IsLastPage()
+		{
+			if(DataGrid1.CurrentPageIndex+1==DataGrid1.PageCount)
+			{
+				return true;
+			}
+			return false;
+		}
+		//在网格中增加一行(默认的网格控件没有提供)
+		public void AddNewRow(object sender,EventArgs e)
+		{
+			//得到缓存的数据集
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataTable dt=ds.Tables["MyList"];
+			//添加空行
+			DataRow dr=dt.NewRow();
+			dt.Rows.Add(dr);
+			//如果需要指定默认值
+			dr["employeeid"]=-1;//用负值填充自动增量字段，并用特殊绘制这一行
+			//更新内存中的DataSet
+			Session["MyData"]=ds;
+			//页中新项的索引：当前的项数
+			int nNewItemIndex=DataGrid1.Items.Count;
+			
+			if(nNewItemIndex>=DataGrid1.PageSize)
+			{
+				//新行是新页的第一行
+				DataGrid1.CurrentPageIndex++;
+				nNewItemIndex=0;
+			}
+			
+			ViewState["OptState"]=1;
+			DataGrid1.EditItemIndex=nNewItemIndex;//为新行打开编辑模式
+			UpdateView();
+		}
+
+	}
+}
+3.存储过程
+Create Procedure MySampleInsert(
+	@sPosition nvarchar(30),          --用于更新Title字段的值
+	@sCountry nvarchar(15),           --用于更新Country的值
+	@NewEmpID int output)  --返回Employeeid当前值
+As
+Insert employees (Title,Country) VALUES
+	(@sPosition,@sCountry)
+Select top 1 @NewEmpID=employeeid
+	From Employees Order by employeeid desc
+
+GO

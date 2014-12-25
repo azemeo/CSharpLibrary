@@ -1,0 +1,39 @@
+using System;
+namespace TestArray
+{
+
+	class App
+	{
+		static void Main(string[] args)
+		{	
+			Int32[]arr=new Int32[]{1,2,3};
+			//显示元素
+			foreach(Int32 x in arr)
+				Console.Write(x+" ");
+			Console.WriteLine();
+			//调整长度 5
+			arr=(Int32[])Redim(arr,5);
+			foreach(Int32 x in arr)
+				Console.Write(x+" ");
+			Console.WriteLine();
+			//调整长度 2
+			arr=(Int32[])Redim(arr,2);
+			foreach(Int32 x in arr)
+				Console.Write(x+" ");
+			Console.WriteLine();
+
+
+		}
+		public static Array Redim(Array origArray,Int32 deSize)
+		{
+			//确定元素类型
+			Type t=origArray.GetType().GetElementType();
+			//创建一个含有期望元素个数及类型的新数组
+			Array newArray=Array.CreateInstance(t,deSize);
+			//将原数组中的元素拷贝到新数组中
+			Array.Copy(origArray,0,newArray,0,Math.Min(origArray.Length,deSize));
+			return newArray;
+		}
+
+	}
+}

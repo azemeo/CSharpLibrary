@@ -1,0 +1,24 @@
+1.ÒýÓÃ
+using System.Drawing.Drawing2D;
+2.´úÂë
+		private void Form1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+		{
+			Pen redPen=new Pen(Color.Red,20);
+			int startX=20;
+			int startY=60;
+			int width=this.ClientSize.Width/17;
+			int height=this.ClientSize.Height/2;
+			foreach(LineJoin LJ in new LineJoin[]{LineJoin.Bevel,LineJoin.Miter,LineJoin.Round})
+			{
+				redPen.LineJoin=LJ;
+				Point[]points={new Point(startX,startY),
+								  new Point(startX+width,startY+height),
+								  new Point(startX+2*width,startY),
+								  new Point(startX+3*width,startY+height),
+								  new Point(startX+4*width,startY)};
+				e.Graphics.DrawLines(redPen,points);
+				e.Graphics.DrawString(LJ.ToString(),new Font("Arial Black",13),
+					new SolidBrush(Color.Blue),startX-5,startY-50);
+				startX+=4*width+40;
+			}
+		}

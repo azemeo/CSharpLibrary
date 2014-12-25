@@ -1,0 +1,58 @@
+//------------------------------------------------------------------------------
+//Copyright (C) 1994-2003 Movecont Corp
+//类型：示例程序
+//功能：自定义控件的实现
+//详述：通过IPostBackEventHandler实现LinkButton控件
+//用法：将*.cs编译后，放入bin目录,如:csc /t:library /out:LBCtrl.dll mylinkbutton.cs
+//------------------------------------------------------------------------------
+1.*.cs
+using System;
+using System.Web.UI;
+namespace Wintellect
+{
+	public class MyLinkButton:Control,IPostBackEventHandler
+	{
+		string MyText="";
+		public event EventHandler Click;
+		public string Text
+		{
+			get{return MyText;}
+			set{MyText=value;}
+		}
+		public void RaisePostBackEvent(string eventArgument)
+		{	
+			if(Click!=null)
+				Click(this,new EventArgs());
+		}
+		protected override void Render(HtmlTextWriter writer)
+		{
+			writer.WriteBeginTag("a");
+			if(ID!=null)
+				writer.WriteAttribute("id",ClientID);
+			writer.WriteAttribute("href","javascript:"+
+				Page.GetPostBackEventReference(this));
+			writer.Write(HtmlTextWriter.TagRightChar);
+			
+			if(Text.Length>0)
+				writer.Write(Text);
+			writer.WriteEndTag("a");	
+					
+		}
+	}
+}
+2.*.aspx
+<%@ Register TagPrefix="win" Namespace="Wintellect" Assembly="LBCtrl" %>
+<html>
+	<body>
+		<form runat="server">
+			<win:MyLinkButton Text="Click Me" OnClick="OnClick" RunAt="server" /><br>
+			<asp:Label ID="Output" RunAt="server" />			
+		</form>
+	</body>
+</html>
+<script language="C#" runat="server">
+	void OnClick(object sender,EventArgs e)
+	{
+		Output.Text="Click!";
+	}
+</script>

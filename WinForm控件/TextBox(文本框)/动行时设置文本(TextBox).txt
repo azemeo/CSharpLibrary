@@ -1,0 +1,12 @@
+动态设置TextBox 的Text
+
+
+必须设置
+
+TBProdName IsPostBack=true
+
+
+
+运行
+
+TBProdName.Text="aa";

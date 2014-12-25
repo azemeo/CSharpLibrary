@@ -1,0 +1,13 @@
+Application xlApp=new ApplicationClass();		
+			Workbook xlBook=xlApp.Workbooks.Add(Missing.Value);
+			Worksheet xlSheet=(Worksheet)xlBook.Sheets[1];
+			xlApp.Cells[1,1]="Ãû³Æ";
+			xlApp.Cells[1,2]="ÖÖÀà";			
+
+			Range rng = xlApp.get_Range("B1", "B1");
+			
+			if (rng.Comment != null ) 
+			{
+				rng.Comment.Delete();
+			}
+			rng.AddComment("Comment added " + DateTime.Now);

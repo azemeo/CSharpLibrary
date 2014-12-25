@@ -1,0 +1,7 @@
+<script language="javascript">
+		window.document.all["Delete"].onclick=deleteOK;
+		function deleteOK()
+		{
+			return window.confirm("<%=ViewState["MsgConfirmDelete"]%>")	
+		}
+</script>

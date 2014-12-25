@@ -1,0 +1,158 @@
+1.WebForm1.aspx
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			Application.Lock();
+			int count=(int)Application["count"]+1;
+			Application["count"]=count;
+			Application.UnLock();
+			this.Label1.Text="Page in this application have been requested."+count+"time";
+			if(count>1)
+				this.Label1.Text+="s";
+			else
+				this.Label1.Text+=".";
+		}
+
+2.Global.asax.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Web;
+using System.Web.SessionState;
+using System.IO;
+namespace MyAppCounter 
+{
+	/// <summary>
+	/// Global 的摘要说明。
+	/// </summary>
+	public class Global : System.Web.HttpApplication
+	{
+		/// <summary>
+		/// 必需的设计器变量。
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+		private static string _path;
+		private static string _logpath;
+
+		public Global()
+		{
+			InitializeComponent();
+		}	
+		
+		protected void Application_Start(Object sender, EventArgs e)
+		{
+			StreamReader reader = null;
+
+			try 
+			{
+				// If Count.txt exists, read the count from it and
+				// store the count in application state
+				_path = Server.MapPath ("Count.txt");
+				reader = new StreamReader (_path);
+				string line = reader.ReadLine ();
+				int count = Convert.ToInt32 (line);
+				Application["Count"] = count;
+			}
+			catch (Exception) 
+			{
+				// If Count.txt does not exist or contains an invalid
+				// count, store a 0 in application state
+				Application["Count"] = 0;
+			}
+			finally 
+			{
+				// Close the StreamReader
+				if (reader != null)
+					reader.Close ();
+			}
+			//日志
+			StreamWriter writer = null;
+			try 
+			{
+				_logpath = Server.MapPath ("Log.txt");
+				writer = new StreamWriter (_logpath, false);
+				writer.WriteLine("Application_Start"+DateTime.Now.ToLongTimeString());
+			}
+			finally 
+			{
+				// Close the StreamWriter
+				if (writer != null)
+					writer.Close ();
+			}
+
+		}
+ 
+		protected void Session_Start(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_BeginRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_EndRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_Error(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Session_End(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_End(Object sender, EventArgs e)
+		{
+			//关闭IIS时激发
+			//注意在此外不能使用Server.MapPath,所以用静态字段保存路径
+			StreamWriter writer = null;
+			try 
+			{
+				// Save the current count in Count.txt
+				writer = new StreamWriter (_path, false);
+				writer.Write (Application["Count"]);
+			}
+			finally 
+			{
+				// Close the StreamWriter
+				if (writer != null)
+					writer.Close ();
+			}
+			//日志
+			try 
+			{
+				writer = new StreamWriter (_logpath, false);
+				writer.WriteLine("Application_End"+DateTime.Now.ToLongTimeString());
+			}
+			finally 
+			{
+				// Close the StreamWriter
+				if (writer != null)
+					writer.Close ();
+			}
+		}
+			
+		#region Web 窗体设计器生成的代码
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.components = new System.ComponentModel.Container();
+		}
+		#endregion
+	}
+}

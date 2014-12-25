@@ -1,0 +1,27 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyDataset1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlDataAdapter adapter=new SqlDataAdapter("select * from titles",
+				"server=localhost;database=pubs;uid=sa;pwd=");
+			DataSet ds=new DataSet();
+			adapter.Fill(ds,"Titles");
+			DataTable table=ds.Tables[0];
+			foreach(DataColumn col in table.Columns)
+				Console.WriteLine("Name={0},Type={1}",
+					col.ColumnName,col.DataType);
+		}
+	}
+}

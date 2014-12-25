@@ -1,0 +1,15 @@
+<script language="Javascript">
+		function factor(n)
+		{
+			if((n==0)||(n==1))
+				return 1;
+			else
+			{
+				result=(n*factor(n-1))
+				return result;
+			}
+		}		
+		var x=10;
+		document.write("<BR>",x," µÄ½×³ËÊÇ:",factor(x));
+
+	</script>

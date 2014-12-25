@@ -1,0 +1,41 @@
+事件(Event)：是控件发出的一个通知。
+事件处理器(Event handler):响应事件的函数。
+
+一个事件处理器可以响应多个事件。
+一个事件可以使用多个事件处理器。
+
+事件与事件处理器是多对多的关系。
+
+handler_fun(Object sender,EventArgs e)
+
+Object sender 是指具体控件:
+	使用1- TextBox tbName=(TextBox)sender;
+	使用2- TextBox tbName=sender as TextBox;
+EventArgs e 是参数,具体对象不确定
+
+1.Disposed 是一个完成后的事件
+	只有使非托管连接才会使用。
+2.ParentChanged事件，控件的位置已经移到另个新的交控件上。
+
+3.Validating和validated对输入信息进行检测。
+
+4.EnabledChanged控件的Enabled属性在true和false之间变化时发生。
+		private void textBox1_EnabledChanged(object sender, System.EventArgs e)
+		{
+			
+			TextBox tb=sender as TextBox;
+			if(tb.Enabled)
+			{
+				tb.Text="请输入信息";
+				tb.Focus();
+				tb.SelectAll();//选定文本框中的内容
+			}
+			else
+			{
+				tb.Text="不可用";
+			}
+		}
+5.焦点事件:GotFocus,LoastFocus
+
+
+

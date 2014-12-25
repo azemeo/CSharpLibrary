@@ -1,0 +1,324 @@
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+1.调用窗体Form1.cs
+using System.Windows.Forms;
+using System.Data;
+
+namespace Chain
+{
+	/// <summary>
+	/// Summary description for Form1.
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.PictureBox picImage;
+		private System.Windows.Forms.ListBox lsFiles;
+		private System.Windows.Forms.ListBox lsNocmd;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.TextBox txCommand;
+		private System.Windows.Forms.Button btSend;
+		private System.Windows.Forms.Panel pnlColor;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+		private Chain chn;
+
+		public Form1()		{
+			InitializeComponent();
+			init();
+		}
+		private void init() {
+			//初置链set up chains
+			ColorChain clrChain = new ColorChain(pnlColor);
+			FileChain flChain = new FileChain(lsFiles);
+			NoCmd noChain = new NoCmd(lsNocmd);
+			//建立链之间的关联create chain links
+			chn = new ImageChain(picImage);
+			chn.addToChain(clrChain);
+			clrChain.addToChain(flChain);
+			flChain.addToChain(noChain);
+		}
+[STAThread]
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+
+		private void btSend_Click(object sender, System.EventArgs e) {
+			//解释链
+			chn.sendToChain (txCommand.Text );
+		}
+
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+		
+		}
+	}
+}
+2.抽象链类Chain.cs
+using System;
+
+namespace Chain
+{
+	//抽象链类
+	public abstract class Chain	{
+		//describes how all chains work
+		private bool hasLink;//是否有下一个链
+		protected Chain chn;
+		public Chain()	{
+			hasLink = false;	
+		}
+		//you must implement this in derived classes
+		public abstract void sendToChain(string mesg);
+		//-----向类链中增加另外一个类
+		public void addToChain(Chain c) {
+			//add new element to chain
+			chn = c;
+			hasLink = true;		//flag existence
+		}
+		//-----返回当前类
+		public Chain getChain() {
+			return chn;	//get the chain link
+		}
+		//-----
+		public bool hasChain() {
+			return hasLink;		//true if linked to another
+		}
+		//-----发给链中的下一个对象(关键在子类中重写)
+		protected void sendChain(string mesg) {
+			//send message on down the chain
+			if(chn != null)
+				chn.sendToChain (mesg);
+		}
+	}
+}
+3.图象链ImageChain.cs
+using System;
+using System.Windows.Forms;
+using System.Drawing ;
+using CsharpPats;
+namespace Chain
+{
+	/// <summary>
+	/// 图象链
+	/// </summary>
+	public class ImageChain :Chain 	{
+		PictureBox picBox;		//图片框的引用
+		//-----
+		public ImageChain(PictureBox pc) 		{
+			picBox = pc;		//save reference
+		}
+		//-----
+		public override void sendToChain(string mesg) {
+			//put image in picture box
+			string fname = mesg + ".jpg";	//assume jpg filename
+			csFile fl = new csFile(fname);
+			if(fl.exists()) //文件存在则显示
+				picBox.Image = new Bitmap(fname);
+			else{
+				if (hasChain()){	//不存在则发送给下一个链send off down chain
+					chn.sendToChain(mesg);
+				}
+			}
+		
+		}
+	}
+}
+4.颜色链ColorChain.cs
+using System;
+using System.Collections ;
+using System.Drawing ;
+using System.Windows.Forms ;
+namespace Chain
+{
+	/// <summary>
+	/// 颜色链receives color names in chain
+	/// </summary>
+	public class ColorChain : Chain {
+		private Hashtable colHash;	//color list kept here
+		private Panel panel;		//color goes here
+		//-----
+		public ColorChain(Panel pnl) 		{
+			panel = pnl;			//save reference
+			//create Hash table to correlate color names
+			//with actual Color objects
+			colHash = new Hashtable ();
+			colHash.Add ("red", Color.Red);
+			colHash.Add ("green", Color.Green);
+			colHash.Add ("blue", Color.Blue);
+		}
+		//-----
+		public override void sendToChain(string mesg) {
+			mesg = mesg.ToLower ();
+			try {
+				Color c = (Color)colHash[mesg];
+				//if this is a color, put it in the panel
+				panel.BackColor =c;
+			}
+			catch (NullReferenceException e) {
+				//颜色转换失败则发送消息send on if this doesn't work
+				sendChain(mesg);
+			}
+			
+		}
+	}
+}
+5.文件链FileChain.cs
+using System;
+using System.Windows.Forms ;
+using System.IO ;
+using System.IO.IsolatedStorage ;
+using CsharpPats;
+namespace Chain {
+	/// <summary>
+	/// 文件链Summary description for FileChain.
+	/// </summary>
+	public class FileChain : Chain {
+		ListBox flist;
+		public FileChain(ListBox lb)		{
+			flist = lb;
+		}
+	//-----
+		public override void sendToChain( string mesg) {
+			//if the string matches any part of a filename
+			//put those filenames in the file list box
+			string[] files;
+			string fname = mesg + "*.*";
+			files = Directory.GetFiles(Directory.GetCurrentDirectory(), fname);
+			//add them all to the listbox
+			if (files.Length > 0){
+				for (int i = 0; i< files.Length; i++) {
+					csFile vbf = new csFile(files[i]);
+					flist.Items.Add(vbf.getRootName());
+				}
+			}
+			else {
+				if ( hasChain()) {
+					chn.sendToChain(mesg);
+				}
+			}
+		}
+	}
+}
+6.最后的链 NoCmd.cs
+using System;
+using System.Windows.Forms;
+namespace Chain
+{
+	/// <summary>
+	/// 识别不了的链(最后) handles command that is not otherwise legal
+	/// </summary>
+	public class NoCmd :Chain 	{
+		private ListBox lsNocmd;	//commands go here
+		//-----
+		public NoCmd(ListBox lb) 		{
+			lsNocmd = lb;			//copy reference
+		}
+		//-----
+		public override void sendToChain(string mesg) {
+			//adds unknown commands to list box
+			lsNocmd.Items.Add (mesg);
+			//注意：没有在发个下个链
+		}
+	}
+}
+7.csFile.cs 支持类
+using System;
+using System.IO ;
+using System.IO.IsolatedStorage ;
+namespace CsharpPats
+{
+	/// <summary>
+	/// A simple file handlng class
+	/// </summary>
+	public class csFile
+	{
+		private string fileName;
+		StreamReader ts;
+		StreamWriter ws;
+		private bool opened, writeOpened;
+		//-----------
+		public csFile() {
+			init();
+		}
+		//-----------
+		private void init() {
+			opened = false;
+			writeOpened = false;
+		}
+		//-----------
+		public csFile(string file_name) 	{
+			fileName = file_name;
+			init();
+		}
+		//-----------
+		public bool exists() {
+			return File.Exists(fileName);
+		}
+		//-----------
+		public bool OpenForRead(string file_name){
+			fileName = file_name;
+			try {
+				ts = new StreamReader (fileName);
+				opened=true;
+			}
+			catch(FileNotFoundException ) {
+				return false;
+			}
+			return true;
+		}
+		//-----------
+		public bool OpenForRead() {
+			return OpenForRead(fileName);
+		}
+		//-----------
+		public string readLine() {
+			return ts.ReadLine ();
+		}
+		//-----------
+		public void writeLine(string s) {
+			ws.WriteLine (s);
+		}
+		//-----------
+		public void close() {
+			if (opened)
+				ts.Close ();
+			if(writeOpened)
+				ws.Close();
+		}
+		//-----------
+		public bool OpenForWrite() {
+			return OpenForWrite(fileName);
+		}
+		//-----------
+		public bool OpenForWrite(string file_name) {
+			try{
+				ws = new StreamWriter (file_name);
+				fileName = file_name;
+				writeOpened = true;
+				return true;
+			}
+			catch(FileNotFoundException ) {
+				return false;
+			}
+		}
+		//-----------
+		public string getRootName() {
+			int i = fileName.LastIndexOf ("\\");
+			string root = fileName;
+			if(i >0 ) {
+				root = fileName.Substring (i+1);
+			}
+			return root;
+		}
+	}
+}
+
+
+
+
+
+

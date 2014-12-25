@@ -1,0 +1,61 @@
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace Co_5
+{
+	/// <summary>
+	/// WebForm2 的摘要说明。
+	/// </summary>
+	public class WebForm2 : System.Web.UI.Page
+	{
+		public Label TopBarTitle;
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				TopBarTitle.Text="This is my Page.";
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+			this.Init += new System.EventHandler(this.WebForm2_Init);
+
+		}
+		#endregion
+
+		private void WebForm2_Init(object sender, System.EventArgs e)
+		{
+			//初始化页时激发(先于Page_Load)
+			Controls.AddAt(0,new LiteralControl("<h2>"));
+			TopBarTitle=new Label();
+			TopBarTitle.Text="Top bar title";
+			Controls.AddAt(1,TopBarTitle);
+			Controls.AddAt(2,new LiteralControl("<h2>"));
+		}
+	}
+}

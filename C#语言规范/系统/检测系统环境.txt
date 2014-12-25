@@ -1,0 +1,29 @@
+using System;
+using System.Globalization;
+namespace TestText
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class App
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			
+			String s0=Environment.CommandLine;//获取该进程的完全路径
+			String s1=Environment.CurrentDirectory;//获取该进程的当前目录
+			String s2=Environment.MachineName;//机器名称
+			String s3=Environment.OSVersion.ToString();//平台标识及版本
+			String s4=Environment.SystemDirectory;//Windows系统目录
+			String s5=Environment.UserName;//当前用户
+			String s6=Environment.Version.ToString();//CLR 版本
+			Console.WriteLine("CommandLine:{0}\nCurrDir:{1}\nMachine Name:{2}\n OS Version:{3}\nSystem Dir:{4}\n"+
+				"Curr UseName:{5}\nCLR Version:{6}",
+				s0,s1,s2,s3,s4,s5,s6);
+		}
+	}
+}

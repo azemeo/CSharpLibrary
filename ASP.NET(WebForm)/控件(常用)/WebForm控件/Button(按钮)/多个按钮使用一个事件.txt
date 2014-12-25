@@ -1,0 +1,100 @@
+多个按钮使用一个事件
+
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace ZeroWire.Web.SFA
+{
+	/// <summary>
+	/// Top2 的摘要说明。
+	/// </summary>
+	public class Top2 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Button BtnIndex;
+		protected System.Web.UI.WebControls.Button BtnCale;
+		protected System.Web.UI.WebControls.Button BtnAcco;
+		protected System.Web.UI.WebControls.Button BtnCont;
+		protected System.Web.UI.WebControls.Button BtnProd;
+		protected System.Web.UI.WebControls.Button BtnDocu;
+		protected System.Web.UI.WebControls.Button BtnFore;
+		protected System.Web.UI.WebControls.Button BtnDash;
+		protected System.Web.UI.WebControls.Button BtnOpp;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				RestoreBackColor();
+
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			Add_Event();
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion		
+
+		private void Add_Event()
+		{
+			this.BtnOpp.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnCale.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnAcco.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnCont.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnProd.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnDocu.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnFore.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnDash.Click += new System.EventHandler(this.HeadBtn_Click);
+			this.BtnIndex.Click += new System.EventHandler(this.HeadBtn_Click);
+
+		}
+		/// <summary>
+		/// 恢复所有按钮背景颜色
+		/// </summary>
+		private void RestoreBackColor()
+		{
+			BtnIndex.BackColor=Color.FromArgb(205,205,205);
+			BtnOpp.BackColor=Color.FromArgb(205,205,205);
+			BtnCale.BackColor=Color.FromArgb(205,205,205);
+			BtnAcco.BackColor=Color.FromArgb(205,205,205);
+			BtnCont.BackColor=Color.FromArgb(205,205,205);
+			BtnProd.BackColor=Color.FromArgb(205,205,205);
+			BtnDocu.BackColor=Color.FromArgb(205,205,205);
+			BtnFore.BackColor=Color.FromArgb(205,205,205);
+			BtnDash.BackColor=Color.FromArgb(205,205,205);
+
+		}
+
+		private void HeadBtn_Click(object sender, System.EventArgs e)
+		{
+			RestoreBackColor();
+			((Button)sender).BackColor=Color.Gray;//设置当前按钮的颜色
+		}
+
+	}
+}

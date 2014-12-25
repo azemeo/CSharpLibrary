@@ -1,0 +1,122 @@
+引用，添加引用>Com>Microsoft Excel 11.0 Object Library(1.5)
+
+后在引用中，出现一个Microsoft.Office.Core
+
+I.如果是Window2003 ->控制面版 -> 管理工具 -> 组件服务 -> 
+       打开树级目录找到子目录DCOM配置 -> Microsoft Excel 应用程序 
+       -> 右击选“属性” -> 在弹出对话窗口中选“安全”选项卡->
+       -> 将启动和激活权限设为自定义->点击编辑按钮->
+       ->在新窗口中将Everyone用户加入,选中复选框"启动权限",给予启动权限
+
+     II.如果是WindowXP ->控制面版 -> 管理工具 -> 组件服务(繁体为"元件服务") -> 
+       打开树级目录找到子目录DCOM配置 -> Microsoft Excel 应用程序 
+       -> 右击选“属性” -> 在弹出对话窗口中选“安全”选项卡->
+       -> 将启动和激活权限设为自定义->点击编辑按钮->
+       ->在新窗口中将Everyone用户加入,选中复选框"远程启动",给予远程启动权限
+在Web.config的<system.web>节点中加入
+<identity impersonate="true" userName="" password=""/>
+
+' <summary>
+    '  下载Excel方法2(用office-Excel-Com组件对象实现)
+    ' </summary>
+    ' <param name="dt">要转换为Excel文件的表</param>
+    ' <param name="page">页面Page对象,用法: 将me.Page传递过来即可</param>
+    Public Sub DownLoadExcelToClient2(ByVal dt As DataTable)
+        '生成Excel操作相关对象
+        Dim xlApp As Excel.Application
+        Dim xlBook As Excel.Workbook
+        Dim xlSheet As Excel.Worksheet
+        xlApp = CType(CreateObject("Excel.Application"), Excel.Application)
+        xlBook = CType(xlApp.Workbooks.Add, Excel.Workbook)
+        xlSheet = CType(xlBook.Worksheets(1), Excel.Worksheet)
+
+
+        'xlSheet.Range("A1:B1").Merge(0) '合并单元格
+        'xlSheet.Cells(1, 1) = "员工资料信息:"
+
+        '赋标题(Excel文件中的标题)
+        Dim rowIndex As Integer = 2
+        Dim colIndex As Integer = 0
+        Dim Col As DataColumn
+        Dim Row As DataRow
+        For Each Col In dt.Columns
+            colIndex = colIndex + 1
+            xlApp.Cells(rowIndex, colIndex) = Col.ColumnName
+        Next
+
+        '将表dt的所有行写入xlApp对象(Excel文件中的内容)
+        For Each Row In dt.Rows
+            rowIndex = rowIndex + 1
+            colIndex = 0
+            For Each Col In dt.Columns
+                colIndex = colIndex + 1
+                xlApp.Cells(rowIndex, colIndex) = Row(Col.ColumnName)
+            Next
+        Next
+
+        xlSheet.Application.Visible = True   '置为可见
+
+        '建立一个专门存放Excel文件的目录
+        If Directory.Exists(Page.Server.MapPath("ExcelFolder")) = False Then
+            Directory.CreateDirectory(Page.Server.MapPath("ExcelFolder"))
+        End If
+
+        '删除服务端临时文件: download.xls
+        If File.Exists(Page.Server.MapPath(".") & "\ExcelFolder\download.xls") = True Then
+            File.Delete(Page.Server.MapPath(".") & "\ExcelFolder\download.xls")
+        End If
+
+        '在服务端保存download.xls
+        xlSheet.SaveAs(Page.Server.MapPath(".") & "\ExcelFolder\download.xls")
+
+        '杀死Excel进程
+        Dim myproc As System.Diagnostics.Process = New System.Diagnostics.Process
+        Dim proc As Process
+        Dim procs() As Process = Process.GetProcessesByName("excel")   '得到所有打开的进程
+        Try
+            For Each proc In procs
+                If Not proc.CloseMainWindow() Then
+                    proc.Kill()
+                End If
+            Next
+        Catch
+        End Try
+
+        '这里用到个goto语句,是因为: 线程是异步执行的,下面的代码要访问download.xls文件,但有
+
+少数情况下上面的线程
+        '未能及时释放download.xls文件的指针,那么下面代码执行语句时会抛出异常, 当发生异常时
+
+需要等待资源释放后,
+        '再重新访问该文件, 保证下载文件能够正确下载
+again:  Try
+            '输出到客户端()
+            If File.Exists(Page.Server.MapPath(".") & "\ExcelFolder\download.xls") Then
+                Dim TargetFile As FileInfo = New FileInfo(Page.Server.MapPath(".") & 
+
+"\ExcelFolder\download.xls")
+                '清除缓冲区流中的所有内容输出.
+                Page.Response.Clear()
+                '向输出流添加HTTP头 [指定下载/保存 对话框的文件名]
+                Page.Response.AppendHeader("Content-Disposition", "attachment; filename=" 
+
++ Page.Server.UrlEncode(TargetFile.Name))
+                '向输出流添加HTTP头 [指定文件的长度,这样下载文件就会显示正确的进度
+                Page.Response.AppendHeader("Content-Length", TargetFile.Length.ToString())
+                '表明输出的HTTP为流[stream],因此客户端只能下载.
+                Page.Response.ContentType = "application/octet-stream"
+                '发送文件流到客户端.
+                Page.Response.WriteFile(TargetFile.FullName)
+                '停止执行当前页
+                Page.Response.End()
+            End If
+        Catch
+            Thread.Sleep(10)
+            GoTo again
+        End Try
+    End Sub
+
+
+
+
+

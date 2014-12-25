@@ -1,0 +1,42 @@
+如下：
+原数据：
+<?xml version="1.0" encoding="utf-8" ?> 
+
+<Expressions>
+
+	<Expression ID="1" name="a+b" remark="测试一">
+		<Param name="a" remark="注解1"></Param>
+		<Param name="b" remark="注解2"></Param>
+	</Expression>
+	
+</Expressions>
+
+如何操作使该文件内容变成：
+<?xml version="1.0" encoding="utf-8" ?> 
+
+<Expressions>
+
+	<Expression ID="1" name="a+b" remark="测试一">
+		<Param name="a" remark="注解1"></Param>
+		<Param name="b" remark="注解2"></Param>
+	</Expression>
+         <Expression ID="2" name="x-y" remark="测试二">
+		<Param name="x" remark="注解1"></Param>
+		<Param name="y" remark="注解2"></Param>
+	</Expression>
+
+	
+</Expressions>
+希望能给个例子，谢谢！！
+//------------------------------
+string sFileName = "ExpXml.xml";
+		XmlDocument xmldoc = new XmlDocument();
+		xmldoc.Load(sFileName);
+		XmlNode node = xmldoc.DocumentElement.ChildNodes[0].CloneNode(true);
+		node.Attributes["ID"].Value = "2";
+		node.Attributes["name"].Value = "x-y";
+		node["Param"].Attributes["name"].Value = "x";
+		node["Param"].InnerText="aaaa";
+		//......
+		xmldoc.DocumentElement.AppendChild(node);
+		xmldoc.Save(sFileName);

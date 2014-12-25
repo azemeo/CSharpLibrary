@@ -1,0 +1,4 @@
+decimal max=2.0M;//精确到小数点后28,29
+			float  min=2.0F;//精确到小数点后7
+			double mid=2.0D;//精确到小数点后15,17
+			Console.WriteLine("Max:{0},Min:{1},Mid:{2}",max/3,min/3,mid/3);

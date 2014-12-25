@@ -1,0 +1,10 @@
+			//网页式颜色(Photoshop)
+			this.BackColor=System.Drawing.ColorTranslator.FromHtml("#9CB5F9");//紫蓝色;
+			//系统式颜色
+			this.BackColor=System.Drawing.SystemColors.ActiveCaption;
+			//Web式颜色
+			this.BackColor=System.Drawing.Color.IndianRed;
+			//自定义颜色
+			this.BackColor=System.Drawing.Color.FromArgb(((System.Byte)(192)), ((System.Byte)(64)), ((System.Byte)(0)));
+
+网页_系统_Web_自定义式颜色

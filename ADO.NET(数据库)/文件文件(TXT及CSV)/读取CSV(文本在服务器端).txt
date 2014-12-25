@@ -1,0 +1,33 @@
+private void ButtonTest_Click(object sender, System.EventArgs e)
+		{
+			System.Data.DataTable dt=ReadDataFromFile(Page.Server.MapPath("..\\..\\")+"ExcelFolder\\Export\\Test1.csv");
+
+			string sss="";
+			for(int i=0;i<dt.Rows.Count;i++)
+			{
+				sss+=dt.Rows[i][2].ToString();
+			}			
+
+		}
+		public System.Data.DataTable ReadDataFromFile(string url)
+		{
+			DataSet ds= new DataSet();
+			if ((url == null) || (url == ""))
+			{
+				throw new Exception("文件路径不正确。");
+			}
+			StringBuilder sDBCon = 	new StringBuilder("Provider=Microsoft.Jet.OLEDB.4.0;");
+			sDBCon.Append("Data Source=");
+			//设置为上传文件所在的目录
+			sDBCon.Append(Path.GetDirectoryName(url)); 		
+
+			//处理的是文本类型 
+			sDBCon.Append(";Extended Properties=Text;"); 
+			//表名被以文件名所代替 
+			String sSelect = "select * from  [" + Path.GetFileName(url) + "]"; 
+
+			OleDbDataAdapter da = 	new OleDbDataAdapter(sSelect , sDBCon.ToString());
+			da.TableMappings.Add("Table" , "ExcelTest");
+			da.Fill(ds);
+			return ds.Tables[0];
+		}

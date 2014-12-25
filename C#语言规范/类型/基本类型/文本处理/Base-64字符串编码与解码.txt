@@ -1,0 +1,24 @@
+using System;
+using System.Text;
+using System.Globalization;
+namespace TestText
+{
+	
+	class App
+	{		
+		[STAThread]
+		static void Main(string[] args)
+		{			
+			//产生一组10随机字节
+			Byte[]bytes=new byte[10];
+			new Random().NextBytes(bytes);
+			Console.WriteLine(BitConverter.ToString(bytes));
+			//解码为base-64
+			String s=Convert.ToBase64String(bytes);
+			Console.WriteLine(s);
+			//将base-64 编码为一个字节数组
+			bytes=Convert.FromBase64String(s);
+			Console.WriteLine(BitConverter.ToString(bytes));
+		}		
+	}
+}

@@ -1,0 +1,5 @@
+app.config 位于工程目录下,开发阶段必须
+a.exe.config位于bin\debug目录下,由app.config生成
+
+增加新项是只能用app.config
+发时只需要a.exe.config

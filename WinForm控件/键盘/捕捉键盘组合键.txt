@@ -1,0 +1,30 @@
+/// <summary>
+		/// 捕捉键盘组合键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tbMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+		{
+			//是否按下Ctrl键
+			if ((Control.ModifierKeys & Keys.Control) == Keys.Control) 
+			{
+				string strKey=e.KeyChar.ToString();
+				switch(strKey)
+				{
+					case "X"://Ctrl+X
+						CutToCliboard();
+						break;
+					case "C"://Ctrl+C
+						CopyToCliboard();
+						break;
+					case "V"://Ctrl+V
+						PasteFromCliboard();
+						break;
+					case "A"://Ctrl+A
+						SelectAll();
+						break;
+					default:
+						break;
+				}
+			}
+		}

@@ -1,0 +1,35 @@
+异常(exception handling):是对程序接口隐含假设的一种违反。
+程序接口隐含假设被违反,异常就出现了。
+1.交清于代码放在一个固定的位置。
+2.将处理异常的代码放在一个集中的位置。
+3.定位和修改Bug.
+
+异常处理的演化:
+Win32 API没有采用异常处理机制。
+Microsoft.NET 类型全部采用了异常。
+
+void SomeMethod
+{
+	try
+	{
+		//清理资源和异常恢复的代码	
+	}
+	catch(InvalidCastException)
+	{
+			
+	}
+	catch(Exception e)
+	{
+		//CLS兼容异常
+		throw;
+	}
+	catch
+	{
+		//所有异常(CLS兼容和不兼容异常)
+		throw;
+	}
+	finally
+	{
+		//始终会执行的代码(确保不会抛出异常)
+	}
+}

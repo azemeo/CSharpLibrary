@@ -1,0 +1,38 @@
+public class aaa
+	{
+		private string myLongName;
+		private string myShortName;
+		public aaa(string LongName,string ShortName)
+		{
+			this.myLongName=LongName;
+			this.myShortName=ShortName;				
+		}
+		public string ShortName
+		{
+			get
+			{
+				return myShortName;
+			}
+		}
+
+		public string LongName
+		{
+      
+			get
+			{
+				return myLongName ;
+			}
+		}
+
+	}
+//
+//初始化班级comboBox控件
+			
+			ArrayList aaas=new ArrayList();
+			aaas.Add(new aaa("AAAAAA","aa"));
+			aaas.Add(new aaa("BBBBBB","bb"));
+			comboBoxClass.DataSource=aaas;
+			comboBoxClass.DisplayMember="LongName";
+			comboBoxClass.ValueMember="ShortName";
+//使用时
+comboBoxClass.SelectedValue.ToString()

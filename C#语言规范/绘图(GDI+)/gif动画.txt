@@ -1,0 +1,1 @@
+设置pictureBox1的image属性即可

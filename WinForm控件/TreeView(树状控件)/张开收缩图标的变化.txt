@@ -1,0 +1,15 @@
+void __fastcall TForm1::TreeView3Expanded(TObject *Sender, TTreeNode *Node)
+{
+        //ÕÅ¿ª
+        if(Node->ImageIndex!=1)
+                Node->ImageIndex=1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::TreeView3Collapsed(TObject *Sender,
+      TTreeNode *Node)
+{
+         //ÊÕËõ
+        if(Node->ImageIndex!=0)
+                Node->ImageIndex=0;
+}

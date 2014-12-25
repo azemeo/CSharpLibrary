@@ -1,0 +1,13 @@
+public void ToExcel(System.Web.UI.Control ctl,string FileName)
+		{
+			HttpContext.Current.Response.Charset ="UTF-8";
+			HttpContext.Current.Response.ContentEncoding =System.Text.Encoding.Default;
+			HttpContext.Current.Response.ContentType ="application/ms-excel";
+			HttpContext.Current.Response.AppendHeader("Content-Disposition","attachment;filename="+""+FileName+".xls");
+			ctl.Page.EnableViewState =false;
+			System.IO.StringWriter  tw = new System.IO.StringWriter();
+			System.Web.UI.HtmlTextWriter hw = new System.Web.UI.HtmlTextWriter(tw);
+			ctl.RenderControl(hw);
+			HttpContext.Current.Response.Write(tw.ToString());
+			HttpContext.Current.Response.End();
+		} 

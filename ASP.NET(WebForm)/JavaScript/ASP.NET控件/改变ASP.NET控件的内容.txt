@@ -1,0 +1,13 @@
+<script language=javascript>
+<!--
+function changeValue(objText)
+{
+	window.lblaValue.innerText=objText ;
+
+}
+//-->
+		</script>
+
+
+//ASP.NET¿Ø¼þ
+<asp:label id=lblaValue runat="server" Font-Size="9pt" ForeColor="Blue"></asp:label>

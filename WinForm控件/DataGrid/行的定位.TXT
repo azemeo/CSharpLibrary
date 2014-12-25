@@ -1,0 +1,2 @@
+			dgMain.CurrentRowIndex=CurrIndex;//定位左则选择列的光标
+			dgMain.Select(CurrIndex);//定位整行选择的光标

@@ -1,0 +1,35 @@
+		/// <summary>
+		/// 随机生成文件名称	2004-06-24 创建
+		/// </summary>
+		/// <param name="prefix">前缀</param>
+		/// <param name="ext">扩展名</param>
+		/// <param name="lenght">长度</param>
+		/// <returns>文件名</returns>
+		public static string RandFileName(string prefix,string ext,int length)
+		{
+			//设计思路:
+			//对于要生成的随机文件名称是由0 - 9 之间的数字及a - z 之间的字母组成的。
+			//其中a - z 对应的ASCII码为97-122(十进制)
+			//0 - 9及a - z 共为36个字符
+			//我们使用随机函数生成0-35之间的数字
+			//对0-9 之间，我们取本身为字符
+			//如: 当前数为4,相应字符为4
+			//对10-35 之间,通过+87,达到相应的ASCII值(十制),然后通char类型转化为相应的字符
+			//如: 当前数为11,加87为98,转为相应字符为b
+			//作者：葛利峰 2004-06-24
+
+			string FileName="";
+			Random  rand_number= new Random();
+			int newNum=0;
+			for(int i=0;i<length;i++)
+			{
+				newNum=rand_number.Next(35);//产生随机数
+				if(newNum<=9)//0-9 数字
+					FileName+=newNum.ToString();
+				else		//a-z 字母
+					FileName+=((char)(newNum+87)).ToString();//差值为87
+
+			}
+			FileName=prefix+FileName+ext;//组合
+			return FileName;			
+		}

@@ -1,0 +1,12 @@
+try
+			{
+				using(StreamReader reader=File.OpenText(fileName))
+			{
+				textBoxEdit.Clear();
+				textBoxEdit.Text=reader.ReadToEnd();
+			}
+			}
+			catch(IOException ex)
+			{
+			MessageBox.Show(ex.Message,"Simple Editor",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);				
+			}

@@ -1,0 +1,8 @@
+		protected override void Render(HtmlTextWriter writer)
+		{
+			//...
+			if(Message.Length>0)
+				writer.WriteAttribute("onclick",
+				"javascript:alert(\'"+Message+"\')");
+			writer.Write(HtmlTextWriter.TagRightChar);
+		}

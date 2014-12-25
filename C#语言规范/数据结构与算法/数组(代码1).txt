@@ -1,0 +1,37 @@
+using System;
+
+namespace ConsoleApplication1
+{
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			int[]a;//申明
+			a=new int[3];//分配空间
+			a[0]=1;//写元素
+			a[1]=2;
+			a[2]=3;
+			int b=a[1];//读元素
+			Console.Write("First...");
+			PrintValue(a);
+			//重新分配
+			int[]temp=new int[10];
+			a.CopyTo(temp,0);//将内容复制到临时数组中
+			a=temp;
+			Console.Write("Second...");
+			PrintValue(a);
+		}
+		//打印
+		static void PrintValue(int[]a)
+		{
+			for(int i=0;i<a.Length;i++)
+			{
+				Console.WriteLine("a["+i.ToString()+"]="+a[i].ToString());
+			}
+		}
+	}
+}

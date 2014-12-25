@@ -1,0 +1,4 @@
+string temp="\n";
+			foreach(int i in listViewReco.CheckedIndices)
+				temp+=i.ToString()+"\n";
+			MessageBox.Show(temp);

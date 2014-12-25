@@ -1,0 +1,41 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyDataReader
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlConnection conn=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=");
+			try
+			{			
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("select * from titles",conn);
+				SqlDataReader reader=cmd.ExecuteReader();
+				while(reader.Read())
+					Console.WriteLine(reader["title"]);
+				reader.Close();//重用链接时关闭Reader
+				cmd.CommandText="select * from authors";
+				reader=cmd.ExecuteReader();
+				while(reader.Read())
+					Console.WriteLine(reader["au_lname"]);
+}
+			catch(SqlException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+IPostBackEventHandler接口
+
+在回发产生时通知产生回发的控件
+
+RaisePostBackEvent 是唯一的方法
+
+
+
+类似TextBox的控件，继承IPostBackDataHandler接口
+类似Button控件，继承IPostBackEventHandler接口

@@ -1,0 +1,29 @@
+		private void Student_Styles()
+		{
+//#1,这是一个绑定日期获取器的例子，共三步，请看#1,#2,#3
+			style.GridColumnStyles.AddRange(new DataGridColumnStyle[]{id,room_id,real_name,sex,card,tel,degree,post,address,birth});
+			dgMain.TableStyles.Add(style);
+			//订阅单元格获得焦点时发生的事件
+			dgBox=(DataGridTextBoxColumn)dgMain.TableStyles[0].GridColumnStyles[9];//哪一列出现
+			dgBox.TextBox.GotFocus+= new EventHandler(this.dgBox_GotFocus);
+			//
+
+		}
+		//#2
+		private void dgBox_GotFocus(object o, EventArgs e)
+		{
+			DateTimePicker dtp	= new DateTimePicker();
+			dtp.Dock			= DockStyle.Fill;
+			dtp.Cursor			= Cursors.Arrow;
+			dtp.ValueChanged+=new EventHandler(this.dtg_ValueChanged);//日期获取器变化
+			dgBox.TextBox.Controls.Add(dtp);
+			dtp.BringToFront();
+				
+		}
+		//#3
+		private void dtg_ValueChanged(object sender, System.EventArgs e)
+		{
+			int lineNum=dgMain.CurrentCell.RowNumber;//或dgMain.CurrentRowIndex			
+			dgMain[lineNum,9]=((DateTimePicker)(sender)).Value.ToShortDateString();		
+				
+		}

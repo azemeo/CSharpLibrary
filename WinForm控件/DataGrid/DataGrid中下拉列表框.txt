@@ -1,0 +1,69 @@
+1.订阅dataGrid的单元格得到当标的事件
+
+2.建立新的控件并绑定
+private void dgdFunctionArea_GotFocus(object o, EventArgs e)
+		{
+			//Create the combo control to be added and set its properties
+			comboControl				= new ComboBox();
+			comboControl.Cursor			= System.Windows.Forms.Cursors.Arrow;
+			comboControl.DropDownStyle	= System.Windows.Forms.ComboBoxStyle.DropDown;
+			comboControl.Dock			= DockStyle.Fill;
+			comboControl.Items.AddRange(new string[5]{"","Information Technology","Computer Science","Bio Technology","Electrical Engg"});
+
+			//Create the date time picker control to be added and set its properties
+			DateTimePicker dtp			= new DateTimePicker();
+			dtp.Dock					= DockStyle.Fill;
+			dtp.Cursor					= Cursors.Arrow;
+
+			//Create the check box control to be added and set its properties
+			CheckBox chk				= new CheckBox();
+			chk.Dock					= DockStyle.Fill;
+			chk.Cursor					= Cursors.Arrow;
+
+			//Create the radio button control to be added and set its properties
+			RadioButton rb				= new RadioButton();
+			rb.Dock						= DockStyle.Fill;
+			rb.Cursor					= Cursors.Arrow;
+			
+			//Add the controls to the respective columns in the data grid
+			for(int i = 0 ;i < dataTable.Rows.Count ; i++)
+			{
+				//if the data in the first column is date time, add a date time control to the grid
+				if(dataGrid1[i,0].ToString().Equals("DateTime") &&  hitTestGrid != null && hitTestGrid.Row == i)
+				{
+					datagridtextBox.TextBox.Controls.Add(dtp);
+					comboControl.SendToBack();
+					chk.SendToBack();
+					rb.SendToBack();
+					dtp.BringToFront();
+				}
+					//if the data in the first column is combo box, add a combo box control to the grid
+				else if(dataGrid1[i,0].ToString().Equals("ComboBox")  && hitTestGrid != null && hitTestGrid.Row == i)
+				{
+					datagridtextBox.TextBox.Controls.Add(comboControl);
+					chk.SendToBack();
+					dtp.SendToBack();
+					rb.SendToBack();
+					comboControl.BringToFront();
+				}
+					//if the data in the first column is check box, add a check box control to the grid
+				else if(dataGrid1[i,0].ToString().Equals("CheckBox")  && hitTestGrid != null && hitTestGrid.Row == i)
+				{
+					datagridtextBox.TextBox.Controls.Add(chk);
+					comboControl.SendToBack();
+					dtp.SendToBack();
+					rb.SendToBack();
+					chk.BringToFront();
+				}
+				//if the data in the first column is radio button, add a radio button control to the grid
+				if(dataGrid1[i,0].ToString().Equals("Radio Button") &&  hitTestGrid != null && hitTestGrid.Row == i)
+				{
+					datagridtextBox.TextBox.Controls.Add(rb);
+					comboControl.SendToBack();
+					chk.SendToBack();
+					dtp.SendToBack();
+					rb.BringToFront();
+				}
+				datagridtextBox.TextBox.BackColor = Color.White;
+			}
+		}

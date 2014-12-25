@@ -1,0 +1,7 @@
+<TABLE id="Table1" cellspacing="0" cellpadding="3" rules="cols" bordercolor="#999999" border="1"
+						style="BORDER-RIGHT: #999999 1px dotted; BORDER-TOP: #999999 1px dotted; Z-INDEX: 111; BORDER-LEFT: #999999 1px dotted; BORDER-BOTTOM: #999999 1px dotted; BORDER-COLLAPSE: collapse; BACKGROUND-COLOR: white"
+						width="300">
+						<TR>
+							<TD>ss</TD>
+						</TR>
+					</TABLE>

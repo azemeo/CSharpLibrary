@@ -1,0 +1,11 @@
+不论是YKGrid、RptGrid或基础的DataGrid的设计时大小由
+
+ClientWidth="610" ClientHeight="340"
+
+决定
+
+
+
+
+<cc1:ReportGrid id="ReportGridMain" style="Z-INDEX: 102; LEFT: 40px; POSITION: absolute; TOP: 24px"
+				runat="server" Height="300px" Width="400px" ClientWidth="610" ClientHeight="340"></cc1:ReportGrid>

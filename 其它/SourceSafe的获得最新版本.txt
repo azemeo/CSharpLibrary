@@ -1,0 +1,6 @@
+在All projects:
+右击文件夹
+Get Last Version...
+勾选:Recursive,Build tree
+中选:make writeable
+OK

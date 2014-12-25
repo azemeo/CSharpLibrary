@@ -1,0 +1,29 @@
+
+设计继承而来窗口，把基类修改为默认的System.Windows.Forms.Form
+生成工程是，修改为原来基类。
+可以通过宏来简化修改基类。
+
+// #define FORM_DESIGN
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+
+namespace FormsCollection
+{
+   /// <summary>
+   /// Summary description for FormPrecipitation.
+   /// </summary>
+#if (FORM_DESIGN)
+   public class FormPrecipitation : System.Windows.Forms.Form
+#else
+   public class FormPrecipitation : WeatherGage.FormGage
+#endif
+   {
+   
+      public FormPrecipitation()
+      {
+
+但是基类的菜单、与工具栏不会被继承的

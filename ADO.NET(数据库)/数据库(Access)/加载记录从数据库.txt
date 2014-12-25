@@ -1,0 +1,34 @@
+//加载记录从数据库
+				OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\CSharp3\QXKMeTone\bin\Debug\First.mdb;");
+				myConn.Open();
+				OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM Student",myConn);
+				OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+				DataSet thisDataSet=new DataSet();
+				thisAdapter.Fill(thisDataSet,tablename);
+				int nTotals=thisDataSet.Tables[tablename].Rows.Count;
+				Student student=new Student();
+				for(int i=0;i<nTotals;i++)
+				{					
+					student.Name=(string)thisDataSet.Tables[tablename].Rows[i]["name"];
+					student.Sex=(bool)thisDataSet.Tables[tablename].Rows[i]["sex"];
+					student.Folk=(string)thisDataSet.Tables[tablename].Rows[i]["folk"];
+					student.Address=(string)thisDataSet.Tables[tablename].Rows[i]["address"];
+					student.Telephone=(string)thisDataSet.Tables[tablename].Rows[i]["telephone"];
+					student.Nativeplace=(string)thisDataSet.Tables[tablename].Rows[i]["nativeplace"];
+					student.Intogroup=(DateTime)thisDataSet.Tables[tablename].Rows[i]["intogroup"];
+					student.Intoband=(DateTime)thisDataSet.Tables[tablename].Rows[i]["intoband"];
+					student.Fromschool=(string)thisDataSet.Tables[tablename].Rows[i]["fromschool"];
+					student.Suspend=(DateTime)thisDataSet.Tables[tablename].Rows[i]["suspend"];
+					student.IntoDate=(DateTime)thisDataSet.Tables[tablename].Rows[i]["intoDate"];
+					student.ReapDate=(DateTime)thisDataSet.Tables[tablename].Rows[i]["reapDate"];
+					student.Intoschool=(DateTime)thisDataSet.Tables[tablename].Rows[i]["intoschool"];
+					student.Serial=(int)thisDataSet.Tables[tablename].Rows[i]["serial"];
+					student.Borndate=(DateTime)thisDataSet.Tables[tablename].Rows[i]["borndate"];
+					student.Polity=(string)thisDataSet.Tables[tablename].Rows[i]["polity"];
+					student.IDCard=(string)thisDataSet.Tables[tablename].Rows[i]["iDCard"];
+					student.Intogroupaddr=(string)thisDataSet.Tables[tablename].Rows[i]["intogroupaddr"];
+					student.Intobandaddr=(string)thisDataSet.Tables[tablename].Rows[i]["intobandaddr"];
+					student.Borndate=(DateTime)thisDataSet.Tables[tablename].Rows[i]["borndate"];
+					students.Add(student);
+				}
+				myConn.Close();	

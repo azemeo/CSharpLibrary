@@ -1,0 +1,26 @@
+响应文件(Response):是包含一组编译命令行开关的文本文件。CSC中用@指定响应文件
+
+不必每次都输入参数
+
+如:
+MyProject.rsp
+    /out:MyProject.exe
+    /target:winexe
+
+csc.exe @MyProject.rsp codeFile.cs
+
+C#编译器支持多个响应文件
+
+全局响应文件(CSC.Rsp)  C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\csc.rsp
+
+局部响应文件(CSC.Rsp)当前项目的目录
+
+覆盖顺序
+显式指定>局部响应文件>全局响应文件
+
+/noconfig 开关忽略本地和全局的CSP.rsp文件
+
+只支持命令不支持IDE
+
+
+

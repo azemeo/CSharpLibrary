@@ -1,0 +1,2 @@
+foreach(string p in fn)
+Console.WriteLine(p);

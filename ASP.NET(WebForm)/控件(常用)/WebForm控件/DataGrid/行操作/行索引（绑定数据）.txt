@@ -1,0 +1,6 @@
+private void zdgMain_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+{
+
+e.Item.ItemIndex
+
+}

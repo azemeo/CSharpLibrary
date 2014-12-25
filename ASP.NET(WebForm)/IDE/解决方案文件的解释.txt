@@ -1,0 +1,9 @@
+*.csproj.webinfo
+
+定义了Web的路径
+
+*.csproj
+
+<References>节，编译时能照的系统程序集(*.dll),在IDE添加添用会放到这里
+
+<Files> 项目中的文件

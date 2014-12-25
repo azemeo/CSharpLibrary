@@ -1,0 +1,44 @@
+DataGrid
+绑定简单，但样式需要仔细考虑。
+
+简单绑定示例
+
+			al.Add(new Person("China",0));
+			al.Add(new Person("USA",1));
+			al.Add(new Person("Japan",2));
+			this.dataGrid1.DataSource=al;
+
+	public class Person
+	{
+		private string country=string.Empty;
+		public string Country
+		{
+			get{return country;}
+			set{country=value;}
+		}
+		private int code=0;
+		public int Code
+		{
+			get{return code;}
+			set{code=value;}
+		}
+		public Person(string country,int code)
+		{
+			this.country=country;
+			this.code=code;
+		}
+	}
+样式通过
+DataGridTableStyle
+MappingName(表名),GridColumnStyles
+
+DataGridColumnStyle
+MappingName(列名),NullText(单无显示长度)
+HeaderText（列标题名称）,Width(列宽度)
+
+1.设计器使用
+	a.单击TableStyles.../只添加一次 定义表
+	b.单击GridColumnStyles...	定义列
+	c.添加多次(多列)
+
+

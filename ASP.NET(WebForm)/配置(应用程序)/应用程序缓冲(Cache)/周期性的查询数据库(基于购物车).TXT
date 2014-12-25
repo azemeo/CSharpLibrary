@@ -1,0 +1,143 @@
+对于数据库内容不是经常变化的，下面的做法更高效
+
+1.周期性的查询数据库，在应用程序中保存结果，在应用程序缓存中保存结果，并用缓存中的数据填充DataGrid
+
+1.WebForm1.aspx.cs
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			DataSet ds = (DataSet)Cache["titles"];
+
+			if (ds != null) 
+			{
+				DataGrid1.DataSource=ds;
+				DataGrid1.DataBind();				
+			}
+			else 
+			{
+				Label1.Text = "Server busy";
+			}
+
+		}
+2.Global.asax.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.Caching;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+namespace MyCongo 
+{
+	/// <summary>
+	/// Global 的摘要说明。
+	/// </summary>
+	public class Global : System.Web.HttpApplication
+	{
+		/// <summary>
+		/// 必需的设计器变量。
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+
+		static Cache _cache = null;
+
+
+		public Global()
+		{
+			InitializeComponent();
+		}	
+		
+		protected void Application_Start(Object sender, EventArgs e)
+		{
+			_cache = Context.Cache;
+
+			DataSet ds=ReadDataSet();
+
+			if (ds != null) 
+			{
+				//将数据集插入缓存中
+				_cache.Insert ("titles", ds, null,
+					Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(5),
+					CacheItemPriority.AboveNormal,
+					new CacheItemRemovedCallback(RefreshDS));
+			}
+		}
+		//回调函数
+		static void RefreshDS (String key, Object item,
+			CacheItemRemovedReason reason)
+		{
+			
+			DataSet ds=ReadDataSet();
+			if (ds != null) 
+			{
+				_cache.Insert ("titles", ds, null,
+					Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(5),
+					CacheItemPriority.AboveNormal,
+					new CacheItemRemovedCallback(RefreshDS));
+			}
+		}
+
+		static DataSet ReadDataSet ()
+		{
+			string ConnectString =
+				ConfigurationSettings.AppSettings["connectString"];
+			SqlDataAdapter adapter = new SqlDataAdapter
+				("select * from titles where price != 0", ConnectString);
+			DataSet ds = new DataSet ();
+			adapter.Fill (ds);
+			return ds;
+		}
+
+ 
+		protected void Session_Start(Object sender, EventArgs e)
+		{
+				Session["MyShoppingCart"] = new ShoppingCart();
+		}
+
+		protected void Application_BeginRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_EndRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_Error(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Session_End(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_End(Object sender, EventArgs e)
+		{
+
+		}
+			
+		#region Web 窗体设计器生成的代码
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.components = new System.ComponentModel.Container();
+		}
+		#endregion
+	}
+}
+
+
+

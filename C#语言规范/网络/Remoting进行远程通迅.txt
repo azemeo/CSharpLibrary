@@ -1,0 +1,37 @@
+1.建立一个类库项目:P1
+a.类继承于System.MarshalByRefObject
+b.定义要公有访问的类A1
+2.建立一个服务器项目
+a.增加System.Runtime.Remototing和类库项目的引用
+b.增加引用:
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp; 
+using P1;
+c.启动服务
+TcpServerChannel channel=new TcpServerChannel(8086);
+ChannelServices.RegisterChannel(channel);//注册服务器通道
+RemotingConfiguration.RegisterWellKnownServiceType(typeof(Hello),"Hi",WellKnownObjectMode.SingleCall);//注册远程服务对象类型
+System.Console.WriteLine("hit to exit");
+System.Console.ReadLine(); //等待
+3.建立一个客户端项目
+a.增加System.Runtime.Remototing和类库项目的引用
+b.增加引用:
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp; 
+using P1;
+c.调用服务
+ChannelServices.RegisterChannel(new TcpClientChannel());//注册客户通道
+Hello obj=(Hello)Activator.GetObject(typeof(Hello),"tcp://localhost:8086/Hi");//使用透明代理与服务器通信
+if(obj==null)//检查通信是否成功
+{
+	Console.WriteLine("Can not locate server!");
+	return;
+}
+for(int i=0;i<5;i++)//调用服务器上提供的函数
+{
+Console.WriteLine(obj.Greeting("glf"));
+}
+Console.WriteLine("hit to exit");
+Console.ReadLine();
+

@@ -1,0 +1,8 @@
+private string GetFilePath()
+		{
+			string full = Assembly.GetExecutingAssembly().GetName().CodeBase.ToString();
+			string name = Assembly.GetExecutingAssembly().GetName().ToString() ;
+			name = name.Substring(0,name.IndexOf(",")) + ".exe"; 
+			string applocal = full.Substring(0,full.IndexOf(name));
+			return applocal + "sfa.config";
+		}

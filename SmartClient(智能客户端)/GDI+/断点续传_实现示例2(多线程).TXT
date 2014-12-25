@@ -1,0 +1,296 @@
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+using System.Net;
+using System.IO;
+using System.Threading;//多线程
+namespace WA_Down
+{
+	/// <summary>
+	/// Form1 的摘要说明。
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.TextBox WebUrl;
+		private System.Windows.Forms.TextBox SavePathTB;
+		private System.Windows.Forms.Label Processlab;
+		private System.Windows.Forms.Button Startbtn;
+		private System.Windows.Forms.Button btnStop;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Label label1;
+		/// <summary>
+		/// 必需的设计器变量。
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+
+		//用户变量
+		Thread SieveThread;
+
+
+		public Form1()
+		{
+			//
+			// Windows 窗体设计器支持所必需的
+			//
+			InitializeComponent();
+
+			//
+			// TODO: 在 InitializeComponent 调用后添加任何构造函数代码
+			//
+		}
+
+		/// <summary>
+		/// 清理所有正在使用的资源。
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if (components != null) 
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows 窗体设计器生成的代码
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.WebUrl = new System.Windows.Forms.TextBox();
+			this.SavePathTB = new System.Windows.Forms.TextBox();
+			this.Processlab = new System.Windows.Forms.Label();
+			this.Startbtn = new System.Windows.Forms.Button();
+			this.btnStop = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
+			this.SuspendLayout();
+			// 
+			// WebUrl
+			// 
+			this.WebUrl.Location = new System.Drawing.Point(24, 64);
+			this.WebUrl.Name = "WebUrl";
+			this.WebUrl.Size = new System.Drawing.Size(384, 21);
+			this.WebUrl.TabIndex = 0;
+			this.WebUrl.Text = "http://on165-http.skycn.net:8180/down/uedit32.zip";
+			// 
+			// SavePathTB
+			// 
+			this.SavePathTB.Location = new System.Drawing.Point(24, 192);
+			this.SavePathTB.Name = "SavePathTB";
+			this.SavePathTB.Size = new System.Drawing.Size(296, 21);
+			this.SavePathTB.TabIndex = 1;
+			this.SavePathTB.Text = "C:\\aa.zip";
+			// 
+			// Processlab
+			// 
+			this.Processlab.AutoSize = true;
+			this.Processlab.ForeColor = System.Drawing.Color.Red;
+			this.Processlab.Location = new System.Drawing.Point(24, 104);
+			this.Processlab.Name = "Processlab";
+			this.Processlab.Size = new System.Drawing.Size(48, 17);
+			this.Processlab.TabIndex = 2;
+			this.Processlab.Text = "[Ready]";
+			// 
+			// Startbtn
+			// 
+			this.Startbtn.Location = new System.Drawing.Point(24, 144);
+			this.Startbtn.Name = "Startbtn";
+			this.Startbtn.TabIndex = 3;
+			this.Startbtn.Text = "Start";
+			this.Startbtn.Click += new System.EventHandler(this.Startbtn_Click);
+			// 
+			// btnStop
+			// 
+			this.btnStop.Location = new System.Drawing.Point(136, 144);
+			this.btnStop.Name = "btnStop";
+			this.btnStop.TabIndex = 4;
+			this.btnStop.Text = "Stop";
+			this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(336, 192);
+			this.button1.Name = "button1";
+			this.button1.TabIndex = 6;
+			this.button1.Text = "Browse...";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(24, 24);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(406, 17);
+			this.label1.TabIndex = 7;
+			this.label1.Text = "断点续传示例 wrote by Glen Copyright (C) 2005 Zeroglobal company.";
+			// 
+			// Form1
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
+			this.ClientSize = new System.Drawing.Size(440, 238);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.button1);
+			this.Controls.Add(this.btnStop);
+			this.Controls.Add(this.Startbtn);
+			this.Controls.Add(this.Processlab);
+			this.Controls.Add(this.SavePathTB);
+			this.Controls.Add(this.WebUrl);
+			this.Name = "Form1";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "断点续传示例";
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+
+		private void Startbtn_Click(object sender, System.EventArgs e)
+		{
+
+			//改变UI
+			this.Startbtn.Enabled=false;
+			this.btnStop.Enabled=true;
+
+			//启动后台线程来计算
+			SieveThread=new Thread(new ThreadStart(ThreadFunc));
+			SieveThread.IsBackground=true;
+			SieveThread.Start();
+
+		}
+		//线程
+		void ThreadFunc()
+		{
+			Download();
+			//还原UI(正常结束)
+			this.Startbtn.Enabled=true;
+			this.btnStop.Enabled=false;
+
+		}
+
+		private void Download()
+		{
+			string StrFileName=SavePathTB.Text.Trim();      //根据实际情况设置
+
+			string StrUrl=WebUrl.Text.Trim();   //根据实际情况设置
+
+			
+			
+			//打开上次下载的文件或新建文件
+
+			long lStartPos =0;
+
+			FileStream fs;
+
+			if (File.Exists(StrFileName))
+
+			{
+
+				fs= System.IO.File.OpenWrite(StrFileName);
+
+				lStartPos=fs.Length;
+
+				fs.Seek(lStartPos,SeekOrigin.Current);   //移动文件流中的当前指针
+
+			}
+
+			else
+
+			{
+
+				fs = new FileStream(StrFileName,FileMode.Create);
+
+				lStartPos =0;
+
+			}
+
+                     
+
+			//打开网络连接
+
+			try
+
+			{
+
+				HttpWebRequest request =(HttpWebRequest)HttpWebRequest.Create(StrUrl);
+
+				
+				//得到文件的大小
+				WebResponse wr=request.GetResponse();
+				long filesize=wr.ContentLength;
+
+				if ( lStartPos>0)
+					request.AddRange((int)lStartPos);    //设置Range值                            
+
+				//向服务器请求，获得服务器回应数据流
+				System.IO.Stream ns= request.GetResponse().GetResponseStream();
+
+ 
+
+				byte[] nbytes = new byte[512];
+
+				int nReadSize=0;
+
+				nReadSize=ns.Read(nbytes,0,512);
+
+				while( nReadSize >0)
+				{
+
+					fs.Write(nbytes,0,nReadSize);
+
+					nReadSize=ns.Read(nbytes,0,512);
+					Processlab.Text="正在下载..."+fs.Length/1024+"KB,共"+(filesize/1024).ToString()+"KB.";
+					Processlab.Refresh();
+				}
+
+				fs.Close();
+
+				ns.Close();
+
+				Processlab.Text="下载完成";
+
+			}
+
+			catch(Exception ex)
+
+			{
+
+				fs.Close();
+
+				Processlab.Text="下载过程中出现错误:"+ex.ToString();
+
+			}
+
+		}
+
+		private void btnStop_Click(object sender, System.EventArgs e)
+		{
+			//取消下载
+			if(SieveThread!=null&&SieveThread.IsAlive)
+			{
+				SieveThread.Abort();//终止后台线程
+				SieveThread.Join();//等待直到线程结束
+				
+				//还原UI
+				this.Startbtn.Enabled=true;
+				this.btnStop.Enabled=false;
+				SieveThread=null;
+			}
+
+		}
+	}
+}

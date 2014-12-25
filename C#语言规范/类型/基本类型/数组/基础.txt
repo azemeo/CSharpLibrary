@@ -1,0 +1,107 @@
+CLR 支持一维数组、多维数组、交错数组(数组的数组)
+	定义数组->System.Array->System.Object
+数组总是分配在托管堆上的引用类型。
+最小索引为0.
+尽可能使用一维0基数组,性能最好。
+
+			Int32[] a1=new Int32[100];//创建一维0基数组
+
+			Double[,] a2=new Double[10,20];//创建二维维数组
+
+			String[,,] a3=new String[5,3,10];//创建三维数组
+
+初始化
+Int32[] arr={1,2,3,4,5};
+Int32[] arr=new Int32[]{1,2,3,4,5};
+
+
+
+创建数组的数组
+	public class Point
+	{
+		public int x;
+		public int y;
+	}
+
+			Point[][]	myPloy=new Point[3][];
+ 
+			myPloy[0]=new Point[10];
+			myPloy[1]=new Point[20];
+			myPloy[2]=new Point[30];
+			
+
+			for(Int32 x=0,l=myPloy[0].Length;x<1;x++)
+				Console.WriteLine(myPloy[0][x]);
+
+成员		成员类型	描述
+------------------------------
+Rank		只读实例属性	返回数组的维数
+GetLength	实例方法	返回指定维数的元素的个数
+Length		只读实例属性	返回所有元素的个数
+GetLowerBound	实例方法	返回指定维数的下限。通常为0.
+GetUpperBound	实例方法	返回指定维数的上限。通常为指定维数的元素的个数-1
+GetEnumerator	实例方法	遍历元素
+Sort		静态方法	排序,必须实现IComparable
+BinarySearch	静态方法	二分搜索法,必须实现IComparable
+IndexOf		静态方法	指定元素出现的第一个索引值
+LastIndexOf	静态方法	指定元素出现的最后一个索引值
+Reverse		静态方法	反转数组
+Clone/CopyTo/Copy	不同类型的拷贝
+Clear	部分元素设定为0或空引用。
+
+
+示例
+
+using System;
+using System.Collections;
+namespace TestArray
+{
+	public class Point
+	{
+		public int x;
+		public int y;
+	}
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Int32[] a1=new Int32[10];
+			a1[0]=8;
+			a1[1]=4;
+			a1[2]=9;
+			a1[3]=5;
+			a1[4]=1;
+			a1[5]=3;
+			a1[6]=6;
+			a1[7]=4;
+			a1[8]=2;
+			a1[9]=7;
+			PrintValue(a1);
+			Array.Reverse(a1);//元素反转
+			PrintValue(a1);
+			Console.WriteLine("Rank:{0}",a1.Rank);//维数
+			Console.WriteLine("GetLength:{0}",a1.GetLength(0));//长度
+			Console.WriteLine("GetLength:{0}",a1.Length);
+			Console.WriteLine("GetLowerBound:{0}",a1.GetLowerBound(0));//下标
+			Console.WriteLine("GetUppperBound:{0}",a1.GetUpperBound(0));//上标
+			Array.Sort(a1,0,a1.Length);//排序
+			PrintValue(a1);
+			int pos=Array.BinarySearch(a1,0,a1.Length,3);//二分搜索
+			Console.WriteLine(pos.ToString());
+			
+		}
+		static void PrintValue(Int32[]p)
+		{
+			IEnumerator myEnumerator= p.GetEnumerator();//遍历元素
+			while (myEnumerator.MoveNext() )
+				Console.Write( "{0}\t", myEnumerator.Current );
+		}
+	}
+}

@@ -1,0 +1,7 @@
+OpenFileDialog dlg=new OpenFileDialog();
+			dlg.Title="选择数据库文件...";
+			dlg.Filter="Microsoft Access 2000 文件(*.mdb)|*.mdb|所有文件(*.*)|*.*";
+			if(dlg.ShowDialog()==DialogResult.OK)
+			{
+			labFileName.Text=dlg.FileName;
+			}	

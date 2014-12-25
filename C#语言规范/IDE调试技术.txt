@@ -1,0 +1,37 @@
+1.在IDE中Debug/Release状态中切换，代码颜色不同
+2.可用不调试版和发行版
+
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
+
+
+#if DEBUG
+			if(!e.IsTerminating)
+			{
+				Debugger.Launch();
+			}
+			else
+			{
+				Debugger.Launch();
+			}
+#else
+			if(!e.IsTerminating)
+			{
+				
+			}
+			else
+			{
+				String msg=String.Format("{0} has encountered aproblem and "+
+					"need to close.we are sorry for the inconvenience.\n\n"+
+					"Please tell{1} about this problem.\n"+
+					"We have created an error report that you can send to"+
+					"help us imporove{0}."+
+					"We will treat this report as confidential and anonymuse.\n\n"+
+					"Would you like to send the report?","(AppName)","(CompanyName)");
+				if(MessageBox.Show(msg,"(AppName)",MessageBoxButtons.YesNo)==DialogResult.Yes)
+				{
+					MessageBox.Show(info,"Error Report");
+				}
+			}		
+#endif

@@ -1,0 +1,13 @@
+如何在控件中应用样式表
+在一般的控件，都有CssClass的属性
+
+1.Css\StandStyle.css
+.Song9
+{
+	font-size: 9pt;
+	color: black;
+	font-family: 宋体;
+}
+
+2.*.aspx
+CssClass=Song9

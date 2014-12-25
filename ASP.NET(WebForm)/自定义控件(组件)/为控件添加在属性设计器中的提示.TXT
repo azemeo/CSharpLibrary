@@ -1,0 +1,14 @@
+为控件添加在属性设计器中的提示
+
+Category 分类
+Description 提示
+
+
+
+		//属性:行选择过滤器
+		[Category("扩展"),Description("多项选择过滤器")]
+		public String RowSelectFilter 
+		{
+			get { return(String)  ViewState["__RowSelectFilter"]; }
+			set { ViewState["__RowSelectFilter"] = value; }
+		}

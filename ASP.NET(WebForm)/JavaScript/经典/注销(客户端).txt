@@ -1,0 +1,12 @@
+	<script language="JavaScript" type="text/JavaScript">
+		//注销事件
+		function PageGoto(str)
+		{
+			window.parent.location=str;
+		}
+	</script>
+
+
+
+
+<A class="topNav" href="javascript:PageGoto('logout.aspx')">注销</A>

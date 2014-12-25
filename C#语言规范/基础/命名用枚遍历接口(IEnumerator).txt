@@ -1,0 +1,5 @@
+using System.Collections;			
+
+IEnumerator myEnumerator= a1.GetEnumerator();
+			while (myEnumerator.MoveNext() )
+				Console.Write( "\t{0}", myEnumerator.Current );

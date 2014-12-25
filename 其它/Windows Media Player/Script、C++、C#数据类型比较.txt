@@ -1,0 +1,9 @@
+Script		 C++  		(.NET)C# 
+------------------------------------------------
+Number 		int		Int32(int) 
+Number 		long 		Int32(int)  
+Number		double 		Double(double) 
+Number 		float 		Single(float) 
+String 		BSTR 		String(string) 
+Boolean 	VARIANT_BOOL 	Boolean(bool) 
+Object 		Object 		Object(object) 

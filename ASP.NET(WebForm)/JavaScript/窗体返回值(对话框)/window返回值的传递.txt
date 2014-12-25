@@ -1,0 +1,37 @@
+window返回值的传递(窗体返回值)
+
+在窗体间传值
+
+A1.aspx 接收方(调用方)
+
+
+function OpenProjFrm()
+{
+
+	//判断用户的选择为确定或是取消
+	var returnvalue;  
+	//得到返回值
+	returnvalue=window.showModalDialog('Frameset.asp?WebSortStart.aspx','','dialogHeight: 295px; dialogWidth: 376px;  edge: Raised; center: Yes; help: no; resizable: Yes; status: no;');
+	//保存在隐藏域中
+	window.document.all("txtSetidFlag").value=returnvalue;
+	//确定用户选择
+	if(returnvalue!="")
+		window.close();				
+}
+
+
+A2.aspx 发送方(被调方)
+
+//确定按钮OK
+
+function OKWindow()
+{
+	window.returnValue=window.document.all("HiddenSQL").value;//返回选定SQL语句
+	window.close();
+}
+//取消按钮Cancel
+function CancelWindow()
+{
+	window.returnValue="";
+	window.close();
+}

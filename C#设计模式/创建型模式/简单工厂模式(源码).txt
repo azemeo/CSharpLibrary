@@ -1,0 +1,113 @@
+1.简单工厂
+using System;
+using System.Collections;
+namespace SimpleFactory
+{
+	//分隔名称的基类
+	public class Namer
+	{
+		protected string frName,lName;
+		public string getFrname()
+		{
+			return frName;
+		}
+		public string getLname()
+		{
+			return lName;
+		}
+	}
+	//格式1类
+	public class FirstFirst:Namer
+	{
+		public FirstFirst(string name)
+		{
+			int i=name.Trim().IndexOf(" ");
+			if(i>0)
+			{
+				frName=name.Substring(0,i);
+				lName=name.Substring(i+1);
+			}
+			else
+			{
+				lName=name;
+				frName="";
+			}
+		}
+	}
+	//格式2类
+	public class LastFirst:Namer
+	{
+		public LastFirst(string name)
+		{
+			int i=name.IndexOf(",");
+			if(i>0)
+			{
+				lName=name.Substring(0,i);
+				frName=name.Substring(i+1);
+			}
+			else
+			{
+				lName=name;
+				frName="";
+			}
+		}
+	}
+	//简单工厂类
+	public class NameFactory
+	{
+		public NameFactory()
+		{}
+		public Namer getName(string name)
+		{
+			int i=name.IndexOf(",");
+			if(i>0)
+				return new LastFirst(name);
+			else
+				return new FirstFirst(name);
+		}
+	}
+	
+}
+
+2.使用
+
+		private void btnCalc_Click(object sender, System.EventArgs e)
+		{
+			//传统方法
+//			string strName=tbName.Text.Trim();
+//			int i=strName.IndexOf(",");
+//			if(i>0)
+//			{
+//				int m=strName.IndexOf(",");
+//				if(m>0)
+//				{
+//					this.tbLastName.Text=strName.Substring(0,m);
+//					this.tbFirstName.Text=strName.Substring(m+1).Trim();
+//				}
+//				else
+//				{
+//					this.tbLastName.Text=strName;
+//					this.tbFirstName.Text="";
+//				}
+//			}
+//			else
+//			{
+//				int n=strName.IndexOf(" ");
+//				if(n>0)
+//				{
+//					this.tbFirstName.Text=strName.Substring(0,n).Trim();
+//					this.tbLastName.Text=strName.Substring(n).Trim();
+//				}
+//				else
+//				{
+//					this.tbLastName.Text=strName;
+//					this.tbFirstName.Text="";
+//				}
+//			}
+			//工厂方法(把数据的方法和其它方法分隔开来:非常简洁)
+			//使用工厂
+			NameFactory nameFact=new NameFactory();
+			Namer nm=nameFact.getName(tbName.Text.Trim());
+			this.tbFirstName.Text=nm.getFrname();
+			this.tbLastName.Text=nm.getLname();
+		}

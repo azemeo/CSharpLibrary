@@ -1,0 +1,18 @@
+检索控件与行的内容
+		private void DataGrid1_XXX(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			ListItemType lit=e.Item.ItemType;
+			if(lit==ListItemType.EditItem)
+			{
+				//为控件设置初始值
+				DropDownList ddTitles;
+				ddTitles=(DropDownList)e.Item.FindControl("ddTitles");//寻找控件
+				DataRowView drv=(DataRowView)e.Item.DataItem;//寻找一行数据项
+				if(drv!=null)
+				{
+					string strTitle=drv["titleofcourtesy"].ToString();//得到项中的值
+					int nIndex=Array.IndexOf(aTitleOfCourtesy,strTitle);//在数组中搜索索引
+					ddTitles.SelectedIndex=nIndex;//为为控件赋值
+				}
+			}
+		}

@@ -1,0 +1,7 @@
+得到Access文件在当前服务器上的路径
+
+
+using System.Web;
+
+
+string strFull=HttpContext.Current.Server.MapPath("\\Bug\\bug.mdb");

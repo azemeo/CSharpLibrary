@@ -1,0 +1,4 @@
+SQL CE Query Analyzer
+安装依赖于开发环境.
+
+通过Tools|Exit 退出。

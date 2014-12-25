@@ -1,0 +1,8 @@
+private void zdgMain_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+if(e.Item.ItemType == ListItemType.Item)
+						e.Item.CssClass="dgItemItemStyle";
+					else if(e.Item.ItemType == ListItemType.AlternatingItem)
+						e.Item.CssClass="dgAlternatingItemStyle";
+
+}

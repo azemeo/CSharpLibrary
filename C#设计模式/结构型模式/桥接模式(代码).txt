@@ -1,0 +1,139 @@
+1.调用窗体
+	public class Form1 : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.ListBox lsProd;
+		private System.Windows.Forms.DataGrid grdProd;
+		private ArrayList products;
+		private VisList prodList, gridList;
+		public Form1() 		{
+			InitializeComponent();
+			init();
+		}
+private void init() {
+			products = new ArrayList ();
+			readFile(products);	//read in the data file
+			//建立一个包装了列表控件的类 A 
+			prodList = new ProductList (lsProd);
+			//桥接A(注：同时步及lbr-接口,ListBridge-类,prodList-子类)
+			Bridger lbr = new ListBridge (prodList);
+			//增加数据
+			lbr.addData (products);
+			//建立一个包装了表格控件的类 B
+			gridList = new GridList(grdProd);
+			//桥接B
+			Bridger gbr = new ListBridge (gridList);
+			//增加数据
+			gbr.addData (products);
+		}
+2.桥
+using System;
+using System.Collections ;
+namespace BasicBridge
+{
+	/// <summary>
+	/// 接口
+	/// </summary>
+	//Bridge interface to display list classes
+	public interface Bridger 	{
+		void addData(ArrayList col);
+	}
+}
+3.桥接
+using System;
+using System.Collections ;
+namespace BasicBridge
+{
+	/// <summary>
+	/// 桥梁.
+	/// </summary>
+	public class ListBridge : Bridger 	{
+		private VisList vis;
+		//------
+		public ListBridge(VisList v)		{
+			vis = v;
+		}
+		//-----
+		public void addData(ArrayList ar) {
+			for(int i=0; i< ar.Count ; i++) {
+				Product p = (Product)ar[i];
+				vis.addLine (p);//在VisList的子类中实现
+			}
+		}
+	}
+}
+4.VisList.cs
+using System;
+namespace BasicBridge
+{
+	/// <summary>
+	/// VisList(实现).
+	/// </summary>
+	public interface VisList 	{
+		//增加一行
+		void addLine(Product p);
+		//删除一行
+		void removeLine(int num);
+	}
+}
+5.ProductList.cs
+using System;
+using System.Windows.Forms;
+namespace BasicBridge
+{
+	/// <summary>
+	/// ProductList.
+	/// </summary>
+	//使用了ListBox的VisList子类
+	public class ProductList : VisList 	{
+		private ListBox list;
+		//-----
+		public ProductList(ListBox lst) 		{
+			list = lst;
+		}
+		//-----
+		public void addLine(Product p) {
+			list.Items.Add (p.getName() );
+		}
+		//-----
+		public void removeLine(int num) {
+			if(num >=0 && num < list.Items.Count ){
+				list.Items.Remove (num);
+			}
+		}
+	}
+}
+6.GridList.cs
+using System;
+using System.Windows.Forms;
+using System.Data;
+namespace BasicBridge
+{
+	/// <summary>
+	/// Summary description for GridList.
+	/// </summary>
+	//使用了DataGrid的VisList子类
+	public class GridList:VisList 	{
+		private DataGrid grid;
+		private DataTable dtable;
+		private GridAdapter gAdapter;
+		//-----
+		public GridList(DataGrid grd) {
+			grid = grd;
+			dtable = new DataTable("Products");
+			DataColumn column = new DataColumn("ProdName");
+			dtable.Columns.Add(column);
+			column = new DataColumn("Qty");
+			dtable.Columns.Add(column);
+			grid.DataSource = dtable;
+			gAdapter = new GridAdapter (grid);
+		}
+		//-----
+		public void addLine(Product p) {
+			gAdapter.Add (p);
+		}
+		//-----
+		public void removeLine(int num) {
+			
+		}
+	}
+}

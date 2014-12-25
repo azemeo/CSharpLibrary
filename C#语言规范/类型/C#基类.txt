@@ -1,0 +1,4 @@
+System.Object-------------
+方法:bool ReferenceEquals(object A,object B);比较两个引用是否指向同一个对象
+示例:bool B3=ReferenceEquals(x,y);
+System.Text.StringBuilder提供可能高效的字符串处理方法

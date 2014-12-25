@@ -1,0 +1,79 @@
+1.发生未处理异常是CLR行为控制
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework的DbgJITDebugLaunchSetting
+0 显示对话框询问用户是否要调试。
+1 不向用户显示任何对话框，调用MgdUEPolicy回调方法。
+2 不向用户显示任何对话框，CLR启动调试器并将其连接到应用程序上。
+
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
+namespace TestExce
+{
+	
+	/// <summary>
+	/// 未处理异常的策略
+	/// </summary>
+	class Class1
+	{
+
+		[STAThread]
+		static void Main(string[] args)
+		{
+			AppDomain.CurrentDomain.UnhandledException+=new UnhandledExceptionEventHandler(MgdUEPolicy);
+			try
+			{
+				Object o=null;
+				o.GetType();
+			}
+			finally
+			{
+				Console.WriteLine("In finally");
+			}
+		}
+		static void MgdUEPolicy(Object sender,UnhandledExceptionEventArgs e)
+		{
+			String info;
+			Exception ex=e.ExceptionObject as Exception;
+			if(ex!=null)
+			{
+				//CLS兼容异常
+				info=ex.ToString();
+			}
+			else
+			{
+				//CLS不兼容异常
+				info=String.Format("Non-CLS-Compliant exception:Type={0},String={1}",e.ExceptionObject.GetType(),e.ExceptionObject.ToString());
+			}
+#if DEBUG
+			if(!e.IsTerminating)
+			{
+				Debugger.Launch();
+			}
+			else
+			{
+				Debugger.Launch();
+			}
+#else
+			if(!e.IsTerminating)
+			{
+				
+			}
+			else
+			{
+				String msg=String.Format("{0} has encountered aproblem and "+
+					"need to close.we are sorry for the inconvenience.\n\n"+
+					"Please tell{1} about this problem.\n"+
+					"We have created an error report that you can send to"+
+					"help us imporove{0}."+
+					"We will treat this report as confidential and anonymuse.\n\n"+
+					"Would you like to send the report?","(AppName)","(CompanyName)");
+				if(MessageBox.Show(msg,"(AppName)",MessageBoxButtons.YesNo)==DialogResult.Yes)
+				{
+					MessageBox.Show(info,"Error Report");
+				}
+			}		
+#endif
+
+		}
+	}
+}

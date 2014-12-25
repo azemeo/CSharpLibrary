@@ -1,0 +1,35 @@
+using System;
+using System.Collections;
+using System.IO;
+namespace TestArray
+{
+
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			
+			Int32[] lowerBounds={1995,1};
+			Int32[]lengths={10,4};
+			Decimal[,] qu=(Decimal[,])Array.CreateInstance(typeof(Decimal),lengths,lowerBounds);
+
+			Int32 firstYear=qu.GetLowerBound(0);
+			Int32 lastYear=qu.GetUpperBound(0);
+			Console.WriteLine("{0},{1}",firstYear,lastYear);
+			Console.WriteLine("{0,4} {1,9},{2,9},{3,9} {4,9}","Year","Q1","Q2","Q3","Q4");
+
+			for(Int32 year=firstYear;year<=lastYear;year++)
+			{
+				Console.Write(year+" ");
+				for(Int32 quarter=qu.GetLowerBound(1);quarter<=qu.GetUpperBound(1);quarter++)
+					Console.Write("{0,9:C} ",qu[year,quarter]);
+				Console.WriteLine();
+			}		
+
+			
+		}
+
+
+	}
+}

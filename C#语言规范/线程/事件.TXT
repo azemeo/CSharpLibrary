@@ -1,0 +1,60 @@
+事件：以一种更普通的方式协调多个线程的动作，保证每个线程都以正确的顺序做它们的事情。
+经常成对使用，用于顺序化两个或多个线程的操作。
+
+
+using System;
+using System.Threading;
+namespace MyEvents
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		static AutoResetEvent are1=new AutoResetEvent(false);
+		static AutoResetEvent are2=new AutoResetEvent(false);
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			try
+			{
+				//创建两个线程
+				Thread thread1=new Thread(new ThreadStart(ThreadFuncOdd));
+				Thread thread2=new Thread(new ThreadStart(ThreadFuncEven));
+				//开始线程
+				thread1.Start();
+				thread2.Start();
+				//等待线程结束
+				thread1.Join();
+				thread2.Join();
+			}
+			finally
+			{
+				//关闭事件
+				are1.Close();
+				are2.Close();
+			}
+		}
+		static void ThreadFuncOdd()//输出奇数
+		{
+			for(int i=1;i<=99;i+=2)
+			{
+				Console.WriteLine(i);//输出下一个奇数
+				are1.Set();//释放另一个线程
+				are2.WaitOne();//等待另一个线程
+			}
+		}
+		static void ThreadFuncEven()//输出偶数
+		{
+			for(int i=2;i<=100;i+=2)
+			{
+				are1.WaitOne();//等待另一个线程
+				Console.WriteLine(i);//输出下一个偶数
+				are2.Set();//释放另一个线程
+			}
+		}
+	}
+}

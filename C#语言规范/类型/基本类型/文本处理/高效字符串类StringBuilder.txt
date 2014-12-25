@@ -1,0 +1,47 @@
+StringBuilder
+
+特点：
+接受String参数
+内部使用Char数组实现
+ToString可转化为String类型
+非基元类型
+最大容量:In32.MaxValue(大约20亿)
+容量，默认为16,如果我们知道大小，应在构造时设定.(动态增长会损伤系统的性能)
+
+成员(没有String提供的所有方法,不够丰富)
+
+MaxCapacity 最在容量
+Capacity 设置数组的大小
+EnsureCapacity 
+Length 字符的个数
+ToString
+Chars/[] 设置指索引的字符
+AppendInsert 插入的字符串
+AppendFormat 插入格式化的字符串
+Replace 替换字符串
+Remove 删除字符串
+Equals 比较
+using System;
+using System.Text;
+namespace TestText
+{
+	class App
+	{		
+		[STAThread]
+		static void Main(string[] args)
+		{			
+
+			StringBuilder sb=new StringBuilder(256);
+			sb.AppendFormat("{0} {1}","Jeffrey","Richter").Replace(" ","-");
+			String s=sb.ToString().ToUpper();
+			Console.WriteLine(s);
+
+			sb.Length=0;
+			sb.Append(s).Insert(8,"Marc-");
+			s=sb.ToString();
+			Console.WriteLine(s);
+		}
+	}
+}
+
+

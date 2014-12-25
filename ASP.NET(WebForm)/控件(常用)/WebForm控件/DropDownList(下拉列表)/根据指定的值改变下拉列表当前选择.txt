@@ -1,0 +1,27 @@
+dlDuty.SelectedValue=ob.Duty_ID;
+
+
+对于自动回发(AutoPostBack=true)的,可能列表控件无法记录选中的值，所以需要页面每次加载都重新计算一次。
+
+
+
+if(!Page.IsPostBack)
+			{				
+				
+				InitPrepay_ID();				
+			}
+			else
+			{
+				
+				dlPrepay_ID.SelectedIndex=int.Parse(Session["CurrSelectIndex"].ToString());
+				
+			}
+
+if(HiddenPT.Value=="1")//选择当前借款
+			{
+				ListItem subItem=new ListItem();
+				subItem=dlPrepay_ID.Items.FindByText(Session["Page_Prepay_ID_ExPepense"].ToString());
+				subItem.Selected=true;
+				Session["CurrSelectIndex"]=dlPrepay_ID.SelectedIndex;
+
+			}	

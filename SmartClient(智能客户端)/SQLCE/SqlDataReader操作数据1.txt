@@ -1,0 +1,32 @@
+SqlDataReader drdrTableNames;
+drdrTableNames = GetTableNames(connDB);//不能直接创建,只能过过ExecuteReader得到        
+while ( drdrTableNames.Read() )
+         {
+            
+			 //Int型字段
+			 drdrTableNames.GetInt32(0);//高效
+			 drdrTableNames.GetValue(0);//中间的
+			 drdrTableNames["ProductID"].ToString();//易读
+			 //String型字段
+			 drdrTableNames.GetString(1);//方法1
+			 drdrTableNames.GetValue(1);//方法2
+			 drdrTableNames["Productname"].ToString();//方法3
+
+         }
+
+
+
+      public static SqlDataReader GetTableNames 
+                                      ( SqlConnection connDB )
+      {
+            SqlCommand  cmndDB = 
+               new SqlCommand(strGetTableNames, connDB);
+            return cmndDB.ExecuteReader();
+      }
+
+Seek 定位
+dr.Seek(DbSeekOptions.FirstEqual,iProductID);
+Read 定位
+dr.Read()
+一个连接可以用多个Reader
+DataReader的当前行和DataRow是不是一样。

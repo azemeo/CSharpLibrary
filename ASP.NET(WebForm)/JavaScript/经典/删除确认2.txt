@@ -1,0 +1,18 @@
+*.aspx
+	function DelAffirmFrm()
+	{	
+
+		if(!window.confirm("ÄúÈ·¶¨ÒªÉ¾³ýÂð£¿"))			
+		{
+			return false;				
+		}
+		else
+		{
+			return true;
+		}
+
+	}
+
+
+*.cs
+				this.ButtonDel.Attributes.Add("onclick","javascript:if(!DelAffirmFrm()) return false;else return;");

@@ -1,0 +1,41 @@
+1.DataGrid中属性生成器中增加一个模板列:姓名  页眉:姓名 
+
+2.右击DataGrid 编辑模板 Columns[2] 姓名
+
+3.在ItemTempdate中增加一个名称为lbtName的linkbutton按钮
+
+4.在HTML视图中编辑如下:
+<asp:LinkButton id=lbtName runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.A00101") %>' CommandName="lbtName" OnCommand="lbtName_Command" CommandArgument='<%# DataBinder.Eval(Container, "DataItem.A00100","{0}") %>'>
+
+说明:
+Text  显示给用户的数据
+
+CommandArgument 命令参数
+
+OnCommand 在*.aspx.cs中事件
+
+5.代码事件
+		protected void lbtName_Command(object sender, System.Web.UI.WebControls.CommandEventArgs e)
+		{				
+			string strTmp="<script language=javascript>ShowInfo(\""+e.CommandArgument.ToString()+"\");</script>";
+
+			if(!this.IsStartupScriptRegistered("ShowInfo"))
+				this.RegisterStartupScript("ShowInfo", strTmp);			
+		}
+
+6.页面事件
+		<script language="javascript">
+		<!--
+		function ShowInfo(strID)
+		{
+			debugger;
+			window.showModalDialog('Frameset.asp?ChangeDetail.aspx?ModelID=HR_XXGL&A00100='+strID,'','dialogHeight: 432px; dialogWidth: 582px;  edge: Raised; center: Yes; help: no; resizable: No; status: no;');
+		}	
+		//-->
+		</script>
+
+
+
+
+
+

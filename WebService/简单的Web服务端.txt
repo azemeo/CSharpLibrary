@@ -1,0 +1,24 @@
+1.生成代理类,相应的文件"CalculatorWebService.cs"
+wsdl http://localhost/second/calc.asmx
+2.编写客户端程序
+using System;
+using System.Web.Services;
+[WebService(Name="Calculator Web Service",Description="Performs simple math over the Web")]
+class CalcService
+{
+	[WebMethod(Description="Computers the sum of two integers")]
+	public int Add(int a,int b)
+	{
+		return a+b;
+	}
+	[WebMethod(Description="Computers the difference between two integers")]
+	public int Subtract(int a,int b)
+	{
+		return a-b;
+	}
+}
+3.编译
+csc CalcClient.cs "CalculatorWebService.cs"
+4.运行
+CalcClient.exe
+

@@ -1,0 +1,263 @@
+System.Object
+
+   System.Activator
+
+   System.AppDomainSetup ---- System.IAppDomainSetup
+
+   System.Array ---- System.ICloneable, System.Collections.IList, System.Collections.ICollection, System.Collections.IEnumerable
+
+   System.Attribute
+
+      System.AttributeUsageAttribute
+
+      System.CLSCompliantAttribute
+
+      System.ContextStaticAttribute
+
+      System.FlagsAttribute
+
+      System.LoaderOptimizationAttribute
+
+      System.MTAThreadAttribute
+
+      System.NonSerializedAttribute
+
+      System.ObsoleteAttribute
+
+      System.ParamArrayAttribute
+
+      System.SerializableAttribute
+
+      System.STAThreadAttribute
+
+      System.ThreadStaticAttribute
+
+   System.BitConverter
+
+   System.Buffer
+
+   System.CharEnumerator ---- System.Collections.IEnumerator, System.ICloneable
+
+   System.Console
+
+   System.Convert
+
+   System.DBNull ---- System.Runtime.Serialization.ISerializable, System.IConvertible
+
+   System.Delegate
+
+      System.MulticastDelegate
+
+         System.AssemblyLoadEventHandler
+
+         System.AsyncCallback
+
+         System.CrossAppDomainDelegate
+
+         System.EventHandler
+
+         System.ResolveEventHandler
+
+         System.UnhandledExceptionEventHandler
+
+   System.Environment
+
+   System.EventArgs
+
+      System.AssemblyLoadEventArgs
+
+      System.ResolveEventArgs
+
+      System.UnhandledExceptionEventArgs
+
+   System.Exception
+
+      System.ApplicationException
+
+      System.SystemException
+
+         System.AppDomainUnloadedException
+
+         System.ArgumentException
+
+            System.ArgumentNullException
+
+            System.ArgumentOutOfRangeException
+
+            System.DuplicateWaitObjectException
+
+         System.ArithmeticException
+
+            System.DivideByZeroException
+
+            System.NotFiniteNumberException
+
+            System.OverflowException
+
+         System.ArrayTypeMismatchException
+
+         System.BadImageFormatException
+
+         System.CannotUnloadAppDomainException
+
+         System.ContextMarshalException
+
+         System.ExecutionEngineException
+
+         System.FormatException
+
+            System.UriFormatException
+
+         System.IndexOutOfRangeException
+
+         System.InvalidCastException
+
+         System.InvalidOperationException
+
+            System.ObjectDisposedException
+
+         System.InvalidProgramException
+
+         System.MemberAccessException
+
+            System.FieldAccessException
+
+            System.MethodAccessException
+
+            System.MissingMemberException
+
+               System.MissingFieldException
+
+               System.MissingMethodException
+
+         System.MulticastNotSupportedException
+
+         System.NotImplementedException
+
+         System.NotSupportedException
+
+            System.PlatformNotSupportedException
+
+         System.NullReferenceException
+
+         System.OutOfMemoryException
+
+         System.RankException
+
+         System.StackOverflowException
+
+         System.TypeInitializationException
+
+         System.TypeLoadException
+
+            System.DllNotFoundException
+
+            System.EntryPointNotFoundException
+
+         System.TypeUnloadedException
+
+         System.UnauthorizedAccessException
+
+   System.GC
+
+   System.LocalDataStoreSlot
+
+   System.MarshalByRefObject
+
+      System.AppDomain ---- System._AppDomain, System.Security.IEvidenceFactory
+
+      System.ContextBoundObject
+
+      System.Uri ---- System.Runtime.Serialization.ISerializable
+
+   System.Math
+
+   System.OperatingSystem ---- System.ICloneable
+
+   System.Random
+
+   System.Reflection.MemberInfo
+
+      System.Type ---- System.Reflection.IReflect
+
+   System.String ---- System.IComparable, System.ICloneable, System.IConvertible, System.Collections.IEnumerable
+
+   System.TimeZone
+
+   System.UriBuilder
+
+   System.ValueType
+
+      System.ArgIterator
+
+      System.Boolean ---- System.IComparable, System.IConvertible
+
+      System.Byte ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.Char ---- System.IComparable, System.IConvertible
+
+      System.DateTime ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.Decimal ---- System.IFormattable, System.IComparable, System.IConvertible
+
+      System.Double ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.Enum
+
+         System.AttributeTargets
+
+         System.DayOfWeek
+
+         System.Environment.SpecialFolder
+
+         System.LoaderOptimization
+
+         System.PlatformID
+
+         System.TypeCode
+
+         System.UriHostNameType
+
+         System.UriPartial
+
+      System.Guid ---- System.IFormattable, System.IComparable
+
+      System.Int16 ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.Int32 ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.Int64 ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.IntPtr ---- System.Runtime.Serialization.ISerializable
+
+      System.RuntimeArgumentHandle
+
+      System.RuntimeFieldHandle ---- System.Runtime.Serialization.ISerializable
+
+      System.RuntimeMethodHandle ---- System.Runtime.Serialization.ISerializable
+
+      System.RuntimeTypeHandle ---- System.Runtime.Serialization.ISerializable
+
+      System.SByte ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.Single ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.TimeSpan ---- System.IComparable
+
+      System.TypedReference
+
+      System.UInt16 ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.UInt32 ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.UInt64 ---- System.IComparable, System.IFormattable, System.IConvertible
+
+      System.UIntPtr ---- System.Runtime.Serialization.ISerializable
+
+      System.Void
+
+   System.Version ---- System.ICloneable, System.IComparable
+
+   System.WeakReference ---- System.Runtime.Serialization.ISerializable
+
+Çë²Î¼û

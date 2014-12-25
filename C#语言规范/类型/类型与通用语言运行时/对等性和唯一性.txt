@@ -1,0 +1,43 @@
+对象的等值性(Equals)与唯一性(ReferenceEquals)
+System.Object 类型提供了一个名为Equals的虚方法，
+目的是判断两个对象(实例)是否有相同的值。
+
+策略为：
+如果进行比较的两个引用指向的是同一个对象，返回true,否则返回false.
+在自定义的类型中重写Equals方法的规则:
+1.自反的。
+2.对称的。
+3.可传递的。
+4.前后一致的。
+
+实现Equals的三种方式
+1.为基类没有重写Ojbect.Equals方法的引用类型实现Equals.
+2.为基类已经重写Ojbect.Equals方法的引用类型实现Equals.
+3.为值类型实现Equals方法。
+
+
+唯一性判断
+
+判断两个引用是否指向同一个对象。
+
+using System;
+class RefType{public Int32 x;}//引用类型(因为'class'修饰符)
+struct ValType{public Int32 x;}//值类型(因为'struct'修饰符)
+
+class Hello 
+{
+   static void Main() 
+   {
+				RefType r1=new RefType();
+				RefType r2=r1;
+				Console.WriteLine(object.ReferenceEquals(r1,r2));//True
+				
+				r2=new RefType();				
+				Console.WriteLine(object.ReferenceEquals(r1,r2));//False
+				
+				Int32 x=5;
+				
+				Console.WriteLine(object.ReferenceEquals(x,x));//x被两次装箱到不同的地方了,False
+      
+   }
+}

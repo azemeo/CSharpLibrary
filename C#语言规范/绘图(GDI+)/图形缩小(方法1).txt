@@ -1,0 +1,24 @@
+		public bool ThumbnailCallback()
+		{
+			return false;
+		}		
+private void Method1()
+		{
+			//能实现但效果不好
+//			try
+//			{
+//				Image myImage=Image.FromFile(@"D:\TestJpg\1.jpg");
+//				Graphics g=this.CreateGraphics();
+//				Image newImage;
+//				Image.GetThumbnailImageAbort myCallback =	new Image.GetThumbnailImageAbort(ThumbnailCallback);
+//				newImage=myImage.GetThumbnailImage(640,480,myCallback,IntPtr.Zero);
+//				newImage.Save(@"D:\TestJpg\1_small.jpg",System.Drawing.Imaging.ImageFormat.Jpeg);
+//				newImage.Dispose();
+//				myImage.Dispose();	
+//				MessageBox.Show("转换成功!");
+//			}
+//			catch
+//			{
+//				MessageBox.Show("转换失败!");
+//			}
+		}

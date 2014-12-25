@@ -1,0 +1,12 @@
+1、右击工具栏，添加/移除项...
+2、在Com选项卡，选择Microsoft Web浏览器组件。
+3、将其拖到窗体上，并加下代码。
+4、代码如下：
+private void Form1_Load(object sender, System.EventArgs e)
+{
+	object a = 0;
+	object b = 0; 
+	object c = 0; 
+	object d = 0; 
+	axWebBrowser1.Navigate("www.syncfusion.com", ref a, ref b, ref c, ref d); 
+}

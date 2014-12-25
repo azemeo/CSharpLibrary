@@ -1,0 +1,38 @@
+
+CLR对操作符重载一无所知，是编程语言定义了每个操作符的含义。
+
+C#操作符号     特珠方法的方法名    推荐的与CLS兼容的方法名
++		op_UnaryPlus       Plus
+-               op_UnaryNegation   Negate
+~               op_UnaryComplement OnesComplement
+++              Op_Increment       Increment
+。。。
+
+在VB中可以调用C#编译顺生成的类型中的op_Addition方法。
+
+1.test1.vb     vbc /t:library test1.vb
+Imports System
+
+Public Class VBType
+	Public Shared Function op_Addition(a as VBType,b as VBType)As VBType
+		Return Nothing
+	End Function
+End Class
+2.test2.cs     csc /r:test1.dll test2.cs
+using System;
+public class CSharpApp
+{
+	public static void Main()
+	{
+		VBType vb=new VBType();
+		vb=VBType.op_Addition(vb,vb);
+	}
+}
+
+C#支持转换操作符重载。
+implicit 不必显示的转型
+explicit 需要指定显示的转型
+
+CLR完全支持一个类型定义多个只有返回值类型差别的方法。
+IL支持
+C++/C#/VB 不支持

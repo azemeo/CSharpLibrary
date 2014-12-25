@@ -1,0 +1,51 @@
+复选列表框：是处理复选列表的首选方式
+
+	
+
+		
+1.*.aspx
+<asp:CheckBoxList id="CheckBoxList1" style="Z-INDEX: 101; LEFT: 128px; POSITION: absolute; TOP: 88px"
+				runat="server"></asp:CheckBoxList>
+			<asp:Button id="Button1" style="Z-INDEX: 102; LEFT: 344px; POSITION: absolute; TOP: 88px" runat="server"
+				Text="Button"></asp:Button>
+			<asp:Label id="Label1" style="Z-INDEX: 103; LEFT: 144px; POSITION: absolute; TOP: 48px" runat="server">Label</asp:Label>
+
+2.*.cs
+using System.Data.SqlClient;
+using System.Text;
+
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				//CheckBoxList数据绑定
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select employeeid,firstName,lastName From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];
+				CheckBoxList1.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+				CheckBoxList1.DataTextField="lastName";
+				CheckBoxList1.DataValueField="employeeid";
+				CheckBoxList1.DataBind();
+
+			}
+		}
+
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			//检测选中项
+			StringBuilder buf=new StringBuilder("");//反复修改字串时StringBuilder比string性能更好
+			foreach(ListItem item in CheckBoxList1.Items)
+			{
+				if(item.Selected)//选中标志
+				{
+					buf.Append(item.Text);
+					buf.Append(",");
+				}
+			}
+			Label1.Text=buf.ToString();
+		}

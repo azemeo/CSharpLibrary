@@ -1,0 +1,4 @@
+//弱名称
+al /t:library /out:Math.dll simple.netmodule complex.netmodule
+//创建具有强名称的程序集,
+al /keyfile:keyfile.snk /t:library /out:Math.dll /version:1.0.0.0 simple.netmodule complex.netmodule

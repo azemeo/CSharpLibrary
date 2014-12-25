@@ -1,0 +1,7 @@
+Html选择卡的File field组件,设置为服务器端运行FilePath为实例
+//从上传文件中读取流
+			long length=FilePath.PostedFile.InputStream.Length;
+			byte[]buffer=new byte[length];
+			FilePath.PostedFile.InputStream.Read(buffer,0,(int)length);
+			//保存在字段(object)中
+			pf.Miniature_Pic=buffer;

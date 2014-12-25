@@ -1,0 +1,54 @@
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+
+public class StopWatch
+{
+ [DllImport("Kernel32.dll")]
+ static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+
+ [DllImport("Kernel32.dll")]
+ static extern bool QueryPerformanceFrequency(out long lpFrequency);
+
+ long start;
+ long stop;
+ long frequency;
+ const decimal multiplier = 1.0e9M;
+
+ public StopWatch()
+ {
+  if (QueryPerformanceFrequency(out frequency) == false)
+  {
+   // Frequency not supported
+   throw new Win32Exception();
+  }
+ }
+
+ public void Start()
+ {
+  QueryPerformanceCounter(out start);
+ }
+
+ public void Stop()
+ {
+  QueryPerformanceCounter(out stop);
+ }
+
+ public double Duration(int iterations)
+ {
+  return ((((double)(stop - start) * (double)multiplier) / (double)frequency) / iterations);
+ }
+}
+
+它的使用比DateTime.Now还要简单，如下所示：
+
+StopWatch myTimer = new StopWatch();
+// Measure without boxing
+myTimer.Start();
+for(int i = 0; i < iterations; i++)
+{
+  // do some work to time
+}
+myTimer.Stop();
+// 计算每次循环所花的平均时间（单位：十亿分之一秒）
+double result = myTimer.Duration(iterations);

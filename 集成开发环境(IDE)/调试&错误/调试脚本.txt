@@ -1,0 +1,13 @@
+function En_AffirmFrm(s)
+		{	
+			debugger;
+			if(!window.confirm(s))			
+			{
+				return false;				
+			}
+			else
+			{
+				return true;
+			}
+
+		}

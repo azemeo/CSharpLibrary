@@ -1,0 +1,58 @@
+第一个程序
+
+1.ClockServer.cs
+using System;
+public class Clock:MarshalByRefObject //可以在客户端（远程应用程序域）使用的类
+{
+	public string GetCurrentTime()
+	{
+		return DateTime.Now.ToLongTimeString();
+	}
+}
+
+
+2.服务器TimeServer.cs
+using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+
+public class MyApp
+{
+	static void Main()
+	{
+		TcpServerChannel channel=new TcpServerChannel(1234);//创建关注册一个信道
+		ChannelServices.RegisterChannel(channel);
+                //为远程激活注册类Clock
+		RemotingConfiguration.RegisterWellKnownServiceType(
+			typeof(Clock),"Clock",WellKnownObjectMode.SingleCall);//SingleCall方式为请求的每个客户端创建一个应用
+		Console.WriteLine("Press Enter to terminate...");
+		Console.ReadLine();	
+	}
+}
+
+3.客户端
+using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+
+public class MyApp
+{
+	static void Main()
+	{
+		TcpClientChannel channel=new TcpClientChannel();
+		ChannelServices.RegisterChannel(channel);
+		RemotingConfiguration.RegisterWellKnownClientType(   //在客户端将Clock注册为有效数据类型
+			typeof(Clock),"tcp://localhost:1234/Clock");
+		Clock clock=new Clock();
+		Console.WriteLine(clock.GetCurrentTime());
+	}
+}
+
+操作
+csc /t:library clockserver.cs
+csc /r:clockserver.dll timeserver.cs
+csc /r:clockserver.dll timeclient.cs
+
+

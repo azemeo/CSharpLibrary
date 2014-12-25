@@ -1,0 +1,6 @@
+Fill---
+DataRow thisRow=thisDataSet.Tables["Intro"].NewRow();
+thisRow["TheName"]="WangGJ";
+thisRow["Age"]="15";
+thisDataSet.Tables["Intro"].Rows.Add(thisRow);
+Update--

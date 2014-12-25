@@ -1,0 +1,9 @@
+增加线程的优先级，增加了接爱更多CPU的时间可能性
+
+可以在线程生存期（启动前及启动后）改变它的优选级,任意频度或任意次数
+
+				ThreadPriority.Highest;//最高
+				ThreadPriority.AboveNormal;//较高
+				ThreadPriority.Normal;//普通
+				ThreadPriority.BelowNormal;//较低
+				ThreadPriority.Lowest;//最低

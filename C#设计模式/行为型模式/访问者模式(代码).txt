@@ -1,0 +1,284 @@
+1.Visitor.cs
+using System;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for Visitor.
+	/// </summary>
+	public abstract class Visitor 	{
+		public abstract void visit(Employee emp);
+		public abstract void visit(Boss bos);
+	}
+}
+2.VacationVisitor.cs
+using System;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for VacationVisitor.
+	/// </summary>
+	public class VacationVisitor : Visitor 	{
+		private int totalDays;
+		//-----
+		public VacationVisitor() 	{
+			totalDays = 0;
+		}
+		//-----
+		public int getTotalDays() {
+			return totalDays;
+		}
+		//-----
+		public override void visit(Employee emp){
+			totalDays += emp.getVacDays ();
+		}
+		//-----
+		public override void visit(Boss bos){
+			totalDays += bos.getVacDays ();
+		}
+	}
+}
+3.bVacationVisitor.cs
+using System;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for bVacationVisitor.
+	/// </summary>
+	public class bVacationVisitor :Visitor 	{
+		private int totalDays;
+		public bVacationVisitor() 	{
+			totalDays = 0;
+		}
+		//-----
+		public override void visit(Employee emp) {
+			 totalDays += emp.getVacDays();
+			try {
+				Manager mgr = (Manager)emp;
+				totalDays += mgr.getBonusDays();
+			}
+			catch(Exception ){}
+        }
+		//-----
+		public override void visit(Boss bos) {
+			totalDays += bos.getVacDays();
+			totalDays += bos.getBonusDays();
+		}
+		//-----
+		public int getTotalDays() {
+			return totalDays;
+		}
+	}
+}
+4.Employee.cs
+using System;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for Employee.
+	/// </summary>
+	public class Employee 	{
+		int sickDays, vacDays;
+		float salary;
+		string name;
+		public Employee(string name, float salary, int vDays, int sDays) {
+			this.name = name;
+			this.salary = salary;
+			sickDays = sDays;
+			vacDays = vDays;
+		}
+		//-----
+		public string getName() {
+			return name;
+		}
+		public int getSickDays() {
+			return sickDays;
+		}
+		public int getVacDays() {
+			return vacDays;
+		}
+		public float getSalary() {
+			return salary;
+		}
+		public virtual void accept(Visitor v) {
+			v.visit(this);
+		}
+	}
+}
+5.Manager.cs
+using System;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for Manager.
+	/// </summary>
+	public class Manager : Employee
+	{
+		private int bonusDays;
+		public Manager(string nm, float slry, int vDays, int sDays) :
+			base(nm, slry, vDays, sDays)
+		{
+		}
+		public void setBonusDays(int bd) {
+			bonusDays = bd;
+		}
+		public int getBonusDays() {
+			return bonusDays;
+		}
+		public override void accept(Visitor v) {
+			v.visit (this);
+		}
+	}
+}
+6.Boss.cs
+using System;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for Boss.
+	/// </summary>
+	public class Boss : Employee	{
+		private int bonusDays;//½±ÀøÐÝ¼Ù
+		public Boss(string name, float salary, int vdays, int sdays):base(name, salary, vdays, sdays)
+		{ }
+		public void setBonusDays(int bdays) {
+			bonusDays = bdays;
+			  }
+		public int getBonusDays() {
+			return bonusDays;
+		}
+		public override void accept(Visitor v ) {
+			v.visit(this);
+		}
+	}
+}
+
+7.Form1.cs
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace Visitor
+{
+	/// <summary>
+	/// Summary description for Form1.
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+		private Employee[] empls;
+		private Employee empl ;
+		private System.Windows.Forms.Button btCompute;
+		private System.Windows.Forms.ListBox lsVac;
+		private Boss bos;
+
+		public Form1()
+		{
+			InitializeComponent();
+			init();
+		}
+		private void init() {
+			int i = 0;
+			empls = new Employee [7];
+			empls[i++] = new Employee("Susan Bear", 55000, 12, 1);
+			empls[i++] = new Employee("Adam Gehr", 150000, 9, 0);
+			empls[i++] = new Employee("Fred Harris", 50000, 15, 2);
+			empls[i++] = new Employee("David Oakley", 57000, 12, 2);
+			empls[i++] = new Employee("Larry Thomas", 100000, 20, 6);
+            bos = new Boss("Leslie Susi", 175000, 16, 4);
+			bos.setBonusDays(12);
+			empls[i++] = bos;
+            bos = new Boss("Laurence Byerly", 35000, 17, 6);
+			bos.setBonusDays(17);
+			empls[i++] = bos;
+		}
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if (components != null) 
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.lsVac = new System.Windows.Forms.ListBox();
+			this.btCompute = new System.Windows.Forms.Button();
+			this.SuspendLayout();
+			// 
+			// lsVac
+			// 
+			this.lsVac.Location = new System.Drawing.Point(32, 32);
+			this.lsVac.Name = "lsVac";
+			this.lsVac.Size = new System.Drawing.Size(216, 186);
+			this.lsVac.TabIndex = 0;
+			// 
+			// btCompute
+			// 
+			this.btCompute.Location = new System.Drawing.Point(88, 232);
+			this.btCompute.Name = "btCompute";
+			this.btCompute.Size = new System.Drawing.Size(72, 24);
+			this.btCompute.TabIndex = 1;
+			this.btCompute.Text = "Compute";
+			this.btCompute.Click += new System.EventHandler(this.btCompute_Click);
+			// 
+			// Form1
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(292, 273);
+			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.btCompute,
+																		  this.lsVac});
+			this.Name = "Form1";
+			this.Text = "Visitor demo";
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+
+		private void btCompute_Click(object sender, System.EventArgs e) {
+			VacationVisitor vac = new VacationVisitor();
+			bVacationVisitor bvac = new bVacationVisitor();
+			for (int i = 0;  i< empls.Length; i++) {
+				empls[i].accept(vac);      //get the employee
+				empls[i].accept(bvac);
+			}
+        lsVac.Items.Add("Total vacation days=" + vac.getTotalDays().ToString());
+        lsVac.Items.Add("Total boss vacation days=" + bvac.getTotalDays().ToString());
+
+		}
+	}
+}
+

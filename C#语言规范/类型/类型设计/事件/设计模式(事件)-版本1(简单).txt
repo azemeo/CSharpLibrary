@@ -1,0 +1,178 @@
+线程框架(设计模式)-版本1(简单)
+1.CodeFile1.cs
+
+using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
+namespace Movecont
+{
+	class TypeWithLotsOfEvents
+	{
+		protected EventHandlerSet eventSet=EventHandlerSet.Synchronized(new EventHandlerSet());
+		
+		//第一个事件(Foo)定义必要的成员
+		protected static readonly object fooEventKey=new object();
+		public class FooEventArgs:EventArgs{}
+		public delegate void FooEventHandler(object sender,FooEventArgs e);
+		public event FooEventHandler Foo
+		{
+			add{eventSet.AddHandler(fooEventKey,value);}
+			remove{eventSet.RemoveHandler(fooEventKey,value);}
+		}
+		protected virtual void OnFoo(FooEventArgs e)
+		{
+			eventSet.Fire(fooEventKey,this,e);
+		}
+		public void SimulateFoo()
+		{
+			OnFoo(new FooEventArgs());
+		}
+
+		//第二个事件(Bar)定义必要的成员
+		protected static readonly Object barEventKey=new object();//多个实例是节省内存
+		public class BarEventArgs:EventArgs{}
+		public delegate void BarEventHandler(Object sender,BarEventArgs e);
+		public event BarEventHandler Bar
+		{
+			add{eventSet.AddHandler(barEventKey,value);}
+			remove{eventSet.RemoveHandler(barEventKey,value);}
+		} 
+		protected virtual void OnBar(BarEventArgs e)
+		{
+			eventSet.Fire(barEventKey,this,e);
+		}
+		public void SimulateBar()
+		{
+			OnBar(new BarEventArgs());
+		}
+
+	}
+	//寻呼机
+	class Pager
+	{
+		//订阅事件
+		public Pager(TypeWithLotsOfEvents mm)
+		{
+			//(使用了事件,委托,回调方法)
+			mm.Bar+=new TypeWithLotsOfEvents.BarEventHandler(PagerMsg);
+		}
+		//回调方法
+		private void PagerMsg(Object sender,TypeWithLotsOfEvents.BarEventArgs e)
+		{
+			Console.WriteLine("Pagering mail message!");
+		}
+		//注销事件
+		public void Unregister(TypeWithLotsOfEvents mm)
+		{
+			TypeWithLotsOfEvents.BarEventHandler callback=new TypeWithLotsOfEvents.BarEventHandler(PagerMsg);
+			mm.Bar-=callback;
+		}
+	}
+
+	//管理事件/委托对
+
+	public class EventHandlerSet:IDisposable
+	{
+		private Hashtable events=new Hashtable();//散列表
+		public virtual Delegate this[Object eventKey]//索引器
+		{
+			get
+			{
+				return (Delegate)events[eventKey];
+			}
+			set
+			{
+				events[eventKey]=value;
+			}
+		}
+		public virtual void AddHandler(Object eventKey,Delegate handler)//添加
+		{
+			events[eventKey]=Delegate.Combine((Delegate)events[eventKey],handler);
+		}
+		public virtual void RemoveHandler(Object eventKey,Delegate handler)//移除
+		{
+			events[eventKey]=Delegate.Remove((Delegate)events[eventKey],handler);
+		}
+		public virtual void Fire(Object eventKey,object sender,EventArgs e)//触发事件
+		{
+			Delegate d=(Delegate)events[eventKey];
+			if(d!=null)
+				d.DynamicInvoke(new object[]{sender,e});
+		}
+		public void Dispose()//释放资源
+		{
+			events=null;
+		}
+		public static EventHandlerSet Synchronized(EventHandlerSet eventHandlerSet)
+		{
+			if(eventHandlerSet==null)
+				throw new ArgumentNullException("eventHandlerSet");
+			return new SynchronizedEventHandlerSet(eventHandlerSet);
+		}
+		//线程安全
+		private class SynchronizedEventHandlerSet:EventHandlerSet
+		{
+			private EventHandlerSet eventHandlerSet;
+			public SynchronizedEventHandlerSet(EventHandlerSet eventHandlerSet)
+			{
+				this.eventHandlerSet=eventHandlerSet;
+				Dispose();
+			}
+			public override Delegate this[Object eventKey]
+			{
+				[MethodImpl(MethodImplOptions.Synchronized)]
+				get
+				{
+					return eventHandlerSet[eventKey];
+				}
+				[MethodImpl(MethodImplOptions.Synchronized)]
+				set
+				{
+					eventHandlerSet[eventKey]=value;
+				}
+			}
+			[MethodImpl(MethodImplOptions.Synchronized)]
+			public override void AddHandler(Object eventKey,Delegate handler)
+			{
+				eventHandlerSet.AddHandler(eventKey,handler);
+			}
+
+			[MethodImpl(MethodImplOptions.Synchronized)]
+			public override void RemoveHandler(Object eventKey,Delegate handler)
+			{
+				eventHandlerSet.RemoveHandler(eventKey,handler);
+			}
+			[MethodImpl(MethodImplOptions.Synchronized)]
+			public override void Fire(Object eventKey,Object sender,EventArgs e)
+			{
+				eventHandlerSet.Fire(eventKey,sender,e);
+			}
+		}		
+
+	}
+}
+
+2.主程序
+
+using System;
+using System.Collections;
+namespace Movecont
+{
+	/// <summary>
+	/// 事件。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			TypeWithLotsOfEvents mymail=new TypeWithLotsOfEvents();
+			Pager mypager=new Pager(mymail);
+			mymail.SimulateBar();
+
+		}
+	}
+}

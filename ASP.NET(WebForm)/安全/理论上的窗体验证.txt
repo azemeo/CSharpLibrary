@@ -1,0 +1,95 @@
+1.应用程序根目录Web.config
+<configuration>
+	<system.web>
+		<authentication mode="Forms">
+			<forms loginUrl="LoginPage.aspx">
+				<credentials passwordFormat="Clear">
+					<user name="Jeff" password="imbatman" />
+					<user name="John" password="redrover" />
+					<user name="Bob" password="mxyzptlk" />
+					<user name="Alice" password="nomalice" />
+					<user name="Mary" password="contrary" />
+				</credentials>
+			</forms>
+		</authentication>
+	</system.web>
+</configuration>
+2.子目录Web.config
+<configuration>
+	<system.web>
+		<authorization>
+			<deny users="?" />			
+		</authorization>
+	</system.web>
+</configuration>
+3.验证窗体LoginPage.aspx
+<html>
+	<body>
+		<h1>Please Log In<h1>
+		<hr>
+		<form runat="server">
+			<table cellpadding="8">
+				<tr>
+					<td>
+						User Name:
+					</td>
+					<td>
+						<asp:TextBox ID="UserName" RunAt="server" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Password:
+					</td>
+					<td>
+						<asp:TextBox ID="Password" TextMode="password" RunAt="server" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<asp:Button Text="Log In" OnClick="OnLogIn" RunAt="server" />
+					</td>
+				</tr>				
+			</table>
+		</form>
+		<hr>
+		<h3><asp:Label ID="Output" RunAt="server"/><h3>
+	</body>
+</html>
+<script language="C#" runat="server">
+	void OnLogIn(Object sender,EventArgs e)
+	{
+		if(FormsAuthentication.Authenticate(UserName.Text,Password.Text))
+			FormsAuthentication.RedirectFromLoginPage(UserName.Text,false);
+		else
+			Output.Text="Invalid login";
+	}
+</script>
+4.PulbicPage.aspx入口点
+<html>
+	<body>
+		<h1>Public Page<h1>
+		<hr>
+		<form runat="server">
+			<asp:Button Text="View Secret Message" OnClick="OnViewSecret" RunAt="server" />			
+		</form>
+	</body>
+</html>
+<script language="C#" runat="server">
+	void OnViewSecret(Object sender,EventArgs e)
+	{
+		Response.Redirect("Secret/ProtectedPage.aspx");
+	}
+</script>
+5.受保护的页面Protected.aspx
+<%@Page Language="C#" %>
+<html>
+	<body>
+		<h1>Protected Page<h1>
+		<hr><br>
+		<%
+			Response.Write(Context.User.Identity.Name+":");
+		%>
+		Be careful investing your money in dot-coms.
+	</body>
+</html>

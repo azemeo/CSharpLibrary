@@ -1,0 +1,50 @@
+属性：用于公开字段。
+1.父子属性
+Parent 包含控件的容器，改变Parent属性，可以把一个控件从一个容器移到别一个容器，并激发ParentChanged事件。例:在设计时将textBox1放在Panel中
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+			this.textBox1.Text="P1";
+		}
+		private void btnChange_Click(object sender, System.EventArgs e)
+		{
+			this.textBox1.Parent=this.panel2;
+		}
+		private void textBox_ParentChanged_1(object sender, System.EventArgs e)
+		{
+			this.textBox1.Text="P2";
+		}
+TopLevelControl控件的最顶层容器.
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			MessageBox.Show(this.textBox1.TopLevelControl.Text);
+		}
+Controls属性是其包含子控件的一个集合，但并不知道其孙控件。
+通过Add,Clear,Remove,RemoveAt维护集合，及编历。
+
+private void AccessAllControls(Control paramctl)
+{
+	foreach(Control cl in paramctl.Controls)
+	{
+		//对控件进行操作
+		AccessAllControls(cl);
+	}
+}
+2.位置属性
+	基本坐标属性:Left,Top,Width,Height
+	Left,Top 组合成			Location(Point结构)
+	Width,Height 组合成		Size
+	Left,Top,Width,Height 组合成	Bounds(Rectangle结构)
+	Left+Width为			Right
+	Top+Height为			Bottom
+	ClientRectangle	Rectangle(0,0,Right,Bottom)
+	ClientSize	Size(Width,Height)
+3.数据绑定属性
+BindingContext
+DataBinding
+支持数据绑定
+4.状态属性
+Enabled	是否可用
+Visible	是否可视
+	
+	

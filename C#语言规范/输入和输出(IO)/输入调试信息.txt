@@ -1,0 +1,4 @@
+增加名称限定
+using System.Diagnostics;
+语句：myName为变量,Main()为开始显示的字符串
+Debug.WriteLine("Val:"+myName+".","Main()");

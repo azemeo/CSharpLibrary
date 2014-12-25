@@ -1,0 +1,6 @@
+USE pubs
+SELECT (au_lname + ',' + SPACE(1) + SUBSTRING(au_fname, 1, 1) + '.') AS Name
+FROM authors
+WHERE state = 'CA'
+ORDER BY au_lname ASC, au_fname ASC
+

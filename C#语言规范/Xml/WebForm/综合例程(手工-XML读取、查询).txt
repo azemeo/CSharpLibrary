@@ -1,0 +1,52 @@
+<%@ Import Namespace=System.Data %>
+<html>
+	<body>
+		<form runat="server">
+			Target Currency<br>
+			<asp:ListBox ID="Currencies" Width=256 RunAt="Server" /><br>
+			<br>
+			Amount in U.S. Dollars<br>
+			<asp:TextBox ID="USD" Width="256" RunAt="server" /><br>
+			<br>
+			<asp:Button Text="Convert" ID="ConvertButton" Width="256"
+			RunAt="server" /><br>
+			<br>
+			<asp:Label ID="Output" RunAt="server" />
+		</form>
+	</body>
+</html>
+<script language="C#" runat="server">
+	void Page_Init(Object sender,EventArgs e)
+	{
+		ConvertButton.Click+=new EventHandler(OnConvert);
+	}
+	void Page_Load(Object sender,EventArgs e)
+	{
+		if(!IsPostBack)
+		{
+			DataSet ds=new DataSet();
+			ds.ReadXml(Server.MapPath("Rates.xml"));
+			foreach(DataRow row in ds.Tables[0].Rows)
+				Currencies.Items.Add(row["Currency"].ToString());
+				Currencies.SelectedIndex=0;
+		}
+	}
+	void OnConvert(Object sender,EventArgs e)
+	{
+		try
+		{
+			decimal dollars=Convert.ToDecimal(USD.Text);
+			DataSet ds=new DataSet();
+			ds.ReadXml(Server.MapPath("Rates.xml"));
+			DataRow[]rows=ds.Tables[0].Select("Currency='"+
+				Currencies.SelectedItem.Text+"'");
+			decimal rate=Convert.ToDecimal(rows[0]["Exchange"]);
+			decimal amount=dollars*rate;
+			Output.Text=amount.ToString("f2");
+		}
+		catch(FormatException)
+		{
+			Output.Text="Error";
+		}
+	}
+</script>

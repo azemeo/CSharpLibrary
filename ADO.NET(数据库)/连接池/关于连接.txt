@@ -1,0 +1,33 @@
+SQL Server2000 连接数为255个。
+连接池的范围(0-100)。
+1.最小池值越大，单个用户的操作性能越好，但是容纳的用户较少。
+2.最小池值越小，单个用户的操作性能越坏，但是容纳的用户较多。
+
+1.在开发期间,减小最大池的容量，以例查漏.
+
+1.在发布期间,增加最大池的容量，以容纳更多的用户.
+
+
+Connection Lifetime 连接池内连接的生存期(秒)
+Pooling 从池中取连接
+
+
+
+		//Max Pool 最大连接池
+		//Min Pool 最小连接池
+		string strConn1="Server=(local);Integrated Security=SSPI;Initial Catalog=northwind;Max Pool Size=75; Min Pool Size=10;";
+		SqlConnection conn1=new SqlConnection();
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			
+			conn1.ConnectionString=strConn1;
+			conn1.Open();
+		}
+
+		private void button3_Click(object sender, System.EventArgs e)
+		{
+			if(conn1.State==ConnectionState.Open)
+				conn1.Close();
+		}
+using System.Data.SqlClient;//访问SQL Server的引用
+

@@ -1,0 +1,5 @@
+KeyDown(МќТы)-KeyPress(char)-KeyUp
+
+DragEnter
+DragOver-DragDrop
+DragLeave

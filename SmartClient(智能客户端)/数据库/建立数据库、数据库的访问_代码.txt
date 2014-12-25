@@ -1,0 +1,23 @@
+建立数据库、数据库的访问
+
+using System.Data;
+using System.Data.SqlServerCe;
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			//建立SQL CE数据库
+			SqlCeEngine ce=new SqlCeEngine();
+			ce.LocalConnectionString="Data Source=My Documents\\DemoDb.sdf;Password='pass'";
+			ce.CreateDatabase();
+			this.textBox1.Text="Create database sucess!";			
+		}
+
+		private void button2_Click(object sender, System.EventArgs e)
+		{
+			//数据库访问
+			SqlCeConnection sc=new SqlCeConnection("Data Source=My Documents\\DemoDb.sdf;Password='pass'");
+			SqlCeCommand ce=new SqlCeCommand("Select count(*) from A003",sc);
+			sc.Open();
+			this.textBox1.Text=ce.ExecuteScalar().ToString();
+			sc.Close();
+		}

@@ -1,0 +1,68 @@
+//值类型，修改一个不影响另一个
+using System;
+
+namespace m3
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	struct Point
+	{
+		public int x;
+		public int y;
+	}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			/*
+			Point p1=new Point();
+			p1.x=1;
+			p1.y=2;
+			Point p2=p1;
+			p2.x=3;
+			p2.y=4;
+			Console.WriteLine("p1=({0},{1})",p1.x,p1.y);
+			Console.WriteLine("p2=({0},{1})",p2.x,p2.y);
+			*/
+		}
+	}
+}
+//引用类型,修改一个影响另一个
+using System;
+
+namespace m3
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Point
+	{
+		public int x;
+		public int y;
+	}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			/*
+			Point p1=new Point();
+			p1.x=1;
+			p1.y=2;
+			Point p2=p1;
+			p2.x=3;
+			p2.y=4;
+			Console.WriteLine("p1=({0},{1})",p1.x,p1.y);
+			Console.WriteLine("p2=({0},{1})",p2.x,p2.y);
+			*/
+		}
+	}
+}

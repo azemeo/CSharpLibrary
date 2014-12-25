@@ -1,0 +1,25 @@
+//哈希表的用法
+			Hashtable table=new Hashtable();
+			table.Add("Sunday","Dimanche");//新增
+			table.Add("Monday","Lundi");
+			table.Add("Tuesday","Mardi");
+			table.Add("Wednesday","Mercredi");
+			table.Add("Thursday","Jeudi");
+			table.Add("Friday","Vendredi");
+			table.Add("Saturday","Samedi");
+			string word=(string)table["Tuesday"];//查询
+			Console.WriteLine(word);
+			table["Tuesday"]="I am modify";
+			word=(string)table["Tuesday"];//修改或新增
+			Console.WriteLine(word);
+			foreach(DictionaryEntry entry in table) //枚举
+				Console.WriteLine("Key={0},Value={1}\n",entry.Key,entry.Value);
+			table.Remove("Monday");//删除
+			Console.WriteLine("删除后：\n");
+			foreach(DictionaryEntry entry in table) //枚举
+				Console.WriteLine("Key={0},Value={1}\n",entry.Key,entry.Value);
+			Console.WriteLine("现在的个数是:{0}",table.Count);//个数
+			table.Clear();//清理
+			Console.WriteLine("清理后：\n");
+			foreach(DictionaryEntry entry in table) //枚举
+				Console.WriteLine("Key={0},Value={1}\n",entry.Key,entry.Value);

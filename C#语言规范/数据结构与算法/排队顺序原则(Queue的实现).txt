@@ -1,0 +1,30 @@
+using System;
+using System.Collections;
+//排队顺序的Queue的实现
+public class JobProcessing
+{
+	private static Queue jobs=new  Queue();
+
+	public static void Main()
+	{
+
+		jobs.Enqueue("1");//jobs.Count增加
+		jobs.Enqueue("2");
+		PrintValue();
+		jobs.Enqueue("3");
+		PrintValue();
+		PrintValue();
+		PrintValue();
+		PrintValue();
+		jobs.Enqueue("4");
+		jobs.Enqueue("5");
+		PrintValue();
+	}
+	public static void PrintValue()
+	{
+		if(jobs.Count>0)//正在排队的个数
+			Console.WriteLine(jobs.Dequeue());//jobs.Count减少
+		else
+			Console.WriteLine("NO JOBS IN BUFFER");
+	}
+}

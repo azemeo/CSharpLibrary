@@ -1,0 +1,7 @@
+string myConnectionString=@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\CSharp3\QXKMeTone\bin\Debug\First.mdb;";
+			string myExecuteQuery="DELETE * FROM "+tablename;			
+			OleDbConnection myConnection = new OleDbConnection(myConnectionString);
+			OleDbCommand myCommand = new OleDbCommand(myExecuteQuery, myConnection);
+			myCommand.Connection.Open();
+			myCommand.ExecuteNonQuery();
+			myConnection.Close();

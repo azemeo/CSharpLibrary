@@ -1,0 +1,11 @@
+1.引用
+	using System.Runtime.InteropServices;
+2.声明
+	[DllImport("mscoree.dll")]  
+	internal static extern void GetCORSystemDirectory([MarshalAs(UnmanagedType.LPTStr)]System.Text.StringBuilder Buffer, 
+		int BufferLength, ref int Length);  
+3.使用
+	System.Text.StringBuilder sb = new System.Text.StringBuilder(1024); 			 
+	int size=0; 			 
+	GetCORSystemDirectory(sb, sb.Capacity, ref size); 
+	this.textBox1.Text=sb.ToString();

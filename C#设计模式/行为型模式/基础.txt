@@ -1,0 +1,1 @@
+行为型模式(Behavioral Pattern)通常他对象间的通讯有关。

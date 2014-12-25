@@ -1,0 +1,11 @@
+string fox;
+fox.ToLower()转化成小写字母
+fox.ToUpper()转化成大写字母
+fox.Trim()删除前后空格
+fox.Trim(trimChars)删除其它字符
+fox.TrimStart()删除前空格
+fox.TrimEnd()删除后空格
+fox.PadLeft(10)增加左边空格，使字串达到某长度。
+fox.PadRight(10)增加右边空格，使字串达到某长度。
+fox.PadX(10,'-')增加其它字符，使字串达到某长度。X指:Left/Right
+fox.Split(' ')将字串分解成数组

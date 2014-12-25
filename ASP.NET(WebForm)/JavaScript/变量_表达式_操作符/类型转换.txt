@@ -1,0 +1,4 @@
+//var d = eval(a + " + " + b + " + "+c) //不能正确转换数字Error
+//var d = parseInt(a)+parseInt(b)+parseInt(c);  //不能正确转换数字Error
+//var d=parseInt(a,10)+parseInt(b,10)+parseInt(c,10); //整数
+var d=parseFloat(a,10)+parseFloat(b,10)+parseFloat(c,10);//浮点

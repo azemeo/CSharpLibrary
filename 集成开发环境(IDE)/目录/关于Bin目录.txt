@@ -1,0 +1,16 @@
+Web 应用程序
+在目录Bin目录下寻找程序(编译及运行支持),
+并且添加或删除引用时VS复制或删除bin目录下的组件,
+
+1.通过.NET配制工具,可以增加应用程序的搜索路径
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+<runtime>
+    <gcConcurrent enabled="true" />
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <publisherPolicy apply="yes" />
+      <probing privatePath="bin;bin\third" />
+    </assemblyBinding>
+  </runtime>
+</configuration>
+2.

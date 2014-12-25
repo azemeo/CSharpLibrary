@@ -1,0 +1,9 @@
+1.‘⁄Web.config÷–
+
+  <appSettings>
+		<add key="MyConnectionString" value="server=ha;" />
+  </appSettings>  
+2.*.aspx÷–
+using System.Configuration;
+
+ConfigurationSettings.AppSettings["MyConnectionString"];

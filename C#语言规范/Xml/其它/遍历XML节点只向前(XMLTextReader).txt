@@ -1,0 +1,40 @@
+using System;
+using System.Xml;
+namespace MyXMLReader
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			XmlTextReader reader=null;
+			try
+			{
+				reader=new XmlTextReader("Guitars.xml");
+				reader.WhitespaceHandling=WhitespaceHandling.None;//阴止返回空白的节点
+				while(reader.Read())//读取节点
+				{
+					Console.WriteLine("Type={0}\tName={1}\tValue={2}",reader.NodeType,reader.Name,reader.Value);
+					if(reader.AttributeCount>0)//读取属性
+					{
+						while(reader.MoveToNextAttribute())
+						{
+							Console.WriteLine("Type={0}\tName={1}\tValue={2}",reader.NodeType,reader.Name,reader.Value);
+						}
+					}
+				}
+			}
+			finally
+			{
+				if(reader!=null)
+					reader.Close();
+			}
+		}
+	}
+}

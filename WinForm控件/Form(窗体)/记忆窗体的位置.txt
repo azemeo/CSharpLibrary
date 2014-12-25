@@ -1,0 +1,16 @@
+//尺寸改变时
+private void FormMain_SizeChanged(object sender, System.EventArgs e)
+		{
+			SetFormSize();
+		}
+		private void SetFormSize()
+		{
+			if(IsLoad)
+			{
+			}
+		}
+//位置改变时
+		private void FormMain_LocationChanged(object sender, System.EventArgs e)
+		{
+			SetFormSize();
+		}

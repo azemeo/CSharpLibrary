@@ -1,0 +1,5 @@
+不能打开IDE,报告DTE错误
+1.On the Start menu, point to Settings, click Control Panel, and then click Add/Remove Programs.
+2.On the list of installed programs, click Visual Studio .NET, and then click Change.
+3.Click the second item in the 1 2 3 Visual Studio Setup dialog box.
+4.Click Repair/Re-install, and then follow the onscreen instructions

@@ -1,0 +1,22 @@
+Color curr=Color.White;
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			curr=Color.Blue;
+			AccessAllControls(this);
+		}
+		private void AccessAllControls(Control paramctl)
+		{
+			foreach(Control cl in paramctl.Controls)
+			{
+				if(cl is TextBox)//检测控件类型
+					cl.BackColor=curr;
+				//对控件进行操作
+				AccessAllControls(cl);//遍历下一层控件
+			}
+		}
+
+		private void button2_Click(object sender, System.EventArgs e)
+		{
+			curr=Color.Green;
+			AccessAllControls(this);
+		}

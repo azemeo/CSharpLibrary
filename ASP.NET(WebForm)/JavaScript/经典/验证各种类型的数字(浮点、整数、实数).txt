@@ -1,0 +1,29 @@
+<script>
+//检查是否为任意数（实数）
+function isNumeric(strNumber)
+{
+  var newPar=/^(\+|-)?(0|[1-9]\d*)(\.\d*[1-9])?$/
+  alert(newPar.test(strNumber));
+}
+//检查是否为正数
+function isUnsignedNumeric(strNumber)
+{
+  var newPar=/^\d+(\.\d+)?$/
+  alert(newPar.test(strNumber));
+}
+//检查是否为整数
+function isInteger(strInteger)
+{
+  var newPar=/^(-|\+)?\d+$/
+  alert(newPar.test(strInteger));
+}
+//检查是否为正整数
+function isUnsignedInteger(strInteger)
+{
+  var newPar=/^\d+$/
+  alert(newPar.test(strInteger));
+}
+</script>
+
+判断
+isNaN(s)

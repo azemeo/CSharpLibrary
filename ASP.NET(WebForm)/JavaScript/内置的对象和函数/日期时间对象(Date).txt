@@ -1,0 +1,34 @@
+//var AFineDate=new Date();//当前日期
+//var AFineDate=new Date("March 17,1999");//显示指定日期
+//AFineDate.setTime(Date.parse("March 17,1999"));//parse静态设定
+
+//时间和日期的处理方法
+var currDate=new Date();
+//获得日期和时间
+document.writeln(currDate+"<BR>");//当前日期
+document.writeln(currDate.getFullYear()+"<BR>");//年(MS 4位)
+document.writeln(currDate.getMonth()+"<BR>");//月
+document.writeln(currDate.getDay()+"<BR>");//日
+document.writeln(currDate.getHours()+"<BR>");//时
+document.writeln(currDate.getMinutes()+"<BR>");//分
+document.writeln(currDate.getSeconds()+"<BR>");//秒
+document.writeln(currDate.getMilliseconds()+"<BR>");//毫秒
+document.writeln(currDate.getTime()+"<BR>");//当前时间(毫秒计数)
+document.writeln(currDate.getTimezoneOffset()+"<BR>");//获得时区的编移
+//转换
+document.writeln(currDate.toLocaleDateString()+"<BR>");//本地日期格式
+document.writeln(currDate.toLocaleTimeString()+"<BR>");//本地时间格式
+document.writeln(currDate.toLocaleString()+"<BR>");    //本地日期时间格式
+//设定
+currDate.setFullYear(1997);//设定年份
+currDate.setMonth(11);//设定月份(0-11)
+document.writeln(currDate.toLocaleString()+"<BR>");
+//返回全球标准时间(或 GMT) 的1970 年1月1日到所指定日期之间所间隔的毫秒数
+document.writeln(Date.UTC(1998,10,1,8,15,16,20)+"<BR>");
+
+//重要***********************
+//注意第2参数，表示月+1
+//注意第4参数，表示月+8(因为中国为GMT+8)
+//currDate.setTime(Date.UTC(1998,10,1,4,15,16,20)); //全部参数
+currDate.setTime(Date.UTC(1998,10,1));//年月日
+document.writeln(currDate.toLocaleString()+"<BR>");

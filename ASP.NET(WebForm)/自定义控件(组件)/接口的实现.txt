@@ -1,0 +1,18 @@
+1.IPostBackDataHandler是一个接口
+2.LoadPostData,RaisePostDataChangedEvent定义的方法
+public class MyTextBox:Control,IPostBackDataHandler
+	{
+		string MyText="";
+		public string Text
+		{
+			get{return MyText;}
+			set{MyText=value;}
+		}
+		public bool LoadPostData(string postDataKey,NameValueCollection postCollection)
+		{
+			Text=postCollection[postDataKey];
+			return false;
+		}
+		public void RaisePostDataChangedEvent()
+		{
+		}

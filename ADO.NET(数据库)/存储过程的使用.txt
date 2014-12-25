@@ -1,0 +1,65 @@
+1.在SQL Server中建立存储过程
+CREATE PROCEDURE proc_TransferFunds
+	@Amount int ,
+	@From char(10),
+	@To char(10)
+AS
+	BEGIN TRANSACTION
+	UPDATE Accounts SET Balance=Balance-@Amount
+		WHERE Account_ID=@From
+	IF @@ROWCOUNT=0
+	BEGIN
+	ROLLBACK TRANSACTION
+	RETURN
+	END
+	UPDATE Accounts SET Balance=Balance+@Amount
+		WHERE Account_ID=@To
+	IF @@ROWCOUNT =0
+	BEGIN
+		ROLLBACK TRANSACTION
+		RETURN	
+	END
+	COMMIT TRANSACTION
+GO
+
+2.调用
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyParamter
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlConnection conn=new SqlConnection("server=localhost;database=mybank;uid=sa;pwd=");
+			try
+			{
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("proc_TransferFunds",conn);
+				cmd.CommandType=CommandType.StoredProcedure;
+				cmd.Parameters.Add("@amount",1000);
+				cmd.Parameters.Add("@from",1111);
+				cmd.Parameters.Add("@to",2222);
+				cmd.ExecuteNonQuery();
+				Console.WriteLine("OK");
+			}
+			catch(SqlException)
+			{
+				//
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}
+3.数据库MyBank,表Accounts,字段Account_ID(char),Balance(int)

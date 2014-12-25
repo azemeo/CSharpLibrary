@@ -1,0 +1,31 @@
+new 并不是激活远程对象的唯一方式。
+GetObject  激活服务器对象
+CreateInstance 激活客户端对象
+
+new 不接受接口类型的数据
+
+using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+using System.Runtime.Remoting.Activation;//为Activator方法激活
+public class MyApp
+{
+	static void Main()
+	{
+		TcpClientChannel channel=new TcpClientChannel();
+		ChannelServices.RegisterChannel(channel);
+		//客户端激活模式
+		//用new激活
+//		RemotingConfiguration.RegisterActivatedClientType(typeof(Stopwatch),
+//			"tcp://localhost:1234");
+//		Stopwatch sw=new Stopwatch();
+		//Activator方法激活
+		object[] url={new UrlAttribute("tcp://localhost:1234")};
+		Stopwatch sw=(Stopwatch)Activator.CreateInstance(typeof(Stopwatch),null,url);
+		sw.Start();
+		Console.WriteLine("Press Enter to showelapsed time...");
+		Console.ReadLine();
+		Console.WriteLine(sw.Stop()+" millseconds");
+	}
+}

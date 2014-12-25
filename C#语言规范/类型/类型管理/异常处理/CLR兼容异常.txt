@@ -1,0 +1,18 @@
+System.Exception 是一个很简单的类型
+
+Message 消息文本
+
+Source 包括异常的程序集名称
+
+StackTrace 方法签名.
+
+try
+			{
+				int x=2;
+				int y=0;
+				int z=x/y;
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine("Ass:{0}\nMethod:{1}\nMessage:{2}\n",ex.Source,ex.StackTrace,ex.Message);
+			}

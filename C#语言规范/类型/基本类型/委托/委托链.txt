@@ -1,0 +1,41 @@
+委托本身已很有用，再给它们加上链表支持，将变得更有价值。
+
+每个委托对象都有一个私有字段_prev指向另一个对象。
+
+使得多个委托可以组成一个链表。
+
+Combint 组合
+
+Remove 移除
+
+方法1:
+			//将两个委托对象(表态方法)组合到链表上
+			Set.Feedback fb1=new Set.Feedback(App.FeedbackToConsole);
+			Set.Feedback fb2=new Set.Feedback(App.FeedbackToMsgBox);
+			Set.Feedback fbChain=(Set.Feedback)Delegate.Combine(fb1,fb2);
+			//将静态方法组合到链表上
+			App appobj=new App();
+			Set.Feedback fb3=new Set.Feedback(appobj.FeedbackToFile);
+			fbChain=(Set.Feedback)Delegate.Combine(fbChain,fb3);
+
+方法2:
+			//将两个委托对象(表态方法)组合到链表上-引用数组
+			Set.Feedback[]fbArray=new Set.Feedback[3];
+
+			fbArray[0]=new Set.Feedback(App.FeedbackToConsole);
+
+			fbArray[1]=new Set.Feedback(App.FeedbackToMsgBox);
+
+			App appobj=new App();
+			fbArray[2]=new Set.Feedback(appobj.FeedbackToFile);
+
+			Set.Feedback fbChain=(Set.Feedback)Delegate.Combine(fbArray);	
+
+
+			//应用
+			Set setOfItems=new Set(5);
+			setOfItems.ProcessItems(fbChain);
+
+如果找到一个匹配，Remove方法便从委托链上移除找到的委托对象。每次只移除一个。
+			//移除
+			fbChain=(Set.Feedback)Delegate.Remove(fbChain,new Set.Feedback(App.FeedbackToMsgBox));

@@ -1,0 +1,44 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Drawing;
+namespace MyExecute1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//
+			// TODO: 在此处添加代码以启动应用程序
+			//
+			MemoryStream stream=new MemoryStream();
+			SqlConnection conn=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=");
+			try
+			{
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("select logo from pub_info where pub_id='0736'",conn);
+				byte[]blob=(byte[])cmd.ExecuteScalar();//执行一个命令并返返回结果集的第1列1行
+				stream.Write(blob,0,blob.Length);
+				Bitmap bitmap=new Bitmap(stream);
+				bitmap.Dispose();
+			}
+			catch(SqlException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				stream.Close();
+				conn.Close();
+			}
+		}
+	}
+}

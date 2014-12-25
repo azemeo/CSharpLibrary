@@ -1,0 +1,1 @@
+cbStart.Attributes.Add("onclick","javascript:if(Di_AffirmFrm('"+oName.ToString()+"')) __doPostBack('"+cbStart.ClientID+"','');");

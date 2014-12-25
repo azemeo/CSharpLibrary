@@ -1,0 +1,2 @@
+后面的页面继续输出流
+this.RegisterStartupScript("message","<script language='javascript' defer>alert('新增失败！');</script>");

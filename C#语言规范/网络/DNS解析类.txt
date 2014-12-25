@@ -1,0 +1,16 @@
+using System.Net;
+try
+			{
+				IPHostEntry iphosts=Dns.Resolve(textBoxInput.Text);
+				foreach(IPAddress ip in iphosts.AddressList)
+				{
+					long Address=ip.Address;
+					this.listBoxIPs.Items.Add(Address.ToString());
+					this.listBoxIPs.Items.Add(" "+ip.ToString());
+				}
+				textBoxHostName.Text=iphosts.HostName;
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show("Can't Access"+ex.Message,"Exception");
+			}

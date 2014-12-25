@@ -1,0 +1,12 @@
+1.在Windows2000下安装MySQL
+2.在运行中，启动服务C:\mysql\bin\winmysqladmin.exe
+第一次输入
+user name:root
+password:glf
+确定,在系统托盘出现红绿灯的图标。
+第二次直接进入
+3.命令提示符下连接服务器:
+mysql -u root
+4.退出
+quit
+

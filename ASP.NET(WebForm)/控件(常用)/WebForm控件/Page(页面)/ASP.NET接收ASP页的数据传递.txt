@@ -1,0 +1,6 @@
+ASP页Form用Get方式
+Request.QueryString["tbMobile"].Trim();//C#
+ASP页Form用Post方式
+Request.Form["tbMobile"].Trim();//C#
+
+//注tbMobile为ASP页的字段

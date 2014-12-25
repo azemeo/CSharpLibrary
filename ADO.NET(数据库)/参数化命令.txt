@@ -1,0 +1,45 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyParamter
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlConnection conn=new SqlConnection("server=localhost;database=mybank;uid=sa;pwd=");
+			try
+			{
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("update accounts set balance=balance+@amount"+
+					" where account_id=@id",conn);//OleDb中用?替代@id
+				cmd.Parameters.Add("@amount",SqlDbType.Int);//OleDB中顺充必须是在命令中出现的顺序
+				cmd.Parameters.Add("@id",SqlDbType.Char);
+				//
+				cmd.Parameters["@amount"].Value=-1000;
+				cmd.Parameters["@id"].Value="1111";
+				cmd.ExecuteNonQuery();
+				//
+				cmd.Parameters["@amount"].Value=1000;
+				cmd.Parameters["@id"].Value="2222";
+				cmd.ExecuteNonQuery();
+				Console.WriteLine("OK");
+			}
+			catch(SqlException)
+			{
+				//
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}

@@ -1,0 +1,6 @@
+如果原来虑拟目录为xxx
+副本的虚拟目录为yyy
+
+将*.csproj.webinfo 中的<Web URLPath ...>xxxx改yyyy
+
+保存覆盖旧的解决方案名称(*.sln)

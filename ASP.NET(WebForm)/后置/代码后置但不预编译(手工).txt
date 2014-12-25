@@ -1,0 +1,2 @@
+1.将*.aspx与*.cs放在同一目录下
+<%@ Page Inherits="LanderPage" Src="Lander.cs" %>

@@ -1,0 +1,64 @@
+	// Define DrawImageAbort callback method.
+		private bool DrawImageCallback(IntPtr callBackData)
+		{
+			// Test for call that passes callBackData parameter.
+			if(callBackData==IntPtr.Zero)
+			{
+				// If no callBackData passed, abort DrawImage method.
+				return true;
+			}
+			else
+			{
+				// If callBackData passed, continue DrawImage method.
+				return false;
+			}
+		}
+		public void AjustPhoto()
+		{
+			//效果好
+			// 建立回调方法.
+			Graphics.DrawImageAbort imageCallback = new Graphics.DrawImageAbort(DrawImageCallback);
+			IntPtr imageCallbackData = new IntPtr(1);
+			// 从文件中读出图像.
+			Image newImage = Image.FromFile(@"D:\TestJpg\1.jpg");
+			// 生成原始大小源图像destRect1(程序测试)
+			Rectangle destRect1 = new Rectangle(0, 0, 1600, 1200);
+			// 原始图像的坐标.
+			float x = 0.0F;
+			float y = 0.0F;
+			float width = 1600.0F;
+			float height = 1200.0F;
+			GraphicsUnit units = GraphicsUnit.Pixel;
+			// 画原始图像到画布.
+			Image destImage=new Bitmap(640,480);
+			Graphics g=Graphics.FromImage(destImage);
+			g.DrawImage(newImage, destRect1, x, y, width, height, units);
+			// 建立准备生成图像的大小(用户设定).
+			Rectangle destRect2 = new Rectangle(0, 0, 640, 480);
+			// 建立图像属性和gamma.
+			ImageAttributes imageAttr = new ImageAttributes();
+			//imageAttr.SetGamma(4.0F);
+			try
+			{
+				checked
+				{
+					// 在画布上画出缩小/放大图像.
+					g.DrawImage(
+						newImage,
+						destRect2,
+						x, y,
+						width, height,
+						units,
+						imageAttr,
+						imageCallback,
+						imageCallbackData);
+				}
+				pbView.Image=destImage;//显示
+				destImage.Save(@"D:\TestJpg\1_small.jpg",System.Drawing.Imaging.ImageFormat.Jpeg);
+				
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("转换失败:"+ex.Message);
+			}
+		}

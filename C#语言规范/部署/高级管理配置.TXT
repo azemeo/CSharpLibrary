@@ -1,0 +1,9 @@
+完全控制CLR应用加载哪个程序集。
+
+probing 元素 privatePath中查找弱命名程序集。
+
+dependentAssembly 依赖程序集的信息
+
+codeBase 尝试在URL中寻找程序集
+
+publicsherPlolicy 策略文件 

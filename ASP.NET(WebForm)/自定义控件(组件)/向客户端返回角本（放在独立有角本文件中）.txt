@@ -1,0 +1,24 @@
+		protected override void OnPreRender(EventArgs e)
+		{
+			//只返回一次
+			Page.RegisterClientScriptBlock(
+			"MessageButtonRemoteScript",
+			"<script language=\"javascript\""+		
+			//"src=\"MessageButton.js\"></script>");//成功:将MessageButton.js放在与调用页相同目录
+			//"src=\"glf/MessageButton.js\"></script>");//成功:将MessageButton.js放在调用页子目录glf中
+			"src=\"/glf/MessageButton.js\"></script>");//成功:将MessageButton.js放在调用页bin的子目录glf中
+		}
+		protected override void Render(HtmlTextWriter writer)
+		{
+			writer.WriteBeginTag("input");
+			writer.WriteAttribute("type","submit");
+			writer.WriteAttribute("name",UniqueID);
+			if(ID!=null)
+				writer.WriteAttribute("id",ClientID);
+			if(Text.Length>0)
+				writer.WriteAttribute("value",Text);
+			if(Message.Length>0)
+				writer.WriteAttribute("onclick",
+				"javascript:doAlert(\'"+Message+"\')");
+			writer.Write(HtmlTextWriter.TagRightChar);
+		}

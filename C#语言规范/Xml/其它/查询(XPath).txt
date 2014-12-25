@@ -1,0 +1,31 @@
+using System;
+using System.Xml.XPath;
+namespace MyXPath
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			XPathDocument doc=new XPathDocument("Guitars.xml");//包装XML文档
+			XPathNavigator nav=doc.CreateNavigator();//创建XPathNavigator
+			XPathNodeIterator iterator=nav.Select("/Guitars/Guitar");//查询，返回值为节点集
+			while(iterator.MoveNext())//下个节点
+			{
+				XPathNodeIterator it=iterator.Current.Select("Make");
+				it.MoveNext();
+				string make=it.Current.Value;//当前节点
+				it=iterator.Current.Select("Model");
+				it.MoveNext();
+				string model=it.Current.Value;
+				Console.WriteLine("{0} {1}",make,model);
+			}
+		}
+	}
+}

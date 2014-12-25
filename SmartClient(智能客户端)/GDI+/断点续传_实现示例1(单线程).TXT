@@ -1,0 +1,99 @@
+using System.Net;
+
+private void Startbtn_Click(object sender, System.EventArgs e)
+		{
+			string StrFileName=SavePathTB.Text.Trim();      //根据实际情况设置
+
+			string StrUrl=WebUrl.Text.Trim();   //根据实际情况设置
+
+ 
+
+
+			
+			
+			//打开上次下载的文件或新建文件
+
+			long lStartPos =0;
+
+			System.IO.FileStream fs;
+
+			if (System.IO.File.Exists(StrFileName))
+
+			{
+
+				fs= System.IO.File.OpenWrite(StrFileName);
+
+				lStartPos=fs.Length;
+
+				fs.Seek(lStartPos,System.IO.SeekOrigin.Current);   //移动文件流中的当前指针
+
+			}
+
+			else
+
+			{
+
+				fs = new System.IO.FileStream(StrFileName,System.IO.FileMode.Create);
+
+				lStartPos =0;
+
+			}
+
+                     
+
+			//打开网络连接
+
+			try
+
+			{
+
+				System.Net.HttpWebRequest request =(System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(StrUrl);
+
+				
+				//得到文件的大小
+				WebResponse wr=request.GetResponse();
+				long filesize=wr.ContentLength;
+
+				if ( lStartPos>0)
+					request.AddRange((int)lStartPos);    //设置Range值                            
+
+				//向服务器请求，获得服务器回应数据流
+				System.IO.Stream ns= request.GetResponse().GetResponseStream();
+
+ 
+
+				byte[] nbytes = new byte[512];
+
+				int nReadSize=0;
+
+				nReadSize=ns.Read(nbytes,0,512);
+
+				while( nReadSize >0)
+				{
+
+					fs.Write(nbytes,0,nReadSize);
+
+					nReadSize=ns.Read(nbytes,0,512);
+					Processlab.Text="正在下载..."+fs.Length/1024+"KB,共"+(filesize/1024).ToString()+"KB.";
+					Processlab.Refresh();
+				}
+
+				fs.Close();
+
+				ns.Close();
+
+				Processlab.Text="下载完成";
+
+			}
+
+			catch(Exception ex)
+
+			{
+
+				fs.Close();
+
+				Processlab.Text="下载过程中出现错误:"+ex.ToString();
+
+			}
+
+		}

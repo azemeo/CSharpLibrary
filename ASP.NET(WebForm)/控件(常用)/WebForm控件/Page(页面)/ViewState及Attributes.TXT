@@ -1,0 +1,5 @@
+ViewState与Attributes
+
+ViewState是一个全局的、页范围的持久信息库。是页及其控件的状态值集合。可以接受任何类型的.NET数据类型。
+
+Attributes是每个控件保留持久信息的地方。是控件中没有提供相应属性的HTML的集合。只有按受字符。

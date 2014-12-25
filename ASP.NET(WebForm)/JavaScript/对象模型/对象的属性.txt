@@ -1,0 +1,37 @@
+<html>
+	<title>Please see my computer</title>
+	<head>
+	<script language="Javascript">
+	function computer(brand,year,owner)
+	{
+		this.brand=brand;
+		this.year=year;
+		this.owner=owner;
+	}	
+	function Show(obj_name,obj)
+	{
+		var result="",i="";
+		document.writeln("<H3> My computer object propties value</H3>");
+		for(i in obj)
+			result+=obj_name+"."+i+"="+obj[i]+"<BR>";//i属性名,obj[i]属性值
+		document.writeln(result);
+	}
+	</script>
+	</head>
+	<body>
+	<script language=javascript>
+		var MyComputer=new computer("IBM",1996,"Liu");//申明对象并初始化
+		MyComputer.Current="Lend";//增加属性
+		
+		var Ancomputer=new computer("Compaq",1997,"Yang");
+		
+		Show("MyComputer",MyComputer);//显示
+		Show("Ancomputer",Ancomputer);
+				
+	</script>
+	</body>
+</html>
+
+注意:
+1.可以动态增加属性
+2.没有继承

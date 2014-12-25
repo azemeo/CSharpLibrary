@@ -1,0 +1,4 @@
+<%@ Page aspcompat="true" %>
+
+强制页在STA线程中执行
+

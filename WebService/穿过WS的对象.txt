@@ -1,0 +1,178 @@
+using System;
+namespace ZeroWire.SFA.Shared.Object.Product
+{
+	/// <summary>
+	/// 产品对象	
+	/// </summary>
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+	public class ProductObj
+	{	
+
+		private long product_ID = 0;
+		/// <summary>
+		/// 产品ID
+		/// </summary>
+		public long Product_ID
+		{
+			get
+			{
+				return product_ID;
+			}
+			set
+			{
+				product_ID=value;
+			}
+		}
+		
+		private string name = "";
+		/// <summary>
+		/// 产品名称
+		/// </summary>
+		public string Name
+		{
+			get
+			{
+				return name;
+			}
+			set
+			{
+				name=value;
+			}
+		}
+		private double inventory = 0;
+		/// <summary>
+		/// 当前库存
+		/// </summary>
+		public double  Inventory
+		{
+			get
+			{
+				return inventory;
+			}
+			set
+			{
+				inventory=value;
+			}
+		}
+		private long category_ID = 0;
+		/// <summary>
+		/// 产品类别ID
+		/// </summary>
+		public long Category_ID
+		{
+			get
+			{
+				return category_ID;
+			}
+			set
+			{
+				category_ID=value;
+			}
+		}
+		private string model_Name = "";
+		/// <summary>
+		/// 产品规格
+		/// </summary>
+		public string Model_Name
+		{
+			get
+			{
+				return model_Name;
+			}
+			set
+			{
+				model_Name=value;
+			}
+		}
+		private string model_Size = "";
+		/// <summary>
+		/// 产品型号
+		/// </summary>
+		public string Model_Size
+		{
+			get
+			{
+				return model_Size;
+			}
+			set
+			{
+				model_Size=value;
+			}
+		}
+		private double quoted_Price = 0;
+		/// <summary>
+		/// 公开报价
+		/// </summary>
+		public double Quoted_Price
+		{
+			get
+			{
+				return quoted_Price;
+			}
+			set
+			{
+				quoted_Price=value;
+			}
+		}
+		private string shortname = "";
+		/// <summary>
+		/// 产品简称
+		/// </summary>
+		public string Shortname
+		{
+			get
+			{
+				return shortname;
+			}
+			set
+			{
+				shortname=value;
+			}
+		}
+		private string metric = "";
+		/// <summary>
+		/// 计量单位
+		/// </summary>
+		public string Metric
+		{
+			get
+			{
+				return metric;
+			}
+			set
+			{
+				metric=value;
+			}
+		}
+		private string description = "";
+		/// <summary>
+		/// 说明
+		/// </summary>
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				description=value;
+			}
+		}
+		private string category_Name = "";
+		/// <summary>
+		/// 产品类别名称
+		/// </summary>
+		public string Category_Name
+		{
+			get
+			{
+				return category_Name;
+			}
+			set
+			{
+				category_Name=value;
+			}
+		}		
+	}
+} 

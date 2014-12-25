@@ -1,0 +1,7 @@
+主要新增
+
+/platform
+ 指定必须存在以便承载程序集的 CPU（x86、Itanium、x64 或 anycpu）。默认为 anycpu。
+ 
+引用别名
+csc /r:ST1=MyCodeLibrary.dll /r:ST2=MyCodeLibrary2.dll *.cs 

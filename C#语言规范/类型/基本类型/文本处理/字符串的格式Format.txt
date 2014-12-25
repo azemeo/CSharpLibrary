@@ -1,0 +1,77 @@
+FCL,所有基本类型都实现了System.IFormatable接口
+
+
+//DateTime格式
+			DateTime dt=DateTime.Now;
+			Console.WriteLine(dt.ToString("d"));//短日期
+			Console.WriteLine(dt.ToString("D"));//长日期
+			Console.WriteLine(dt.ToString("g"));//长规日期/时间格式
+			Console.WriteLine(dt.ToString("M"));//月/日格式
+			Console.WriteLine(dt.ToString("s"));//可排序的日期/时间格式
+			Console.WriteLine(dt.ToString("T"));//时间格式
+			Console.WriteLine(dt.ToString("u"));//短日期通用时间格式(ISO 9601)
+			Console.WriteLine(dt.ToString("U"));//长日期通用时间格式(ISO 9601)
+			Console.WriteLine(dt.ToString("Y"));//年/月长格式
+			
+			//数值格式
+			Double db=0.34;
+			Console.WriteLine(db.ToString("C"));//货币
+			Console.WriteLine(db.ToString("P"));//百分比
+
+			Int32 it=46;
+			Console.WriteLine(it.ToString("G"));//常规(默认)
+			Console.WriteLine(it.ToString("D"));//十进制
+			Console.WriteLine(it.ToString("E"));//科学计数法
+			Console.WriteLine(it.ToString("X"));//十六进制
+
+语言文化信息:实现IFormatProvider
+
+中文
+using System.Globalization;
+			Decimal price=123.54M;
+			String s=price.ToString("C",new CultureInfo("zh-CN"));
+			System.Windows.Forms.MessageBox.Show(s);
+
+不针对特殊文化
+			Decimal price=123.54M;
+			String s=price.ToString("C",CultureInfo.InvariantCulture);//不依赖区域性
+			System.Windows.Forms.MessageBox.Show(s);
+在FCL中,CultureInfo,NumberFormatInfo,DateTimeFormatInfo 实现了IFormatProvider.
+
+综合应用
+
+1.常规格式，线程语言文化信息
+ToString();
+2.指定格式，指定文件信息
+ToString(String format,IFormatProvider formatProvider);
+3.指定格式,线程语言文化信息
+ToString(String format);
+4.常规格式，指定语言文化信息
+ToString(IFormatProvider formatProvider);
+
+using System.Globalization;
+			Decimal price=123.54M;
+			String s1=price.ToString();
+			String s2=price.ToString("C",new CultureInfo("zh-CN"));
+			String s3=price.ToString("C");
+			String s4=price.ToString(new CultureInfo("zh-CN"));
+			System.Windows.Forms.MessageBox.Show(s1+"\n"+s2+"\n"+s3+"\n"+s4+"\n");
+
+格式化一个字符串
+String.Format
+
+StringBuilder中的AppendFormat
+
+
+示例
+			String s=String.Format("On {0},{1} is {2}  years old.",DateTime.Now,"Wallace",35);
+			Console.WriteLine(s);
+
+			StringBuilder sb=new StringBuilder(256);
+			sb.AppendFormat("On {0},{1} is {2}  years old.",DateTime.Now,"Wallace",35);
+			Console.WriteLine(sb.ToString());
+提供自定义格式化器
+需要实现IFormatProvider...,参见P282.
+
+
+

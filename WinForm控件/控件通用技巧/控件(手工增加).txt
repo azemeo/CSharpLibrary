@@ -1,0 +1,31 @@
+		private Label PathNameLabel;
+		private TextBox PathNameBox;
+		private ListBox FileNameBox;
+		private Button ShowFileNamesButton;
+			
+PathNameLabel=new Label();
+			PathNameLabel.Location=new Point(16,8);
+			PathNameLabel.Text="Path name";
+			//
+			PathNameBox=new TextBox();
+			PathNameBox.Location=new Point(16,32);
+			PathNameBox.Size=new Size(224,24);
+			PathNameBox.TabIndex=1;
+			//
+			FileNameBox=new ListBox();
+			FileNameBox.Location=new Point(16,72);
+			FileNameBox.Size=new Size(224,128);
+			FileNameBox.TabIndex=2;
+			FileNameBox.DoubleClick+=new EventHandler(OnShowFileInfo);
+			//
+			ShowFileNamesButton=new Button();
+			ShowFileNamesButton.Location=new Point(112,208);
+			ShowFileNamesButton.Size=new Size(129,24);
+			ShowFileNamesButton.Text="Show File Name";
+			ShowFileNamesButton.Click+=
+				new EventHandler(OnShowFileNames);
+			//
+			Controls.Add(PathNameLabel);
+			Controls.Add(PathNameBox);
+			Controls.Add(ShowFileNamesButton);
+			Controls.Add(FileNameBox);

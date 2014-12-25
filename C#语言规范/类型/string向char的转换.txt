@@ -1,0 +1,2 @@
+string line
+char[]characters=line.ToCharArray();//将string类转换为char[]数组

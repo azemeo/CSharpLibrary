@@ -1,0 +1,10 @@
+Size构造函数-----------------------
+public Size(Point)
+public Size(int,int)
+Point构造函数----------------------
+public Point(int)
+public Point(Size)
+public Point(int,int)
+Rectangle构造函数------------------
+public Rectangle(Point,Size)
+public Rectangle(int,int,int,int)

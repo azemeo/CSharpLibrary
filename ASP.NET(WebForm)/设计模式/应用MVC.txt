@@ -1,0 +1,183 @@
+最简单的MVC(Version)
+
+1.Mode模型(DataBaseGateWay.cs)
+using System;
+using System.Data;
+/// <summary>
+/// 模型(Mode)
+/// </summary>
+namespace Movecont
+{
+	public class DataBaseGateWay
+	{
+		public static DataSet  GetCateList()
+		{
+			ClassDB db=new ClassDB();
+			DataSet ds=db.GetDataSet("SELECT CategoryID AS ClassID,CategoryName AS ClassName  FROM Categories");
+			return ds;
+		}
+		public static DataSet GetProdList(string strID)
+		{
+			ClassDB db=new ClassDB();
+			DataSet ds=db.GetDataSet("SELECT *  FROM Products Where CategoryID="+strID);
+			return ds;
+		}
+	}
+}
+
+2.View视图(WebForm1.aspx)
+<%@ Page language="c#" Codebehind="WebForm1.aspx.cs" AutoEventWireup="false" Inherits="Mvc_asp.WebForm1" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm1</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:Label id="Label1" style="Z-INDEX: 101; LEFT: 40px; POSITION: absolute; TOP: 40px" runat="server"
+				Font-Bold="True" Font-Size="Larger">MVC设计模式在ASP.NET中的实现</asp:Label>
+			<asp:DropDownList id="ListCate" style="Z-INDEX: 102; LEFT: 104px; POSITION: absolute; TOP: 112px"
+				runat="server" Width="184px"></asp:DropDownList>
+			<asp:Button id="GoButton" style="Z-INDEX: 103; LEFT: 320px; POSITION: absolute; TOP: 112px"
+				runat="server" Text="查询" Width="88px"></asp:Button>
+			<asp:DataGrid id="ProuductDG" style="Z-INDEX: 104; LEFT: 48px; POSITION: absolute; TOP: 168px"
+				runat="server" Width="360px" Height="160px" AllowPaging="True"></asp:DataGrid>
+			<asp:Label id="Label2" style="Z-INDEX: 105; LEFT: 48px; POSITION: absolute; TOP: 112px" runat="server">分类:</asp:Label>
+		</form>
+	</body>
+</HTML>
+
+3.Controller控制器(WebForm1.aspx.cs)
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using Movecont;
+namespace Mvc_asp
+{
+	/// <summary>
+	/// 控制器(Controller)
+	/// </summary>
+	public class WebForm1 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.DropDownList ListCate;
+		protected System.Web.UI.WebControls.Button GoButton;
+		protected System.Web.UI.WebControls.DataGrid ProuductDG;
+		protected System.Web.UI.WebControls.Label Label2;
+		protected System.Web.UI.WebControls.Label Label1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				DataSet ds=DataBaseGateWay.GetCateList();
+				ListCate.DataSource=ds;
+				ListCate.DataTextField="ClassName";
+				ListCate.DataValueField="ClassID";
+				ListCate.DataBind();
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.GoButton.Click += new System.EventHandler(this.GoButton_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void GoButton_Click(object sender, System.EventArgs e)
+		{
+			DataSet dt=DataBaseGateWay.GetProdList(ListCate.SelectedValue);
+			ProuductDG.DataSource=dt;
+			ProuductDG.DataBind();			
+		
+		}
+	}
+}
+
+5.数据库访问DBAcess.cs
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+namespace Movecont
+{
+	/// <summary>
+	/// DataAccess 的摘要说明。
+	/// </summary>
+	/// <summary>
+	/// 数据库访问层
+	/// </summary>
+	public class ClassDB
+	{
+		string strConn;
+		public ClassDB()
+		{
+			//从Web.config中读取连接字符串
+			strConn=ConfigurationSettings.AppSettings["ConnString"];
+		}		
+		public DataSet  GetDataSet(string strSQL)
+		{
+			DataSet ds=new DataSet();
+			SqlConnection con = new SqlConnection(strConn);
+			try
+			{
+				con.Open(); //打开连接
+				SqlDataAdapter adapter = new SqlDataAdapter(strSQL, con);	
+				SqlCommandBuilder builder=new SqlCommandBuilder(adapter);
+				adapter.Fill(ds, "MyList");
+			}
+			catch(Exception ex)
+			{
+				
+				string s=ex.Message;
+			}
+			finally
+			{
+				//清理资源
+				con.Close();
+				con.Dispose();
+				con=null;	
+			}
+			DataSet dsValue=ds.Copy();
+			return dsValue;
+		}	
+	}
+}
+
+6.配置文件Web.config
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    
+  <system.web>
+ </system.web>
+ <appSettings>
+    <add key="ConnString" value="server=D-PEK-GGE;uid=sa;pwd=;database=northwind" />
+  </appSettings>
+</configuration>

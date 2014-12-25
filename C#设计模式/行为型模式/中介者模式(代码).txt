@@ -1,0 +1,296 @@
+1.Command.cs 命令
+using System;
+using CsharpPats;
+
+namespace Mediate
+{
+	/// <summary>
+	/// Command interface
+	/// </summary>
+	public interface Command
+	{
+		void Execute();
+	}
+}
+2.Mediator.cs 中介
+using System;
+using System.Windows.Forms;
+namespace Mediate
+{
+	/// <summary>
+	/// Receives all command actions from buttons and lists
+	/// and sends commands to all the relevant controls
+	/// </summary>
+	public class Mediator 	{
+		private CpyButton cpButton;		//buttons
+		private ClrButton clrButton;
+		private TextBox txKids;			//text box
+		private ListBox pkList;			//list boxes
+		private KidList klist;
+		private KidData kds;			//list of data from file
+
+		public Mediator(CpyButton cp, ClrButton clr, KidList kl, ListBox pk) 		{
+			cpButton = cp;			//copy in buttons
+			clrButton = clr;
+			klist = kl;				//copy in list boxes
+			pkList = pk;
+			kds = new KidData ("50free.txt");	//create data list class
+			clearClicked();				//clear all controls
+			KidIterator kiter = kds.getIterator ();
+			while(kiter.MoveNext () ) {		//load list box
+				Kid kd = (Kid) kiter.Current ;
+				klist.Items .Add (kd.getFrname() +" "+kd.getLname ());
+			}
+		}
+		//-----
+		//get text box reference
+			public void setText(TextBox tx) {
+				txKids = tx;
+			}
+		//-----
+		//clear lists and set buttons to disabled
+		public void clearClicked() {
+			//disable buttons and clear list
+			cpButton.Enabled = false;
+			clrButton.Enabled = false;
+			pkList.Items.Clear();
+		}
+		//-----
+		//copy data from text box to list box
+		public void copyClicked() {
+			 //copy name to picked list
+			pkList.Items.Add(txKids.Text);
+			//clear button enabled
+			clrButton.Enabled = true;
+			klist.SelectedIndex = -1;
+		}
+		//-----
+		//copy selected kid to text box
+		//enable copy button
+		public void kidPicked() {
+			//copy text from list to textbox
+			txKids.Text = klist.Text;
+			//copy button enabled
+			cpButton.Enabled = true;
+		}
+	}
+}
+3.CpyButton.cs 复制按钮
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Windows.Forms;
+
+namespace Mediate
+{
+	/// <summary>
+	/// Button command passes its click to the mediator
+	/// </summary>
+	public class CpyButton : System.Windows.Forms.Button, Command 	{
+		private Container components = null;
+		private Mediator med;
+		//-----
+		public CpyButton() 		{
+			InitializeComponent();
+		}
+		//-----
+		public void setMediator(Mediator md) {
+			med = md;
+		}
+		//-----
+		public void Execute() {
+			med.copyClicked ();
+		}
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Component Designer generated code
+		/// <summary> 
+		/// Required method for Designer support - do not modify 
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+		}
+		#endregion
+	}
+}
+4.ClrButton.cs 清理按钮
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Windows.Forms;
+
+namespace Mediate
+{
+	/// <summary>
+	/// Summary description for ClrButton.
+	/// </summary>
+	public class ClrButton : System.Windows.Forms.Button , Command
+	{
+		/// <summary> 
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+		private Mediator med;
+		//-----
+		public ClrButton() 		{
+			InitializeComponent();
+		}
+		//-----
+		public void setMediator(Mediator md) {
+			med = md;
+		}
+		//-----
+		public void Execute() {
+			med.clearClicked ();
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Component Designer generated code
+		/// <summary> 
+		/// Required method for Designer support - do not modify 
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+		}
+		#endregion
+	}
+}
+5.KidList.cs 列表控件
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Windows.Forms;
+
+namespace Mediate
+{
+	/// <summary>
+	/// Summary description for KidList.
+	/// </summary>
+	public class KidList : System.Windows.Forms.ListBox, Command
+	{
+		private System.ComponentModel.Container components = null;
+		private Mediator med;
+		//-----
+		public KidList() 		{
+			InitializeComponent();
+		}
+		//-----
+		public void Execute() {
+			med.kidPicked ();
+		}
+		//-----
+		public void setMediator(Mediator md) {
+			med = md;
+		}
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Component Designer generated code
+		/// <summary> 
+		/// Required method for Designer support - do not modify 
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+		}
+		#endregion
+	}
+}
+6.Form1.cs 调用窗体
+public class Form1 : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.TextBox txName;
+		private System.Windows.Forms.ListBox lsSelected;
+		private Mediate.KidList lsKids;
+		private Mediate.CpyButton btCopy;
+		private Mediate.ClrButton btClear;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+		private Mediator med;
+		public Form1() 		{
+			InitializeComponent();
+			init();
+		}
+		//-----
+		private void init() {
+			//set up mediator and pass in referencs to controls
+			med = new Mediator (btCopy, btClear, lsKids, lsSelected);
+			btCopy.setMediator (med);	//set mediator ref in each control
+			btClear.setMediator (med);
+			lsKids.setMediator (med);
+			med.setText (txName);		//tell mediator about text box
+			//create event handler for all command objects
+			EventHandler evh = new EventHandler (clickHandler);
+			btClear.Click += evh;
+			btCopy.Click += evh;
+			lsKids.SelectedIndexChanged += evh;
+		}
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		//each control is a command object
+		public void clickHandler(object obj, EventArgs e) {
+			Command comd = (Command)obj;	//get command object
+			comd.Execute ();				//and execute command
+		}
+[STAThread]
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+	}
+}
+7.其它:需要有KidData类支持
+

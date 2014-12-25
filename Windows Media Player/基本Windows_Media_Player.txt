@@ -1,0 +1,5 @@
+			MyPlayer.Ctlcontrols.play();//播放
+			MyPlayer.Ctlcontrols.stop();//中止
+			MyPlayer.Ctlcontrols.pause();//暂停
+			MyPlayer.URL="";//文件或网络地址
+			//HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MediaPlayer 检查Windows Media Player 版本

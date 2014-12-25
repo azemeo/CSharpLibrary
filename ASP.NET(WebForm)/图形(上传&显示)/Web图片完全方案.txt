@@ -1,0 +1,83 @@
+1.上传
+2.显示
+
+在HTML页的控件
+System.Web.UI.HtmlControls.HtmlInputFile
+
+
+1.显示方案
+框架占位符
+<iframe style="BORDER-RIGHT: #ffffff 0px solid; BORDER-TOP: #ffffff 0px solid; Z-INDEX: 101; LEFT: 2px; BORDER-LEFT: #ffffff 0px solid; WIDTH: 190px; BORDER-BOTTOM: #ffffff 0px solid; TOP: 2px; HEIGHT: 168px"
+
+								src="UsingImage.aspx"> </iframe>
+
+
+UsingImage.aspx(cs)
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				DrawImage();
+			}
+		}
+		private void DrawImage() 
+		{			
+			//自绘或从数据中加载
+			//using System.Drawing;
+			Bitmap image = new Bitmap(200, 200);
+			Graphics g = Graphics.FromImage(image);
+			try
+  
+			{
+				
+				//矩形
+				g.DrawRectangle(new Pen(Color.Red), 10, 10, 100, 100);
+				System.IO.MemoryStream ms = new System.IO.MemoryStream();
+				image.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+				Response.ClearContent();
+				Response.ContentType = "image/Gif";
+				Response.BinaryWrite(ms.ToArray());
+			}
+   
+			finally
+   
+			{
+				g.Dispose();
+				image.Dispose();
+			}
+		}
+或
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				DrawImage();
+			}
+		}
+		//输出图片
+		private void DrawImage() 
+		{	
+
+			//using System.IO;
+			ImageObj pi=(ImageObj)Session["ZW_PRODUCT_IMAGE_LIST"];//缓冲图片
+
+			if(pi.Curr!=-1&&pi.Count>0)
+			{
+				if(pi.Picture()!=System.DBNull.Value)
+				{
+					byte[]blob=(byte[])pi.Picture();//得到二进制的流
+					MemoryStream stream=new MemoryStream();
+					stream.Write(blob,0,blob.Length);//将二进制写入内存流
+					Response.ClearContent();
+					Response.ContentType = "image/Gif";
+					Response.BinaryWrite(stream.ToArray());//输入图形
+					stream.Close();
+				}
+				else
+				{					
+					//没有图片
+				}
+			}
+		}		
+2.

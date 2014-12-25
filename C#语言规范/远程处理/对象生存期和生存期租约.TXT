@@ -1,0 +1,8 @@
+对象生存期和生存期租约
+
+singlecall 服务器激知对象的生存期只是一个方法调用期间。
+
+singleton 生存期被租约控制。
+
+租约实现了System.Runtime.Remoting.Lifetime 中的ILease
+

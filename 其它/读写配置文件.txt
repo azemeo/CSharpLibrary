@@ -1,0 +1,42 @@
+1.UserExt.config
+<?xml version="1.0" standalone="yes"?>
+<Movecont>
+  <Options>
+    <SelectedRead>1</SelectedRead>
+    <SaveLast>1</SaveLast>
+    <LastPosition>0</LastPosition>
+  </Options>
+</Movecont>
+
+2.读写配置文件
+using System.Windows.Forms;
+using System.Data;
+using System.IO;
+public void GetOptions()
+		{
+			string FullPath =Application.StartupPath  + @"\UserExt.config";		
+			DataSet ds=new DataSet("Movecont");
+			ds.ReadXml(FullPath);
+			
+			//加载服务器列表
+			DataTable dtServer=ds.Tables["Options"]; 
+			cbRead.Checked=(dtServer.Rows[0]["SelectedRead"].ToString()=="1")?true:false;
+			cbSaveLast.Checked=(dtServer.Rows[0]["SaveLast"].ToString()=="1")?true:false;
+			
+		}
+
+		
+		//保存注册码
+		public void SetOption()
+		{
+			string FullPath = Application.StartupPath + @"\UserExt.config";		
+			DataSet ds=new DataSet("Movecont");
+			ds.ReadXml(FullPath);
+			
+			//加载服务器列表
+			DataTable dtServer=ds.Tables["Options"]; 			
+			dtServer.Rows[0]["SelectedRead"]=cbRead.Checked?"1":"0";
+			dtServer.Rows[0]["SaveLast"]=cbSaveLast.Checked?"1":"0";
+			ds.WriteXml(FullPath);//写入配值文件
+			ds=null;
+		}

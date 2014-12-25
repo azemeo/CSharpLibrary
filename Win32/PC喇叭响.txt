@@ -1,0 +1,4 @@
+using System.Runtime.InteropServices;
+		[DllImport("user32.dll")]		
+		public static extern bool MessageBeep(uint uType);
+			MessageBeep(1);//PC¿Æ∞»œÏ

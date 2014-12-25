@@ -1,0 +1,5 @@
+		
+string strMulti="aaa,bbb,ccc,dddd";
+string[]strArray;
+char[]charSepar=new char[]{','};
+strArray=strMulti.Split(charSepar);

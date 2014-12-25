@@ -1,0 +1,12 @@
+如可添加.NET Framework
+
+在Installation Designer选项卡
+
+左边窗格第6步,Prepare for Release|Build Your Release
+中间窗格Builds|Express|Custom 或SingleImage
+右边窗格.NET Framework Location 下的一系统设置.
+
+将 dotnetfx.exe 复制到如下目录并更名 2052dotnetfx.exe
+C:\Program Files\InstallShield X Express\Redist\0804\i386
+
+

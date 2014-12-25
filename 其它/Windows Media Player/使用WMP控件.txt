@@ -1,0 +1,4 @@
+1.确信安装了 Windows Media Player 9及SDK.
+2.注册PIA.
+3.工具|添加/移除工具箱项...|COM组件|Widnows Media Player,单击Ok.
+4.将控件放在窗体上。

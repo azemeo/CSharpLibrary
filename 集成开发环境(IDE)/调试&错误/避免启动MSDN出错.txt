@@ -1,0 +1,10 @@
+避免出现错误，发送到Microsoft
+
+启动
+
+开始|Microsoft Developer Network|MSDN Library for Virusal Studio.Net 2003
+
+
+
+而不是
+开始|Microsoft Visual Stuio.NET 2003 |Microsoft Visual Stuio.NET 2003文档

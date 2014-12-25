@@ -1,0 +1,37 @@
+1.控件名称	label1/textBox2
+2.控件属性名称	"Text"
+3.对象		comboBox1.DataSource
+4.列		"Country"
+5.行		(行通过借助comboBox.DataSource指定)
+
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			al.Add(new Person("China",0));
+			al.Add(new Person("USA",1));
+			al.Add(new Person("Japan",2));
+			this.comboBox1.DataSource=al;
+			this.comboBox1.DisplayMember="Country";
+			this.comboBox1.ValueMember="Code";
+
+			//简单绑定(关键)
+			this.label1.DataBindings.Add("Text",comboBox1.DataSource,"Country");
+			this.textBox2.DataBindings.Add("Text",comboBox1.DataSource,"Country");
+		}
+
+对于不是字符串型的:整数,时间需要响应格式化事件
+
+txtTarget.DataBindings[0].Format+=new ConvertEventHandler(this.Data_Format);
+
+private void Date_Format(object sender,ConvertEventArgs e)
+{
+	e.value=e.Value.ToString("d");
+}
+
+解除绑定
+private void Unbind()
+{
+	comboBox1.DataBindings.Clear();
+	comboBox1.Text=String.Empty;
+	comboBox1.DataSource=null;
+}

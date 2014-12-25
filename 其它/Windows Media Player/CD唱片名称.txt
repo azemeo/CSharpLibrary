@@ -1,0 +1,8 @@
+string myText="";
+			for(int i = 0; i < axWindowsMediaPlayer1.cdromCollection.Item(0).Playlist.count; i++)
+			{
+
+				// Print each CD track name.
+				myText += axWindowsMediaPlayer1.cdromCollection.Item(0).Playlist.get_Item(i).name + "\n"; 
+			}
+			MessageBox.Show("Drive letters found: \n" + myText);

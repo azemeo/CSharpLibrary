@@ -1,0 +1,14 @@
+string message = "您真的要删除当前记录吗?是，将删除；否，将取消此操作。";
+			string caption = "删除确认";
+			MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+			DialogResult result;			
+			result = MessageBox.Show(this, message, caption, buttons,
+				MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 
+			);
+
+			if(result == DialogResult.Yes)
+			{			
+
+				//相关代码
+
+			}

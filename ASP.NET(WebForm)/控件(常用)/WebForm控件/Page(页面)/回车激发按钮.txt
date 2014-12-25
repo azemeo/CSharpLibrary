@@ -1,0 +1,1 @@
+<body  onkeydown="if(event.keyCode==13){document.all.b2.focus();document.all.b2.click();}">

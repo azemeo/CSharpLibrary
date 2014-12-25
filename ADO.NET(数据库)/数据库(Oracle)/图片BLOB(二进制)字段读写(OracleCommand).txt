@@ -1,0 +1,75 @@
+using System.Data.OracleClient;
+using System.IO;
+
+private void btnWrite_Click(object sender, System.EventArgs e)
+		{
+			//向Oracle中写入图片
+			FileStream stream=new FileStream(tbPath.Text.Trim(),FileMode.Open);
+			byte[]blob=new byte[stream.Length];
+			stream.Read(blob,0,(int)stream.Length);
+			stream.Close();
+			OracleConnection conn=new OracleConnection(@"Server=zwora;uid=sfa;pwd=zwsfa");
+			try
+			{
+				conn.Open();
+				OracleCommand cmd=new OracleCommand("insert into zw_product_file (product_file_id,product_id,file_type_flag,miniature_pic)values (1, 1, '1',:logo)",conn);				
+				cmd.Parameters.Add(":logo",blob);
+				cmd.ExecuteNonQuery();
+				lblResult.Text="插入成功:"+tbPath.Text.ToString();
+
+			}
+			catch(OracleException ex)
+			{
+				lblResult.Text=ex.Message;
+			}
+			finally
+			{
+				conn.Close();
+			}		
+
+		}
+
+		private void btnTest_Click(object sender, System.EventArgs e)
+		{
+			//测试连接
+			OracleConnection conn=new OracleConnection(@"Server=zwora;uid=sfa;pwd=zwsfa");
+			try
+			{
+				conn.Open();
+				lblResult.Text="成功";
+			}
+			catch(OracleException ex)
+			{
+				lblResult.Text=ex.Message;
+			}
+			finally
+			{
+				conn.Close();
+			}	
+		}
+
+		private void btnRead_Click(object sender, System.EventArgs e)
+		{
+			//从Oracle中读出图片
+			MemoryStream stream=new MemoryStream();
+			OracleConnection conn=new OracleConnection(@"Server=zwora;uid=sfa;pwd=zwsfa");
+			try
+			{
+				conn.Open();
+				OracleCommand cmd=new OracleCommand("select miniature_pic from zw_product_file where product_file_id=1",conn);
+				byte[]blob=(byte[])cmd.ExecuteScalar();//执行一个命令并返返回结果集的第1列1行
+				stream.Write(blob,0,blob.Length);
+				pbMain.Image=Image.FromStream(stream);
+				lblResult.Text="加载图片成功";
+			}
+			catch(OracleException ex)
+			{
+				lblResult.Text=ex.Message;
+			}
+			finally
+			{
+				stream.Close();
+				conn.Close();
+			}
+
+		}

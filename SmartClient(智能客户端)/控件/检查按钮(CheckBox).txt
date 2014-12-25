@@ -1,0 +1,1 @@
+CheckState 保存当前选择状态。

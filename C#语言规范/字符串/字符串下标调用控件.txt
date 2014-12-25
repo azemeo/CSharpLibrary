@@ -1,0 +1,22 @@
+//µ÷ÓÃ
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			for(int i=1;i<11;i++)
+				this.MyCheck("checkBox"+i.ToString());
+		}
+//º¯Êý
+		private void MyCheck(string whichone)
+		{
+			foreach(Control control in this.Controls)
+			{
+				CheckBox mycheckbox = (control as CheckBox);
+				if (mycheckbox != null)
+				{
+					string myName = mycheckbox.Name.ToString();
+					if(myName == whichone)
+					{
+						mycheckbox.Checked = true;
+					}
+				}
+			}
+		}

@@ -1,0 +1,35 @@
+应用程序域(AppDomain):是一组程序集的一个逻辑容器。
+
+应用程序域之间是相互隔离的.
+
+应用程序域可以被卸载.
+
+可单独实施安全策略和配置策略.
+
+中立域的方式加载程序集，可以被几个应用程序的共用。
+
+线程和应用程序之间不存在一对一的关系。
+
+1.控件台、WinForm程序
+
+中断进程的最佳方法
+
+System.Environment.Exit(0);
+
+2.ASP.NET Web程序和XML Web 服务应用程序
+
+ASP.NET 是一个ISAPI DLL(ASPNET_ISAPI.dll)
+客户请求时创建一个工作者进程(ASPNET_wp.exe),wp(worker process).
+
+ASPNET_wp.exe 是一个寄宿CLR COM服务器的Windows进程。
+
+3.Microsoft Internet Explorer
+
+MIME筛选器(MSCorIE.dll)
+
+4.SQL Server下一个版本(Yukon)
+C#编定存储过程
+
+
+
+

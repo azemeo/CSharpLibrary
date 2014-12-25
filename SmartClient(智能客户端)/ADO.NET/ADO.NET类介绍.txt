@@ -1,0 +1,54 @@
+1.文件系统类
+	Directory	创建、删除、移动、检测目录
+	File		创建、删除、移动、复制、检测文件	
+2.提供者类型
+	SqlCeEngine	创建、压缩CE数据库
+	SqlCeConnection,SqlConnect 数据库连接
+	SqlCeCommand,SqlCommand SQL命令
+	SqlCeDataReader,SqlDataReader 阅读
+	SqlCeDataAdapter,SqlDataAdapter  适配器
+	SqlCeCommndBuilder,SqlCommandBuilder 生成器
+3.提供者无关类
+	DataSet 常驻内存数据库
+	DataTable 常驻内存表
+	DataRow 数据行
+	DataView 排序和过滤的行
+	DataRelation 关系
+	UniqueConstraint 约束一个DataTable
+	ForeignKeyConstraint 约束两个DataTable
+	
+4.绑定数据的控件类
+	多条目DataGrid,ListBox,ComboBox
+	单条目TextBox,Label,RadioButton,CheckBox,Button
+	DataBindings
+	BindingContext
+	CurrencyManger
+	
+SQL Server 打开多个连接，但只充读一个读访问。
+SQL CE	只充许打个一个连接，但可以有多个打开的读访问。
+.NET CF中的ComboBox,DataGrid只用来显示不允许值的直接输入。
+
+命名空间引用
+using System.Data;
+using System.Data.SqlClient;//SQL Server
+using System.Data.SqlServerCe;//SQL CE
+
+汇编引用(在解决方案管理的项目节点添加的引用)
+System.Data.dll
+System.Data.SqlClient.dll
+System.Data.Common.dll
+System.Data.SqlServerCe.dll
+
+主键及外键的目的是约束表。
+主键,用来约束一个表.
+外键,用来约束两个表.
+
+SQL CE 语法是SQL Server的一个子集。
+
+出错
+SqlCeException
+	Error.
+
+
+
+

@@ -1,0 +1,111 @@
+using System;
+using System.Reflection;
+using System.IO;
+delegate Object TwoInt32s(Int32 n1,Int32 n2);
+delegate Object OneString(String s1);
+namespace TestDelegate2
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class App
+	{
+		/// <summary>
+		/// 用于委托定义及封装方法为变量时(高级)
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			if(args.Length<2)
+			{
+				String fileName=Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().CodeBase);
+				Console.WriteLine("Usage");
+				Console.WriteLine("{0} delType mehtodName [Param1] [Param2]",fileName);
+				Console.WriteLine(" where delType must be TwoInt32 or OneString");
+				Console.WriteLine(" if delType is TwoInt32,"+
+					"methodName ust be  Add or Subtract");
+				Console.WriteLine(" if delType is OneString,"+
+					"methodName ust be  NumChars or Reverse");
+				Console.WriteLine("");
+				Console.WriteLine("Examples:");
+				Console.WriteLine(" {0} TwoInt32s Add 123 321",fileName);
+				Console.WriteLine(" {0} TwoInt32s Subtract 123 321",fileName);
+				Console.WriteLine(" {0} OneString NumChars \"Hello there\"",fileName);
+				Console.WriteLine(" {0} OneString Reverse \"Hello there\"",fileName);
+				return;
+			}
+			Type delType=Type.GetType(args[0]);//关键(得委托定义的类型)
+			if(delType==null)
+			{
+				Console.WriteLine(" Invalid delType argument:",args[0]);
+				return;
+			}
+			Delegate d;
+			try
+			{
+				d=Delegate.CreateDelegate(delType,typeof(App),args[1]);//1-委托定义(变量) 2-静态方法的类名 3-封装的方法(变量)
+			}
+			catch(ArgumentException)
+			{
+				Console.WriteLine(" Invalid method argument:",args[0]);
+				return;
+			}
+			Object[] callbackArgs=new Object[args.Length-2];
+			if(d.GetType()==typeof(TwoInt32s))
+			{
+				try
+				{
+					for(Int32 a=2;a<args.Length;a++)
+						callbackArgs[a-2]=Int32.Parse(args[a]);
+				}
+				catch(FormatException)
+				{
+					Console.WriteLine("Parameters must be integers.");
+					return;
+				}
+			}
+			if(d.GetType()==typeof(OneString))
+			{
+				//在指定索引的源数组与目标数据之间复制
+				Array.Copy(args,2,callbackArgs,0,callbackArgs.Length);
+			}
+			try
+			{
+				Object result=d.DynamicInvoke(callbackArgs);//动态调用封装的方法
+				Console.WriteLine("Result = "+result);
+			}
+			catch(TargetParameterCountException)
+			{
+				Console.WriteLine("Incorrect number of parameters specified.");
+			}
+		}
+		static Object Add(Int32 n1,Int32 n2)
+		{
+			return n1+n2;
+		}
+		static Object Subtract(Int32 n1,Int32 n2)
+		{
+			return n1-n2;
+		}
+		static Object NumChars(String s1)
+		{
+			return s1.Length;
+		}
+		static Object Reverse(String s1)
+		{
+			Char[]chars=s1.ToCharArray();
+			Array.Reverse(chars);
+			return new String(chars);
+		}
+	}
+}
+
+测试数据
+
+TwoInt32s Add 123 321
+
+TwoInt32s Subtract 123 321
+
+OneString NumChars "Hello there"
+
+OneString Reverse "Hello there"

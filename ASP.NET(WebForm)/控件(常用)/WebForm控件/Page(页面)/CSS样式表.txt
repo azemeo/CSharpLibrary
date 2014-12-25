@@ -1,0 +1,10 @@
+1.样式表
+<HEAD>
+	<title>WebForm1</title>
+	<style>
+		.Input { FONT: 10pt verdana; COLOR: red }
+	</style>
+</HEAD>
+2.控件
+<asp:TextBox id="TextBox1" style="Z-INDEX: 101; LEFT: 24px; POSITION: absolute; TOP: 144px" runat="server"
+	CssClass="Input"></asp:TextBox>

@@ -1,0 +1,219 @@
+关键描述
+在页面中DataKeyField="employeeid"
+利用了存储过程
+
+1.页面
+<%@ Page language="c#" Codebehind="MyForm411.aspx.cs" AutoEventWireup="false" Inherits="Co_411.MyForm411" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyForm411</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:datagrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 144px; POSITION: absolute; TOP: 184px"
+					runat="server" AutoGenerateColumns="False" DataKeyField="employeeid">
+					<EditItemStyle BackColor="blue" Font-Bold="True"></EditItemStyle>
+					<Columns>
+						<asp:BoundColumn DataField="employeeid" ReadOnly="True" HeaderText="ID"></asp:BoundColumn>
+						<asp:BoundColumn DataField="firstname" HeaderText="Employee Name"></asp:BoundColumn>
+						<asp:BoundColumn DataField="title" HeaderText="Position"></asp:BoundColumn>
+						<asp:BoundColumn DataField="country" HeaderText="From"></asp:BoundColumn>
+						<asp:EditCommandColumn ButtonType="LinkButton" UpdateText="<img src=ok.ico border=0 align=absmiddle alt='Save changes'>"
+							CancelText="<img src=cancel.ico border=0 align=absmiddle alt='Cancel changes'>" EditText="<img src=edit.ico border=0 align=absmiddle alt='Edit this item'>">
+							<ItemStyle BackColor="Yellow" HorizontalAlign="Center"></ItemStyle>
+						</asp:EditCommandColumn>
+					</Columns>
+				</asp:datagrid>
+				<asp:Label id="lblCurrent" style="Z-INDEX: 102; LEFT: 144px; POSITION: absolute; TOP: 152px"
+					runat="server">Label</asp:Label></FONT></form>
+	</body>
+</HTML>
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+namespace Co_411
+{
+	/// <summary>
+	/// MyForm411 的摘要说明。
+	/// </summary>
+	public class MyForm411 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label lblCurrent;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select employeeid,titleofcourtesy,firstname,lastname,title,country From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataGrid1.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_CancelCommand);
+			this.DataGrid1.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_EditCommand);
+			this.DataGrid1.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_UpdateCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_EditCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//编辑模式
+			DataGrid1.EditItemIndex=e.Item.ItemIndex;
+			UpdateView();
+		}
+
+		private void DataGrid1_UpdateCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//检索新的文本
+			int nColPositionInex=2;//从0开始始列的位置
+			int nColFromIndex=3;
+			TextBox txtPosition,txtFrom;
+			txtPosition=(TextBox)e.Item.Cells[nColPositionInex].Controls[0];
+			txtFrom=(TextBox)e.Item.Cells[nColFromIndex].Controls[0];
+
+			StringBuilder sb=new StringBuilder("");
+			sb.Append("<b>[Position] will contain:</b>");
+			sb.Append(txtPosition.Text);
+			sb.Append("<br>");
+			sb.Append("<b>[From] will contain:</b>");
+			sb.Append(txtFrom.Text);
+			lblCurrent.Text=sb.ToString();
+			//更新数据源
+			string strConn;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			SqlConnection conn=new SqlConnection(strConn);
+			SqlCommand cmd=new SqlCommand("MySampleUpdate",conn);
+			cmd.CommandType=CommandType.StoredProcedure;
+			SqlParameter p1,p2,p3,po1,po2;
+			//设置EmployeeID参数以标识要更新的行
+			p1=new SqlParameter("@nEmpID",SqlDbType.Int);
+			p1.Direction=ParameterDirection.Input;
+			p1.Value=DataGrid1.DataKeys[e.Item.ItemIndex];
+			cmd.Parameters.Add(p1);
+			//设置Position参数以传递新值
+			p2=new SqlParameter("@sPosition",SqlDbType.NVarChar,30);
+			p2.Direction=ParameterDirection.Input;
+			p2.Value=txtPosition.Text;
+			cmd.Parameters.Add(p2);
+			//设置Country参数以传递新值
+			p3=new SqlParameter("@sCountry",SqlDbType.NVarChar,15);
+			p3.Direction=ParameterDirection.Input;
+			p3.Value=txtFrom.Text;
+			cmd.Parameters.Add(p3);
+			//输出参数以得到Position的新值
+			po1=new SqlParameter("@NewPosition",SqlDbType.NVarChar,30);
+			po1.Direction=ParameterDirection.Output;
+			cmd.Parameters.Add(po1);
+			//输出参数以得到Country的新值
+			po2=new SqlParameter("@NewCountry",SqlDbType.NVarChar,30);
+			po2.Direction=ParameterDirection.Output;
+			cmd.Parameters.Add(po2);
+			//执行这个过程
+			conn.Open();
+			cmd.ExecuteNonQuery();
+			conn.Close();
+			//更新缓冲
+			UpdateCache((int)p1.Value,(string)po1.Value,(string)po2.Value);
+			//恢复呈现状态
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}
+		//更新缓冲
+		private void UpdateCache(int nEmpID,string sNewPosition,string sNewCountry)
+		{
+			//从会话或其它缓冲它的地方检索网格的数据源
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataTable dt=ds.Tables["MyList"];
+			//根据主键检索要更新的行
+			//应该只有一行
+			DataRow[] adr=dt.Select("employeeid="+nEmpID);
+			//更新这一行并用DataTable持久保留这个改变
+			adr[0]["title"]=sNewPosition;
+			adr[0]["country"]=sNewCountry;
+			dt.AcceptChanges();
+			//缓冲更新的DataSet以例将来使用
+			Session["MyDataSet"]=ds;
+		}
+		private void UpdateView()
+		{
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			DataGrid1.DataSource=dv;
+			DataGrid1.DataBind();
+		}
+
+		private void DataGrid1_CancelCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}
+	}
+}
+
+3.存储过程
+Create Procedure MySampleUpdate(
+	@nEmpID int,                      --EmployeeID
+	@sPosition nvarchar(30),          --用于更新Title字段的值
+	@sCountry nvarchar(15),           --用于更新Country的值
+	@NewPosition nvarchar(30) output, --返回Title当前值
+	@NewCountry nvarchar(15) output)  --返回country当前值
+As
+Update employees Set
+	Title=@sPosition,
+	Country=@sCountry
+	Where employeeid=@nEmpID
+Select @NewPosition=Title,@NewCountry=Country
+	From Employees Where employeeid=@nEmpID
+
+GO

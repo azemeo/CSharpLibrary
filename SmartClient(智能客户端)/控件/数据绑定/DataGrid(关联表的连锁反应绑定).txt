@@ -1,0 +1,111 @@
+关联表的连锁反应绑定
+
+		//关系数据集
+		private DataSet CreateDataSet()
+		{
+			//创建空表(产品表)
+			DataTable dt1=new DataTable("Products");
+			
+			//创建三列
+			DataColumn dcolID=new DataColumn("ID");			
+			dcolID.DataType=typeof(int);
+			dcolID.AutoIncrement=true;
+			dcolID.AutoIncrementSeed=1;
+			dcolID.AutoIncrementStep=1;
+
+			DataColumn dcolCateID=new DataColumn("CateID");	//类别ID		
+			dcolCateID.DataType=typeof(int);
+			
+			DataColumn dcolName=new DataColumn("Name");
+			dcolName.DataType=typeof(string);
+
+			DataColumn dcolPrice=new DataColumn("Price");
+			dcolPrice.DataType=typeof(string);
+
+			//添加列
+			dt1.Columns.Add(dcolID);
+			dt1.Columns.Add(dcolCateID);
+			dt1.Columns.Add(dcolName);
+			dt1.Columns.Add(dcolPrice);
+
+			//添加主键
+			dt1.Constraints.Add("PKCust",dcolID,true);
+
+			//添加行
+			DataRow drowProd;
+			drowProd=dt1.NewRow();
+			drowProd["CateID"]=1;
+			drowProd["Name"]="Apple";
+			drowProd["Price"]="2.8$";
+			dt1.Rows.Add(drowProd);
+
+			drowProd=dt1.NewRow();
+			drowProd["CateID"]=1;
+			drowProd["Name"]="Peer";
+			drowProd["Price"]="1.5";
+			dt1.Rows.Add(drowProd);
+
+			drowProd=dt1.NewRow();
+			drowProd["CateID"]=2;
+			drowProd["Name"]="CPU";
+			drowProd["Price"]="567$";
+			dt1.Rows.Add(drowProd);
+
+			drowProd=dt1.NewRow();
+			drowProd["CateID"]=2;
+			drowProd["Name"]="Memory";
+			drowProd["Price"]="256$";
+			dt1.Rows.Add(drowProd);
+			//-----------------------------------------------
+			//创建空表(类别表)
+			DataTable dt2=new DataTable("Categories");
+			
+			//创建三列
+			DataColumn dcolID2=new DataColumn("ID");			
+			dcolID2.DataType=typeof(int);
+			dcolID2.AutoIncrement=true;
+			dcolID2.AutoIncrementSeed=1;
+			dcolID2.AutoIncrementStep=1;
+			
+			DataColumn dcolName2=new DataColumn("Name");
+			dcolName2.DataType=typeof(string);
+			//添加列
+			dt2.Columns.Add(dcolID2);
+			dt2.Columns.Add(dcolName2);
+
+			//添加主键
+			dt2.Constraints.Add("PKCate",dcolID2,true);
+
+			//添加行
+			DataRow drowCate;
+			drowCate=dt2.NewRow();
+			drowCate["Name"]="水果";
+			dt2.Rows.Add(drowCate);
+
+			drowCate=dt2.NewRow();
+			drowCate["Name"]="电脑配件";
+			dt2.Rows.Add(drowCate);
+			//-------------------------------------------
+			//填充到数据集
+			DataSet ds=new DataSet();
+			ds.Tables.Add(dt1);
+			ds.Tables.Add(dt2);			
+			return ds;
+		}
+
+		private void button2_Click_1(object sender, System.EventArgs e)
+		{
+			DataSet ds=CreateDataSet();
+			this.dgProduct.DataSource=ds.Tables["Products"].DefaultView;//绑定为视图
+			this.dgCate.DataSource=ds.Tables["Categories"];
+		}
+
+		private void dataGrid2_CurrentCellChanged(object sender, System.EventArgs e)
+		{
+			//得到单元格的值
+			DataView dv1=(DataView)this.dgProduct.DataSource;
+			DataTable dt2=(DataTable)this.dgCate.DataSource;
+			dv1.RowFilter="CateID="+dt2.Rows[this.dgCate.CurrentRowIndex]["ID"];	
+			dgProduct.DataSource=dv1;
+
+		}

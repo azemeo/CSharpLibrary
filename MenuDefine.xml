@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainMenu>
+	<Menu Name="文件(&amp;F)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="新建(&amp;N)" Shortcut="CtrlN" Icon="New" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="打开(&amp;O)..." Shortcut="CtrlO" Icon="Open" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="保存(&amp;S)" Shortcut="CtrlS" Icon="Save" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="另存为(&amp;A)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="-" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="退出(&amp;X)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>
+	<Menu Name="编辑(&amp;E)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="剪切(&amp;X)" Shortcut="CtrlX" Icon="Cut" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="复制(&amp;C)" Shortcut="CtrlC" Icon="Copy" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="粘贴(&amp;P)" Shortcut="CtrlV" Icon="Paste" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="-" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="全选(&amp;A)" Shortcut="CtrlA" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="-" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="查找(&amp;F)..." Shortcut="CtrlF" Icon="Find" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="-" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="查找(在当前文件)(&amp;U)" Shortcut="CtrlL" Icon="Find" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="查找下一个(&amp;N)" Shortcut="F3" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>
+	<Menu Name="工具(&amp;T)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="重新加载根目录(&amp;R)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="重新加载当前目录(&amp;C)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>
+	<Menu Name="帮助(&amp;H)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="使用介绍(&amp;S)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="注册(&amp;R)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="作者(&amp;U)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="关于(&amp;A)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>
+</MainMenu>

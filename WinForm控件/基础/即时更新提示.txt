@@ -1,0 +1,6 @@
+执行大任务时，如何即时更新提示
+for(int  i=0;i  <10000;i++)  
+{  
+label1.Text=i.ToString();  
+label1.Refresh();  
+}  

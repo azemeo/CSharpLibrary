@@ -1,0 +1,32 @@
+回发和回发数据
+
+如果控件所输出的标记包含Name属性,那么该属性的值应取自控件从Control继承来的UniqueID属性
+
+
+如果控件所输出的标记包含Name属性,那么该属性的值应取自控件从Control继承来的UniqueID属性
+
+IPostBackDataHandler 使控件访问回发的数据
+
+LoadPostData 将回发数据传递给控件
+
+RaisePostDataChangeEvent 根据回发后的状态变化激载
+
+		//支持回发
+		public bool LoadPostData(string postDataKey,NameValueCollection postCollection)
+		{
+			//			Text=postCollection[postDataKey];
+			//			return false;
+			string temp=Text;
+			Text=postCollection[postDataKey];
+			return (temp!=Text);
+		}
+
+postCollection:收集拌随回发过来的所有数据
+
+postDataKey:实际控件的索引
+
+public class NelCmpClickBtn:Control,IPostBackEventHandler
+
+一个托管类型只能有1个基类，但是同时从1个基类和多个接口进行派生是完全合法的。
+
+

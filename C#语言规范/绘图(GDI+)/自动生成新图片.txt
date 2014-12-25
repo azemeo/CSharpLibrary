@@ -1,0 +1,8 @@
+在SmartClient 调试通过						
+
+
+pbxMiniature_Pic.Image=new Bitmap(100,100);
+						Graphics g=Graphics.FromImage(pbxMiniature_Pic.Image);
+						Font font = new Font("黑体",9,FontStyle.Regular);
+						SolidBrush brush = new SolidBrush(Color.Blue);
+						g.DrawString("没有图片",font,brush,0,0);

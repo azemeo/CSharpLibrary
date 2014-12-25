@@ -1,0 +1,6 @@
+for(int i=0;i<UnitsGroup.Controls.Count;i++)
+				{
+					RadioButton button=(RadioButton)UnitsGroup.Controls[i];
+					if(button.Checked)
+						return i;
+				}

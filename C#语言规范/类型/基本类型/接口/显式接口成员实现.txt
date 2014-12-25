@@ -1,0 +1,40 @@
+ICloneable,IComparable,ICollection,IList,IDictionary
+
+提供了更多的类型安全，并且还可以减少值类型的装箱操作。
+
+using System;
+namespace TestInFace
+{
+	
+	
+	struct SomeValueType:IComparable
+	{
+		private Int32 x;
+		public SomeValueType(Int32 x){this.x=x;}
+		//显示接口成员实现,带来类型上的这全
+		public Int32 CompareTo(SomeValueType other)
+		{
+			return(x-other.x);
+		}
+		//满足接口合同
+		Int32 IComparable.CompareTo(Object other)
+		{
+			return (x-((SomeValueType)other).x);
+		}
+		
+	}
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//SomeValueType v=new SomeValueType(0);
+			//Object o=new Object();
+			//Int32 n=v.CompareTo(o);
+			SomeValueType v1=new SomeValueType(0);
+			SomeValueType v2=new SomeValueType(0);
+			Int32 n=v1.CompareTo(v2);
+			
+		}
+	}
+}

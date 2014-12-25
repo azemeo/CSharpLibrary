@@ -1,0 +1,4 @@
+1.dbGrid->TableStyles中添加
+2.属性MappingName=ArrayList
+3.属性GridColumStyles中添加
+4.定义HeaderText(显示)及MappingName(数据库中的列)

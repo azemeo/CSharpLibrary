@@ -1,0 +1,7 @@
+ManagementObjectSearcher query =new ManagementObjectSearcher("SELECT * FROM Win32_NetworkAdapterConfiguration") ;
+ManagementObjectCollection queryCollection = query.Get();
+foreach( ManagementObject mo in queryCollection ) 
+{ 
+   if(mo["IPEnabled"].ToString() == "True")
+     MessageBox.Show(mo["MacAddress"].ToString());
+}

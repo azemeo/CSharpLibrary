@@ -1,0 +1,50 @@
+1.属性
+ShowGridLines=true
+SelectDate当前选择的日期
+SelectMode,决定用户可以选择的类型
+2.事件
+SelectionChanged,用户选择时激发
+3.例子
+a.设置当前日期为选择日期
+this.Calendar1.SelectedDate=System.DateTime.Now;
+b.用户选择时的事件
+private void Calendar1_SelectionChanged(object sender, System.EventArgs e)
+{
+	StringBuilder builder=new StringBuilder();
+	foreach(DateTime date in this.Calendar1.SelectedDates)
+	{
+		builder.Append(date.ToLongDateString());
+		builder.Append("<br>");
+	}
+	Output.Text=builder.ToString();
+
+}
+c.设置选择范围
+DateTime start=new DateTime(2002,1,1);
+DateTime end=new DateTime(2002,1,3);
+this.Calendar1.SelectedDates.SelectRange(start,end);
+this.Calendar1.VisibleDate=start;
+4.高级自定义
+a.在单元格添在文本
+private void Calendar1_DayRender(object sender, System.Web.UI.WebControls.DayRenderEventArgs e)
+{
+	e.Cell.Width=80;
+	e.Cell.Height=64;
+	string html="<br><font color=\"red \" face=\"verdana\" size=\"1\">"+
+		"Christmas</font>";
+	if(e.Day.Date.Month==11&&e.Day.Date.Day==25)
+	{
+		e.Cell.Controls.AddAt(0,new LiteralControl("<br>"));
+		e.Cell.Controls.Add(new LiteralControl(html));
+	}
+}
+b.限制用户选择星期六、星期日
+private void Calendar1_DayRender(object sender, System.Web.UI.WebControls.DayRenderEventArgs e)
+{
+	e.Day.IsSelectable=!(e.Day.Date.DayOfWeek==DayOfWeek.Saturday||
+	e.Day.Date.DayOfWeek==DayOfWeek.Sunday);
+
+}
+c.防止今天之前被选择
+e.Day.IsSelectable=e.Day.Date>=DateTime.Today;
+

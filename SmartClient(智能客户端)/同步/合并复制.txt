@@ -1,0 +1,2 @@
+代码，但缺少灵活性
+SqlCeReplication

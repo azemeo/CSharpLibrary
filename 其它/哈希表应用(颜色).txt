@@ -1,0 +1,13 @@
+Hashtable colHash;			
+colHash = new Hashtable ();
+			colHash.Add ("red", Color.Red);
+			colHash.Add ("green", Color.Green);
+			colHash.Add ("blue", Color.Blue);
+string mesg;
+mesg = mesg.ToLower ();
+			try {
+Color c = (Color)colHash[mesg];
+}
+			catch (NullReferenceException e) {
+				
+			}

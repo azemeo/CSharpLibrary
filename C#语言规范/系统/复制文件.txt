@@ -1,0 +1,4 @@
+¸´ÖÆÎÄ¼þ
+
+				File.Copy("D:\\DVD_Dev\\mpeg2vc\\Debug\\"+"test"+number.ToString()+".U",
+					"D:\\DVD_Dev\\mpeg2vc\\Debug\\"+"test"+i.ToString()+".U",true);

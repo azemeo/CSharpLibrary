@@ -1,0 +1,36 @@
+		<script language=javascript>
+<!--
+	//属性
+	var a=Math.E;//自然对数的底
+	document.writeln(a+"<BR>");
+	var b=Math.LN10;//10的自然对数
+	document.writeln(b+"<BR>");
+	var c=Math.LN2;//2的自然对数
+	document.writeln(c+"<BR>");
+	var d=Math.PI;//圆周率
+	document.writeln(d+"<BR>");
+	var e=Math.SQRT1_2;//1/2的平方根
+	document.writeln(e+"<BR>");
+	var f=Math.SQRT2;//2的平方根
+	document.writeln(f+"<BR>");
+	//方法
+	var g=Math.abs(-15)//返回数字的绝对值
+	document.writeln(g+"<BR>");		
+	var h=Math.ceil(12.5); //返回值为大于等于其数字参数的最小整数
+	document.writeln(h+"<BR>");
+	var i=Math.floor(12.5);//返回值为小于等于其数值参数的最大整数	
+	document.writeln(i+"<BR>");
+	var j=Math.max(12,14,16,8,26,1);//返回给出n个数值表达式中较大者
+	document.writeln(j+"<BR>");
+	var k=Math.min(12,14,16,8,26,1);//返回给出n个数值表达式中较小者
+	document.writeln(k+"<BR>");
+	var l=Math.random();//返回介于 0 和 1 之间的伪随机数
+	document.writeln(l+"<BR>");
+	var m=Math.round(1.65);//返回与给出的数值最接近的整数
+	document.writeln(m+"<BR>");
+	var n=Math.sqrt(9);//返回数字的平方根
+	document.writeln(n+"<BR>");
+	//其它一些三角函数sin,cos...
+		
+//-->
+</script>

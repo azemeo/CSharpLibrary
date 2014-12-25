@@ -1,0 +1,7 @@
+È·±£MinimizeBox=false		
+
+private void Form1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			DialogResult result=MessageBox.Show("Close this form?","Please Verify",MessageBoxButtons.YesNo,MessageBoxIcon.None,MessageBoxDefaultButton.Button2);
+			e.Cancel=(result==DialogResult.No);
+		}

@@ -1,0 +1,7 @@
+		private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+
+			LinkButton btn = e.CommandSource as LinkButton;
+
+
+		}

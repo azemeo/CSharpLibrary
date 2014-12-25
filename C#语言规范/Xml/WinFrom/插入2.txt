@@ -1,0 +1,16 @@
+//利用XmlDoc只能以二级为单位插入
+			string Nowmy=System.DateTime.Now.ToString();
+			doc.Load("history.xml");
+			int total=listViewReco.Items.Count;
+			for(int i=0;i<total;i++)			{
+				XmlElement newRecord=doc.CreateElement("record");
+				newRecord.SetAttribute("name",listViewReco.Items[i].SubItems[0].Text.Trim());
+				newRecord.SetAttribute("mobile",listViewReco.Items[i].SubItems[1].Text.Trim());
+				newRecord.SetAttribute("content",listViewReco.Items[i].SubItems[2].Text.Trim());
+				newRecord.SetAttribute("SendDate",Nowmy);	
+				doc.DocumentElement.AppendChild(newRecord);				
+			}
+			XmlTextWriter tr=new XmlTextWriter("history.xml",null);
+			tr.Formatting=Formatting.Indented;
+			doc.WriteContentTo(tr);
+			tr.Close();

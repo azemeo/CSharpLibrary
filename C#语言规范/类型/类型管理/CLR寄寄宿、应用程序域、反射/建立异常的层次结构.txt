@@ -1,0 +1,84 @@
+using System;
+using System.Text;
+using System.Reflection;
+using System.Collections;
+namespace TestExceTree
+{
+	class App
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			LoadAssemblies();
+			Int32 totalTypes=0,totalExceptionTypes=0;
+			ArrayList exceptionTree=new ArrayList();
+			foreach(Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				foreach(Type t in  a.GetTypes())
+				{
+					totalTypes++;
+					if(!t.IsClass||!t.IsPublic) continue;
+
+					StringBuilder typeHierarchy=new StringBuilder(t.FullName,5000);
+					Boolean derivedFromException=false;
+					Type baseType=t.BaseType;
+					while((baseType!=null)&&!derivedFromException)
+					{
+						typeHierarchy.Append("-"+baseType);
+						derivedFromException=(baseType==typeof(System.Exception));
+						baseType=baseType.BaseType;
+					}
+					if(derivedFromException) continue;
+					totalExceptionTypes++;
+					String[]h=typeHierarchy.ToString().Split('-');
+					Array.Reverse(h);
+					exceptionTree.Add(String.Join("-",h,1,h.Length-1));
+				}
+			}
+			exceptionTree.Sort();
+			foreach(String s in exceptionTree)
+			{
+				String[]x=s.Split('-');
+				Console.WriteLine(new String(' ',3*x.Length)+x[x.Length-1]);
+			}
+			Console.WriteLine("\n---> Of {0} types ,{1} are derived from System.Exception.",totalTypes,totalExceptionTypes);
+			Console.WriteLine();
+
+
+		}
+		static void LoadAssemblies()
+		{		
+			String[]assemblies={
+				"System,PublicKeyToken={0}",
+				"System.Data,PublicKeyToken={0}"//,
+//				"System.Design,PubicKeyToKen={1}",
+//				"System.DirectoryServices,PublicKeyToken{1}",
+//				"System.Drawing,PublicKeyToken{1}",
+//				"System.Drawing.Design,PublicKeyToken{1}",
+//				"System.EnterpriseServices,PublicKeyToken{1}",
+//				"System.Management,PublicKeyToken{1}",
+//				"System.Messaging,PublicKeyToken{1}",
+//				"System.Runtime.Remoting,PublicKeyToken{0}",
+//				"System.Security,PublicKeyToken{1}",
+//				"System.ServiceProcess,PublicKeyToken{1}",
+//				"System.Web,PublicKeyToken{1}",
+//				"System.Web.RegularExpressions,PublicKeyToken{1}",
+//				"System.Web.Services,PublicKeyToken{1}",
+//				"System.Windows.Forms,PublicKeyToken{0}",
+//				"System.Xml,PublicKeyToken{0}"
+				};
+			String EcmaPublicKeyToken="b77a5c561934e089";
+			String MSPublicKeyToken="b03f5f711d50a3a";
+
+			Version version=typeof(System.Object).Assembly.GetName().Version;
+			foreach(String a in assemblies)
+			{
+				String AssemblyIdentity=String.Format(a,EcmaPublicKeyToken,MSPublicKeyToken)+",Culture=neutral,Version="+version;
+				Assembly.Load(AssemblyIdentity);
+			}
+		}
+	}
+}

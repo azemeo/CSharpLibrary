@@ -1,0 +1,13 @@
+1.插入记录
+mysql> INSERT INTO student VALUES('Kyle','M',NULL);
+2.查询
+mysql> SELECT * FROM student;
+3.删除
+mysql> DELETE  FROM student WHERE name="Abby";(条件)
+mysql> DELETE  FROM student;(全部删除，危险)
+注册级连删除
+4.更新
+mysql> UPDATE event SET date='2001-1-7' WHERE event_id=2;(条件)
+mysql> UPDATE event SET date='2001-1-7';(全部更新，危险)
+mysql> UPDATE event SET date='2003-5-13',type='Q' WHERE event_id=2;(多列)
+

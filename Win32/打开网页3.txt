@@ -1,0 +1,5 @@
+using System.Diagnostics;
+Process ps=new Process();
+			ps.StartInfo.FileName="iexplore.exe";
+			ps.StartInfo.Arguments="http://localhost/myasp";
+			ps.Start();

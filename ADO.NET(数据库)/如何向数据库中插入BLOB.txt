@@ -1,0 +1,45 @@
+1.有文件logo.jpg
+2.在pubs数据库publishers表中增加一条记录pub_id=9937
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+namespace MyExecute1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//
+			// TODO: 在此处添加代码以启动应用程序
+			//
+			FileStream stream=new FileStream("Logo.jpg",FileMode.Open);
+			byte[]blob=new byte[stream.Length];
+			stream.Read(blob,0,(int)stream.Length);
+			stream.Close();
+			SqlConnection conn=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=");
+			try
+			{
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("insert into pub_info(pub_id,logo)values('9937',@logo)",conn);
+				cmd.Parameters.Add("@logo",blob);
+				cmd.ExecuteNonQuery();
+			}
+			catch(SqlException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}

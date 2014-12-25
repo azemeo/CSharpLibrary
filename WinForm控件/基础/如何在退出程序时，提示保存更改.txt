@@ -1,0 +1,12 @@
+1.响应窗体上的Closing事件
+private void FormMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			DialogResult dr = MessageBox.Show(this,"你确定要退出吗？","退出系统通知",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (dr!=DialogResult.Yes) 
+			{
+				e.Cancel=true;
+			}
+
+		}
+2.应该设一个公共参数 bool Modified
+每当修改过一个地方就将这个值设为 true

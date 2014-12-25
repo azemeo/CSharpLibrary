@@ -1,0 +1,12 @@
+模板列的就地编辑
+
+最完全的灵活性，给予构成控件所希望的ID,可选择最合适的控件，并可以放置任何验证的控件。
+
+注意模板来源于单独的命名容器，它影响首FindControl的工作方式。
+1.不能在网格级别调用FindControl,要使用
+2.不能在网格级别的代码中使用ID的作何一个。
+正确
+TextBox txtFirstName=(TextBox)e.Item.FindControl("txtFirstName");
+错误
+DataGrid1.FindControl("txtFirstName");
+txtFirstName.text

@@ -1,0 +1,110 @@
+ItemCommand事件的使用:使用命令识别那一个按钮被按。
+
+1.*.aspx
+<%@ Import Namespace="System.Data" %>
+<%@ Page language="c#" Codebehind="WebForm10.aspx.cs" AutoEventWireup="false" Inherits="Co_112.WebForm10" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm10</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:DataList id="DataList1" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 64px"
+					runat="server" RepeatDirection="Horizontal">
+					<ItemTemplate>
+						<asp:LinkButton id=LinkButton1 runat="server" CommandName="<%# Container.DataItem %>" Text="<%# Container.DataItem %>">
+						</asp:LinkButton>&nbsp;&nbsp;&nbsp;
+					</ItemTemplate>
+				</asp:DataList>
+				<asp:Label id="statusbar" style="Z-INDEX: 102; LEFT: 248px; POSITION: absolute; TOP: 136px"
+					runat="server">Label</asp:Label></FONT>
+		</form>
+	</body>
+</HTML>
+2.*.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace Co_112
+{
+	/// <summary>
+	/// WebForm10 的摘要说明。
+	/// </summary>
+	public class WebForm10 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label statusbar;
+		protected System.Web.UI.WebControls.DataList DataList1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				DataList1.DataSource=CreateDataSource();
+				DataList1.DataBind();
+			}
+
+		}
+		public ArrayList CreateDataSource()
+		{
+			ArrayList a=new ArrayList();
+			a.Add("Search");
+			a.Add("Execute");
+			a.Add("Load");
+			return a;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataList1.ItemCommand += new System.Web.UI.WebControls.DataListCommandEventHandler(this.DataList1_ItemCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataList1_ItemCommand(object source, System.Web.UI.WebControls.DataListCommandEventArgs e)
+		{
+			switch(e.CommandName)
+			{
+				case "Search":
+					statusbar.Text="Serching...";
+					return;
+				case "Execute":
+					statusbar.Text="Executing...";
+					return;
+				case "Load":
+					statusbar.Text="Loading...";
+					return;
+			}
+
+		}
+	}
+}

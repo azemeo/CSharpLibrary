@@ -1,0 +1,14 @@
+ArrayList result = new ArrayList();
+				OleDbConnection myConn=new OleDbConnection(this.ConnectionString);
+				myConn.Open();
+				OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM Customer",myConn);
+				OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+				DataSet thisDataSet=new DataSet();
+				thisAdapter.Fill(thisDataSet,"Customer");
+				DataTable myTable=thisDataSet.Tables["Customer"];
+				foreach(DataColumn myCol in myTable.Columns)
+				{
+					result.Add(myCol.ColumnName.ToString());
+				}
+				myConn.Close();	
+				return result;

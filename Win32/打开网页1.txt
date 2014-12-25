@@ -1,0 +1,1 @@
+ShellExecuteA(this.Handle,"open","http://www.emay.net.cn",null,"",5);

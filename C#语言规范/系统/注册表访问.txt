@@ -1,0 +1,13 @@
+using Microsoft.Win32;
+			RegistryKey SoftwareKey=Registry.LocalMachine.OpenSubKey("Software",true);
+			RegistryKey MovecontKey=SoftwareKey.CreateSubKey("Movecont");//建立
+			RegistryKey SelfPlaceKey=MovecontKey.CreateSubKey("SelfPlace");//建立
+			SelfPlaceKey.SetValue("BackColor",(object)BackColor.ToKnownColor());//写
+			SelfPlaceKey.SetValue("Red",(object)(int)BackColor.R);//红
+			SelfPlaceKey.SetValue("Green",(object)(int)BackColor.G);//绿
+			SelfPlaceKey.SetValue("Blue",(object)(int)BackColor.B);//蓝
+			SelfPlaceKey.SetValue("Width",(object)Width);//宽
+			SelfPlaceKey.SetValue("Height",(object)Height);//高
+			SelfPlaceKey.SetValue("X",(object)DesktopLocation.X);//左上角X坐标
+			SelfPlaceKey.SetValue("Y",(object)DesktopLocation.Y);//左上角Y坐标
+			SelfPlaceKey.SetValue("WindowState",(object)WindowState.ToString());//左上角Y坐标

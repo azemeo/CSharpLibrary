@@ -1,0 +1,3 @@
+			//Êä³öÖĞ»»ĞĞ
+			int x=3,y=4,z=5;
+			Console.WriteLine("{1}{0}{2}{0}{3}{0}",Environment.NewLine,x,y,z);

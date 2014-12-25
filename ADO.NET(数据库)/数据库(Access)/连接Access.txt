@@ -1,0 +1,14 @@
+using System.Data;
+using System.Data.OleDb;
+---------------------------
+OleDbConnection thisConnection=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\D\DevCs\Works2\Person.mdb;");
+thisConnection.Open();
+OleDbCommand thisCommand=thisConnection.CreateCommand(); //
+thisCommand.CommandText="SELECT * FROM Intro";
+OleDbDataReader thisReader=thisCommand.ExecuteReader();
+while(thisReader.Read())
+	{
+	Console.WriteLine("\t{0}\t{1}",thisReader["ID"],thisReader["TheName"]);
+	}
+thisReader.Close();
+thisConnection.Close();

@@ -1,0 +1,29 @@
+基础
+设置普通项的样式，在HTML中选定，可在属性中编辑
+<ItemStyle BorderWidth="2" BorderColor="#000000"></ItemStyle>
+
+还有
+
+<HeaderStyle BackColor="#ffcc33"></HeaderStyle> 标头
+
+等
+
+当然也可选择，属性编辑器中，自动套用格式。
+
+示例
+
+
+			<asp:DataList id="DataList1" style="Z-INDEX: 102; LEFT: 64px; POSITION: absolute; TOP: 72px" runat="server"
+				BorderColor="#3366CC" BorderStyle="None" BackColor="White" CellPadding="4" GridLines="Both"
+				BorderWidth="1px">
+				<SelectedItemStyle Font-Bold="True" ForeColor="#CCFF99" BackColor="#009999"></SelectedItemStyle>
+				<HeaderTemplate>
+					Name
+				</HeaderTemplate>
+				<FooterStyle ForeColor="#003399" BackColor="#99CCCC"></FooterStyle>
+				<ItemTemplate>
+					<asp:LinkButton id=LinkButton1 runat="server" Text='<%#String.Format("{0}-{1:c},{2:c}",&#13;&#10;&#9;&#9;&#9;&#9;&#9;((DataRowView)Container.DataItem)["EmployeeID"],&#13;&#10;&#9;&#9;&#9;&#9;&#9;((DataRowView)Container.DataItem)["lastname"],&#13;&#10;&#9;&#9;&#9;&#9;&#9;((DataRowView)Container.DataItem)["firstname"])%>'>
+					</asp:LinkButton>
+				</ItemTemplate>
+				<HeaderStyle Font-Bold="True" ForeColor="#CCCCFF" BackColor="#003399"></HeaderStyle>
+			</asp:DataList>

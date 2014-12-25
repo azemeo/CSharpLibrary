@@ -1,0 +1,8 @@
+ImageButton
+
+只要ImageUrl中的图片为透明,不用设置即为透明
+
+
+BorderStyle=Outset
+BorderWidth=1px
+ImagUrl=back.gif

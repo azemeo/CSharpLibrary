@@ -1,0 +1,52 @@
+private void ButtonTest_Click(object sender, System.EventArgs e)
+		{
+			System.Data.DataTable dt1=TextToTable("D:\\Test1.csv",',');
+			string s="";
+			for(int i=0;i<dt1.Rows.Count;i++)
+			{
+				s+=dt1.Rows[i][2];
+			}
+			s=s+"glf";
+
+		}
+		/// 将特定分隔符的文本文件转换成DataTable,其中第一列作为列标题
+		/// 
+		/// 文本文件路径文件名
+		/// 字段分隔符
+		/// 转换好的DataTable
+		private System.Data.DataTable TextToTable(string txtFilePath,char sepChar)
+		{
+			int index;
+			System.Data.DataTable resultTable = new System.Data.DataTable();
+			DataRow curRow;
+			StreamReader sr = new StreamReader(txtFilePath);
+			string strCurLine;
+			string[] colData;
+			//设置标题
+			strCurLine = sr.ReadLine();
+			if (null == strCurLine || string.Empty == strCurLine)
+				return resultTable;
+			colData = strCurLine.Split(new char[]{sepChar});
+			for (index = 0; index < colData.Length; index++)
+			{
+				resultTable.Columns.Add(colData[index],typeof(string));
+			}
+
+			//添加数据行
+			do 
+			{
+				strCurLine = sr.ReadLine();
+				if (null == strCurLine || string.Empty == strCurLine)
+					break;
+				colData = strCurLine.Split(new char[]{sepChar});
+				curRow = resultTable.NewRow();
+				for (index = 0; index < colData.Length; index++)
+				{
+					curRow[index] = colData[index];
+				}
+				resultTable.Rows.Add(curRow);
+			}
+			while (true);
+			sr.Close();
+			return resultTable;
+		}

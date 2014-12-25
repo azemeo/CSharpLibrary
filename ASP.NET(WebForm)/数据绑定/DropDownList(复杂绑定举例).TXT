@@ -1,0 +1,32 @@
+支持的属性:DataSource、DataMember、DataTextField、DataValueField、DataTextFormatString
+可申明属性:DataSource、DataTextField、DataValueField
+
+1.*.aspx
+<asp:DropDownList id="DropDownList1" style="Z-INDEX: 101; LEFT: 136px; POSITION: absolute; TOP: 56px"
+				runat="server"></asp:DropDownList>
+
+2.*.cs
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				//注意:1,2的方法可选一种(摆脱不能将DataTextField指定了更多的字段) 
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				//strCmd="Select employeeid,firstName,lastName From employees";
+				//SQL拼接 1(开销较大)
+				strCmd="Select employeeid,lastName +','+firstName As 'EmployeeName' From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];
+				//增加新列 2
+				//dt.Columns.Add("EmployeeName",typeof(string),"lastname+','+firstname ");
+				DropDownList1.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+				DropDownList1.DataTextField="EmployeeName";
+				DropDownList1.DataValueField="employeeid";
+				DropDownList1.DataBind();
+
+			}
+		}

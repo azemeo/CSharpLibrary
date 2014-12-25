@@ -1,0 +1,39 @@
+//引用
+using System.Reflection;
+//定义
+[AttributeUsage(AttributeTargets.All,AllowMultiple=true)]
+	class CodeRevisionAttribute:Attribute
+	{
+		public string Author;
+		public string Date;
+		public string Comment;
+		public CodeRevisionAttribute(string Author,string Date)
+		{
+			this.Author=Author;
+			this.Date=Date;
+		}
+	}
+//使用
+[CodeRevision("billg","07-19-2001")]
+	[CodeRevision("steveb","09-30-2001",Comment="Fixed Bill's bugs")]
+
+	struct Point
+	{
+		public int x;
+		public int y;
+		public int z;
+	}
+//读取
+MemberInfo info=typeof(Class1);
+			object[]attributes=info.GetCustomAttributes(false);
+			if(attributes.Length>0)
+			{
+				Console.WriteLine("Code revisions for Point struct");
+				foreach(CodeRevisionAttribute attribute in attributes)
+				{
+					Console.WriteLine("\nAuthor:{0}",attribute.Author);
+					Console.WriteLine("Date:{0}",attribute.Date);
+					if(attribute.Comment!=null)
+						Console.WriteLine("Command:{0}",attribute.Comment);
+				}
+			}

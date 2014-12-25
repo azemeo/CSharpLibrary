@@ -1,0 +1,18 @@
+延迟签名：为了了防止在开发和测试阶段私钥的泄露。
+
+在开发和测试其间，使用公有密钥生成程序集。
+
+在打包和发布时，使用私钥生成程序集。
+
+延迟签名技巧开发程序集：
+
+1、开发和测试阶段
+[assembly: AssemblyDelaySign(true)]
+[assembly: AssemblyKeyFile("..\\..\\MyCompany.keys")]
+2、使其可用
+SN -Vr MyAssembly.dll
+
+3、打包时
+SN -R MyAssembly.dll MyCompany.keys
+4、恢复验证测试
+SN -Vu MyAssembly.dll

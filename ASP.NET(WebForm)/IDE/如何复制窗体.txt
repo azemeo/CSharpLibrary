@@ -1,0 +1,13 @@
+
+1.将A.*(A.aspx,A.aspx.cs,A.aspx.resx)复制并粘贴后为
+副本 A.*
+2.将副本 A.* 更名为B.*
+
+3.单击解决方案管理器上的[全部显示]
+
+4.双击B.aspx.cs
+
+5.在编辑器在修改class A 为Class B
+6.在B.aspx的HTML视图
+codehind="a.aspx.cs"为codehind="b.aspx.cs"
+6.OK

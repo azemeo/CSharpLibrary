@@ -1,0 +1,37 @@
+using System;
+using System.Collections;
+namespace MyBitArray
+{
+	/// <summary>
+	/// 压缩位。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//
+			// TODO: 在此处添加代码以启动应用程序
+			//
+			BitArray myArray=new BitArray(5,false);
+			myArray[1]=true;//改变值
+			myArray[3]=true;
+			PrintValues( myArray);//打印
+
+		}
+		public static void PrintValues( IEnumerable myList)  
+		{
+			System.Collections.IEnumerator myEnumerator = myList.GetEnumerator();
+			while (myEnumerator.MoveNext() )  
+			{
+
+				Console.Write( "{0}\t", myEnumerator.Current );
+			}
+			Console.WriteLine();
+		}
+
+	}
+}

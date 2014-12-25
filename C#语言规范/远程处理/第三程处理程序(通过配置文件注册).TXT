@@ -1,0 +1,80 @@
+第一个程序
+
+1.ClockServer.cs
+using System;
+public class Clock:MarshalByRefObject //可以在客户端（远程应用程序域）使用的类
+{
+	public string GetCurrentTime()
+	{
+		return DateTime.Now.ToLongTimeString();
+	}
+}
+
+
+2.服务器TimeServer.cs
+using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+
+public class MyApp
+{
+	static void Main()
+	{
+		RemotingConfiguration.Configure("TimeServer.exe.config");
+		Console.WriteLine("Press Enter to terminate...");
+		Console.ReadLine();	
+	}
+}
+
+配置文件:TimeServer.exe.config
+<configuration>
+<system.runtime.Remoting>
+	<application>
+		<service>
+			<wellknown mode="SingleCall" type="Clock,ClockServer" objectUri="Clock"/>
+		</service>
+		<channels>
+			<channel ref="tcp server" port="1234" />
+		</channels>
+	</application>
+</system.runtime.Remoting>
+</configuration>
+
+3.客户端
+using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+
+public class MyApp
+{
+	static void Main()
+	{
+		RemotingConfiguration.Configure("TimeClient.exe.config");
+		Clock clock=new Clock();
+		Console.WriteLine(clock.GetCurrentTime());
+	}
+}
+
+
+配置文件:TimeClient.exe.config
+
+<configuration>
+<system.runtime.Remoting>
+	<application>
+		<client>
+			<wellknown type="Clock,ClockServer" url="tcp://chihy:1234/Clock"/>
+		</client>
+		<channels>
+			<channel ref="tcp client" port="1234" />
+		</channels>
+	</application>
+</system.runtime.Remoting>
+</configuration>
+
+操作
+csc /t:library clockserver.cs
+csc /r:clockserver.dll timeserver.cs
+csc /r:clockserver.dll timeclient.cs
+

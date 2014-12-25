@@ -1,0 +1,18 @@
+C#提供
++= 调用Delegate.Combine
+-= 调用Delegate.Remove
+
+局限，一次只能组合一个。
+			//创建委托链表
+			Set.Feedback fbChain=new Set.Feedback(App.FeedbackToConsole);
+			App appobj=new App();
+			fbChain+=new Set.Feedback(appobj.FeedbackToFile);
+			//应用
+			Set setOfItems=new Set(5);
+			setOfItems.ProcessItems(fbChain);
+			//移除1
+			fbChain-=new Set.Feedback(App.FeedbackToConsole);
+			setOfItems.ProcessItems(fbChain);
+			//移除2
+			fbChain-=new Set.Feedback(appobj.FeedbackToFile);
+			setOfItems.ProcessItems(fbChain);

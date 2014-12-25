@@ -1,0 +1,53 @@
+继承于Componet和Control
+名称空间为System.Windows.Forms
+30多个控件,.NET CF是.NET Framework的子集
+
+分为7类
+
+1.基类父控件
+Form	所有控件的容器
+Control	95%以控件的基类
+
+Timer,ImageList,MainMenu,MenuItem,ContextMenu继承Component
+
+2.容器控件
+Panel
+TabControl
+TabPage
+
+包含其它控件，一起显示、隐藏、移动、变化(对单选按钮分组).
+
+
+3.单项控件
+Button,CheckBox,Label,PictureBox,RadioButton,StatusBar,TextBox
+
+有Text属性,及TextChanged事件,支持数据绑定.
+
+4.多项控件
+ComboBox,DataGrid,DomainUpDown,ListBox,TreeView
+显示列表让用户选择一项.
+
+5.命令输入控件
+ContextMenu
+MainMenu
+MenuItem
+ToolBar
+ToolBarButton
+执行希望的动作
+包含Visible,Enabled,Checked属性及Click事件
+
+6.可视量化值控件
+NumericUpDown,ProgressBar,HScrollBar,VScrollBar,TrackBar
+可视化数据变化的过程
+都有Maximum,Minimum值的范围,Value当前值,Increment,Step,LargeChange,SmallChange说明每次变化的大小。
+7.后台控件
+Timer,ImageList
+没有GUI,仅被包含在窗体中，不能包含在容器中
+
+ImageList支持png,jpeg,gif 要有imgdecmp.dll支持
+
+
+
+
+
+

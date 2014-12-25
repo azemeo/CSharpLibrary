@@ -1,0 +1,33 @@
+对于构建工级强度的应用程序，多个服务器构成了Web场。
+
+A.Web服务器
+B.Web服务器
+C.数据库服务器
+E.数据库服务器
+F.数据库服务器
+C.状态服务器
+E.状态服务器
+F.状态服务器器
+
+安全性
+
+将会话状态移到一台远程机器上。
+C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\CONFIG\machine.config
+
+修改前的
+
+<machineKey validationKey="AutoGenerate,IsolateApps" decryptionKey="AutoGenerate,IsolateApps" validation="SHA1"/>
+
+修改后:
+
+validationkey="mmmm" mmmm挖个40-128字符之间的随机值。越长越好。
+decryptionKey="nnnn" nnnn代表16-48字符之间的随机值。越长越好。
+
+注意：每台服务器使用相同的验证。
+
+
+Web.cofig 示例
+
+<machineKey validationKey="MKNPISMGSKGJ2MFZOTZ0PVYGJAQPSX45SV2P2T45TNLXGEEQ" decryptionKey="VKRO43IX03G1DT45RKEETNEWQTLGDQ45ON3110ZR4OL43LMM" validation="SHA1"/> 
+
+

@@ -1,0 +1,2 @@
+Environment.CurrentDirectory
+Application.StartupPath

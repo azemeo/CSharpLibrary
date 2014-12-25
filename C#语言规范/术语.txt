@@ -1,0 +1,20 @@
+Common Language Infrastructure(CLI)	通用语言基础构造
+Common Language Runtime(CLR) 		通用语言运行时
+Common Language Specification(CLS)	通用语言规范
+Common Type System(CTS) 		通用类型系统
+
+culture					语言文化
+culture-neutral				语言文化中性
+
+Framework Class Library(FC)		.NET框架类库
+
+overload				重载
+override				重写
+
+point					指针
+
+reference				引用
+
+strack					堆栈
+
+

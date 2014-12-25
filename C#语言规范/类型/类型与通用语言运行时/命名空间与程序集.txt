@@ -1,0 +1,26 @@
+命名空间：允许我们对相关类型进行逻辑上的组织，这使得我们可以很方便地定位一个类型。
+
+using System.IO;//试着在类型名上加前缀"System.IO"
+
+MSCorLib.dll (Multilanguage Standard Common Object Runtime Library)多语言标准通用对象运行时库。
+
+不同的命名空间中有可能存在同名的两个（或多个）类型，只能用它们的完全限定名来区分。
+
+
+为命名空间起别名
+
+using WintellectWidget=Wintellect.Widget;
+
+WintellectWidget w=new WintellectWidget();
+
+为了减少冲突的可能性，建议使用公司全称，而非缩写。
+
+同一个命名空间的类型可能被实现在多个程序集中。
+
+一个程序集也可包含位于不于命名空间的类型。
+
+命名空间：在源码中使用using 指示符。
+
+程序集：/r 开关进行编译。(IDE中的引用)
+
+

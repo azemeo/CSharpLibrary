@@ -1,0 +1,46 @@
+
+一、添加VC#-智能设备应用程序项目
+Pocket PC
+
+1.选择类库
+2.添加引用(System.Drawing,Microsoft.Windows.Forms)
+
+在Assembly中
+using System;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+
+#if DESIGN
+[assembly: System.CF.Design.RuntimeAssembly("ZGForm, Version=1.0.2904.0, Culture=neutral, PublicKeyToken=null")]
+#endif
+
+[assembly: AssemblyVersion("1.0.2904.0")]
+[assembly: CLSCompliant(false)]
+
+其中ZGForm为命名空间
+
+
+二、添加VC++项目-生成文件项目
+
+在生成文件应用程序向导中/或项目属性对话框/Nmake中
+
+输出:ZGFormDes.dll
+生成命令行/重新生成命令行
+
+csc.exe /debug+ /noconfig /define:DESIGN /target:library /out:"$(TargetPath)" "$(SolutionDir)ZGForm\Win32.cs" "$(SolutionDir)\ZGForm\CircleBtn.cs" "$(SolutionDir)\ZGForm\AssemblyInfo.cs"  /resource:"$(ProjectDir)ZGForm.TextBoxEx.bmp" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Design.dll" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Windows.Forms.dll" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Drawing.DLL" /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:System.dll /r:System.XML.dll /r:System.Web.Services.dll /r:System.Data.dll /nowarn:1595
+
+$(SolutionDir) 为解决方案的目录
+注意访问其下项目中文件的,表达式为$(SolutionDir)\项目目录名\文件名.cs
+
+$(TargetPath) 生成的主输出文件的绝对路径名
+
+将运行时动态链接库(A.DLL)或设计时程序集(ADes.DLL)复制到同一个目录中。
+
+
+resource指生成控件的图标：规则为：命名空间+类.bmp 如:命名空间+类.bmp
+
+
+
+
+
+

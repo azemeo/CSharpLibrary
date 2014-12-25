@@ -1,0 +1,7 @@
+SQL Server 	CLR		C#
+int		Int32		int
+int		Int16		short
+nvarchar	String		string
+bit		Boolean		bool
+money		Decimal		decimal
+binary		Byte[]		byte[]

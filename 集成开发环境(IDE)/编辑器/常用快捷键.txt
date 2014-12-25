@@ -1,0 +1,41 @@
+常用快捷键:
+
+Ctrl+],寻找匹配的括号
+Ctrl+Shift+],选择匹配的括号
+双击控件工具，自动添加控件。
+Ctrl+Alt+Q 添加临视
+
+Ctrl+Shift+U 转换为大写
+Ctrl+U 转换为小写
+F4 属性
+F5 启动
+F7 代码
+Shift+F7 设计窗体
+双击状态栏，弹出转到多少行。
+
+F9 断点的切换
+
+Ctrl+Alt+B 断点管理
+Ctrl+Alt+A 命令窗口
+
+Ctrl+K+C 注释选定的内容
+Ctrl+K+U 取消选定的内容
+
+Ctrl+Alt+W 放手 1 打监视窗口1
+Ctrl+Shift+B 生成
+
+在*.aspx中
+Ctrl+PgUp     设计
+Ctrl+PgDn    HTML 源
+
+Ctrl+F6 下一个文档窗口
+Ctrl+Shift+F6 上一个文档窗口
+Ctrl+Tab 文档窗口间切换
+
+F12 转到定义
+
+Ctrl+K+K 书签切换
+Ctrl+K+P 上一书签
+Ctrl+K+N 下一书签
+
+Shift+Del 删除一行

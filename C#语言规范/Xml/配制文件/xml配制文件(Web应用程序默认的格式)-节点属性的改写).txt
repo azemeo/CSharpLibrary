@@ -1,0 +1,42 @@
+using System.Xml;
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appSettings>
+    <!--   此处显示用户应用程序和配置的属性设置。-->
+    <!--   示例：<add key="settingName" value="example"/> -->
+    <add key="rootPath" value="D:\知识库大全" />
+    <add key="currPath" value="D:\知识库大全\Oracle" />
+  </appSettings>
+</configuration>
+
+
+
+			//写配置文件
+			XmlDocument doc=new XmlDocument();
+			doc.Load("..\\..\\App.config");//加载xml文件
+
+			XmlNode add1=doc.GetElementsByTagName("add")[0];//得到第一个add元素
+
+//			XmlNode key1 = doc.CreateNode(XmlNodeType.Attribute, "key","");//建立属性key
+//			key1.Value= "rootPath";//设置属性
+			XmlNode value1=doc.CreateNode(XmlNodeType.Attribute,"value","");//建立属性value
+			value1.Value=strRootPath;
+
+//			add1.Attributes.SetNamedItem(key1);//设置属性
+			add1.Attributes.SetNamedItem(value1);
+
+
+
+			XmlNode add2=doc.GetElementsByTagName("add")[1];//得到第二个add元素
+
+//			XmlNode key2=doc.CreateNode(XmlNodeType.Attribute,"key","");
+//			key2.Value="currPath";
+			XmlNode value2=doc.CreateNode(XmlNodeType.Attribute,"value","");
+			value2.Value=strCurrPath;
+
+//			add2.Attributes.SetNamedItem(key2);
+			add2.Attributes.SetNamedItem(value2);
+
+			//保存文档
+			doc.Save("..\\..\\App.config");//保存配置

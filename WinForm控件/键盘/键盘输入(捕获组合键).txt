@@ -1,0 +1,7 @@
+		private void frmLogin_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			if ((e.KeyCode == Keys.F4)&&(e.Alt == true))
+			{
+				e.Handled = true;
+			}
+		}

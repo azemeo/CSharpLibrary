@@ -1,0 +1,34 @@
+编辑日期时间列
+
+Calendar功能强大，但占用资源更多。
+
+特定的日期被选中
+VisibleDate(特定的日期在页面可见)和SeletedDate(绘制选中的日期)设置为相同的值
+
+IsDate 防止日期为空时出错
+
+1.页面中时间列
+
+<asp:TemplateColumn HeaderText="Hiredate">
+							<ItemTemplate>
+								<asp:TextBox id=txtHire runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"Hiredate") %>'>
+								</asp:TextBox>
+							</ItemTemplate>
+							<EditItemTemplate>
+								<asp:Calendar id=Calendar1 runat="server" VisibleDate='<%# IsDate(DataBinder.Eval(Container.DataItem,"hiredate")) %>' SelectedDate='<%# IsDate(DataBinder.Eval(Container.DataItem,"hiredate")) %>'>
+								</asp:Calendar>
+							</EditItemTemplate>
+						</asp:TemplateColumn>
+
+
+
+2.代码
+
+		public DateTime IsDate(object o)
+		{
+			if(o is DBNull)
+			{
+				return DateTime.Now;
+			}
+			return Convert.ToDateTime(o);
+		}

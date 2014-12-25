@@ -1,0 +1,10 @@
+OleDbConnection oleDbConnection1=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+Application.StartupPath+"\\First.mdb;");
+			oleDbConnection1.Open();
+			DataTable schemaTable = oleDbConnection1.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Columns,
+				new object[] {null, null, "Student",null});
+
+			System.Data.DataRowCollection drc=schemaTable.Rows;
+			foreach(DataRow dr in drc)
+			{
+				textBox1.Text+=dr["COLUMN_NAME"]+":"+dr["DESCRIPTION"].ToString()+"\r\n";
+			}

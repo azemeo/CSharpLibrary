@@ -1,0 +1,20 @@
+日前，一个Web应用在压力测试时发现返回了大量的503，经过研究，发现是由于.net 1.1中将每个Web App的 Request Queue Limit默认设为了100，当访问量很大时（LoadRunner : 1000VUser），由于Queue Limit太小，导致大量的访问被丢弃，返回了503错误。
+
+Machine.config中的设置：
+
+<httpRuntime 
+            executionTimeout="90"
+            maxRequestLength="4096"
+            useFullyQualifiedRedirectUrl="false"
+            minFreeThreads="8"
+            minLocalRequestFreeThreads="4"
+            appRequestQueueLimit="100"
+            enableVersionHeader="true"
+        />
+
+appRequestQueueLimit值需要根据服务器环境、程序特点等综合考虑才能得到一个比较合适的值，不能简单的将此值设置很大，因为工作进程会为每个应用程序维护一个Request Queue，Queue的长度固定，盲目设大将造成资源浪费与性能降低。
+
+较好的方式是在应用上线（测试）前设置一个较大值，然后观察Perfmon中Request Queue的数值，然后根据实际访问的最大值加上一个缓冲量作为appRequestQueueLimit，如果是一台服务器多个应用，那么就需要根据每个应用的压力不同来设置（Web.config中）。
+
+需要注意的是，.net可以设置多处Request Queue值,Machine.config中<processModel节也有一个process级别的Request Queue，默认为5000，requestQueueLimit="5000" 。不过这个设置在IIS6(本地模式，native mode，即采用Application Pools)时，将被忽略，针对进程的设置，需要在MMC中设置Application Pool的属性。
+

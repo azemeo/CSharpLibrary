@@ -1,0 +1,37 @@
+Parse方法原型
+整型
+public static Int32 Parse(String s,NumberStyles style,IFormatProvider provider);
+
+1.String s 表示我们要解析的字符串。
+2.NumberStyles style 字符串形式(是一个位标记枚举类型，存在System.Globalization 命名空间中)。
+3.语言文化信息
+
+NumberStyles类型定义的位符号
+AllowLeadingWhite 允许前后有空白字符
+AllowParentheses 允许包括小括号
+AllowDecimalPoint 允许十进制分隔符
+Integer 整数
+Number 数字
+Float 单精度
+Currency 货币
+HexNumber 十进进制
+Any
+
+1.示例
+using System.Globalization;
+			//带空格
+			Int32 x=Int32.Parse(" 123",NumberStyles.AllowLeadingWhite,null);
+			Console.WriteLine(x);
+			//十六进制
+			Int32 y=Int32.Parse("1A",NumberStyles.HexNumber,null);
+			Console.WriteLine(y);
+日期
+DateTime 类型的Parse
+
+			//不带日期
+			DateTime dt=DateTime.Parse("6:0:0",null,DateTimeStyles.NoCurrentDateDefault);
+			Console.WriteLine(dt.ToString());
+ParseExact 精确解析
+
+
+

@@ -1,0 +1,8 @@
+Font aFont=new Font("Arial",16,FontStyle.Bold|FontStyle.Italic);//字体的样式
+			rect=new Rectangle(0,y,400,aFont.Height);
+			g.DrawRectangle(Pens.Blue,rect);
+			StringFormat sf=new StringFormat();//对齐
+			sf.Alignment=StringAlignment.Far;
+			g.DrawString("This text is right justified.",aFont,Brushes.Blue,rect,sf);
+			y+=aFont.Height+20;
+			aFont.Dispose();

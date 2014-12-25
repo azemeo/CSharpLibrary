@@ -1,0 +1,1 @@
+			Page.RegisterStartupScript("close","<script>window.close();</script>");

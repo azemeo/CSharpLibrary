@@ -1,0 +1,2 @@
+				//String fileName=Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().CodeBase);
+				String fileName=Path.GetFileName(Assembly.GetEntryAssembly().CodeBase);

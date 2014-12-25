@@ -1,0 +1,106 @@
+委托(delegate):一种用来提供回调函数机制的技术。
+
+回调函数仍然像非托管Windows编程一样有用和普遍。
+
+类型安全、按序调用多个方法的能力、支持调用静态方法和实例方法。
+
+
+1.委托对象是一个方法的封装，这使得该方法可以通过委托封装间接调用。
+2.C#中+=操作符用来将委托对象追加到委托链表上。
+3.确保委托定义(Feedback)和封装的方法(FeedbackToConsole,FeedbackToMsgBox)原型完全相同。
+4.封装静态方法(FeedbackToConsole,FeedbackToMsgBox),封装实例方法(FeedbackToFile)
+5.委托本身就是类型,继承自MulticastDelegate.
+6.委托都有一个构造器
+using System;
+using System.Windows.Forms;
+using System.IO;
+namespace TestDlg
+{
+	class Set
+	{
+		private Object[]items;
+		public Set(Int32 numItems)
+		{
+			items=new Object[numItems];
+			for(Int32 i=0;i<numItems;i++)
+				items[i]=i;
+		}
+		//定义一个委托类型(编译器生成类型class Feedback)
+		public delegate void Feedback(Object value,Int32 item,Int32 numItems);
+		public void ProcessItems(Feedback feedback)
+		{
+			for(Int32 item=0;item<items.Length;item++)
+			{
+				if(feedback!=null)
+					feedback(items[item],item+1,items.Length);//调用回调函数
+//产生的代码如编译这样的源码Feedback.Invoke(items[item],item+1,items.Length)
+			}
+		}
+	}
+	class App
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			StaticCallbacks();//演示了封装静态方法
+			InstanceCallbacks();//演示了封装实例方法
+		}
+		static void StaticCallbacks()
+		{
+			//创建Set对象
+			Set setOfItems=new Set(5);
+
+			//处理元素,但不反馈(不调用回调函数)
+			setOfItems.ProcessItems(null);
+			Console.WriteLine();
+			
+			//处理元素,反馈到控制台上(调用回调函数) Feedback与FeedbackToConsole建立关联
+			setOfItems.ProcessItems(new Set.Feedback(App.FeedbackToConsole));
+			Console.WriteLine();
+			
+			//处理元素,反馈到消息框上(调用回调函数) Feedback与FeedbackToMsgBox建立关联
+			setOfItems.ProcessItems(new Set.Feedback(App.FeedbackToMsgBox));
+			Console.WriteLine();
+
+			//处理元素,同时反馈到控制台和消息框上
+			Set.Feedback fb=null;
+			fb+=new Set.Feedback(FeedbackToConsole);//将委托对象追到委托链表上
+			fb+=new Set.Feedback(FeedbackToMsgBox);
+			setOfItems.ProcessItems(fb);
+			Console.WriteLine();
+		}
+		//静态方法
+		static void FeedbackToConsole(Object value,Int32 item,Int32 numItems)
+		{
+			//输出顺序为:序号,总共数目,值
+			Console.WriteLine("Processing item {0} of {1}:{2}.",item,numItems,value);
+		}
+		static void FeedbackToMsgBox(Object value,Int32 item,Int32 numItems)
+		{
+			MessageBox.Show(String.Format("Processing item {0} of {1}:{2}.",item,numItems,value));
+		}
+		static void InstanceCallbacks()
+		{
+			Set setOfItems=new Set(5);
+			App appobj=new App();
+			//反馈到文件中,Feedback与FeedbackToFile建立关联
+			setOfItems.ProcessItems(new Set.Feedback(appobj.FeedbackToFile));
+			Console.WriteLine();
+		}
+		//实例方法
+		void FeedbackToFile(Object value,Int32 item,Int32 numItems)
+		{
+			//向文件中写内容
+			StreamWriter sw=new StreamWriter("Status",true);	
+			sw.WriteLine("Processing item {0} of {1}:{2}.",item,numItems,value);
+			sw.Close();			
+		}
+		
+	}
+}
+
+2.继承关系
+MulticastDelegate->System.Delegate->System.Object
+3.委长判等
+
+

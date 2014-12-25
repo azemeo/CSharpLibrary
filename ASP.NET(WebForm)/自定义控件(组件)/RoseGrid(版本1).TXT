@@ -1,0 +1,668 @@
+功能：增加、修改、删除、多选、分页
+1.RoseGrid.cs
+using System;
+using System.Drawing;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Collections;
+using System.Data;
+using System.ComponentModel;//为用Designer
+using System.Web.SessionState;//Session
+using System.Data.SqlClient;
+using System.Xml;
+using System.Text;
+namespace Movecont
+{
+	/// <summary>
+	/// RoseGrid(玫瑰网格)
+	/// 作者：葛利峰
+	/// 2005-3-29
+	/// 具有扩展功能的DataGrid
+	/// </summary>
+	/// 
+	public class RoseGrid : DataGrid
+	{
+		public class SuperGridColumnTemplate : ITemplate
+		{
+			public void InstantiateIn(Control container) 
+			{
+				CheckBox cb = new CheckBox();
+				container.Controls.Add(cb);
+			}
+		}
+		//构造函数
+		public RoseGrid()
+		{
+			// 通用设置
+			GridLines = GridLines.Horizontal;
+			CellSpacing = 0;
+			CellPadding = 2;
+			BackColor = Color.White;
+			BorderColor = Color.Black;
+			BorderStyle = BorderStyle.Solid;
+			BorderWidth = (Unit)1;
+			ForeColor = Color.Black;
+			Font.Size = 9;
+			AutoGenerateColumns=false;//默认自动生成列为false
+			// 页眉
+			HeaderStyle.Font.Bold = true;
+			HeaderStyle.BackColor = Color.NavajoWhite;
+			HeaderStyle.ForeColor = Color.Black;
+			HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+			// 页脚
+			ShowFooter=true;
+			//CSS 风格
+			Style["Filter"] = "progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')";
+			//分页
+			PagerStyle.Mode = PagerMode.NumericPages;
+			PagerStyle.BackColor = Color.LemonChiffon;
+			PagerStyle.HorizontalAlign = HorizontalAlign.Left;
+			AllowPaging = true;
+			PageSize = 10;
+			//状态视图
+			ViewState["__RowSelectFilter"] = "";
+			ViewState["__TableName"]="";
+			ViewState["__LastIndex"]=-1;
+			ViewState["__LastMessage"]="";
+			ViewState["__OptState"]=0;
+			//设置事件处理
+			Init += new EventHandler(OnInit);
+			ItemCreated += new DataGridItemEventHandler(OnItemCreated);
+			PageIndexChanged += new DataGridPageChangedEventHandler(OnPageIndexChanged);
+		}
+		//显示数据(从物理数据库在检索数据)
+		public void Display()
+		{
+			if(TableName=="")//表名为空不显示
+				return;
+			string strCmd;
+			strCmd="Select * From "+TableName;
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strCon);
+			oCMD.MissingSchemaAction=MissingSchemaAction.AddWithKey;//启用增加列自维护
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");		
+			int nSeed=(int)oDS.Tables["MyList"].Compute("Max("+this.DataKeyField+")","");//计算标标识最大值
+			oDS.Tables["MyList"].Columns[this.DataKeyField].AutoIncrementSeed=nSeed+1;
+			oDS.Tables["MyList"].Columns[this.DataKeyField].AutoIncrementStep=1;//增量
+			DataSource=oDS.Tables["MyList"];
+			DataBind();
+			SerializeDataSource(oDS);//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+		//刷新视图
+		public void UpdateView()
+		{
+			DataSet ds=DeserializeDataSource();//加载数据集XML
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			DataSource=dv;
+			DataBind();
+		}
+		//序列化(写入)
+		private void SerializeDataSource(DataSet ds)
+		{
+			this.Page.Session["MyDataSet"]=ds;
+		}
+		//反序列(读出)
+		private DataSet DeserializeDataSource()
+		{
+			DataSet ds=new DataSet();
+			ds=(DataSet)this.Page.Session["MyDataSet"];
+			return ds;
+		}
+		//在创建项时激发
+		public void OnItemCreated(Object sender, DataGridItemEventArgs e)
+		{
+			//得到一个新建的项
+			ListItemType itemType = e.Item.ItemType;
+
+			//被选择项的背景色
+			if (itemType == ListItemType.Item || itemType == ListItemType.AlternatingItem) 
+			{
+				DataRowView drv = (DataRowView) e.Item.DataItem;
+				if (drv != null && RowSelectFilter != "")
+				{
+					if ((bool) drv["RowSelectFilter"])
+						e.Item.BackColor = SelectBackColor;
+				}
+			}
+			else if(itemType==ListItemType.Footer)
+			{
+				//注意有一个选择隐藏列
+				TableCellCollection tcc=e.Item.Cells;
+				int nTotalCols=tcc.Count;
+				for(int i=0;i<nTotalCols-2;i++)
+					e.Item.Cells.RemoveAt(i);
+				TableCell c=e.Item.Cells[0];
+				c.ColumnSpan=nTotalCols-1;
+				
+				TableCell ctl=(TableCell)e.Item.Controls[0];
+
+				//提示
+				Label lb=new Label();
+				lb.Height=20;
+				lb.Width=60;
+				lb.Text="就绪.";//加点间距
+				ctl.Controls.Add(lb); 				
+				//工具栏
+				//增加按钮
+				ImageButton ibAdd=new ImageButton();
+				ibAdd.BorderColor=Color.DarkBlue;
+				ibAdd.BorderWidth=1;
+				ibAdd.BorderStyle=BorderStyle.Outset;
+				ibAdd.ImageUrl="Add.gif";
+				ibAdd.ToolTip="增加";
+				ibAdd.Click += new System.Web.UI.ImageClickEventHandler(this.Add_Click);
+
+				//修改
+				ImageButton ibMod=new ImageButton();
+				ibMod.BorderColor=Color.DarkBlue;
+				ibMod.BorderWidth=1;
+				ibMod.BorderStyle=BorderStyle.Outset;
+				ibMod.ImageUrl="Edit.gif";
+				ibMod.ToolTip="修改";
+				ibMod.Click += new System.Web.UI.ImageClickEventHandler(this.Modi_Click);
+
+				//删除
+				ImageButton ibDel=new ImageButton();
+				ibDel.BorderColor=Color.DarkBlue;
+				ibDel.BorderWidth=1;
+				ibDel.BorderStyle=BorderStyle.Outset;
+				ibDel.ImageUrl="Delete.gif";
+				ibDel.ToolTip="删除";
+				ibDel.Click += new System.Web.UI.ImageClickEventHandler(this.Del_Click);
+				
+				//确定
+				ImageButton ibOk=new ImageButton();
+				ibOk.BorderColor=Color.DarkBlue;
+				ibOk.BorderWidth=1;
+				ibOk.BorderStyle=BorderStyle.Outset;
+				ibOk.ImageUrl="Ok.gif";
+				ibOk.ToolTip="确定";
+				ibOk.Click += new System.Web.UI.ImageClickEventHandler(this.Ok_Click);
+				//取消
+				ImageButton ibCancel=new ImageButton();
+				ibCancel.BorderColor=Color.DarkBlue;
+				ibCancel.BorderWidth=1;
+				ibCancel.BorderStyle=BorderStyle.Outset;
+				ibCancel.ImageUrl="Cancel.gif";
+				ibCancel.ToolTip="取消";
+				ibCancel.Click += new System.Web.UI.ImageClickEventHandler(this.Cancel_Click);
+
+
+				ctl.Controls.Add(ibAdd);
+				ctl.Controls.Add(ibMod);
+				ctl.Controls.Add(ibDel);
+				ctl.Controls.Add(ibOk);
+				ctl.Controls.Add(ibCancel);
+
+			}
+
+		}
+		//页索引改变
+		public void OnPageIndexChanged(Object sender, DataGridPageChangedEventArgs e) 
+		{
+			CurrentPageIndex=e.NewPageIndex;
+			UpdateView();
+		}	
+
+		//增加操作
+		private void Add_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			if(CurrentPageIndex+1!=PageCount)//如果不是最后一页则跳到最后一页。
+			{
+				CurrentPageIndex=PageCount-1;
+				UpdateView();
+			}
+			AddNewRow();
+		}
+		//修改操作
+		private void Modi_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			ViewState["__OptState"]=2;//编辑模式
+			EditItemIndex=LastSelectedIndex;
+			UpdateView();
+		}
+		//删除操作
+		private void Del_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			ViewState["__OptState"]=3;
+			if(RemoveDB())
+				RemoveCache();
+			UpdateView();
+			ViewState["__OptState"]=0;
+		}
+		//删除物理数据库中的记录
+		private bool RemoveDB()
+		{
+			bool IsSucess=false;			
+			SqlDataAdapter adapter=new SqlDataAdapter("Select * from "+this.TableName,this.strCon);
+			SqlCommandBuilder builder=new SqlCommandBuilder(adapter);
+			DataSet ds=new DataSet();
+			adapter.Fill(ds,"MyList");
+			DataTable dt=ds.Tables["MyList"];//注意：这个dt是从物理数据库得到的
+
+			DataRow[] adr;			
+			adr=dt.Select(this.RowSelectFilter);//多选
+			foreach(DataRow dr in adr)
+				dr.Delete();//标记为删除
+			try
+			{					
+				adapter.Update(ds,"MyList");//删除
+				IsSucess=true;
+			}
+			catch(System.Data.DBConcurrencyException)
+			{
+				LastMesssage="试图执行 INSERT、UPDATE 或 DELETE 语句,但没有记录受到影响.";
+			}
+			catch(System.SystemException)
+			{
+				LastMesssage="未能找到源表";
+			}
+			catch(Exception ex)
+			{
+				LastMesssage=ex.Message;
+			}
+			finally
+			{
+				ds.Dispose();
+				ds=null;
+				adapter.Dispose();
+				adapter=null;
+			}			
+			return IsSucess;
+		}
+		//删除缓冲中的记录
+		private void RemoveCache()
+		{
+			//从会话或其它缓冲它的地方检索网格的数据源
+			DataSet ds=DeserializeDataSource();
+			DataTable dt=ds.Tables["MyList"];
+			//根据主键检索要更新的行
+			//应该只有一行
+			DataRow[] adr;			
+			adr=dt.Select(this.RowSelectFilter);//多选
+			foreach(DataRow dr in adr)
+				dr.Delete();//标记为删除			
+			dt.AcceptChanges();
+			//缓冲更新的DataSet以例将来使用
+			SerializeDataSource(ds);
+		}
+		//确定(保存)
+		private void Ok_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			//关键字
+			
+			int id=0;
+			if((int)ViewState["__OptState"]==1)//增加
+			{
+				id=-1;
+			}
+			else if((int)ViewState["__OptState"]==2)//编辑
+			{
+
+				id=(int)DataKeys[this.LastSelectedIndex];
+			}
+			else if((int)ViewState["__OptState"]==3)//删除
+			{
+				return;
+
+			}
+			else //显示
+			{
+				return;
+			}
+			//更新物理数据库
+			if(UpdateDB(id))
+			{
+				//更新缓冲
+				UpdateCache(id);
+			}
+			//恢复呈现状态
+			EditItemIndex=-1;
+			UpdateView();
+			ViewState["__OptState"]=0;
+			
+		}
+		//取消(不保存)
+		private void Cancel_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			//取消更新
+			EditItemIndex=-1;
+			
+			DataSet ds=DeserializeDataSource();
+			DataTable dt=ds.Tables["MyList"];
+			DataRow[]adr;
+			DataRow dr;
+			if((int)ViewState["__OptState"]==1)//增加
+			{
+				DataRow drLast=dt.Rows[dt.Rows.Count-1];
+				if(drLast.RowState==DataRowState.Added)
+				{
+					drLast.RejectChanges();//拒绝改变				
+					if(Items.Count==1)//如果拒绝的行是当前页的唯一行，那么就移到前一页
+						CurrentPageIndex--;
+				}
+			}
+			else if((int)ViewState["__OptState"]==2)//编辑
+			{
+
+				int id=(int)DataKeys[this.LastSelectedIndex];
+				adr=dt.Select(this.DataKeyField+"="+id);//选取
+				dr=adr[0];
+				if(dr.RowState==DataRowState.Modified)
+					dr.RejectChanges();
+
+			}
+			else if((int)ViewState["__OptState"]==3)//删除
+			{
+				return;
+			}
+			else //显示
+			{
+				return;
+			}
+			SerializeDataSource(ds);//在缓冲中保存状态		
+			UpdateView();
+
+		}
+		//在网格中增加一行(默认的网格控件没有提供)
+		public void AddNewRow()
+		{
+			//得到缓存的数据集
+			DataSet ds=DeserializeDataSource();
+			DataTable dt=ds.Tables["MyList"];
+			//添加空行
+			DataRow dr=dt.NewRow();
+			dt.Rows.Add(dr);
+			//如果需要指定默认值
+			//更新内存中的DataSet
+			SerializeDataSource(ds);
+			//页中新项的索引：当前的项数
+			int nNewItemIndex=Items.Count;
+			
+			if(nNewItemIndex>=PageSize)
+			{
+				//新行是新页的第一行
+				CurrentPageIndex++;
+				nNewItemIndex=0;
+			}			
+			ViewState["__OptState"]=1;
+			EditItemIndex=nNewItemIndex;//为新行打开编辑模式
+			UpdateView();
+		}
+		//更新物理数据库
+		private bool UpdateDB(int nEmpID)
+		{
+			bool IsSucess=false;
+
+			
+			SqlDataAdapter adapter=new SqlDataAdapter("Select * from "+this.TableName,this.strCon);
+			SqlCommandBuilder builder=new SqlCommandBuilder(adapter);
+			DataSet ds=new DataSet();
+			adapter.Fill(ds,"MyList");
+			DataTable dt=ds.Tables["MyList"];//注意：这个dt是从物理数据库得到的
+
+			DataRow dr;
+			DataRow[] adr;
+			int rowindex=0;
+			if(nEmpID==-1)//增加
+			{				
+				dr=dt.NewRow();
+				dt.Rows.Add(dr);
+				rowindex=EditItemIndex;
+			}
+			else         //修改
+			{
+				adr=dt.Select(this.DataKeyField+"="+nEmpID);//选取
+				if(adr.Length>0)
+					dr=adr[0];
+				else //缓冲与物理表不同(添加(确定)、添加(取消)、编辑加新记录)
+				{
+					Display();//从物理数库在从新获得
+					this.LastMesssage="缓冲数据与物理数据库不一致";
+					return false;
+				}
+				rowindex=this.LastSelectedIndex;
+			}
+			//检索新输入数据
+			TextBox txtInput;
+			//去掉前面的自动成成列，及后面的选择列
+			for(int i=1;i<this.Columns.Count-1;i++)
+			{
+				txtInput=(TextBox)Items[rowindex].Cells[i].Controls[0];
+				dr[i]=txtInput.Text;
+			}
+
+			try
+			{					
+				adapter.Update(ds,"MyList");
+				IsSucess=true;
+			}
+			catch(System.Data.DBConcurrencyException)
+			{
+				LastMesssage="试图执行 INSERT、UPDATE 或 DELETE 语句,但没有记录受到影响.";
+			}
+			catch(System.SystemException)
+			{
+				LastMesssage="未能找到源表";
+			}
+			catch(Exception ex)
+			{
+				LastMesssage=ex.Message;
+			}
+			finally
+			{
+				ds.Dispose();
+				ds=null;
+				adapter.Dispose();
+				adapter=null;
+			}
+			
+			return IsSucess;
+		}
+		//更新缓冲(DataSet)
+		private void UpdateCache(int nEmpID)
+		{
+			//从会话或其它缓冲它的地方检索网格的数据源
+			DataSet ds=DeserializeDataSource();
+			DataTable dt=ds.Tables["MyList"];
+			//根据主键检索要更新的行
+			//应该只有一行
+			DataRow[] adr;
+			DataRow dr;
+			int rowindex=0;
+			if(nEmpID==-1)//增加
+			{				
+				dr=dt.Rows[dt.Rows.Count-1];
+				rowindex=EditItemIndex;
+			}
+			else         //修改
+			{
+				adr=dt.Select(this.DataKeyField+"="+nEmpID);//选取
+				dr=adr[0];
+				rowindex=this.LastSelectedIndex;
+			}
+
+			//检索新输入数据
+			TextBox txtInput;
+			//去掉前面的自动成成列，及后面的选择列
+			for(int i=1;i<this.Columns.Count-1;i++)
+			{
+				txtInput=(TextBox)Items[rowindex].Cells[i].Controls[0];
+				dr[i]=txtInput.Text;
+			}
+			
+			dt.AcceptChanges();
+			//缓冲更新的DataSet以例将来使用
+			SerializeDataSource(ds);
+
+		}
+		//初始控件时激发
+		public void OnInit(Object sender, EventArgs e)
+		{
+			if (allowMultiSelect)//多选择项
+				AddSelectColumn();			
+		}
+		private void AddSelectColumn()
+		{
+			TemplateColumn tc = new TemplateColumn();
+			tc.ItemStyle.BackColor = Color.SkyBlue;
+			tc.ItemTemplate = new SuperGridColumnTemplate();
+			Columns.AddAt(0, tc);
+		}
+		//允许多项选择
+		private bool allowMultiSelect = false;
+		public bool AllowMultiSelect
+		{
+			get
+			{
+				if(ViewState["__AllowMultiSelect"]==null)
+				{
+					ViewState["__AllowMultiSelect"]=false;
+				}
+				allowMultiSelect=(bool)ViewState["__AllowMultiSelect"];
+				return allowMultiSelect;
+			}
+			set
+			{
+				allowMultiSelect=value;
+				ViewState["__AllowMultiSelect"]=allowMultiSelect;
+			}
+		}
+		//属性:行选择过滤器
+		[Category("扩展"),Description("多项选择过滤器")]
+		public String RowSelectFilter 
+		{
+			get { return(String)  ViewState["__RowSelectFilter"]; }
+			set { ViewState["__RowSelectFilter"] = value; }
+		}
+		//属性:选择时背景色
+		private Color m_SelectBackColor = Color.SkyBlue;
+		public Color SelectBackColor 
+		{
+			get { return m_SelectBackColor; }			
+			set { m_SelectBackColor = value;}
+		}
+		//属性:表名
+		private string m_TableName = string.Empty;
+		[Category("扩展"),Description("表名")]
+		public string TableName
+		{
+			get { return(String)  ViewState["__TableName"]; }
+			set { ViewState["__TableName"] = value; }
+		}
+		//属性：最后一次选择的索引
+		public int LastSelectedIndex
+		{
+			get { return (int)ViewState["__LastIndex"]; }
+			set { ViewState["__LastIndex"] = value; }
+		}
+		//字段：数据库连接字串
+		public string strCon="server=localhost;uid=sa;pwd=;database=Northwind";		
+		//属性:数据源
+		public override object DataSource
+		{
+			get {return base.DataSource;}
+			set 
+			{
+				base.DataSource = value;
+
+				DataTable dt = null;
+				if (DataSource is DataTable)
+					dt = (DataTable) DataSource;
+				else if (DataSource is DataView)
+					dt = ((DataView)DataSource).Table;
+		
+				DataColumn dc;	
+				try 
+				{
+					if (dt.Columns.Contains("RowSelectFilter"))
+						dt.Columns["RowSelectFilter"].Expression = RowSelectFilter;
+					else
+					{
+						dc = new DataColumn("RowSelectFilter", typeof(bool), RowSelectFilter);
+						dt.Columns.Add(dc);
+					}
+				}
+				catch {RowSelectFilter="";}
+			}
+		}
+		//属性:状态信息
+		public string LastMesssage
+		{
+			get { return(String)  ViewState["__LastMessage"]; }
+			set { ViewState["__LastMessage"] = value; }
+		}
+	}
+}
+			
+
+2.AssemblyInfo.cs
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Web.UI;
+//
+// 有关程序集的常规信息是通过下列
+// 属性集控制的。更改这些属性值可修改与程序集
+// 关联的信息。
+//
+[assembly: AssemblyTitle("RoseGrid")]
+[assembly: AssemblyDescription("Author:Gelifeng")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Movecont")]
+[assembly: AssemblyProduct("Rose")]
+[assembly: AssemblyCopyright("Copyright 2005 Movecont")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]	
+[assembly: TagPrefix("Movecont", "gee")]	
+
+//
+// 程序集的版本信息由下列 4 个值组成:
+//
+//      主版本
+//      次版本 
+//      内部版本号
+//      修订号
+//
+// 您可以指定所有这些值，也可以使用“修订号”和“内部版本号”的默认值，方法是按
+// 如下所示使用 '*':
+
+[assembly: AssemblyVersion("1.0.*")]
+
+//
+// 要对程序集进行签名，必须指定要使用的密钥。有关程序集签名的更多信息，请参考
+// Microsoft .NET Framework 文档。
+//
+// 使用下面的属性控制用于签名的密钥。
+//
+// 注意: 
+//   (*) 如果未指定密钥，则程序集不会被签名。
+//   (*) KeyName 是指已经安装在
+//       计算机上的加密服务提供程序(CSP)中的密钥。KeyFile 是指包含
+//       密钥的文件。
+//   (*) 如果 KeyFile 和 KeyName 值都已指定，则
+//       发生下面的处理: 
+//       (1) 如果在 CSP 中可以找到 KeyName，则使用该密钥。
+//       (2) 如果 KeyName 不存在而 KeyFile 存在，则 
+//           KeyFile 中的密钥安装到 CSP 中并且使用该密钥。
+//   (*) 要创建 KeyFile，可以使用 sn.exe(强名称)实用工具。
+//        在指定 KeyFile 时，KeyFile 的位置应该
+//        相对于“项目输出目录”。项目输出
+//        目录的位置取决于您是在使用本地项目还是 Web 项目。
+//        对于本地项目，项目输出目录定义为
+//       <Project Directory>\obj\<Configuration>。例如，如果 KeyFile 位于该
+//       项目目录中，应将 AssemblyKeyFile 
+//       属性指定为 [assembly: AssemblyKeyFile("..\\..\\mykey.snk")]
+//        对于 Web 项目，项目输出目录定义为
+//       %HOMEPATH%\VSWebCache\<Machine Name>\<Project Directory>\obj\<Configuration>。
+//   (*) “延迟签名”是一个高级选项 - 有关它的更多信息，请参阅 Microsoft .NET Framework
+//       文档。
+//
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]
+[assembly: AssemblyKeyName("")]

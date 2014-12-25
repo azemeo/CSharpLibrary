@@ -1,0 +1,68 @@
+当使用代码内联将值传递到另一个 Web 窗体页时，您首先需要为包含所要发送信息的 Web 窗体页指定类名。通过在 @ Page 指令中包括 ClassName 属性和类的名称为该 Web 窗体页指定类名。然后，在该类中为要共享的每个值创建一个具有 get 访问器的属性。get 访问器应返回您要传递的值（例如文本框的值）。若要发送这些信息，请使用 Server 对象的 Transfer 方法将应用程序的控制传输到其他 Web 窗体页。
+
+在接收 Web 窗体页上，通过在页的顶部添加一个 @Reference 指令并将 Page 属性设置为发送页来引用发送页中声明的类。然后，接收 Web 窗体页可以通过首先检索处理程序的实例来访问信息，该处理程序首先从 HttpContext 对象的 Handler 属性接收到 HTTP 请求。然后，处理程序对象将转换为封装所传递信息的类的实例。该转换一旦执行，就可以通过转换后对象的属性访问所传递的值。
+
+
+1.FirstPage.aspx
+<%@ Page Language="C#" ClassName="FirstPageClass" %>
+<html>
+	<head>
+		<script runat="server">
+			public string FirstName
+			{
+				get
+				{
+					return first.Text;
+				}
+			}
+			public string LastName
+			{
+				get
+				{
+					return last.Text;
+				}
+			}
+			void ButtonClicked(object sender,EventArgs e)
+			{
+				Server.Transfer("secondpage.aspx");
+			}
+		</script>		
+	</head>
+	<body>
+		<form runat="server">
+			FirstName:
+			<asp:TextBox id="first"
+				runat="server" /><br>
+			LastName:
+			<asp:TextBox id="last"
+				runat="server" />
+			<br>
+			<asp:Button
+				OnClick="ButtonClicked"
+				Text="Go to second page"
+				runat=server />
+		</form>
+	</body>
+</html>
+2.
+<%@ Page Language="C#" %>
+<%@ Reference Page="firstpage.aspx" %>
+<html>
+	<head>
+	<script runat="server">
+		FirstPageClass fp;
+		void Page_Load()
+		{
+			if(!IsPostBack)
+			{
+				fp=(FirstPageClass)Context.Handler;
+			}
+		}
+	</script>
+	</head>
+	<body>
+		<form runat="server">
+			Hello<%=fp.FirstName%><%=fp.LastName%>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,6 @@
+控制台或WinForm的应用程序加载程序集的记录
+C:\Documents and Settings\Administrator\Local Settings\Application Data\ApplicationHistory
+
+管理工具|.NET配置|
+
+应用程序|修复应用程序。

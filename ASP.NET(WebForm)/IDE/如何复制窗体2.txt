@@ -1,0 +1,16 @@
+在Windows资源管理器中
+如果首选将A.*签出则不用第三方编辑器(省略3,4步)
+1.将A.*(A.aspx,A.aspx.cs,A.aspx.resx)复制并粘贴后为
+副本 A.*
+2.将副本 A.* 更名为B.*
+
+3.利用第三方编辑器编辑B.aspx.cs
+class A为class B
+4.利用第三方编辑器编辑B.aspx
+
+5.单击解决方案管理器上的[全部显示]
+codehind="a.aspx.cs"为codehind="b.aspx.cs"
+
+6.在VS.NET单击全部显示,将B包括进项目.
+
+7.OK

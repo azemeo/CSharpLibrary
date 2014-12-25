@@ -1,0 +1,98 @@
+String,表示一个恒定不变的字符序列集合。它是引用类型，继承自Object,C#把它做为基元类型。
+
+1.建议不要使用+连接字符，它会在托管堆上建立多个字符串对象。
+
+String s="Hi"+" "+"there";//不推荐
+
+2.声明字符的特珠方式:应用程序路径名
+			String S="C:\\Windows\\System32\\Notepad.exe";
+			String S=@"C:\Windows\System32\Notepad.exe";
+3.字符串的恒定性：
+一个字符串一量被创建，我们就不可能再将其变长、变短或者改变其中任何的字符。
+
+4.字符串的比较
+
+相等 ==
+不等 !=
+
+StartsWith/EndsWith 比较字符是否以指定字符串开头或尾,大小敏感.
+IsPrefix/IsSuffix   比较前缀和后缀(可以指定区分大小写)
+
+比较字符和大小写转换时(和编程相关:路径名、文件名、注册表键值...)，应该使用InvariantCulture.
+
+using System;
+using System.Globalization;
+namespace TestText
+{
+	class App
+	{		
+		[STAThread]
+		static void Main(string[] args)
+		{			
+
+			//区分大小写比较
+			String s2="Microsoft";
+			Console.WriteLine(s2.StartsWith("Micro"));
+			Console.WriteLine(s2.EndsWith("soft"));
+
+			//忽略大小写比较
+			String s3="Microsoft";
+			CompareInfo myComp = CultureInfo.InvariantCulture.CompareInfo;
+			bool y=myComp.IsPrefix(s3,"MICRO", CompareOptions.IgnoreCase);
+			bool z=myComp.IsSuffix(s3,"SOFT",CompareOptions.IgnoreCase);
+			Console.WriteLine("{0},{1}",y,z);
+
+		}
+	}
+}
+
+5.字符串驻留
+
+频繁的对字符串进行比较操作，应利用CLR 内存驻留技术，提高性能。
+using System;
+using System.Globalization;
+namespace TestText
+{
+	class App
+	{		
+		[STAThread]
+		static void Main(string[] args)
+		{			
+
+			String s="Hello";
+			Console.WriteLine(Object.ReferenceEquals("Hello",s));//True
+
+//			string s1="Hello";
+//			string s2="Hel";
+//			string s3=s2+"lo";
+//			Console.WriteLine(Object.ReferenceEquals(s1,s3));//False
+//			Console.WriteLine(s1.Equals(s3));//True
+
+			string s4="Hello";
+			string s5="Hel";
+			string s6=s5+"lo";
+			s6=string.Intern(s6);
+			Console.WriteLine(Object.ReferenceEquals(s4,s6));//True
+			Console.WriteLine(s1.Equals(s6));//True
+
+		}
+	}
+}
+
+6.查看字符串中的字符
+
+Length 字符串中字符的数量
+Chars  返回指定索引的字符
+GetEnumerator 返回一个IEnumerator用于遍历字符串中所有的字符。
+ToCharArray 返回一个包含字符串中一部分字符的Char[]
+IndexOf 返回"第一个"与指定"字符"匹配的索引。
+LastIndexOf 返回"最后一个"与指定"字符"匹配的索引。
+IndexOfAny 返回"第一个"与指定"字符数组"匹配的索引。
+LastIndexOfAny 返回"最后一个"与指定"字符数组"匹配的索引。
+Clone 返回当前对象相同引用
+Copy  返回不同引用的新字符串
+CopyTo 将字符串中的一部分拷贝到一个字符数组中。
+SubString 返回一个子字符串
+ToString 返回当前对象的一个引用(this)
+Insert,Remove,PadLeft,Replace,Split,ToLower,ToUpper,Trim,Concat,Format...创建一个新的字符串对象。
+

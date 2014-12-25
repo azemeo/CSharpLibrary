@@ -1,0 +1,7 @@
+备份：
+Local/Partion/ToImage...
+选择源分区
+选择目标文件
+Fast/Dump
+恢复:
+Local/Partion/FromImage...

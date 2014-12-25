@@ -1,0 +1,17 @@
+1.Choice.htm
+解决关闭网页对话框无效
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+	</HEAD>
+	<frameset>
+		<frame src="ChoiceMove.aspx">
+	</frameset>
+</HTML>
+2.ChoiceMove.aspx
+			Page.RegisterStartupScript("ddd","<script>window.close();</script>");
+
+3.other.aspx
+window.showModalDialog('WebKindMove.htm','','dialogHeight: 280px; dialogWidth: 310px;  edge: Raised; center: Yes; help: no;scroll:no;resizable: No; status: no;');
+
+

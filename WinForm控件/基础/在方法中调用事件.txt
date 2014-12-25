@@ -1,0 +1,7 @@
+1.调用事件
+FixButton_Click(FixButton,new EventArgs());
+2.事件
+private void FiveButton_Click(object sender, System.EventArgs e)
+		{
+			ProcessDigit(5);
+		}

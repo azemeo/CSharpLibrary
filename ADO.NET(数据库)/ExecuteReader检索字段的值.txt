@@ -1,0 +1,38 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyDataReader
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlConnection conn=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=");
+			try
+			{			
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("select * from titles where advance!=0",conn);
+				SqlDataReader reader=cmd.ExecuteReader();
+
+				int index=reader.GetOrdinal("advance");//字段的索引
+				while(reader.Read())
+						Console.WriteLine("{0:c}",reader.GetDecimal(index));//整形索引,字段的值
+			}
+			catch(SqlException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}

@@ -1,0 +1,70 @@
+//算法(核心算法)
+		//计算需要删除的记录并执行
+		private void CalcDelRole()
+		{
+			DataTable dt=(DataTable)Session["Old_Select_Role_List"];//恢复旧的选择列表			
+			string[]delFlags=new string[dt.Rows.Count];	//动态创建字符数组(大小为旧选择个数)	
+			for(int k=0;k<delFlags.Length;k++)//初始华字符数组
+				delFlags[k]="false";//默认不删除
+
+			for(int i=0;i<dt.Rows.Count;i++)//用户旧选择的列表循环
+			{
+				string roleid=dt.Rows[i]["Role_ID"].ToString();
+				for(int j = 0; j < clRoleList.Items.Count; j++)//用户新选择的列表循环
+				{
+					
+					if(clRoleList.Items[j].Value==roleid&&(!clRoleList.Items[j].Selected))//用户没选择,但旧选择中存在
+					{
+						delFlags[i]="true";//不变				
+						break;
+					}
+					
+				}				
+			}
+			//删除(根据删除标志)
+			for(int i=0;i<dt.Rows.Count;i++)//用户旧选择的列表循环
+			{				
+				if(delFlags[i]=="true")
+				{
+					//删除
+					string user_id=dt.Rows[i]["User_ID"].ToString();	
+					string role_id=dt.Rows[i]["Role_ID"].ToString();
+
+				}
+			}	
+		
+
+		}
+		//计算需要新增的记录并执行
+		private void CalcAddRole()
+		{
+			DataTable dt=(DataTable)Session["Old_Select_Role_List"];//恢复旧的选择列表
+			string[]AddFlags=new string[clRoleList.Items.Count];	//动态创建字符数组(大小新选择个数)	
+			for(int k=0;k<AddFlags.Length;k++)//初始华字符数组
+				AddFlags[k]="true";//默认都有是新增
+			for(int j = 0; j < clRoleList.Items.Count; j++)//用户新选择的列表循环
+			{
+					
+				for(int i=0;i<dt.Rows.Count;i++)
+				{
+					string roleid=dt.Rows[i]["Role_ID"].ToString();
+					if(clRoleList.Items[j].Value==roleid||(!clRoleList.Items[j].Selected))//用户没选择或旧选择中存在
+					{
+						AddFlags[j]="false";//不变				
+						break;
+					}
+				}
+			}	
+			//新增(根据新增标志)
+			for(int j = 0; j < clRoleList.Items.Count; j++)//用户新选择的列表循环
+			{
+				if(AddFlags[j]=="true")//有新增标志,用户已勾选
+				{
+					//新增
+					string user_id=HiddenID.Value;
+					string role_id=clRoleList.Items[j].Value;
+					string company_id=HiddenCI.Value;
+				}
+			}
+
+		}

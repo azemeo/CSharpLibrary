@@ -1,0 +1,3 @@
+string[] files;
+			string fname = mesg + "*.*";
+			files = Directory.GetFiles(Directory.GetCurrentDirectory(), fname);

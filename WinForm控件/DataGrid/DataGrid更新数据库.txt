@@ -1,0 +1,25 @@
+try
+ {
+   OleDbConnection dbConn = new OleDbConnection(ConfigurationSettings.AppSettings["ConnectionString"]);
+   OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sql,dbConn);
+   OleDbCommandBuilder dbCB = new OleDbCommandBuilder(dbAdapt);
+
+   dbConn.Open();
+   DataSet dbSet = new DataSet();
+   dbAdapt.Fill(dbSet, "tblFile");
+   DataTable dbTable = dbSet.Tables["tblFile"];
+
+   DataRow myRow =dbTable .Rows[e.Item.ItemIndex];
+   myRow["location_name"]=((TextBox)e.Item.Cells[3].Controls[0]).Text.Trim(); 
+   myRow["router"]=((TextBox)e.Item.Cells[4].Controls[0]).Text.Trim(); 
+   myRow["port"]=((TextBox)e.Item.Cells[5].Controls[0]).Text.Trim(); 
+
+   dbAdapt.Update(dbSet, "tblFile");
+   grid1.EditItemIndex=-1;
+   show_del("show");
+   Dataload("location_id"); 
+}
+  catch(OleDbException ex)
+ {
+    info.Text=ex.Message;
+ }

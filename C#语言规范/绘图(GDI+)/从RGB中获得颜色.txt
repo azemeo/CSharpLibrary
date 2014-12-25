@@ -1,0 +1,4 @@
+			int Red=(int)SelfPlaceKey.GetValue("Red");
+			int Green=(int)SelfPlaceKey.GetValue("Green");
+			int Blue=(int)SelfPlaceKey.GetValue("Blue");
+			BackColor=Color.FromArgb(Red,Green,Blue);

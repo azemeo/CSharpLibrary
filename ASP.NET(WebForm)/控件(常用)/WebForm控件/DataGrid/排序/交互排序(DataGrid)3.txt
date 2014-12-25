@@ -1,0 +1,16 @@
+1.设置DataGrid.AllowSorting=true;
+2.增加SortCommand事件处理程序;
+3.设置Columns属性,排序表达式:如title ASC,price DESC
+4.代码
+private void MyDataGrid_SortCommand(object source, System.Web.UI.WebControls.DataGridSortCommandEventArgs e)
+{
+	SqlDataAdapter adapter=new SqlDataAdapter("select * from titles where price!=0",
+		"server=localhost;database=pubs;uid=sa;pwd=;");
+	DataSet ds=new DataSet();
+	adapter.Fill(ds);
+	DataView view=new DataView(ds.Tables[0]);
+	view.Sort=e.SortExpression.ToString();
+	MyDataGrid.DataSource=view;
+	MyDataGrid.DataBind();
+
+}

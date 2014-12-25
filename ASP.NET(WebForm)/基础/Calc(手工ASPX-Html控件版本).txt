@@ -1,0 +1,26 @@
+<html>
+	<body>
+		<form runat="server">
+			<input type="text"  ID="op1" RunAt="server" />
+			+
+			<input type="text"  ID="op2" RunAt="server" />
+			<input type="submit" Value=" = " OnServerClick="OnAdd" RunAt="server" />
+			<span ID="Sum" RunAt="server" />
+		</form>
+	</body>
+</html>
+<script language="C#" runat="server">
+	void OnAdd(Object sender,EventArgs e)
+	{
+		try
+		{
+		int a=Convert.ToInt32(op1.Value);
+		int b=Convert.ToInt32(op2.Value);
+		Sum.InnerText=(a+b).ToString();
+		}
+		catch(FormatException)
+		{
+			Sum.InnerText="Error";	
+		}
+	}
+</script>

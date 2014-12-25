@@ -1,0 +1,5 @@
+而Object.GetHashCode的缺省实现则有着很好的哈希值分布。在实践中人们常发现一个实例的Hash Code几乎可以有和这个实例有一一对应的关系。也就是说，这是一个很佳的哈希算法。
+
+            int o=12;        
+            int h=System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(o);
+            label1.Text=h.ToString();

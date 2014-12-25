@@ -1,0 +1,26 @@
+		protected override void OnPreRender(EventArgs e)
+		{
+			//只返回一次
+			Page.RegisterClientScriptBlock(
+			"MessageButtonScript",
+			"<script language=\"javascript\">\n"+
+			"<!--\n"+
+			"function doAlert(message)\n"+
+			"{\n"+
+			" alert(message);\n"+"}\n"+
+			"-->\n"+
+			"</script>");
+		}
+		protected override void Render(HtmlTextWriter writer)
+		{
+			writer.WriteBeginTag("input");
+			writer.WriteAttribute("type","submit");
+			if(ID!=null)
+				writer.WriteAttribute("id",ClientID);
+			if(Text.Length>0)
+				writer.WriteAttribute("value",Text);
+			if(Message.Length>0)
+				writer.WriteAttribute("onclick",
+				"javascript:doAlert(\'"+Message+"\')");
+			writer.Write(HtmlTextWriter.TagRightChar);
+		}

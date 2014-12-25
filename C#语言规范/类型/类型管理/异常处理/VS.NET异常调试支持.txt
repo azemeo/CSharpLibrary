@@ -1,0 +1,29 @@
+VS.NET 异常支持
+
+调试|异常菜单
+
+1.C++ Exceptions 非托管C++异常
+
+2.Common Language Runtime Exceptions 托管异常
+
+3.Native Run-Time Checks 非托管Visual C++异常
+
+4.Win32 Exception 非托管Win32异常
+
+选译Common Language Runtime Exceptions节点，按添加可以增加自己的异常。
+
+运行时附中到进程时
+
+a.Common Language Runtime 允许调试托管代码(C#)
+
+b.Microsoft T-SQL 允许调试SQL Server存储过程
+
+c.Native 允许调试非托管代码(C++)
+
+d.Script  允许调试宿主解本(Javascript)
+
+调试P/Invoke和COM互操作时，同时选择a,c.
+
+
+项目调试调置
+属性页,配置属性|调试。

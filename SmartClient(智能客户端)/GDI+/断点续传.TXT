@@ -1,0 +1,200 @@
+∂œµ„–¯¥´µƒ‘≠¿Ì
+‘⁄¡ÀΩ‚HTTP∂œµ„–¯¥´µƒ‘≠¿Ì÷Æ«∞£¨œ»¿¥ÀµÀµHTTP–≠“È£¨HTTP–≠“È «“ª÷÷ª˘”⁄tcpµƒºÚµ•–≠“È£¨∑÷Œ™«Î«Û∫Õªÿ∏¥¡Ω÷÷°£«Î«Û–≠“È «”…øÕªßª˙(‰Ø¿¿∆˜)œÚ∑˛ŒÒ∆˜£®WEB SERVER£©Ã·Ωª«Î«Û ±∑¢ÀÕ±®Œƒµƒ–≠“È°£ªÿ∏¥–≠“È «”…∑˛ŒÒ∆˜(web server)£¨œÚøÕªßª˙(‰Ø¿¿∆˜)ªÿ∏¥±®Œƒ ±µƒ–≠“È°£«Î«Û∫Õªÿ∏¥–≠“È∂º”…Õ∑∫ÕÃÂ◊È≥…°£Õ∑∫ÕÃÂ÷Æº‰“‘“ª––ø’––Œ™∑÷∏Ù°£
+
+ 
+
+“‘œ¬ «“ª∏ˆ«Î«Û±®Œƒ”Îœ‡”¶µƒªÿ∏¥±®Œƒµƒ¿˝◊”£∫
+
+GET /image/index_r4_c1.jpg HTTP/1.1
+
+Accept: */*
+
+Referer: http://192.168.3.120:8080
+
+Accept-Language: zh-cn
+
+Accept-Encoding: gzip, deflate
+
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; .NET CLR 1.0.3705)
+
+Host: 192.168.3.120:8080
+
+Connection: Keep-Alive
+
+ 
+
+ 
+
+HTTP/1.1 200 OK
+
+Server: Microsoft-IIS/5.0
+
+Date: Tue, 24 Jun 2003 05:39:40 GMT
+
+Content-Type: image/jpeg
+
+Accept-Ranges: bytes
+
+Last-Modified: Thu, 23 May 2002 03:05:40 GMT
+
+ETag: "bec48eb862c21:934"
+
+Content-Length: 2827
+
+ 
+
+ˇ? JFIF  H H  ˇ C [1]
+
+°≠.
+
+ 
+
+œ¬√ÊŒ“√«æÕ¿¥ÀµÀµ°∞∂œµ„–¯¥´°±°£
+
+πÀ√˚Àº“Â£¨∂œµ„–¯¥´æÕ «‘⁄…œ“ª¥Œœ¬‘ÿ ±∂œø™µƒŒª÷√ø™ ººÃ–¯œ¬‘ÿ°£‘⁄HTTP–≠“È÷–£¨ø…“‘‘⁄«Î«Û±®ŒƒÕ∑÷–º”»ÎRange∂Œ£¨¿¥±Ì æøÕªßª˙œ£Õ˚¥”∫Œ¥¶ºÃ–¯œ¬‘ÿ°£
+
+±»»ÁÀµ¥”µ⁄1024◊÷Ω⁄ø™ ºœ¬‘ÿ£¨«Î«Û±®Œƒ»Áœ¬£∫
+
+ 
+
+GET /image/index_r4_c1.jpg HTTP/1.1
+
+Accept: */*
+
+Referer: http://192.168.3.120:8080
+
+Accept-Language: zh-cn
+
+Accept-Encoding: gzip, deflate
+
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; .NET CLR 1.0.3705)
+
+Host: 192.168.3.120:8080
+
+Range:bytes=1024-
+
+Connection: Keep-Alive
+
+ 
+
+.NET÷–µƒœ‡πÿ¿‡
+√˜∞◊¡À…œ√Êµƒ‘≠¿Ì£¨ƒ«√¥£¨Œ“√«¿¥ø¥ø¥.NET FRAMEWORK÷–Œ™Œ“√«Ã·π©¡Àƒƒ–©¿‡ø…“‘¿¥◊ˆ’‚–© ¬°£
+
+ÕÍ≥…HTTP«Î«Û
+System.Net.HttpWebRequest
+
+HttpWebRequest ¿‡∂‘ WebRequest ÷–∂®“Âµƒ Ù–‘∫Õ∑Ω∑®Ã·π©÷ß≥÷£¨“≤∂‘ π”√ªßƒ‹πª÷±Ω””Î π”√ HTTP µƒ∑˛ŒÒ∆˜Ωªª•µƒ∏Ωº” Ù–‘∫Õ∑Ω∑®Ã·π©÷ß≥÷°£
+
+HttpWebRequest Ω´∑¢ÀÕµΩ Internet ◊ ‘¥µƒπ´π≤ HTTP ±ÍÕ∑÷µπ´ø™Œ™ Ù–‘£¨”…∑Ω∑®ªÚœµÕ≥…Ë÷√°£œ¬±Ì∞¸∫¨ÕÍ’˚¡–±Ì°£ø…“‘Ω´ Headers  Ù–‘÷–µƒ∆‰À˚±ÍÕ∑…Ë÷√Œ™√˚≥∆/÷µ∂‘°£µ´ «◊¢“‚£¨ƒ≥–©π´π≤±ÍÕ∑±ª ”Œ™ ‹œﬁ÷∆µƒ£¨À¸√«ªÚ’ﬂ÷±Ω””… APIπ´ø™£¨ªÚ’ﬂ ‹µΩœµÕ≥±£ª§£¨≤ªƒ‹±ª∏¸∏ƒ°£Range“≤ Ù”⁄±ª±£ª§÷Æ¡–£¨≤ªπ˝£¨.NETŒ™ø™∑¢’ﬂÃ·π©¡À∏¸∑Ω±„µƒ≤Ÿ◊˜£¨æÕ « AddRange∑Ω∑®£¨œÚ«Î«ÛÃÌº”¥”«Î«Û ˝æ›µƒø™ º¥¶ªÚΩ· ¯¥¶µƒÃÿ∂®∑∂Œßµƒ◊÷Ω⁄∑∂Œß±ÍÕ∑
+
+ÕÍ≥…Œƒº˛∑√Œ 
+System.IO.FileStream
+
+FileStream ∂‘œÛ÷ß≥÷ π”√Seek∑Ω∑®∂‘Œƒº˛Ω¯––ÀÊª˙∑√Œ , Seek ‘ –ÌΩ´∂¡»°/–¥»ÎŒª÷√“∆∂ØµΩŒƒº˛÷–µƒ»Œ“‚Œª÷√°£’‚ «Õ®π˝◊÷Ω⁄∆´“∆≤Œøºµ„≤Œ ˝ÕÍ≥…µƒ°£◊÷Ω⁄∆´“∆¡ø «œ‡∂‘”⁄≤È’“≤Œøºµ„∂¯—‘µƒ£¨∏√≤Œøºµ„ø…“‘ «ª˘¥°Œƒº˛µƒø™ º°¢µ±«∞Œª÷√ªÚΩ·Œ≤£¨∑÷±”…SeekOrigin¿‡µƒ»˝∏ˆ Ù–‘±Ì æ°£
+
+ 
+
+¥˙¬Î µœ÷
+¡ÀΩ‚¡À.NETÃ·π©µƒœ‡πÿµƒ¿‡£¨ƒ«√¥£¨Œ“√«æÕø…“‘∑Ω±„µƒ µœ÷¡À°£
+
+¥˙¬Î»Áœ¬£∫
+
+ 
+
+static void Main(string[] args)
+
+              {
+
+                     
+
+                     string StrFileName="c:\\aa.zip";      //∏˘æ› µº «Èøˆ…Ë÷√
+
+                     string StrUrl="http://www.xxxx.cn/xxxxx.zip";   //∏˘æ› µº «Èøˆ…Ë÷√
+
+ 
+
+                     //¥Úø™…œ¥Œœ¬‘ÿµƒŒƒº˛ªÚ–¬Ω®Œƒº˛
+
+                     long lStartPos =0;
+
+                     System.IO.FileStream fs;
+
+                     if (System.IO.File.Exists(StrFileName))
+
+                     {
+
+                            fs= System.IO.File.OpenWrite(StrFileName);
+
+                            lStartPos=fs.Length;
+
+                            fs.Seek(lStartPos,System.IO.SeekOrigin.Current);   //“∆∂ØŒƒº˛¡˜÷–µƒµ±«∞÷∏’Î
+
+                     }
+
+                     else
+
+                     {
+
+                            fs = new System.IO.FileStream(StrFileName,System.IO.FileMode.Create);
+
+                            lStartPos =0;
+
+                     }
+
+                     
+
+                     //¥Úø™Õ¯¬Á¡¨Ω”
+
+                     try
+
+                     {
+
+                            System.Net.HttpWebRequest request =(System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(StrUrl);
+
+                            if ( lStartPos>0)
+
+                                   request.AddRange((int)lStartPos);    //…Ë÷√Range÷µ
+
+                            
+
+                            //œÚ∑˛ŒÒ∆˜«Î«Û£¨ªÒµ√∑˛ŒÒ∆˜ªÿ”¶ ˝æ›¡˜
+
+                            System.IO.Stream ns= request.GetResponse().GetResponseStream();
+
+ 
+
+                            byte[] nbytes = new byte[512];
+
+                            int nReadSize=0;
+
+                            nReadSize=ns.Read(nbytes,0,512);
+
+                            while( nReadSize >0)
+
+                            {
+
+                                   fs.Write(nbytes,0,nReadSize);
+
+                                   nReadSize=ns.Read(nbytes,0,512);
+
+                            }
+
+                            fs.Close();
+
+                            ns.Close();
+
+                            Console.WriteLine("œ¬‘ÿÕÍ≥…");
+
+                     }
+
+                     catch(Exception ex)
+
+                     {
+
+                            fs.Close();
+
+                            Console.WriteLine("œ¬‘ÿπ˝≥Ã÷–≥ˆœ÷¥ÌŒÛ:"+ex.ToString());
+
+                     }
+
+              }

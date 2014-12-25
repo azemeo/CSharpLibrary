@@ -1,0 +1,17 @@
+Compact Framework
+
+支持的命名空间
+System.IO System.Net 
+System.XML(不包括 XPath 和 XSLT)
+System.XML.Schemas
+
+不支持的命名空间
+ASP.NET 
+System.Configuration
+System.Serialization
+System.Xml.XPath
+System.Xml.Serialization
+System.Remoting
+System.Runtime
+System.ServiceProces
+System.Drawing.Printing

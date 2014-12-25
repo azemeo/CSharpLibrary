@@ -1,0 +1,5 @@
+			//控制标题折行
+			for(int i=0;i<this.DataGridDown.Columns.Count;i++)
+			{
+				this.DataGridDown.Columns[i].HeaderStyle.Wrap=false;
+			}

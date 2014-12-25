@@ -1,0 +1,11 @@
+using System.Diagnostics;
+string s="";
+			foreach ( Process p in Process.GetProcesses(System.Environment.MachineName) ) 
+			{  
+				if( p.MainWindowHandle != IntPtr.Zero)  
+				{  
+					 s += p.ToString()+"\r\n";  
+				} 
+ 
+			} 
+			MessageBox.Show(s);

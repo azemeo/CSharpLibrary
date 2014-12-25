@@ -1,0 +1,13 @@
+1.生成文件App.config,内容如下
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appSettings>
+    <!--   此处显示用户应用程序和配置的属性设置。-->
+    <!--   示例：<add key="settingName" value="settingValue"/> -->
+    <add key="ConStr" value="DRIVER={MySQL ODBC 3.51 Driver};SERVER=golf;DATABASE=jxt_db;User=root;PASSWORD=" />
+  </appSettings>
+</configuration>
+2.读取
+private void button1_Click(object sender, System.EventArgs e)
+{			textBox1.Text=System.Configuration.ConfigurationSettings.AppSettings["ConStr"];
+}

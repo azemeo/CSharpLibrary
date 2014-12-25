@@ -1,0 +1,77 @@
+using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Soap;
+namespace TestExce
+{
+	//允许实例被序列化
+	[Serializable]
+	sealed class DiskFullException:Exception,ISerializable
+	{
+		//三个公有构造器
+		public DiskFullException():base()
+		{}
+		public DiskFullException(String message):base(message)
+		{}
+		public DiskFullException(String message,Exception innerException):base(message,innerException)
+		{}
+		//自定义字段
+		private String diskpath;
+		//自定义属性
+		public String DiskPath
+		{
+			get{return diskpath;}
+		}
+		//重新异常消息文本
+		public override String Message
+		{
+			get
+			{
+				String msg=base.Message;
+				if(diskpath!=null)
+					msg+=Environment.NewLine+"Disk Path:"+diskpath;
+				return msg;
+			}
+		}
+		//反序列化(新增字段必须)
+		private DiskFullException(SerializationInfo info,StreamingContext context):base(info,context)
+		{
+			diskpath=info.GetString("DiskPath");
+		}
+		//序列化(新增字段必须)
+		void ISerializable.GetObjectData(SerializationInfo info,StreamingContext context)
+		{
+			info.AddValue("DiskPath",diskpath);
+			base.GetObjectData(info,context);
+		}
+		//定义额外的构造器
+		public DiskFullException(String message,String diskpath):this(message)
+		{
+			this.diskpath=diskpath;
+		}
+		public DiskFullException(String message,String diskpath,Exception innerException):this(message,innerException)
+		{
+			this.diskpath=diskpath;
+		}
+
+	}
+	class Class1
+	{
+
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//序列化
+			DiskFullException e=new DiskFullException("The disk volume is full",@"C:\");
+			FileStream fs=new FileStream(@"C:\Test.xml",FileMode.Create);
+			IFormatter f=new SoapFormatter();
+			f.Serialize(fs,e);
+			fs.Close();
+			//反序列化
+			fs=new FileStream(@"C:\Test.xml",FileMode.Open);
+			e=(DiskFullException)f.Deserialize(fs);
+			fs.Close();
+			Console.WriteLine("Type:{1}{0}DiskPath:{2}{0}Message:{3}",Environment.NewLine,e.GetType(),e.DiskPath,e.Message);
+		}
+	}
+}

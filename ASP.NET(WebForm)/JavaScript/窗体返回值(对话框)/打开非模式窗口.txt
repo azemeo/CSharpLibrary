@@ -1,0 +1,9 @@
+		<script language="javascript">
+<!--
+function OpenPopDope(filename)
+{
+	window.open(filename,"win","toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,left=156,top=130,width=960,height=768",false);
+			
+}
+//-->
+		</script>

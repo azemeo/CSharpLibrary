@@ -1,0 +1,7 @@
+1.CSS
+INPUT.text {
+	BORDER-RIGHT: #006699 1px solid; BORDER-TOP: #006699 1px solid;BORDER-LEFT: #006699 1px solid;BORDER-BOTTOM: #006699 1px solid; FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; LINE-HEIGHT: 16px; FONT-FAMILY: 'ÀŒÃÂ','Arial', 'Helvetica'; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: right
+}
+2. π”√
+<INPUT class="text" style="Z-INDEX: 102; LEFT: 16px; POSITION: absolute; TOP: 32px; HEIGHT: 22px"
+				type="text">

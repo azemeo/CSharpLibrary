@@ -1,0 +1,18 @@
+1.汇总，删除重复的行
+mysql> SELECT DISTINCT state FROM president ORDER BY state;
+2.对选中的记录计数
+mysql> SELECT COUNT(*) FROM president;
+3.对非NULL的记录计数
+mysql> SELECT COUNT(*),COUNT(suffix),COUNT(death) FROM president;
+4.分组统计，男，女各有多少人
+mysql> SELECT sex,COUNT(*) FROM student GROUP BY sex;
+5.别名
+mysql> SELECT state,COUNT(*) AS count FROM president GROUP BY state ORDER BY count DESC;
+6.按结果排序
+mysql> SELECT state,COUNT(*) AS count FROM president GROUP BY state ORDER BY 2 DESC;
+7.每个月出生总统数
+mysql> SELECT MONTH(birth) as Month,MONTHNAME(birth) as Name,COUNT(*) AS count FROM president GROUP BY NAME ORDER BY Month;
+8。出生数在于两个总统的州
+mysql> SELECT state,COUNT(*) AS count FROM president GROUP BY state HAVING count>1 ORDER BY count DESC;
+9.MIN(),MAX(),SUM(),AVG()
+

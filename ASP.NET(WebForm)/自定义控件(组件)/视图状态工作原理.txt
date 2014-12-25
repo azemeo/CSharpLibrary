@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm1</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<script language="javascript">
+<!--
+function MessageBox()
+{
+	window.alert("Hello world!");
+}
+//-->
+		</script>
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form name="Form1" method="post" action="Default.aspx" id="Form1">
+<input type="hidden" name="__VIEWSTATE" value="dDwtNDAwNDg2NTU4O3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDI+O2k8Mz47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8XGU7Pj47Pjs7Pjt0PHA8bDxNeVRleHQ7PjtsPFR5cGVpbmcgc29tZXRoaW5nIGhlcmUuOz4+Ozs+Oz4+Oz4+Oz5W8pn1exc1k4K+bGLD8Nm45+p9JQ==" />
+
+			<span id="LabelTitle" style="Z-INDEX: 101; LEFT: 16px; POSITION: absolute; TOP: 56px">Web构件测试</span><span id="LabelOut" style="Z-INDEX: 102; LEFT: 16px; POSITION: absolute; TOP: 80px"></span><input type,="text" name="MyTextBox1" id="MyTextBox1" value="Typeing something here."><input type="submit" name="Button1" value="Test" id="Button1" style="height:25px;width:75px;Z-INDEX: 103; LEFT: 208px; POSITION: absolute; TOP: 72px" /></form>
+	</body>
+</HTML>
+
+
+1.一个标为type=hidden,名为__VIEWSTATE的隐藏输出控件
+
+2.目的：将视图状态传回客户端
+
+3.不保存在服务器上。
+
+4.是64位编码版本
+
+5.ASP.NET 组件在信息来回之间保持信息的一种方式。
+
+6.安全性:
+	防止修改:ASPX 文件顶端 <%@Page EnableViewStateMac="True" %> 
+	
+	防上被看:在Web服务器的Machine.config <machineKey validation="3DES" />

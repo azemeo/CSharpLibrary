@@ -1,0 +1,9 @@
+using System.Reflection;		
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			Type wordType = System.Type.GetTypeFromProgID("Word.Application");//得到Word的进程ID
+			Object word = System.Activator.CreateInstance(wordType);//构建Word实例
+			wordType.InvokeMember("Visible", BindingFlags.SetProperty, null, word, new Object[] {true});//调用指定成员
+			Object documents = wordType.InvokeMember("Documents", BindingFlags.GetProperty, null, word, null);
+			Object document = documents.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, documents, null); 
+		}

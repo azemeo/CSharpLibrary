@@ -1,0 +1,55 @@
+类型构造器：适用于接口(C#不支持)、引用类型、值类型。
+
+用来设置类型的初始状态，如果要定义，只能有一个。
+
+必需标记为私有，不充许出现访问修饰符。
+
+调用类型构造型:
+在类型的第一个实例被创建之前。
+在非继承静态字段被第一次访问之前。
+类型构造器不应该调用其基类型的类型构造器。
+
+class SomeRefType
+{
+	static SomeRefType()
+	{	}
+}
+struct SomeValType
+{
+	static SomeValType()
+	{}
+}
+
+1.利用构造器
+using System;
+class SomeType
+{
+	static Int32 x;
+	static SomeType()
+	{	
+		x=5;	
+	}
+}
+2.简洁语法
+using System;
+class SomeType
+{
+	static Int32 x=5;
+	
+}
+
+
+同时有初始值及构造函数
+
+using System;
+class SomeType
+{
+	static Int32 x=5;  //第一步
+	static SomeType()
+	{
+		x=10;//第二步
+	}
+	
+}
+
+如果希望应用程序域闭时执行某些代码，我们可以System.AppDomain类型DomainUnload事件上登记一个回调方法。

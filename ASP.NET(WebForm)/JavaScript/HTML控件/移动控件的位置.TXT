@@ -1,0 +1,6 @@
+		<script language="javascript">
+			function deleteOK()
+			{
+				document.all["DIV1"].style.top = 180;
+			}
+		</script>	

@@ -1,0 +1,8 @@
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			button1.Text=this.textBox1.Text;
+			Graphics g=button1.CreateGraphics();
+			float w=g.MeasureString(button1.Text,button1.Font).Width;
+			g.Dispose();
+			button1.Width=(int)w+12;
+		}

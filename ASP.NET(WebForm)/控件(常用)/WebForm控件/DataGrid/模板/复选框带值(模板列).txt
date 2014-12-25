@@ -1,0 +1,54 @@
+模板列中复选框带值
+
+以便用户选择是得到
+
+ForeColor=Transparent (透明)
+
+private void zdgMain_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			{
+				int count=zdgMain.Columns.Count;
+				object isStart=e.Item.FindControl("CheckBoxStart");
+				CheckBox cbStart=(CheckBox)isStart;
+				//...
+				cbStart.CssClass=e.Item.Cells[count-1].Text.Trim();//带值
+
+			}
+		}
+private void zdgMain_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			
+
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			{				
+				
+				object isStart=e.Item.FindControl("CheckBoxStart");
+				CheckBox cbStart=(CheckBox)isStart;
+				if(cbStart!=null)
+				{
+					cbStart.AutoPostBack=true;
+					cbStart.CheckedChanged+=new EventHandler(cbStart_CheckedChanged);
+				}
+			}
+
+		}
+		private void cbStart_CheckedChanged(object sender, EventArgs e)
+		{
+			if(!(sender is CheckBox)) return;				
+			CheckBox cbStart=(CheckBox)sender;
+			SystemSetLogic log=new SystemSetLogic();
+			if(cbStart.Checked)
+			{
+				//由启用变为禁用
+				string ui=cbStart.CssClass.Trim(),sf="1",vt=DateTime.Now.ToString();
+				log.UpdateChangeStatus(ui,sf,vt);
+			}
+			else
+			{
+				//由启用变为启动
+			}
+		}
+
+注意，也可能过Attributes带值
+cb.Attributes["userID"]=oID.ToString().Trim();

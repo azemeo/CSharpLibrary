@@ -1,0 +1,2 @@
+将复选框呈现为按钮
+Appearance=Button

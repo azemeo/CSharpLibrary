@@ -1,0 +1,17 @@
+//客户端解本
+<script language=javascript>
+<!--
+
+function changeValue(objText)
+{
+	window.lblaValue.innerText=objText;
+}
+//-->
+
+</script>
+
+//ASP.NET服务器事件
+public void InitRadioState()
+{
+	rbSum.Attributes.Add("onclick","changeValue('"+rbSum.Text +"')") ;
+}

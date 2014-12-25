@@ -1,0 +1,18 @@
+System.Reflection.Assembly.Load 动态加载程序集
+
+System.Reflection.Assembly.LoadFrom 可能需要
+
+不推荐
+
+System.Reflection.Assembly.LoadWithPartialName
+
+System.AppDomain.Load
+
+示例1:
+
+			Assembly assem=Assembly.Load("TestReflector");//弱命名程序集不包括扩展名
+			Reflector.RefectOnAssembly(assem);
+示例2:分析其它程序集
+			Assembly assem=Assembly.LoadFrom(@"D:\Microsoft\CS7\TestArray\bin\Debug\TestArray.exe");//弱命名程序集不包括扩展名
+			Reflector.RefectOnAssembly(assem);
+

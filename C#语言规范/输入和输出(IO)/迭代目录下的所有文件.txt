@@ -1,0 +1,28 @@
+private void FormMain_Load(object sender, System.EventArgs e)
+		{
+			GetSpecFF(Application.StartupPath,this.tvMain.Nodes);
+
+		}
+		private void GetSpecFF(string Folder,TreeNodeCollection who)
+		{
+			string[]dires=Directory.GetDirectories(Folder);
+			foreach(string dire in dires)
+			{
+				string[]filepart=dire.Split('\\');
+				string filename=filepart[filepart.Length-1].ToString();//析取文件名
+				TreeNode newNode = new TreeNode(filename);
+				newNode.ImageIndex=0;
+				who.Add(newNode);	
+				GetSpecFF(dire,newNode.Nodes);
+			}
+			string[]files=Directory.GetFiles(Folder);
+			foreach(string file in files)
+			{
+				string[]filepart=file.Split('\\');
+				string filename=filepart[filepart.Length-1].ToString();
+				TreeNode newNode = new TreeNode(filename);
+				newNode.ImageIndex=2;
+				newNode.Tag=file;//保存全路径
+				who.Add(newNode);
+			}
+		}

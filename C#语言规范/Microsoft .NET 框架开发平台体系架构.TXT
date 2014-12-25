@@ -1,0 +1,25 @@
+Microsoft .NET 框架开发平台体系架构
+
+CLR:
+.NET框架的核心便是通用语言运行时(Common Language Runtime,简称CLR)它是一个可被各种不同编程语言所使用的运行时。
+
+CLS:
+通用语言规范(Common Language Specification)为编译厂商详细描述了面向CLR的编译器必须支持的一个最小特性集合。 
+
+IL代码:
+也被称为托管代码(managed code)生成期及执行方式受CLR管理。
+
+C++是比较独特，它允许开发人员可以同时编写托管代码和非托管代码，并且可以将它们生成到同一个模块中。
+
+Assembly:
+程序集是一个抽象的概念，是一个或多个托管模块，以及一些资源文件的逻辑组合。程序集可以是一种或多个文件。
+
+可以在目录 %windir%\system32下查找MscorEE.dll文件判断一个机器是否安装了.NET框架。
+
+MsCorEE.dll(Micorosft Component Object Runtime Execution Engine)表示微软组件对象运行时执行引擎.
+
+注册表的子键
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\policy 检查框架的版本。
+
+IL汇编语言，允许开发人员获取CLR的所有功能。
+

@@ -1,0 +1,6 @@
+DialogResult dr = MessageBox.Show(this,"配制已改变，必须重新启动程序才能使新的选择生效.你确定要重新启动程序吗？","提示",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (dr==DialogResult.Yes) 
+			{
+				System.Diagnostics.Process.Start(Application.StartupPath+"\\DyncRem.exe");
+				Close();
+			}

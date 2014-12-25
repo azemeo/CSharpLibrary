@@ -1,0 +1,49 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyDataset1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlDataAdapter adapter=new SqlDataAdapter("select * from titles",
+				"server=localhost;database=pubs;uid=sa;pwd=");
+			SqlCommandBuilder builder=new SqlCommandBuilder(adapter);
+			DataSet ds=new DataSet();
+			adapter.Fill(ds,"Titles");
+
+			DataTable table=ds.Tables["Titles"];
+			DataRow[] rows=table.Select("price=59.99");//选取
+			foreach(DataRow row1 in rows)
+				row1.Delete();			
+			DataRow row=table.NewRow();
+			row["title_id"]="JP1004";
+			row["title"]="Programming Microsoft .NET";
+			row["price"]="59.99";
+			row["ytd_sales"]="1000000";
+			row["type"]="business";
+			row["pubdate"]="2004-2-10";
+			table.Rows.Add(row);
+			//减少数据量
+			//DataTable delta=table.GetChanges();
+			//adapter.Update(delta);
+			//增加时
+			//DataTable inserts=table.GetChanges(DataRowState.Added);
+			//adapter.Update(inserts);
+			//控制更新的顺序
+			DataTable deletes=table.GetChanges(DataRowState.Deleted);
+			adapter.Update(deletes);
+			DataTable inserts=table.GetChanges(DataRowState.Added);
+			adapter.Update(inserts);
+			Console.WriteLine("OK");
+		}
+	}
+}

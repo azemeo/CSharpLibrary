@@ -1,0 +1,8 @@
+1.停止
+C:\mysql\bin>net stop mysql
+2.开始
+C:\mysql\bin>net start mysql
+3.安装
+C:\mysql\bin>mysql-nt -install
+4.双击winmysqladmin
+C:\mysql\bin>winmysqladmin.exe

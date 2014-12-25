@@ -1,0 +1,5 @@
+InitializeComponent函数为初始化窗体及包含的所有控件。
+自定义的代码应放在缺省构造函数内,InitializeComponent()后。
+
+通常在初化代码后创建资源。
+关闭事件中Closing移除资源。

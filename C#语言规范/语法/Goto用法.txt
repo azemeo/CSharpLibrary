@@ -1,0 +1,5 @@
+int myInteger=5;
+goto myLabel;
+myInteger+=10;
+myLabel:
+Console.WriteLine("myInteger={0}",myInteger);

@@ -1,0 +1,20 @@
+*.aspx
+
+<title><%=PersonName%>--详细情况></title>
+
+
+*.aspx.cs
+
+public string PersonName="";	//人员姓名
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)//第一次加载页面
+			{
+				PersonName="张三";
+}
+}
+
+
+
+

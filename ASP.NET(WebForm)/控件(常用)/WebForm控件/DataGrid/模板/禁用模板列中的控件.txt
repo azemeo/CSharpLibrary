@@ -1,0 +1,17 @@
+private void DataGridEx1_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			{
+
+				int count=DataGridEx1.Columns.Count;	
+				if(e.Item.Cells[count-2].Text.Trim()=="0")//使第一个不可用
+					((CheckBox)e.Item.Cells[0].Controls[0]).Enabled=false;					
+
+			}	
+			else
+			{
+				int count=DataGridEx1.Columns.Count;	
+				if(e.Item.Cells[count-2].Text.Trim()=="0")//使第一个不可用
+					((CheckBox)e.Item.Cells[0].Controls[0]).Enabled=false;	
+			}
+		}

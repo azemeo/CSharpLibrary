@@ -1,0 +1,11 @@
+OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\D\DevCs\Works2\Person.mdb;");
+myConn.Open();
+OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM Intro",myConn);
+OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+DataSet thisDataSet=new DataSet();
+thisAdapter.Fill(thisDataSet,"Intro");
+Console.WriteLine("Name before change:{0}",thisDataSet.Tables["Intro"].Rows[1]["TheName"]);
+thisDataSet.Tables["Intro"].Rows[1]["TheName"]="Acme";//¸üÐÂ
+thisAdapter.Update(thisDataSet,"Intro");
+Console.WriteLine("Name after change:{0}",thisDataSet.Tables["Intro"].Rows[1]["TheName"]);
+myConn.Close();	

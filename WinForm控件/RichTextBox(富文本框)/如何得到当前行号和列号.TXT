@@ -1,0 +1,21 @@
+			//ÐÐºÅ
+			Point point = new Point();
+			point.X = e.X;
+			point.Y = e.Y;
+			int index = this.tbMain.GetCharIndexFromPosition(point);
+			int  line= this.tbMain.GetLineFromCharIndex(index)+1;//ÐÐºÅ
+			
+			//ÁÐºÅ
+			char[] text = tbMain.Text.ToCharArray();
+			int cur = tbMain.SelectionStart;
+			int col=0;
+			if(cur==0)
+				col=1;
+			for (int i=0; i<cur; i++) 
+			{
+				if (text[i] == '\n') 
+				{
+					col=0;
+				}
+				col++;
+			}

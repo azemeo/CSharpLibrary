@@ -1,0 +1,20 @@
+VS.NET 2003 本身并不支持自定义控件
+
+1.建VC++的附属工程(编译后产生设计时DLL)
+2.添写Nmake编译参数.
+"生成命令行"及"全部重新生成命令行"
+csc.exe /debug+ /noconfig /define:DESIGN /target:library /out:"$(TargetPath)" "$(SolutionDir)Win32.cs" "$(SolutionDir)TextBox.cs" "$(SolutionDir)AssemblyInfo.cs" /resource:"$(ProjectDir)ZGCF.Windows.Forms.TextBoxEx.bmp" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Design.dll" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Windows.Forms.dll" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Drawing.dll" /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:System.dll /r:System.XML.dll /r:System.Web.Services.dll /r:System.Data.dll /nowarn:1595
+输出:ZGCF.Windows.Forms.TextBoxEx.dll
+3.AssemblyInfo.cs中加入
+#if DESIGN
+[assembly: System.CF.Design.RuntimeAssembly("ZGCF.Windows.Forms.TextBoxEx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")]
+#endif
+4.
+
+对自定义的组件
+如果放在：运行时的组件放在如下目录中
+C:\Program Files\Microsoft Visual Studio .NET 2003\CompactFrameworkSDK\v1.0.5000\Windows CE
+如果放在：设计时的组件放在如下目录中
+C:\Program Files\Microsoft Visual Studio .NET 2003\CompactFrameworkSDK\v1.0.5000\Windows CE\Designer
+
+自在工具箱中添加组件时，会自动显示在列表中。

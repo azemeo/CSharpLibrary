@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<script language=javascript>
+			function howMany(selectObject)
+			{
+				var num=0;
+				for(var i=0;i<selectObject.options.length;i++)
+					if(selectObject.options[i].selected==true)
+						num++;
+				return num;
+			}
+		</script>
+	</head>
+	<body>
+	<form name="selectForm">
+	<br>
+	<select name="country" multiple>
+	<option>USA</option>
+	<option>China</option>
+	<option>Japan</option>
+	</select>
+	<p>
+	<input type="button" value="How?" onClick="alert('num:'+howMany(document.selectForm.country))">
+	</form>
+	</body>
+</html>

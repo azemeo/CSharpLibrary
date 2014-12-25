@@ -1,0 +1,10 @@
+enum Units
+		{
+			Inches,
+			Centimeters,
+			Pixels
+		}
+		int MyWidth=400;
+		int MyHeight=200;
+dlg.UserUnits=(int)MyUnits;
+MyUnits=(Form1.Units)dlg.UserUnits;

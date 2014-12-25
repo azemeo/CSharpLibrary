@@ -1,0 +1,4 @@
+e.Item.Cells[count-2] 不可防问
+
+答:其它的Dg也使用了此Datagridex2_ItemDataBound处理,
+方法:去掉其它Dg的指向。

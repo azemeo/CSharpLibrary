@@ -1,0 +1,4 @@
+textBox1.CharacterCasing = CharacterCasing.Upper; 
+ 
+// textBox1.CharacterCasing = CharacterCasing.Lower;
+ 

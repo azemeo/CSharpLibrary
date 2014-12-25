@@ -1,0 +1,8 @@
+如何在安装时修改注册表使程序自动启动(InstallShield)
+在InstallShield X
+
+Application Registry
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+Value name LiSay
+value data [INSTALLDIR]MCEnglish.exe

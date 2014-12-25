@@ -1,0 +1,46 @@
+//创建参数
+		public string[] CreateParamArray()
+		{
+			string[]paramArray = {string.Empty, string.Empty,string.Empty};
+			StringBuilder param = new StringBuilder();
+
+			if (this.cate_id!=string.Empty)//是否为空
+			{
+				param.Append("Category_ID = ");
+				param.Append(this.cate_id);
+			}
+			else
+			{
+				param.Append("0 = 0");//占位条件
+			}
+			paramArray.SetValue(param.ToString(),0);//为多维数组设置值
+			param.Remove(0, param.Length);//清理临时字符串建立器
+
+			if (this.name!=string.Empty)
+			{
+				param.Append("Name like '%");
+				param.Append(this.name);
+				param.Append("%'");
+			}
+			else
+			{
+				param.Append("0 = 0");
+			}
+			paramArray.SetValue(param.ToString(),1);
+			param.Remove(0, param.Length);
+
+			if (this.model!=string.Empty)
+			{
+				param.Append("Model_Name like '%");
+				param.Append(this.model);
+				param.Append("%'");
+			}
+			else
+			{
+				param.Append("0 = 0");
+			}
+			paramArray.SetValue(param.ToString(),2);
+			param.Remove(0, param.Length);			
+
+			return paramArray;
+		}

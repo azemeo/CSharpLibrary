@@ -1,0 +1,23 @@
+使用脚注
+默认为false
+必须设置为ShowFooter="True"
+
+通过如下设置脚注风格
+<FooterStyle BackColor="Lime"></FooterStyle>
+
+
+使用列的FooterText属性指定(属性编辑中)
+FooterText="cc"
+
+将脚注作为摘要
+
+//			else if(elemType==ListItemType.Footer)
+//			{
+//				TableCellCollection tcc=e.Item.Cells;
+//				int nTotalCols=tcc.Count;
+//				for(int i=0;i<nTotalCols-1;i++)
+//					e.Item.Cells.RemoveAt(i);
+//				TableCell c=e.Item.Cells[0];
+//				c.ColumnSpan=nTotalCols;
+//				c.Text=DataGrid1.PageCount.ToString()+"page found.";
+//			}

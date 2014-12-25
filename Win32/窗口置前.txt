@@ -1,0 +1,10 @@
+using System.Runtime.InteropServices;
+-----------------------------------------------
+		[DllImport("user32.dll")]
+		public static extern bool SetWindowPos(IntPtr hWnd,IntPtr hPos,int x,int y,int cx,int cy,uint nflags);
+			
+------------------------------------------------
+IntPtr HWND_TOPMOST = new IntPtr(-1);
+			uint SWP_NOSIZE = 0x0001;
+			uint SWP_NOMOVE = 0x0002;
+			SetWindowPos(handle,HWND_TOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE);

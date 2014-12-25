@@ -1,0 +1,2 @@
+sn /Vr math.dll //跳过验证
+sn /Vu math.dll //验证

@@ -1,0 +1,6 @@
+using System.Reflection;				
+Assembly a=Assembly.LoadFrom(args[0]);
+AssemblyName an=a.GetName();
+//显示程序集的版本号
+Version ver=an.Version;
+Console.WriteLine("Version:{0}.{1}.{2}.{3}",ver.Major,ver.Minor,ver.Build,ver.Revision);

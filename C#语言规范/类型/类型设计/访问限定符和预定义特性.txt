@@ -1,0 +1,45 @@
+访问限定符指出了哪些类型和成员可以被其他的代码合法地引用.
+CLR(6种) C#/VB(5种)
+-----------------------
+Private  private/Private      私有
+Public   pubic/Public         公有
+Family   protected/Protected  保护
+Assembly Internal/Friend      仅何被所在程序集的方法访问(默认)
+
+Family与Assembly 不支持
+Family或Assembly  
+
+预定义特性:则在访问限定修饰符的基础上为我们提供了更多的选择.
+
+
+1.类型预定义特性
+
+CLR      C#/VB                     描述
+----------------------------------------------------------
+Abstract  abstract/MustInherit 不能被实例化,可做了其他类的基类
+Sealed    sealed/NotInheritable 不能做为基类
+
+为类型定义Sealted和私有无参构造器,来实现Abstract+Sealed
+
+2.字段预定义特性
+CLR      C#/VB                     描述
+-------------------------------------------------------------
+Static    static/Shared           字段是类型状态,而非对象状态一部分
+InitOnly  readonly/ReadOnly       字段仅可以在构造器方法中被赋值
+3.方法预定义特性
+CLR      C#/VB                     描述
+-------------------------------------------------------------
+Static    static/Shared           方法是类型状态,而非对象状态一部分,不能访问实例字段或方法
+
+Instance  (默认)/(默认)           可以访问实例/静态的字段和方法
+
+Virtual   virtual/Overridable     虚方法,仅用于实例方法
+
+Newslot   new/Shadows             隐藏基类方法(仅应用于虚方法)
+Override  override/Overrides      重写虚方法(仅应用于虚方法)
+Abstract  abstract/Mustoverride   派生类必须提供和该抽象方法签名匹配的实现.
+Final     sealed/NotOverridable   派生类不能重写该方法
+
+
+
+   

@@ -1,0 +1,95 @@
+//------------------------------------------------------------------------------
+//Copyright (C) 1994-2003 Movecont Corp
+//类型：示例程序
+//功能：自定义控件的实现
+//详述：通过IPostBackDataHandler实现TextBox控件
+//用法：将*.cs编译后，放入bin目录,如:csc /t:library /out:TestControl.dll mytext3.cs
+//------------------------------------------------------------------------------
+1.*.cs
+using System;
+using System.Web.UI;
+using System.Collections.Specialized;
+namespace Wintellect
+{
+	public class MyTextBox:Control,IPostBackDataHandler
+	{
+		//支持回发
+		bool MyAutoPostBack=false;
+		//支持事件
+		public event EventHandler TextChanged;
+		//支持属性,
+		public string Text
+		{
+			get
+			{
+				string text=(string)ViewState["MyText"];
+				return (text==null)?"":text;
+			}
+			set
+			{
+				ViewState["MyText"]=value;
+			}
+		}
+		public bool AutoPostBack
+		{
+			get{return MyAutoPostBack;}
+			set{MyAutoPostBack=value;}
+		}
+		
+		//支持回发
+		public bool LoadPostData(string postDataKey,NameValueCollection postCollection)
+		{
+//			Text=postCollection[postDataKey];
+//			return false;
+			string temp=Text;
+			Text=postCollection[postDataKey];
+			return (temp!=Text);
+		}
+		//支持事件
+		public void RaisePostDataChangedEvent()
+		{
+			if(TextChanged!=null)
+				TextChanged(this,new EventArgs());
+		}
+		
+		protected override void Render(HtmlTextWriter writer)
+		{
+			writer.WriteBeginTag("input");
+			writer.WriteAttribute("type,","text");
+			writer.WriteAttribute("name",UniqueID);
+			if(ID!=null)
+				writer.WriteAttribute("id",ClientID);
+			if(Text.Length>0)
+				writer.WriteAttribute("value",Text);
+			//回发
+			if(AutoPostBack)
+				writer.WriteAttribute("onchange","javascript:"+
+				Page.GetPostBackEventReference(this));
+			
+			writer.Write(HtmlTextWriter.TagRightChar);		
+		}
+	}
+}
+2.*.aspx
+<%@ Page EnableViewStateMac="true" %>
+<%@ Register TagPrefix="win" Namespace="Wintellect" Assembly="TestControl" %>
+<html>
+	<body>
+		<form runat="server">
+			<win:MyTextBox ID="Input" Text="Type something here" 
+				OnTextChanged="OnTextChanged" AutoPostBack="true" RunAt="server" />
+			<asp:Button Text="Test" RunAt="server" />
+			<asp:Label ID="Output" RunAt="server" /><br>
+		</form>
+	</body>
+</html>
+<script language="C#" runat="server">
+void Page_Load(Object sender,EventArgs e)
+{
+	Output.Text="";
+}
+void OnTextChanged(Object sender,EventArgs e)
+{
+	Output.Text="Text changed";
+}
+</script>

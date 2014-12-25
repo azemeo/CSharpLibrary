@@ -1,0 +1,10 @@
+
+[Visual Basic] 
+Math.Round(3.44, 1) 'Returns 3.4.
+Math.Round(3.45, 1) 'Returns 3.4.
+Math.Round(3.46, 1) 'Returns 3.5.
+
+[C#] 
+Math.Round(3.44, 1); //Returns 3.4.
+Math.Round(3.45, 1); //Returns 3.4.
+Math.Round(3.46, 1); //Returns 3.5.

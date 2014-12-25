@@ -1,0 +1,2 @@
+regedit(Win95以上版本都有)
+regedt32(winNT/Win2000才有)

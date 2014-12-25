@@ -1,0 +1,42 @@
+				<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 144px; POSITION: absolute; TOP: 184px"
+					runat="server" AutoGenerateColumns="False">
+					<Columns>
+						<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+						<asp:BoundColumn DataField="firstname" HeaderText="Employee Name"></asp:BoundColumn>
+						<asp:BoundColumn DataField="title" HeaderText="Position"></asp:BoundColumn>
+						<asp:BoundColumn DataField="country" HeaderText="From"></asp:BoundColumn>
+						<asp:EditCommandColumn ButtonType="LinkButton" UpdateText="更新" CancelText="取消" EditText="编辑">
+							<ItemStyle BackColor="yellow"></ItemStyle>
+						</asp:EditCommandColumn>
+					</Columns>
+				</asp:DataGrid></FONT>
+
+
+
+
+		private void DataGrid1_EditCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//编辑模式
+			DataGrid1.EditItemIndex=e.Item.ItemIndex;
+			UpdateView();
+		}
+
+		private void DataGrid1_UpdateCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//检索新的文本并更新数据源
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}
+		private void UpdateView()
+		{
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			DataGrid1.DataSource=dv;
+			DataGrid1.DataBind();
+		}
+
+		private void DataGrid1_CancelCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			DataGrid1.EditItemIndex=-1;
+			UpdateView();
+		}

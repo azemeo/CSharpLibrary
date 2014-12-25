@@ -1,0 +1,18 @@
+using System;
+using System.Data;
+using System.IO;
+using System.Xml;
+DataSet myDataSet=new DataSet();
+			FileStream fsReadXml=new FileStream(myFilename,FileMode.Open);
+			XmlTextReader myXmlReader=new XmlTextReader(fsReadXml);
+			myDataSet.ReadXml(myXmlReader);
+			myXmlReader.Close();
+			//提出当前选票的个数的字符
+			string votes=myDataSet.Tables[1].Rows[answer-1].ItemArray[1].ToString();
+			int votesInt=int.Parse(votes);//转化为整数
+			//int votesInt=Votes[answer];
+			DataRow myVotesRow=myDataSet.Tables[1].Rows[answer-1];//提取当前操作行
+			myVotesRow["Votes"]=(votesInt+1).ToString();//修改
+			StreamWriter myStream=new StreamWriter(myFilename);//建立写流
+			myDataSet.WriteXml(myStream,XmlWriteMode.IgnoreSchema);//保存文件
+			myStream.Close();

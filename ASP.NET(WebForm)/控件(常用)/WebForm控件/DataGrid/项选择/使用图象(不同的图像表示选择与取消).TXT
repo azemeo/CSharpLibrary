@@ -1,0 +1,14 @@
+    显示图象
+*.aspx
+<asp:ButtonColumn Text="<img alt='选择'src=select.gif border=0 />" CommandName="Select"></asp:ButtonColumn>
+*.aspx.cs
+		private void DataGrid1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{			
+			ToggleBitmap(DataGrid1.SelectedItem);
+		}
+		//选择改变时则改变图像
+		private void ToggleBitmap(DataGridItem dgi)
+		{
+			TableCell c = (TableCell)dgi.Controls[0];
+			c.Text = "<img src=selected.gif border=0 align=absmiddle>";	
+		}

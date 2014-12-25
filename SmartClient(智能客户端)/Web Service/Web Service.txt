@@ -1,0 +1,9 @@
+Web Service
+需要考虑的一些问题
+
+Web service URL
+设备不能解析 "localhost"
+使用机器名或者 IP 地址
+传输数据集
+效率低 序列化成字符串
+WriteXML / ReadXML

@@ -1,0 +1,49 @@
+FileStream 实现了Dispose模式
+
+using 语句只能用于那些实现了IDisposable接口的类型。使用时应谨慎。
+
+
+下面代码中段1和段2是等效的。
+
+段2中的using语句使编译器自动产生try...finally块，在finally块中将变量转型为IDisposable接口，并调用Dispose方法。
+
+using 语句支持相同类型的多个变量及已初始化的变量.
+
+
+using System;
+using System.IO;
+namespace TestDisp
+{
+	
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Byte[]bytesToWrite=new byte[]{1,2,3,4,5};
+			//段1---------------------------------
+//			FileStream fs=null;
+//			try
+//			{
+//				fs=new FileStream("Temp.dat",FileMode.Create);
+//				fs.Write(bytesToWrite,0,bytesToWrite.Length);
+//			}
+//			finally
+//			{
+//				if(fs!=null)
+//					((IDisposable)fs).Dispose();
+//			}
+			//------------------------------------
+			//段2---------------------------------
+			using(FileStream fs=new FileStream("Temp.dat",FileMode.Create))
+			{
+				fs.Write(bytesToWrite,0,bytesToWrite.Length);
+			}
+			//------------------------------------
+			File.Delete("Temp.dat");
+		}
+	}
+}

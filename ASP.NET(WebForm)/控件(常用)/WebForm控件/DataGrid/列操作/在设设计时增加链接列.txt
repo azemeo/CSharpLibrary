@@ -1,0 +1,12 @@
+1.打开属性生成器.
+2.在可用列中，选择超级链接列,单击>,增加到选定的列中
+3.定制：页眉文本-名称,文本字段-cusName,排序表达式-cusName,URL字段-cusID
+
+URL格式字符串../Account/Form_AccDetail.aspx?CustomerID={0}
+
+
+
+
+URL中含Javascript
+
+URL格式字符串 javascript: popWin2('Form_ModifyPwd.aspx?ID={0}',450,350);

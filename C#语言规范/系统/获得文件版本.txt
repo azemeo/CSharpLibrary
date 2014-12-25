@@ -1,0 +1,4 @@
+using System.Diagnostics;
+
+FileVersionInfo info = FileVersionInfo.GetVersionInfo("WindowsApplication1.exe");
+label1.Text = info.FileMajorPart + "." + info.FileMinorPart + "." + info.FileBuildPart;

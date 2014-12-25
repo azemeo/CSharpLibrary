@@ -1,0 +1,34 @@
+1.调用
+private void button7_Click(object sender, System.EventArgs e)
+		{
+			DataSet ds=CreateDataSet();
+			CreateStyles(dataGrid1);
+			dataGrid1.SetDataBinding(ds,"Customers");
+		}
+2.定义
+private void CreateStyles(DataGrid dg)
+		{
+			DataGridTableStyle style=new DataGridTableStyle();
+			style.MappingName="Customers";
+			style.AlternatingBackColor=System.Drawing.Color.Bisque;
+			//
+			DataGridTextBoxColumn customerID=new DataGridTextBoxColumn();
+			customerID.HeaderText="ID";
+			customerID.MappingName="CustomerID";
+			customerID.Width=200;
+			//
+			DataGridTextBoxColumn name=new DataGridTextBoxColumn();
+			name.HeaderText="Name";
+			name.MappingName="CompanyName";
+			name.Width=300;
+			//
+			//
+			DataGridTextBoxColumn city=new DataGridTextBoxColumn();
+			city.HeaderText="城市";
+			city.MappingName="City";
+			city.Width=300;
+			//
+			style.GridColumnStyles.AddRange(new DataGridColumnStyle[]{customerID,name,city});
+			dg.TableStyles.Add(style);
+
+		}

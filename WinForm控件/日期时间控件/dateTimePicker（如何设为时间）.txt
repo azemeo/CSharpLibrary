@@ -1,0 +1,3 @@
+			this.dateTimePicker10.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+			this.dateTimePicker10.ShowUpDown = true;
+

@@ -1,0 +1,21 @@
+--------------------------ÕýÈ·
+int i;
+			string text;
+			text="";
+			for(i=0;i<10;i++)
+			{
+			text="Line"+Convert.ToString(i);
+				Console.WriteLine("{0}",text);
+			}
+			Console.WriteLine("Last text out in Loop:{0}",text);
+
+
+--------------------------´íÎó
+			int i;
+			string text;			
+			for(i=0;i<10;i++)
+			{
+			text="Line"+Convert.ToString(i);
+				Console.WriteLine("{0}",text);
+			}
+			Console.WriteLine("Last text out in Loop:{0}",text);

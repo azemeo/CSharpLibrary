@@ -1,0 +1,13 @@
+1.多表查询(2表)
+mysql> SELECT student_id,date,score,type
+    -> FROM event,score
+    -> WHERE date="1999-09-03"
+    -> AND event.event_id=score.event_id;
+2.多表查询(3表)
+SELECT student.name,event.date,score.score,event.type
+FROM event,score,student
+WHERE date="1999-09-03"
+AND event.event_id=score.event_id
+AND score.student_id=student.student_id;
+3.字符串接
+SELECT id,CONCAT(grade,'年级',ranking,'班') AS name FROM room

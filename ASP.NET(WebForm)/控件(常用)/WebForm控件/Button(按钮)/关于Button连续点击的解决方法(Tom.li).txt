@@ -1,0 +1,105 @@
+关于Button连续点击的解决方法
+
+解决这个问题的方法，分两种情况：
+
+一、页面中没有添加微软自带的输入验证类ValidationSummary；
+
+二、页面中已经使用了微软自带的输入验证类ValidationSummary；
+
+ 
+
+针对以上两种情况要进行不同的处理.
+
+第一种情况：
+
+在页面中添加一个javascript
+
+<script language="javascript">
+
+              var checkcount=0;
+
+              function Check()
+
+              {
+
+                            if(checkcount!=0)
+
+                            {
+
+                                   checkcount=checkcount+1;
+
+                                   return false;
+
+                            }
+
+                            else
+
+                            {
+
+                                   checkcount=checkcount+1;
+
+                                   return true;
+
+                            }             
+
+              }
+
+</script>
+
+ 
+
+在页面的Page_Load事件中添加如下代码
+
+this.Button1.Attributes.Add("onclick","return Check();");//Button1是确定按钮
+
+ 
+
+第二种情况：
+
+在页面中添加一个javascript
+
+<script language="javascript">
+
+              var checkcount=0;
+
+              function Check()
+
+              {
+
+                     if(Page_ClientValidate())
+
+                     {
+
+                            if(checkcount!=0)
+
+                            {
+
+                                   checkcount=checkcount+1;
+
+                                   return false;
+
+                            }
+
+                            else
+
+                            {
+
+                                   checkcount=checkcount+1;
+
+                                   return true;
+
+                            }
+
+                     }
+
+                     
+
+              }
+
+              </script>
+
+ 
+
+在页面的Page_Load事件中添加如下代码
+
+this.Button1.Attributes.Add("onclick","return Check();");//Button1是确定按钮

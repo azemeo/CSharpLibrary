@@ -1,0 +1,14 @@
+struct function------------------------------------------
+struct CN
+{
+	public string firstName,lastName;
+	public string Name()
+	{
+	return firstName+lastName;
+	}
+}
+Main-----------------------------------------------------
+CN myCN;
+myCN.firstName="Ge";
+myCN.lastName="Lifeng";
+Console.WriteLine(myCN.Name());

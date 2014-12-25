@@ -1,0 +1,12 @@
+DataColumn[]keys=new DataColumn[1];
+			keys[0]=thisDataSet.Tables["Intro"].Columns["ID"];
+			thisDataSet.Tables["Intro"].PrimaryKey=keys;
+			DataRow findRow=thisDataSet.Tables["Intro"].Rows.Find("2");
+			if(findRow==null)
+			{
+				Console.WriteLine("Not found");
+			}
+			else
+			{
+				Console.WriteLine("Aleady!");
+			}

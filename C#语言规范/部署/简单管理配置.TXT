@@ -1,0 +1,35 @@
+简单管理配置
+
+1.对于可执行的文件(EXE)，配置文件必须位于应用程序的基目录，并且它的名字必须是EXE文件名再加.config扩展名。
+如:App.exec.config
+
+2.对于ASP.NET和XML Web Service程序，配置文件必须位于Web应用程序的虚拟根目录下，并且名称总是Web.cofig.
+
+3.对包含客户方控件、以Microsoft IE浏览器为宿主的程序集,HTML页面必须包含REL,HREF属性。
+如:<LINK REL=Configuration HREF=http://www.abc.com/Control.config>
+
+
+把应用程序集放在与主程序不同的目录，配置文件如下(注意是:asm.v1(意)而不是asm.vl(安路))
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<runtime>
+		<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+			<probing privatePath="Need_Glf"/>
+		</assemblyBinding>
+	</runtime>	
+</configuration>
+
+CLR定位程序集时，将按按顺序搜索如下目录(关键是probing节点)
+
+AppBase\AsmName.dll
+AppBase\AsmName\AsmName.dll
+AppBase\privatePath1\AsmName.dll
+AppBase\privatePath1\AsmName\AsmName.dll
+AppBase\privatePath2\AsmName.dll
+AppBase\privatePath2\AsmName\AsmName.dll
+
+管理工具中的
+Microsoft .NET Framework 1.1 配置
+
+是生成、修改程序配置文件用的。

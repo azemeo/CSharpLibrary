@@ -1,0 +1,44 @@
+语句:
+
+变量申明:var
+    可申明全局变量或局部变量
+    如果有内部变量与外部变量同名，必须用var申明内部变量
+
+函数定义:function,return
+    最好在Head部分定义脚本，以其被优先装载。
+    函数名应是唯一的。
+    参数用逗号分隔。
+    caller 共有属性，谁调用的。
+    arguments 共有属性，参数数组,下标从零开始。
+    外部变量有可能被内部改变。
+	<script language="Javascript">
+		function factor(n)
+		{
+			if((n==0)||(n==1))
+				return 1;
+			else
+			{
+				result=(n*factor(n-1))
+				return result;
+			}
+		}		
+		var x=10;
+		document.write("<BR>",x," 的阶乘是:",factor(x));
+
+	</script>
+
+条件和分支:if...else,switch
+
+循环:for,for..in,while,break,continue
+
+对象操作:new ,this,with
+
+注释://,/*...*/
+
+语句块:{}
+
+标号:Label:
+
+规则：
+语句之间可采用空格或分号(;)分隔
+

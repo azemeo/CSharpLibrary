@@ -1,0 +1,4 @@
+			foreach( System.Windows.Forms.Control c in this.Controls  )
+			{
+				textBox2.Text+=c.Name+" ";	
+			}

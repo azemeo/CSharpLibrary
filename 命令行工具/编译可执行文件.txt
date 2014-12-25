@@ -1,0 +1,1 @@
+csc /target:exe /r:bin\math.dll mathdemo.cs

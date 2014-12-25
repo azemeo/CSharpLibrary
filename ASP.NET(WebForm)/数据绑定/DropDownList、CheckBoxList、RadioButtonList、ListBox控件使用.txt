@@ -1,0 +1,44 @@
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			string strConn,strCmd;
+			strConn="DATABASE=Northwind;SERVER=localhost;UID=sa;PWD=;";
+			strCmd="SELECT employeeid,firstName,lastName FROM Employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"EmployeesList");
+			DataTable dt=oDS.Tables["EmployeesList"];
+			dt.Columns.Add("EmployeeName",typeof(string),"lastName+','+firstname");
+			EmpList.DataSource=oDS.Tables1.新增引用
+using System.Data.SqlClient;
+using System.Text;
+2.增加代码
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			string strConn,strCmd;
+			strConn="DATABASE=Northwind;SERVER=localhost;UID=sa;PWD=;";
+			strCmd="SELECT employeeid,firstName,lastName FROM Employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"EmployeesList");
+			DataTable dt=oDS.Tables["EmployeesList"];
+			dt.Columns.Add("EmployeeName",typeof(string),"lastName+','+firstname");
+			EmpList.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+			EmpList.DataTextField="EmployeeName";
+			EmpList.DataValueField="employeeid";
+			EmpList.DataBind();
+			//
+			cbEmployees.DataSource=oDS.Tables["EmployeesList"];
+			cbEmployees.DataTextField="lastname";
+			cbEmployees.DataValueField="employeeid";
+			cbEmployees.DataBind();
+			//
+			rbList.DataSource=oDS.Tables["EmployeesList"];
+			rbList.DataTextField="lastname";
+			rbList.DataValueField="employeeid";
+			rbList.DataBind();
+			//
+			lBList1.DataSource=oDS.Tables["EmployeesList"];
+			lBList1.DataTextField="lastname";
+			lBList1.DataValueField="employeeid";
+			lBList1.DataBind();
+		}

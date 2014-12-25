@@ -1,0 +1,150 @@
+AllowPaging和AllowCustomPaging设置为true
+并提供PageIndexChanged事件的代码
+
+1.页面
+<%@ Page language="c#" Codebehind="WebForm12.aspx.cs" AutoEventWireup="false" Inherits="Co_112.WebForm12" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm12</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:Label id="Label1" style="Z-INDEX: 101; LEFT: 32px; POSITION: absolute; TOP: 24px" runat="server">自定义分页</asp:Label>
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 80px"
+				runat="server" AllowCustomPaging="True" AllowPaging="True" PageSize="2" AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="FirstName"></asp:BoundColumn>
+					<asp:BoundColumn DataField="lastname" HeaderText="Lastname"></asp:BoundColumn>
+				</Columns>
+			</asp:DataGrid>
+		</form>
+	</body>
+</HTML>
+
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+namespace Co_112
+{
+	/// <summary>
+	/// WebForm12 的摘要说明。
+	/// </summary>
+	public class WebForm12 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				SetVirtualItemCount();
+				DataGrid1.DataSource=CreateDataSource(1);//第1页
+				DataGrid1.CurrentPageIndex=0;//索引为0
+				DataGrid1.DataBind();				
+			}
+		}
+		//设置实际的项数
+		public void SetVirtualItemCount()
+		{
+			//建立连接
+			string strConn="Server=localhost;Database=northwind;uid=sa;pwd=;";
+			SqlConnection conn=new SqlConnection(strConn);
+			//设置命令
+			string strCmd="Select Count(*) From Employees";
+			SqlCommand cmd=new SqlCommand(strCmd,conn);
+			//执行命令
+			conn.Open();
+			int nItemCount=(int)cmd.ExecuteScalar();//返回结果集的第一行第一列，忽略其它
+			conn.Close();
+			//设置网格的实际项数
+			DataGrid1.VirtualItemCount=nItemCount;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataGrid1.PageIndexChanged += new System.Web.UI.WebControls.DataGridPageChangedEventHandler(this.DataGrid1_PageIndexChanged);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
+		{
+			bool IsNext=false;//向前或向后
+			if(DataGrid1.CurrentPageIndex<e.NewPageIndex)
+				IsNext=true;
+			else
+				IsNext=false;
+			if(DataGrid1.CurrentPageIndex==0&&IsNext)//当前索引为0时用户第一次按向后(Next)键
+				DataGrid1.CurrentPageIndex=e.NewPageIndex+1;
+			else 
+				DataGrid1.CurrentPageIndex=e.NewPageIndex;
+			DataGrid1.DataSource=CreateDataSource(DataGrid1.CurrentPageIndex);
+			if(DataGrid1.CurrentPageIndex==1&&!IsNext)//当前索引为1时用户第一次按向前(Prev)键
+				DataGrid1.CurrentPageIndex=0;
+			DataGrid1.DataBind();
+		}
+		private SqlDataReader CreateDataSource(int nPageIndex)
+		{
+			int nPageSize=DataGrid1.PageSize;
+			int nBaseProductID=nPageSize*nPageIndex;
+			//建立连接
+			string strConn="Server=localhost;Database=northwind;uid=sa;pwd=;";
+			SqlConnection conn=new SqlConnection(strConn);
+			//设置命令(三个嵌套的Select)
+			StringBuilder sb=new StringBuilder("");
+			sb.Append("Select Top {0} * From ");
+			sb.Append("(Select Top {0} employeeid,firstname,lastname ");
+			sb.Append("From Employees Where {1} In ");
+			sb.Append("(Select Top {2} {1} From Employees Order By {1})");
+			sb.Append("Order by {1} Desc) As temp ");
+			sb.Append("Order by {1}");
+			String strCmd=sb.ToString();
+			//实际数据取得占位符
+			int nRowsToDisplay=DataGrid1.PageSize;
+			int nMod=DataGrid1.VirtualItemCount%DataGrid1.PageSize;
+			if(nPageIndex==DataGrid1.PageCount&&nMod>0)
+				nRowsToDisplay=nMod;
+			string strCurrentSortExpr="employeeid";//排序关键字
+			strCmd=String.Format(strCmd,nRowsToDisplay,strCurrentSortExpr,
+				DataGrid1.PageSize*nPageIndex);
+
+			SqlCommand cmd=new SqlCommand(strCmd,conn);
+			conn.Open();
+			SqlDataReader dr;
+			dr=cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			return dr;
+		}
+	}
+}

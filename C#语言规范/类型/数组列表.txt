@@ -1,0 +1,50 @@
+using System;
+using System.Collections;
+namespace ConsoleApplication1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class2
+	{		
+		public int number;
+		public Class2(int iN)
+		{
+		number=iN;
+		}
+	}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//定义
+			ArrayList alAll=new ArrayList();
+			//存储
+			for(int i=0;i<10;i++)
+				alAll.Add(new Class2(i));
+			//插入
+			alAll.Insert(1,new Class2(100));//元素1前加入
+			//删除
+			alAll.RemoveAt(2);
+			//设置容量
+			alAll.Capacity=30;
+			//使用,Count为元素的个数
+			for(int i=0;i<alAll.Count;i++)
+				Console.WriteLine(((Class2)alAll[i]).number);
+			//复制引用
+			Class2[]allClass2=new Class2[alAll.Count];
+			for(int i=0;i<alAll.Count;i++)
+				allClass2[i]=(Class2)alAll[i];
+			//再使用
+			Console.WriteLine("------\n");
+			for(int i=0;i<alAll.Count;i++)
+				Console.WriteLine(allClass2[i].number);
+
+
+		}
+	}
+}

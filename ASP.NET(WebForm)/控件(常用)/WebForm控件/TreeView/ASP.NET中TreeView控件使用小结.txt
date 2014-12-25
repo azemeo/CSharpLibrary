@@ -1,0 +1,123 @@
+ASP.NET中TreeView控件使用小结
+游不远的鱼 @ 2004-10-14 13:23
+
+　 在上网浏览时有时会看到一些网站在左边采用类似资源管理器的树形结构，在树形结构中单击，在右边显示内容，层次清晰且方便快捷，本文主要介绍ASP.NET服务器控件treeview 的使用方法，treeview控件属于microsoft webcontrols，在下载和使用过程中本人碰到一些问题，通过反复实验，查找资料，找到一些解决办法，现把treeview使用心得写出来，旨在对想在网站中使用树形结构的朋友有所帮助。 
+
+
+
+　　一、下载 
+
+　　microsoft webcontrols控件包括四个组件：MultiPage、TabStrip、Toolbar、treeView，treeview可以到http://msdn.microsoft.com/downloads/samples/internet/ASP_DOT_NET_ServerControls/WebControls/default.asp去下载，下载后得到文件IEWebControls，只有360KB，安装后自动在C:\Program Files建立IE Web Controls，执行其下面的bulid.bat，如果安装后还不能使用可以采用以下方法解决： 
+
+　　1、打开bulid.bat的内容，查看csc.exe路径是否正确，一般不能正确使用这可能是原因之一，csc.exe为系统文件，如果它的路径与你的计算机不符合，修改后存盘再执行bulid.bat，将得到Microsoft.Web.UI.WebControls.dll和一些文件夹。 
+
+　　2、查看默认的web站点，一般默认的web站点为C:\Inetpub\wwwroot，如果不是可以通过打开管理工具àInternet 服务管理器，方法：对默认web站点单击右键à属性à主目录，修改主目录。 
+
+　　3、将C:\Program Files\IE Web Controls\build下runtime文件夹下所有内容复制到主目录\webctrl_client_0下，是将iewebcontrols四大控件的系统文件复制到默认web站点下。 
+
+　　4、将C:\Program Files\IE Web Controls\build下Microsoft.Web.UI.WebControls.dll文件复制到主目录中建立的项目文件夹下\bin中。 
+
+　　通过对以上四个方面的操作，iewebcontrols才能正常使用。 
+
+　　二、添加控件 
+
+　　打开Microsoft Visual Studio .NET， 在web工具箱中单击右键，选择自定义工具箱à.NET框架组件，通过浏览添加Microsoft.Web.UI.WebControls.dll文件，添加后可以在.NET框架组件中选择命名空间为microsoft.web.ui.webcontrols的treeview。 
+
+三、treeview属性和方法介绍 
+
+　　在窗体中添加一个treeview控件，通过treeview对象的属性nodes创建所需的树形结构。 
+
+　　例：建立如下树形结构 
+
+
+
+　　窗体中HTML代码为： 
+
+＜iewc:treeview id=”treeview1” autoselect=false shoplus=true showlines=true expandlevel=2 runat=server＞ 
+＜iewc:treenode text=”科目” ＞ 
+＜iewc:treenode text=”语文” /＞ 
+＜iewc:treenode text=”数学” /＞ 
+＜iewc:treenode text=”英语” /＞ 
+＜/iewc:treenode＞ 
+＜/iewc:treeview＞ 
+
+　　1、autoselect=”false”：当访问者在treeview控件中对节点进行定位时，可以使用键盘上的箭头来进行定位。属性值为“false“，则不允许这样做。 
+
+　　2、Showplus=”true”：当两个节点收到一起的时候，你可以显示一个加号（+），访问者就知道这个节点可以展开，该属性值为“true“将使用加号，否则不使用。 
+
+　　3、Showlines=”true”：在一个treeview控件中的两个节点之间，可以显示一些线长，为”true”显示。 
+
+　　4、Expandlevel=2：用来定义treeview控件的层次结构展开的级别数。 
+
+　　5、navigateurl：点击节点时的跳转网址 
+
+　　如： 
+
+＜iewc:treeview id=”treeview2” runat=server＞ 
+＜iewc:treenode text=”喜爱的站点” ＞ 
+＜iewc:treenode text=”中国DOTNET俱乐部” navigateurl=”http://www.chinaaspx..com” /＞ 
+＜iewc:treenode text=”国家基础教育资源网” navigateurl=”htt://www.cbern.gov.cn” /＞ 
+＜/iewc:treenode＞ 
+＜/iewc:treeview＞ 
+
+　　6、index：获取树节点在树节点集合中的位置 
+
+　　7、nodes：获取分配给树视图控件的树节点集合 
+
+　　8、parent：获取或设置控件的父容器 
+
+　　9、selectednode：获取或设置当前在树视图控件中选定的树节点 
+
+　　10、text：获取或设置在树节点标签中显示的文本 
+
+　　11、expand：展开树节点 
+
+　　12、clear：清空树 
+
+　　13、remove：移除当前树节点 
+
+　　14、checked：用以指明该树节点是否处于选中状态 
+
+　　四、简单示例 
+
+　　对左边树形结构进行选择，在右边表格中查询显示结果。 
+
+　　说明： 
+
+　　1、 SelectedIndexChange事件是对树结构进行选择时产生的,还有一个触发条件autopostback=true。 
+
+　　2、 例中数据库由SQL 2000建立。 
+
+
+
+　　代码如下： 
+
+Imports System.Data 
+Imports System.Data.SqlClient 
+Public Class tree1 
+Inherits System.Web.UI.Page 
+Protected WithEvents Button1 As System.Web.UI.WebControls.Button 
+Protected WithEvents DataGrid1 As System.Web.UI.WebControls.DataGrid 
+Protected WithEvents Label1 As System.Web.UI.WebControls.Label 
+Protected WithEvents Label2 As System.Web.UI.WebControls.Label 
+
+Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click 
+Dim strconnection As String = "server=zln\netsdk;uid=sa;pwd=sa;database=english" 
+Dim conn As New SqlConnection(strconnection) 
+conn.Open() 
+Dim sql As String = "select * from zlk where kemu='" & Session("node").ToString & "'" 
+Dim cmd As New SqlCommand(sql, conn) 
+Dim da As SqlDataReader 
+da = cmd.ExecuteReader 
+DataGrid1.DataSource = da 
+DataGrid1.DataBind() 
+End Sub 
+
+Private Sub TreeView1_SelectedIndexChange(ByVal sender As Object, ByVal e As Microsoft.Web.UI.WebControls.TreeViewSelectEventArgs) Handles TreeView1.SelectedIndexChange 
+Dim ndsel As New Microsoft.Web.UI.WebControls.TreeNode() 
+ndsel = TreeView1.GetNodeFromIndex(TreeView1.SelectedNodeIndex) 
+Session("node") = ndsel.Text 
+End Sub 
+End Class 
+
+ 

@@ -1,0 +1,7 @@
+TextBox 中
+
+AutoPastBack=false
+EnableViewState=True
+
+这时单击一个本页的按钮，
+在TextBox中输出的内容有效

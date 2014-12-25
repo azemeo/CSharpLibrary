@@ -1,0 +1,5 @@
+1.
+2.添加引用:Microsoft Office 11.0 Object Library.
+Microsoft.Office.Core 出现在引用中
+
+3.

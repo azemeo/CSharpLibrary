@@ -1,0 +1,59 @@
+1.存储过程
+CREATE PROCEDURE proc_GetBalance 
+	@ID char(10),
+	@Balance int OUTPUT
+ AS
+	SELECT @Balance=Balance FROM Accounts WHERE Account_ID=@ID
+	IF @@ROWCOUNT=1
+		RETURN 0
+	ELSE	
+	BEGIN
+		SET @Balance=0
+		RETURN -1
+	END
+GO
+2.调用
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyParamter
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlConnection conn=new SqlConnection("server=localhost;database=mybank;uid=sa;pwd=");
+			try
+			{
+				conn.Open();
+				SqlCommand cmd=new SqlCommand("proc_GetBalance",conn);
+				cmd.CommandType=CommandType.StoredProcedure;
+				cmd.Parameters.Add("@id",1111);
+				SqlParameter bal=cmd.Parameters.Add("@balance",SqlDbType.Int);//可有有多个
+				bal.Direction=ParameterDirection.Output;
+				SqlParameter ret=cmd.Parameters.Add("@return",SqlDbType.Int);//只能有一个
+				ret.Direction=ParameterDirection.ReturnValue;
+				cmd.ExecuteNonQuery();
+				int retval=(int)ret.Value;
+				int balval=(int)bal.Value;
+				Console.WriteLine(balval);
+				Console.WriteLine("OK");
+			}
+			catch(SqlException)
+			{
+				//
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}

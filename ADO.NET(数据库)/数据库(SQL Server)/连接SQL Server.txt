@@ -1,0 +1,7 @@
+using System.Data.SqlClient;		
+DataSet ds=new DataSet("XMLProducts");
+			//连接SQL Server数据库
+			SqlConnection conn=new SqlConnection(@"server=glf;uid=sa;pwd=;database=northwind");
+			SqlDataAdapter da=new SqlDataAdapter("SELECT * FROM products",conn);
+			//绑定DataGrid控件
+			da.Fill(ds,"products");

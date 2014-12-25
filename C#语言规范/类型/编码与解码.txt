@@ -1,0 +1,18 @@
+string orig="server=glf;uid=sa;pwd=;database=master";//orig,原字符串
+			MessageBox.Show("原字符:"+orig);
+			
+			string coding="";//coding,编码
+			for(int i=0;i<orig.Length;i++)                     
+				coding+=((short)orig[i]).ToString()+"|";
+			MessageBox.Show("加密后:"+coding);
+			//
+			string deco="";//解码后
+			string[]strArray;
+			char[]charArray=new char[]{'|'};
+			strArray=coding.Split(charArray);
+			for(int i=0;i<strArray.Length-1;i++)
+			{
+				short temp =short.Parse(strArray[i]);
+				deco+=((char)temp).ToString();
+			}
+			MessageBox.Show("解密后:"+deco);

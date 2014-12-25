@@ -1,0 +1,52 @@
+		private void DGMain_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{		
+
+			//翻释内容
+			ListItemType tplit=e.Item.ItemType;
+			DataTable dt;			
+			if(tplit==ListItemType.Item || tplit==ListItemType.SelectedItem || tplit==ListItemType.AlternatingItem)
+			{
+				DataService ds=new DataService();
+				for(int i=0;i<this.DGMain.Columns.Count;i++)//循环列
+				{
+					//查询列类型
+					string strSql="Select FieldName,FieldType,isnull(Codeid,'12') Codeid From sm_builtitem Where Description='"
+						+DGMain.Columns[i].HeaderText+"' And Setid='"+strTableName+"'";//
+					dt=ds.GetTable(strSql,false);
+					if(dt.Rows.Count>0)
+					{
+						try
+						{
+							//代码型
+							if(Convert.ToString(dt.Rows[0]["CodeID"]).Trim()     != "12" 
+								&& Convert.ToString(dt.Rows[0]["CodeID"]).Trim() != "" 
+								&& e.Item.Cells[i].Text.Trim().ToLower()       != "&nbsp;")
+							{
+								e.Item.Cells[i].Text=jykehr.ygzz.ZZBusiness1.CommonFun.ConvertCode(ds,dt.Rows[0]["Codeid"].ToString(),e.Item.Cells[i].Text,"");
+							}
+							//时间
+							else if(Convert.ToString(dt.Rows[0]["FieldType"]).ToUpper()=="DATETIME" 
+								&& e.Item.Cells[i].Text.ToLower()!="&nbsp;")
+							{
+
+								e.Item.Cells[i].Text=Convert.ToDateTime(e.Item.Cells[i].Text).ToShortDateString();
+
+							}
+							//时间6
+							else if(Convert.ToString(dt.Rows[0]["FieldType"]).ToUpper()=="DATETIME6" 
+								&& e.Item.Cells[i].Text.ToLower()!="&nbsp;")
+							{
+
+								e.Item.Cells[i].Text=ZZBusiness1.CommonFun.ConvertToDate6(e.Item.Cells[i].Text.Trim());//2004-11-04
+
+							}
+						}
+						catch
+						{
+							
+						}
+					}
+				}
+			}
+			
+		}

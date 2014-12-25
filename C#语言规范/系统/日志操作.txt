@@ -1,0 +1,26 @@
+using System.Diagnostics;		
+
+
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			string sSource = "DotNetMySource";
+			string sLog = "DotNetMyLog";
+
+			//新建日志文件及源并写入一条日志
+			if(!EventLog.SourceExists(sSource))
+			{
+				EventLog.CreateEventSource(sSource,sLog);
+				Console.WriteLine("Source Created");
+			}
+			EventLog log = new EventLog();
+			log.Source = sSource;
+			log.WriteEntry("Hello China");
+
+			//删除刚才的建立日志文件及源
+			if(EventLog.SourceExists(sSource))
+			{
+			   EventLog.DeleteEventSource(sSource);
+			}
+		}
+
+管理工具|事件查看器。

@@ -1,0 +1,13 @@
+Windows 2000ÖÐ
+
+Vs2002
+C:\WINNT\Microsoft.NET\Framework\v1.0.3705\aspnet_regiis.exe -i
+Vs2003
+C:\WINNT\Microsoft.NET\Framework\v1.1.4322\aspnet_regiis.exe -i
+
+Windows XPÖÐ
+Vs2003
+C:\Windows\Microsoft.NET\Framework\v1.1.4322\aspnet_regiis.exe -i
+
+
+

@@ -1,0 +1,29 @@
+使用脚注
+默认为false
+必须设置为ShowFooter="True"
+
+通过如下设置脚注风格
+<FooterStyle BackColor="Lime"></FooterStyle>
+
+
+使用列的FooterText属性指定(属性编辑中)
+FooterText="cc"
+
+将脚注作为摘要
+
+		private void DataGrid1_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			ListItemType elemType=e.Item.ItemType;//获得被创建项的类型
+			if(elemType==ListItemType.Footer)
+			{
+				TableCellCollection tcc=e.Item.Cells;
+				int nTotalCols=tcc.Count;
+				//删除无用单无格
+				for(int i=0;i<nTotalCols-1;i++)
+					e.Item.Cells.RemoveAt(i);
+				//此时只有一个单元格
+				TableCell c=e.Item.Cells[0];
+				c.ColumnSpan=nTotalCols;
+				c.Text=DataGrid1.PageCount.ToString()+"page found.";//共多少页
+			}
+		 }

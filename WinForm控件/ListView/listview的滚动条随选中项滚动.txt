@@ -1,0 +1,4 @@
+//i为最后一项的索引
+Listview1.Items[i].Focused= true;
+Listview1.Items[i].Selected= true;				
+Listview1.Items[i].EnsureVisible();

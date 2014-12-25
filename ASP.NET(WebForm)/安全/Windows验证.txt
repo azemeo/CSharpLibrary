@@ -1,0 +1,13 @@
+1.
+虚拟目录上右击/属性/目录安全性/匿名访问和验证控件组框中的编辑
+选择:基本验证
+去掉:匿名访问,集成Windows验证
+2.
+在计算机上创建两个帐户
+3.Web.config
+<configuration>
+	<system.web>
+		<authentication mode="Windows" />
+	</system.web>
+</configuration>
+

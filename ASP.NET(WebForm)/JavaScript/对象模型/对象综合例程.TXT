@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<script language=javascript>
+<!--
+/*person对象的构造函数*/
+function person(name,age,sex)
+{
+	this.name=name;
+	this.age=age;
+	this.sex=sex;
+}
+Bill=new person("Bill Gates",33,"M");
+Andi=new person("Andi Grolf",39,"M");
+//对象方法
+function displayComputer()
+{
+	//this 操作符就是对象本身
+	var result="a "+this.year+" year made in"+this.brand+
+	"computer owner"+this.owner.name+"<BR>";
+	document.writeln(result);
+}
+/*computer对象的构造函数*/
+function computer(brand,year,owner)
+{
+	this.brand=brand;
+	this.year=year;
+	this.owner=owner;
+	this.displayComputer=displayComputer;//注册一个对象的方法
+}
+//-->
+</script>
+	</head>
+	<body>
+	<script language=javascript>
+<!--
+var Computer1=new computer("Microsoft",1999,Bill);
+var Computer2=new computer("IBM",1998,Andi);
+Computer1.displayComputer();
+Computer2.displayComputer();
+//-->
+</script>
+
+	</body>
+</html>

@@ -1,0 +1,4 @@
+sn /k keyfile.snk //生成密钥对
+sn /t math.dll 得到公钥
+
+

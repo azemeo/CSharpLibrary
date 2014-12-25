@@ -1,0 +1,28 @@
+自定义控件基础:利用继承机制和面向对象设计。
+取代、限制或或者扩展现在控件的新功能。封装一些常用设置和行为减少构建一个解决方案所需要的代码量。
+
+编定简单的比较容易，编写复杂的控件则会相当困难。
+
+using System.Web.UI.Control;//定义服务器控件基本特征。
+Render() 最要的虚方法
+HtmlTextWriter向HTML输出流。
+
+
+三个重要原则
+
+1.自定义控件派生自System.Web.UI.Control
+通Control.Render 方法呈现自已
+2.必须属于某个命名空间
+
+<%@ Register TagPrefix="cc1" Namespace="NelCmp" Assembly="NelCmp" %>
+
+
+TagPrefix 标记前缀
+
+Namespace 命名空间
+
+Assembly 程序集
+
+自定义控件是用程序集注册到页面的编译元素。要指明命名空间。
+
+可以覆盖属性，也以可覆盖属性方法。

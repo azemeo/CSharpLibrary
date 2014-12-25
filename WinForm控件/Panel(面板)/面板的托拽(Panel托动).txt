@@ -1,0 +1,23 @@
+bool whetherSelected=false;//鼠标是否按钮
+		Point Start=new Point();//点
+		private void panelMain_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			whetherSelected=true;
+			Start.X=e.X;
+			Start.Y=e.Y;		
+		}
+
+		private void panelMain_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			if(whetherSelected)
+			{
+				this.Left+=(e.X-Start.X);
+				this.Top+=(e.Y-Start.Y);
+
+			}
+		}
+
+		private void panelMain_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			whetherSelected=false;
+		}

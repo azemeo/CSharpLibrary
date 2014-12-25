@@ -1,0 +1,16 @@
+模板：进一步自定义项，更准确地反映数据的意义。可以便用任何控件填充列的单元格。
+模板是特定，不能应用到自生成的列上。AutoGenerateColumns=false
+模板列中的控件：可以包括其它HTML标签及任意数据源中任意字段的组合。DataBinder类
+
+TemplateColumn 从ITemplate接口中继承了数据类型。
+模板列由<TemplateColumn>标记构成，包含1-4不同的模板：
+ItemTemplate 项的模板(HTML及ASP.NET任何控件填充)
+EditItemTemplate 要编辑的项内容
+HeaderTemplate 标题部分的信息(最好不要改变)
+FooterTemplate 脚注部分
+
+没有明确的绑定数据字段，因此没有DataField字段。
+
+
+Literal控件是所有控件中最轻型的，用来呈现永远不会在返回事件之间更新的静态文本。
+

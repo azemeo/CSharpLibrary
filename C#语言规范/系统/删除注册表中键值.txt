@@ -1,0 +1,6 @@
+using Microsoft.Win32;
+
+				//删除注册表中中的键值
+				RegistryKey SoftwareKey=Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",true);
+				SoftwareKey.DeleteSubKey("CSHigh");
+				SoftwareKey.Close();

@@ -1,0 +1,5 @@
+FileImport 为工具箱HTML选项卡中的File Field控件			
+
+//上传文件到服务器目录
+			string SaveServerPath=Page.Server.MapPath("..\\..\\")+"ExcelFolder\\TempFile\\"+Session.SessionID.ToString()+".Tmp";
+			FileImport.PostedFile.SaveAs(SaveServerPath);

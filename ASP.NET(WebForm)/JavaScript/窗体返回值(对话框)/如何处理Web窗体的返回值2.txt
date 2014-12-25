@@ -1,0 +1,31 @@
+<HTML>
+  <HEAD>
+		<title>JYK-eHR</title>
+		<SCRIPT FOR="window" EVENT="onload">
+			window.returnValue="Dialog_Close";	//关闭	
+		</SCRIPT>
+</HEAD>
+	<body bgColor="#f0f8ff" MS_POSITIONING="GridLayout">
+		<form id="ManageBatchDel" method="post" runat="server">
+			<asp:button id="BtnOk" style="Z-INDEX: 102; LEFT: 115px; POSITION: absolute; TOP: 128px" runat="server"
+				Width="40px" Font-Size="9pt" Height="20px" Text="确定" BorderWidth="1px" BorderStyle="Double"
+				BackColor="AliceBlue" BorderColor="#404040" tabIndex=1></asp:button>
+			<asp:button id="BtnCancel" style="Z-INDEX: 104; LEFT: 177px; POSITION: absolute; TOP: 128px"
+				runat="server" BorderColor="#404040" BackColor="AliceBlue" BorderStyle="Double" BorderWidth="1px"
+				Text="取消" Height="20px" Font-Size="9pt" Width="40px" tabIndex=2></asp:button>			
+			<script language="javascript">
+<!--
+			function Dialog_OK()		     //确定
+			{
+				window.returnValue="Dialog_OK";
+				window.close();
+			}
+			function Dialog_Cancel()           //取消
+			{
+				window.returnValue="Dialog_Cancel";
+				window.close();
+			}		
+			
+		</form>
+	</body>
+</HTML>

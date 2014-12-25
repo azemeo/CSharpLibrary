@@ -1,0 +1,11 @@
+private void btnSear_Click(object sender, System.EventArgs e)
+		{
+			OleDbConnection myConn=new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+Environment.CurrentDirectory+"\\QiaoJN.mdb");
+			myConn.Open();
+			OleDbDataAdapter myAdapter= new OleDbDataAdapter("SELECT XingM,GongZ FROM JianL",myConn);
+			OleDbCommandBuilder myBuilder=new OleDbCommandBuilder(myAdapter);
+			DataSet myDataSet=new DataSet();
+			myAdapter.Fill(myDataSet,"JianL");		
+			dataGrid1.DataSource = myDataSet.Tables["JianL"];			
+			myConn.Close();		
+		}

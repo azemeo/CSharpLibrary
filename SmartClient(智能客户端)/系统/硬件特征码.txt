@@ -1,0 +1,219 @@
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Windows.Forms;
+using System.Data;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Diagnostics;
+using System.ComponentModel;
+namespace HardwareID
+{
+	/// <summary>
+	/// Form1 的摘要说明。
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.MainMenu mainMenu1;
+
+		public Form1()
+		{
+			//
+			// Windows 窗体设计器支持所必需的
+			//
+			InitializeComponent();
+
+			//
+			// TODO: 在 InitializeComponent 调用后添加任何构造函数代码
+			//
+		}
+		/// <summary>
+		/// 清理所有正在使用的资源。
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			base.Dispose( disposing );
+		}
+		#region Windows 窗体设计器生成的代码
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.mainMenu1 = new System.Windows.Forms.MainMenu();
+			this.buttonGet = new System.Windows.Forms.Button();
+			// 
+			// buttonGet
+			// 
+			this.buttonGet.Location = new System.Drawing.Point(32, 48);
+			this.buttonGet.Text = "ID";
+			this.buttonGet.Click += new System.EventHandler(this.buttonGet_Click);
+			// 
+			// Form1
+			// 
+			this.Controls.Add(this.buttonGet);
+			this.Menu = this.mainMenu1;
+			this.Text = "Form1";
+			this.Load += new System.EventHandler(this.Form1_Load);
+
+		}
+		#endregion
+
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+//			try 
+//			{
+//				string strDeviceID = GetDeviceID();
+//				MessageBox.Show("The ID for this device is " + strDeviceID);
+//			}
+//
+//			catch (Exception ex)
+//			{
+//				MessageBox.Show(ex.Message.ToString());
+//			}
+		}
+		private static Int32 METHOD_BUFFERED = 0;
+		private static Int32 FILE_ANY_ACCESS = 0;
+		private static Int32 FILE_DEVICE_HAL = 0x00000101;
+
+		private const Int32 ERROR_NOT_SUPPORTED = 0x32;
+		private const Int32 ERROR_INSUFFICIENT_BUFFER = 0x7A;
+		private System.Windows.Forms.Button buttonGet;
+
+        
+		private static Int32 IOCTL_HAL_GET_DEVICEID = ((FILE_DEVICE_HAL) << 16) | ((FILE_ANY_ACCESS) << 14) | ((21) << 2) | (METHOD_BUFFERED);
+
+        
+		[DllImport("coredll.dll", SetLastError=true)]
+		private static extern bool KernelIoControl(Int32 dwIoControlCode, IntPtr lpInBuf, Int32 nInBufSize, byte[] lpOutBuf, Int32 nOutBufSize, ref Int32 lpBytesReturned);
+
+
+//		private static string GetDeviceID()
+//		{
+//
+//			// Initialize the output buffer to the size of a Win32 DEVICE_ID structure
+//			byte[] outbuff = new byte[4096];
+//			Int32  dwOutBytes;
+//			bool done = false;
+//
+//			Int32 nBuffSize = outbuff.Length;
+//
+//			// Set DEVICEID.dwSize to size of buffer.  Some platforms look at
+//			// this field rather than the nOutBufSize param of KernelIoControl
+//			// when determining if the buffer is large enough.
+//			//
+//			BitConverter.GetBytes(nBuffSize).CopyTo(outbuff, 0);  
+//			dwOutBytes = 0;
+//
+//
+//			// Loop until the device ID is retrieved or an error occurs
+//			while (!done)
+//			{
+//				if (KernelIoControl(IOCTL_HAL_GET_DEVICEID, IntPtr.Zero, 0, outbuff, nBuffSize, ref dwOutBytes))
+//				{
+//					done = true;
+//				}
+//				else
+//				{
+//					int error = Marshal.GetLastWin32Error();
+//					switch (error)
+//					{
+//						case ERROR_NOT_SUPPORTED:
+//							throw new NotSupportedException("IOCTL_HAL_GET_DEVICEID is not supported on this device", new Win32Exception(error));
+//
+//						case ERROR_INSUFFICIENT_BUFFER:
+//							// The buffer wasn't big enough for the data.  The
+//							// required size is in the first 4 bytes of the output
+//							// buffer (DEVICE_ID.dwSize).
+//							nBuffSize = BitConverter.ToInt32(outbuff, 0);
+//							outbuff = new byte[nBuffSize];
+//
+//							// Set DEVICEID.dwSize to size of buffer.  Some
+//							// platforms look at this field rather than the
+//							// nOutBufSize param of KernelIoControl when
+//							// determining if the buffer is large enough.
+//							//
+//							BitConverter.GetBytes(nBuffSize).CopyTo(outbuff, 0);
+//							break;
+//						default:
+//							break;
+//					}
+//				}
+//
+//				Int32 dwPresetIDOffset = BitConverter.ToInt32(outbuff, 0x4);    // DEVICE_ID.dwPresetIDOffset
+//				Int32 dwPresetIDSize = BitConverter.ToInt32(outbuff, 0x8);      // DEVICE_ID.dwPresetSize
+//				Int32 dwPlatformIDOffset = BitConverter.ToInt32(outbuff, 0xc);  // DEVICE_ID.dwPlatformIDOffset
+//				Int32 dwPlatformIDSize = BitConverter.ToInt32(outbuff, 0x10);   // DEVICE_ID.dwPlatformIDBytes
+//				StringBuilder sb = new StringBuilder();
+//
+//				for (int i = dwPresetIDOffset; i < dwPresetIDOffset + dwPresetIDSize; i++)
+//				{
+//					sb.Append(String.Format("{0:X2}", outbuff[i]));
+//				}
+//
+//				sb.Append("-");
+//				for (int i = dwPlatformIDOffset; i < dwPlatformIDOffset + dwPlatformIDSize; i ++ )  
+//				{
+//					sb.Append( String.Format("{0:X2}", outbuff[i]));
+//
+//				}
+//				return sb.ToString();
+//
+//			}
+//			return "";
+//		}
+
+		private static string GetDeviceID()
+		{
+
+			string strResult="-1";
+
+			byte[] outbuff = new byte[4096];
+			Int32  dwOutBytes;
+			bool done = false;
+			Int32 nBuffSize = outbuff.Length;			
+			BitConverter.GetBytes(nBuffSize).CopyTo(outbuff, 0);  
+			dwOutBytes = 0;
+
+						
+			if (KernelIoControl(IOCTL_HAL_GET_DEVICEID, IntPtr.Zero, 0, outbuff, nBuffSize, ref dwOutBytes))
+			{
+				Int32 dwPresetIDOffset = BitConverter.ToInt32(outbuff, 0x4);    // DEVICE_ID.dwPresetIDOffset
+				Int32 dwPresetIDSize = BitConverter.ToInt32(outbuff, 0x8);      // DEVICE_ID.dwPresetSize
+				Int32 dwPlatformIDOffset = BitConverter.ToInt32(outbuff, 0xc);  // DEVICE_ID.dwPlatformIDOffset
+				Int32 dwPlatformIDSize = BitConverter.ToInt32(outbuff, 0x10);   // DEVICE_ID.dwPlatformIDBytes
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = dwPresetIDOffset; i < dwPresetIDOffset + dwPresetIDSize; i++)
+				{
+					sb.Append(String.Format("{0:X2}", outbuff[i]));
+				}
+
+				sb.Append("-");
+				for (int i = dwPlatformIDOffset; i < dwPlatformIDOffset + dwPlatformIDSize; i ++ )  
+				{
+					sb.Append( String.Format("{0:X2}", outbuff[i]));
+
+				}
+				strResult= sb.ToString();
+			}			
+			return strResult;			
+		}
+
+		private void buttonGet_Click(object sender, System.EventArgs e)
+		{
+			MessageBox.Show(GetDeviceID());
+		}
+
+	}
+}

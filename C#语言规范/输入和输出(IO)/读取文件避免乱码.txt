@@ -1,0 +1,3 @@
+using System.Text;					
+FileStream fs = new FileStream(tvMain.SelectedNode.Tag.ToString() ,FileMode.Open,FileAccess.Read); 
+					reader=new StreamReader(fs,UnicodeEncoding.GetEncoding("GB2312"));

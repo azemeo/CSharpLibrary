@@ -1,0 +1,1 @@
+VS自带教程,菜单[帮助]/目录/Visual Studio .NET/Visual Basic和Visual C#/参考/C#语言规范.

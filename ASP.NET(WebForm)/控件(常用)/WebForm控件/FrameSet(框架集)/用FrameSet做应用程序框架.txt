@@ -1,0 +1,12 @@
+<frameset rows="147,*" cols="*" frameborder="NO" border="0" framespacing="0"><!-- 上面高度-->
+  <frame src="..\NavBar.aspx" name="topFrame" scrolling="no" noresize>
+  <frameset rows="*" cols="189,*" framespacing="0" frameborder="NO" border="0"><!--左边的宽度-->
+    <frame src="<%=LeftPartUrl%>" name="leftFrame" scrolling="no" noresize>
+    <frame src="<%=RightPartUrl%>" name="mainFrame">
+  </frameset>
+</frameset>
+
+高度宽度自适应
+优点:自动出现滚动条
+
+缺点:宽度无法限制。

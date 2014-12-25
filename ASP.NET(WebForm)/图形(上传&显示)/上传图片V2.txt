@@ -1,0 +1,24 @@
+		private void btnUpload_Click(object sender, System.EventArgs e)
+		{
+			
+			//Html选择卡的File field组件,设置为服务器端运行
+			if (FilePath.PostedFile != null) 
+			{
+				//生成一个随机路径
+				string TempPath=Server.MapPath("")+"\\Temp";
+				if(!Directory.Exists(TempPath))//路径是否存在
+					Directory.CreateDirectory(TempPath);
+				string filepath=TempPath+"\\"+Session.SessionID.ToString()+Path.GetFileName(FilePath.Value);
+				try 
+				{
+					FilePath.PostedFile.SaveAs(filepath);//上传文件
+					PageTools.ClientMessage(this.Page,"上传成功");
+					//成功
+					
+				}
+				catch (Exception exc) 
+				{
+					//出错
+					PageTools.ClientMessage(this.Page,"上传失败:"+exc.Message);
+				}
+			}

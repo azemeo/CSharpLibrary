@@ -1,0 +1,42 @@
+Oracle 仅在Framework 1.1中被支持
+右击引用\添加引用用\System.Data.OracleClient.dll
+选择\确定
+
+using System;
+using System.Data;
+using System.Data.OracleClient;
+namespace MyOracle1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			DataSet ds=new DataSet();
+			OracleConnection conn=new OracleConnection(@"Server=oracle_wangbing;uid=ehr;pwd=test");
+			try
+			{			
+				conn.Open();
+				OracleCommand cmd=new OracleCommand("select * from A001",conn);
+				OracleDataReader reader=cmd.ExecuteReader();
+				while(reader.Read())
+					Console.WriteLine(reader["A00100"]);
+			}
+			catch(OracleException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				conn.Close();
+			}
+
+		}
+	}
+}

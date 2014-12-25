@@ -1,0 +1,9 @@
+1) 建立解决方案 Solution
+
+2) 建立 Web 应用 
+
+3) 新增一个 WinForms 应用 AppConfig，增加一个 WinForm ，完成初始化系统环境，修改系统配置的功能（如生成数据库、生成初始数据、修改 Web.Config 中的数据库连接参数，Machine.Config 或自定义配置文件）等功能，生成 AppConfig.exe 
+
+4) 新增一安装项目 Setup，除了将 Web 应用的的“主输出”和“内容输出”加入到项目中，还要将 AppConfig 的“主输出”加入到此项目中
+
+5) 在 Setup 项目中的“自定义操作中”的“安装”节，增加一自定义操作，使其运行来自于 AppConfig 的“主输出” AppConfig.exe

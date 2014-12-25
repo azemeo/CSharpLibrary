@@ -1,0 +1,8 @@
+DataTable dt=ds.Tables[0];
+			for(int i=0;i<dt.Rows.Count;i++)//自来数据库
+			{
+				ListItem subItem=new ListItem();
+				subItem.Text=dt.Rows[i]["Role_Name"].ToString();					
+				subItem.Value=dt.Rows[i]["Role_ID"].ToString();
+				clRoleList.Items.Add(subItem);				
+			}

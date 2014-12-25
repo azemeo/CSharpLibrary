@@ -1,0 +1,23 @@
+using System;
+using System.Reflection;
+namespace Movecont
+{
+	class Class1
+	{
+
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//通过字符串建立类型
+			//GetExecutingAssembly()得到当前程序集
+			//Movecont为命名空间
+			//Class2为类名
+			Class2 cl2=(Class2)Assembly.GetExecutingAssembly().CreateInstance("Movecont.Class2");
+			Console.WriteLine(cl2.x);			
+		}
+	}
+	public class Class2
+	{
+		public int x=10;
+	}
+}

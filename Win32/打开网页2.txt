@@ -1,0 +1,2 @@
+System.Diagnostics.Process.Start(e.LinkText);//打开网页
+System.Diagnostics.Process.Start(filename);//加载文件

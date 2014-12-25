@@ -1,0 +1,120 @@
+1.调用窗体
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace Proxy
+{
+	public class Form1 : System.Windows.Forms.Form 	{
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.PictureBox Pic;
+		private System.ComponentModel.Container components = null;
+		private ImageProxy imgProxy;
+		//-----
+		private void init() {
+			imgProxy = new ImageProxy ();
+		}
+		//-----
+		public Form1() {
+			InitializeComponent();
+			init();
+		}
+		//-----
+		protected override void Dispose( bool disposing ) 		{
+			if( disposing ) 			{
+				if (components != null) 				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+		[STAThread]
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+		//-----
+		private void button1_Click(object sender, System.EventArgs e) {
+			Pic.Image = imgProxy.getImage ();
+		}
+	}
+}
+2.ImageProxy.cs 图像代理
+using System;
+using System.Drawing ;
+using System.Threading ;
+namespace Proxy
+{
+	/// <summary>
+	/// Summary description for ImageProxy.
+	/// </summary>
+	public class ImageProxy 	{
+		private bool done;
+		private Timer timer;
+		//-----
+		public ImageProxy() 		{
+			timer = new Timer (new TimerCallback (timerCall), this, 5000, 0);
+		}
+		//-----
+		private void timerCall(object obj) {
+			done = true;
+			timer.Dispose ();
+		}
+		//-----
+		public Image getImage() {
+			Imager img;
+			if (done)
+				img = new FinalImage ();
+			else
+				img = new QuickImage ();
+			return img.getImage ();
+		}
+	}
+}
+3.FinalImage.cs 最终图像
+using System;
+using System.Drawing ;
+namespace Proxy
+{
+	/// <summary>
+	/// Summary description for FinalImage.
+	/// </summary>
+	public class FinalImage :Imager {
+		public FinalImage()	{}
+		public Image getImage() {
+			return new Bitmap("flowrtree.jpg");
+		}
+	}
+}
+4.QuickImage.cs 快速图像
+using System;
+using System.Drawing ;
+namespace Proxy
+{
+	/// <summary>
+	/// Summary description for QuickImage.
+	/// </summary>
+	public class QuickImage : Imager 	{
+		public QuickImage()	{}
+		public Image getImage() {
+			return new Bitmap ("Box.gif");
+		}
+	}
+}
+5.Imager.cs 图像接口
+using System;
+using System.Drawing ;
+namespace Proxy
+{
+	/// <summary>
+	/// Summary description for Imager.
+	/// </summary>
+	public interface Imager 	{
+		Image getImage() ;		
+	}
+}
+
+

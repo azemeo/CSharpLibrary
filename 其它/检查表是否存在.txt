@@ -1,0 +1,7 @@
+IF EXISTS (SELECT * from sysobjects 
+   WHERE id = object_id(N'KeyTable') AND
+   OBJECTPROPERTY(id, N'IsUserTable') = 1)
+Print 'NO'
+else
+Print 'Yes'
+GO

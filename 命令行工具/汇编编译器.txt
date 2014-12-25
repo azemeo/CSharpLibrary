@@ -1,0 +1,4 @@
+ª„±‡±‡“Î∆˜
+ML 7.10
+
+ml /DIS_16 /c /W3 /nologo /Fo thk16.obj 32to16.asm 

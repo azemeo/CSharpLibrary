@@ -1,0 +1,5 @@
+窗体的跳转
+
+			frmDetailBasic frm=new frmDetailBasic();
+			frm.Show();
+			Close();//不回关掉frmDetailBasic 

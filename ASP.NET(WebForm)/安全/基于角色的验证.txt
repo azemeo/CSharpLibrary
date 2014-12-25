@@ -1,0 +1,164 @@
+1.LoginPage.aspx验证
+<%@Import Namespace="System.Data.SqlClient" %>
+<html>
+	<body>
+		<h1>Please Log In<h1>
+		<hr>
+		<form runat="server">
+			<table cellpadding="8">
+				<tr>
+					<td>
+						User Name:
+					</td>
+					<td>
+						<asp:TextBox ID="UserName" RunAt="server" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Password:
+					</td>
+					<td>
+						<asp:TextBox ID="Password" TextMode="password" RunAt="server" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<asp:Button Text="Log In" OnClick="OnLogIn" RunAt="server" />
+					</td>
+					<td>
+						<asp:CheckBox Text="Keep me signed in" ID="Persistent" RunAt="server" />
+					</td>
+				</tr>				
+			</table>
+		</form>
+		<hr>
+		<h3><asp:Label ID="Output" RunAt="server"/><h3>
+	</body>
+</html>
+<script language="C#" runat="server">
+	void OnLogIn(Object sender,EventArgs e)
+	{
+		if(CustomAuthenticate(UserName.Text,Password.Text))
+		{
+			string url=FormsAuthentication.GetRedirectUrl(UserName.Text,Persistent.Checked);
+			FormsAuthentication.SetAuthCookie(UserName.Text,Persistent.Checked);
+			if(Persistent.Checked)
+			{
+				HttpCookie cookie=Response.Cookies[FormsAuthentication.FormsCookieName];
+				cookie.Expires=DateTime.Now+
+					new TimeSpan(7,0,0,0);
+			}
+			Response.Redirect(url);
+		}
+		else
+			Output.Text="Invalid login";
+	}
+	bool CustomAuthenticate(string username,string password)
+	{
+		SqlConnection connection=new SqlConnection("server=localhost;database=weblogin;uid=sa;pwd=");
+		try
+		{
+			connection.Open();
+			//Sql statament
+			//use weblogin
+			//go
+			//select count(*)from users where username='Jeff'
+			//and cast(rtrim(password)as varbinary)=cast('imbatman'as varbinary)
+			//go
+			StringBuilder builder=new StringBuilder();
+			builder.Append("select  count(*) from users"+
+				" where username=\'");
+			builder.Append(username);
+			builder.Append("\' and cast(rtrim(password)as"+
+				" varbinary)=cast(\'");
+			builder.Append(password);
+			builder.Append("\'as varbinary)");
+			SqlCommand command=new SqlCommand(builder.ToString(),
+				connection);
+			int count=(int)command.ExecuteScalar();
+			return (count>0);
+		}
+		catch(SqlException)
+		{
+			return false;
+		}
+		finally
+		{
+			connection.Close();
+		}
+		
+	}
+</script>
+2.Global.asax
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Data.SqlClient" %>
+<%@ Import Namespace="System.Text" %>
+<%@ Import Namespace="System.Security.Principal" %>
+<script language="C#" runat="server">
+	void Application_AuthenticateRequest(Object sender,EventArgs e)
+	{
+		HttpApplication app=(HttpApplication)sender;
+		if(app.Request.IsAuthenticated&&app.User.Identity is FormsIdentity)
+		{
+			FormsIdentity identity=(FormsIdentity)app.User.Identity;
+			string role=GetUserRole(identity.Name);
+			if(role!=null)
+			{
+				app.Context.User=new GenericPrincipal(identity,new string[]{role});
+			}
+		}
+	}
+	string GetUserRole(string name)
+	{
+		SqlConnection connection=new SqlConnection("server=localhost;database=weblogin;uid=sa;pwd=");
+		try
+		{
+			connection.Open();
+			StringBuilder builder=new StringBuilder();
+			builder.Append("select role from users"+
+				" where username=\'");
+			builder.Append(name);
+			builder.Append("\'");
+			SqlCommand command=new SqlCommand(builder.ToString(),connection);
+			object role=command.ExecuteScalar();	
+			if(role is DBNull)
+				return null;
+			return ((string)role).Trim();//必须去掉两头的空格
+		}
+		catch(SqlException)
+		{
+			return null;					
+		}
+		finally
+		{
+			connection.Close();
+		}		
+	}
+</script>
+3.Web.config根目录配置文件
+<configuration>
+	<system.web>
+		<authentication mode="Forms">
+			<forms loginUrl="LoginPage.aspx">				
+			</forms>
+		</authentication>
+	</system.web>
+	<location path="Secret">
+		<system.web>
+			<authorization>
+				<allow roles="Manager" />
+				<deny users="*" />
+			</authorization>
+		</system.web>
+	</location>
+</configuration>
+4.Web.config子目录
+<configuration>
+	<system.web>
+		<authorization>
+			<allow roles="Manager" />
+			<deny users="*" />			
+		</authorization>
+	</system.web>
+</configuration>

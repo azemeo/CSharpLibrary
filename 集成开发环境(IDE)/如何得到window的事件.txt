@@ -1,0 +1,9 @@
+如何得到window的事件
+
+<SCRIPT FOR="window" EVENT="X1">
+			window.returnValue="Close";	//葛利峰 2004-07-12 增加	
+			window.X1
+		</SCRIPT>
+
+
+通过Net的提示

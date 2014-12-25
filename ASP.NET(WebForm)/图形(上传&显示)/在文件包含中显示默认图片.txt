@@ -1,0 +1,7 @@
+<asp:image id="ImageCurr" runat="server" src="UsingImage.aspx" BorderStyle="None" Height="127px"
+Width="135px"></asp:image>
+
+
+UsingImage.aspx
+
+Response.Redirect("../Images/Common/No_Pict.gif");

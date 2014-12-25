@@ -1,0 +1,20 @@
+如何将控制台线程(Console)转化为窗体线程序(WinForm)
+
+
+控制台中,
+主类中,
+static int MaxVal;
+
+Main函数中
+Thread SieveThread=new Thread(new ThreadStart(ThreadFunc));
+
+
+-------------------------------
+
+窗体中,窗中申明
+Thread SieveThread;
+		int MaxVal;
+
+方法中使用
+
+SieveThread=new Thread(new ThreadStart(ThreadFunc));

@@ -1,0 +1,7 @@
+管理事件委托对
+1.FCL中的
+System.ComponentModel.EventHandlerList
+快速慢,线程不安全
+2.自定义
+复杂-性能好
+

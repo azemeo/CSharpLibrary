@@ -1,0 +1,6 @@
+查看元数据(MS未公开)
+
+
+Ildasm /Adv Wa1.exe
+
+在菜单中:视图|元信息|显示 Ctrl+M

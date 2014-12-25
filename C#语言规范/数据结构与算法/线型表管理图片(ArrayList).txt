@@ -1,0 +1,87 @@
+using System;
+using System.Collections;
+namespace ZeroWire.Shared.Object.Product
+{
+	/// <summary>
+	/// 产品信息(Singtone模式)
+	/// 保证一个类仅有一个实例，并提供一个访问它的全局访问点 
+	/// </summary>
+	class ProductInfo
+	{
+		private static ProductInfo _instance;
+		
+		public static ProductInfo Instance()
+		{
+			if (_instance == null)
+				_instance = new ProductInfo();
+			return _instance;
+		}
+		protected ProductInfo(){}
+		
+
+		/// <summary>
+		/// 产品图片
+		/// </summary>
+		private ArrayList picture=new ArrayList();//图片列表
+		private int count=0;//图片个数
+		public int Count
+		{
+			set{count=value;}
+			get{return count;}
+
+		}
+		private int curr=-1;//当前图片
+		public int Curr
+		{
+			set{curr=value;}
+			get{return curr;}
+		}
+		/// <summary>
+		/// 上一张图片
+		/// </summary>
+		public void Prev()
+		{
+			if(curr>0)
+			{
+				curr--;
+			}
+			else
+			{
+				curr=count-1;
+			}
+		}
+		/// <summary>
+		/// 下一张图片
+		/// </summary>
+		public void Next()
+		{
+			if(curr<count-1)
+			{
+				curr++;
+			}
+			else
+			{
+				curr=0;
+			}
+		}
+		//得到当前图片
+		public object Picture()
+		{
+			return picture[curr];
+		}
+		//增加图表
+		public void AddPicture(object ob)
+		{
+			picture.Add(ob);
+			count++;
+		}
+		//清空图表列表
+		public void ClearPicture()
+		{
+			picture.Clear();
+			count=0;
+			curr=-1;
+		}
+
+	}
+} 

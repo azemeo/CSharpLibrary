@@ -1,0 +1,22 @@
+1.客户机:mysql,mysqldump,mysqlimport,mysqladmin
+2.命令
+% mysql options
+注:%为命令行提示符
+->允许继续键入查询
+查询大小写无关(Windows)有关(Unix)
+一般情况下:
+大写:关键字、函数名
+小写:数据库名、表名、列名
+函数名与()之间不能有空格
+\c放弃
+3.执行外部文件
+运行文件C:\mysql\bin>mysql < e:\mysql\a1.sql
+4.语句结束标记
+;
+5.查询当前时间
+mysql> select now();
+必须以;结束
+6.当前用户，当前版本
+mysql> select user(),version();
+7.退出
+mysql>quit

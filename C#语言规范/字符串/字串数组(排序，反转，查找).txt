@@ -1,0 +1,44 @@
+using System;
+using System.Collections;
+namespace TestArray
+{
+	public class Point
+	{
+		public int x;
+		public int y;
+	}
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			string[] a1=new string[5];
+			a1[0]="Micorosft";
+			a1[1]="Sun";
+			a1[2]="Adobe";
+			a1[3]="Zero";
+			a1[4]="Google";
+			PrintValue(a1);
+			Array.Reverse(a1);//元素反转
+			PrintValue(a1);
+			Array.Sort(a1,0,a1.Length);//排序
+			PrintValue(a1);
+			int pos=Array.BinarySearch(a1,0,a1.Length,"Zero");//二分搜索
+			Console.WriteLine(pos.ToString());
+			
+		}
+		static void PrintValue(string[]p)
+		{
+			IEnumerator myEnumerator= p.GetEnumerator();//遍历元素
+			while (myEnumerator.MoveNext() )
+				Console.Write( "{0}\t", myEnumerator.Current );
+			Console.WriteLine();//空行
+		}
+	}
+}

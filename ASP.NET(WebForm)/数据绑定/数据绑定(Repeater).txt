@@ -1,0 +1,25 @@
+Repeater控件是一个简单的容器控件，它绑定到项列表上，它遍历绑定项并且根据基本呈现算法和您提供的HTML模板生成图形元素。支持1-5个模板。
+1.控件			
+			<asp:Repeater id="Repeater1" runat="server">
+			<HeaderTemplate>
+			<ul>
+			</HeaderTemplate>
+				<ItemTemplate>
+					<li><%#Container.DataItem%><br>
+				</ItemTemplate>
+				<AlternatingItemTemplate>
+				<span style="WIDTH: 128px; BACKGROUND-COLOR: gainsboro;width=128;">
+				<li><%#Container.DataItem%>
+				</span>
+				</AlternatingItemTemplate>
+				<FooterTemplate>
+				</ul>
+				</FooterTemplate>
+			</asp:Repeater>
+2.代码
+			if(!IsPostBack)
+			{
+				string[]beatles={"Joh","Paul","George","Ringo"};
+				this.Repeater1.DataSource=beatles;
+				this.Repeater1.DataBind();
+			}

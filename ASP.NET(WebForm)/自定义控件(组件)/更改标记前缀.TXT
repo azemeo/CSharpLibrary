@@ -1,0 +1,13 @@
+该控件正在使用工具箱中的默认图标，默认的标记前缀是“cc1”。为了使控件更加便于识别，请更改标记前缀并创建一个新图标。
+更改标记前缀 
+在解决方案资源管理器中 Movecont 项目下，双击“AssemblyInfo”以在设计器中打开 AssemblyInfo 文件。在 AssemblyInfo 页的顶部using 语句
+using System.Web.UI;
+
+将 Assembly: TagPrefix 属性添加到程序集属性的列表。
+这将指定 Movecont 控件的新 TagPrefix，在本例中为 gee。 
+
+//C#
+[assembly: TagPrefix("Movecont", "gee")]
+
+
+Movecont 指是项目名称(名称空间)。

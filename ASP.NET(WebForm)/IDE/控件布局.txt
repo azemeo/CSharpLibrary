@@ -1,0 +1,8 @@
+对齐
+
+对Label Font:Size 应于Height相同
+对TextBox Font:Size 应为Height-2
+
+格式|对齐|中间对齐
+
+在工具栏右击|布局... 控件布局工具则出现。

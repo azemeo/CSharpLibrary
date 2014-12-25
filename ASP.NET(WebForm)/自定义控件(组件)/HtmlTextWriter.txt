@@ -1,0 +1,10 @@
+HtmlTextWriter writer
+
+writer.WriteBeginTag	输出尖括号中的开始标记
+
+writer.WriteAttribute	输出属性
+
+
+writer.WriteEndTag 	输出尖括号中的结束标记
+
+writer.Write 		输出任何元素

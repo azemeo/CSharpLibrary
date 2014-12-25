@@ -1,0 +1,45 @@
+类型可以定义或多个如下成员:
+.常数:常数是一个表示恒定的数值的符号.常数总是和类型而非它们的实例相关联.
+.字段:表示是一个数据的值.只读/读写,静态/实例.建议将其访问限制为私有方式.
+.实例构造器:是一种特珠的方法,它用来将一个新对象的实例字段初始化到正常的初始状态.
+.类例构造器:是一种特珠的方法,它用来将一个一个类型的静态字段初始化到正常的初始状态.
+.方法:是一个函数.静态方法(查询或改变类型)/实例方法(查询或改变对象的状态,通常要读写对象的字段)
+.重载操作符:一种方法,它用操作符的形式定义怎样对象进行操作.(不是CLS的一部分)
+.转化操作符:将一种类型转化为另一种类型.
+.属性:一种方法,它以一种简单的、类似字段的方式实现了设置、查询一个类型或对象的状态。保护了状态不被破坏。
+.事件:分类静态和实例两种。发送通知、接收通知、登记、注销。
+.类型：类型内部可以嵌套定义其他类型。(将庞大的类型划分为较小的代码块).
+
+
+using System;
+class SomeType
+{
+	//嵌套类
+	class SomeNestedType{}
+	//常数、只读字段、静态读写字段
+	const Int32 SomeConstant=1;
+	readonly Int32 SomeReadOnlyField=2;
+	static Int32 SomeReadWriteField=3;
+	//类型构造器
+	static SomeType(){}
+	//实例构造器
+	public SomeType(){}
+	public SomeType(Int32 x){}
+	//实例方法和静态方法
+	String InstanceMethod(){return null;}
+	static void Main(){}
+	//实例属性
+	Int32 SomeProp
+	{
+		get{return 0;}
+		set{}
+	}
+	//实例索引器属性
+	public Int32 this[String s]
+	{
+		get{return 0;}
+		set{}
+	}
+	//实例事件
+	event EventHandler SomeEvent;
+}

@@ -1,0 +1,8 @@
+　　//E-mail議屎鳩來
+　　function check_email(address) 
+　　{ 
+　　	if ((address =="")||(address.indexOf("@") == -1)||(address.indexOf('.') == -1)) 
+　　		return false; 
+　　	else
+　　		return true; 
+　　}

@@ -1,0 +1,122 @@
+		public static string GenSpell(string strChinese)
+		{
+			int slen, xx;
+            string Ss1;
+			
+			Ss1 = "";
+			slen = strChinese.Length; 
+			if (slen == 0)
+			{
+				Ss1 = "";
+				return Ss1;
+			}
+
+			Encoding strANSI = Encoding.Default;
+			char [] c=new char[1]; 
+			for(xx = 0;xx<slen;xx++)
+			{
+            	c[0]=strChinese[xx];
+			    byte []Hz=strANSI.GetBytes(c);
+
+				if (Hz.GetLength(0)==1)   // ÆÕÍ¨×Ö·û
+				{
+					Ss1 = Ss1 + c[0];
+					continue;
+				}
+
+				int i = Hz[0]*256+Hz[1];
+				if (i >= 45217 && i < 45253)
+				{
+					Ss1 = Ss1 + "A";
+				}
+				if (i >= 45253 && i < 45761 )
+				{
+					Ss1 = Ss1 + "B";
+				}
+				if (i >= 45761 && i < 46318 )
+				{
+					Ss1 = Ss1 + "C";
+				}
+				if (i >= 46318 && i < 46826 )
+				{
+					Ss1 = Ss1 + "D";
+				}
+				if (i >= 46826 && i < 47010 )
+				{
+					Ss1 = Ss1 + "E";
+				}
+				if (i >= 47010 && i < 47297 )
+				{
+					Ss1 = Ss1 + "F";
+				}
+				if (i >= 47297 && i < 47614 )
+				{
+					Ss1 = Ss1 + "G";
+				}
+				if (i >= 47614 && i < 48119 )
+				{
+					Ss1 = Ss1 + "H";
+				}
+				if (i >= 48119 && i < 49062 )
+				{
+					Ss1 = Ss1 + "J";
+				}
+				if (i >= 49062 && i < 49324 )
+				{
+					Ss1 = Ss1 + "K";
+				}
+				if (i >= 49324 && i < 49896 )
+				{
+					Ss1 = Ss1 + "L";
+				}
+				if (i >= 49896 && i < 50371 )
+				{
+					Ss1 = Ss1 + "M";
+				}
+				if (i >= 50371 && i < 50614 )
+				{
+					Ss1 = Ss1 + "N";
+				}
+				if (i >= 50614 && i < 50622 )
+				{
+					Ss1 = Ss1 + "O";
+				}
+				if (i >= 50622 && i < 50906 )
+				{
+					Ss1 = Ss1 + "P";
+				}
+				if (i >= 50906 && i < 51387 )
+				{
+					Ss1 = Ss1 + "Q";
+				}
+				if (i >= 51387 && i < 51446 )
+				{
+					Ss1 = Ss1 + "R";
+				}
+				if (i >= 51446 && i < 52218 )
+				{
+					Ss1 = Ss1 + "S";
+				}
+				if (i >= 52218 && i < 52698 )
+				{
+					Ss1 = Ss1 + "T";
+				}
+				if (i >= 52698 && i < 52980 )
+				{
+					Ss1 = Ss1 + "W";
+				}
+				if (i >= 52980 && i < 53689 )
+				{
+					Ss1 = Ss1 + "X";
+				}
+				if (i >= 53689 && i < 54481 )
+				{
+					Ss1 = Ss1 + "Y";
+				}
+				if (i >= 54481 && i < 55290 )
+				{
+					Ss1 = Ss1 + "Z";
+				}
+	        }
+			return Ss1;    
+		}

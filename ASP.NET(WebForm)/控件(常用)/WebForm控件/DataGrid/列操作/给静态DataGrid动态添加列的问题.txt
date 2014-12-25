@@ -1,0 +1,141 @@
+如果动态添加了列的话，需要在下一次PostBack时，在LoadViewState或更早把这些列重新添加。原因是，在Page类递归调用LoadViewState时，会调用DataGrid的CreateChildControls，而DataGrid的(实际上是它的父类的实现)CreateChildControls会调用DataGrid的CreateControlHierarchy()方法。在其中，DataGrid会根据当前的列的数目构造DataGridItem里的东西，然后从ViewState里恢复原来的数据。如果你没有重新添加你的动态列的话，你的动态列在PostBack后就会消失，更不用谈触发列里的控件的事件了
+
+检验你的动态控件在PostBack后是否还在的一个方法是，加一个按钮看PostBack后的行为
+
+
+
+
+1.WebForm1.aspx
+<%@ Page language="c#" Codebehind="WebForm1.aspx.cs" AutoEventWireup="false" Inherits="WebTest1.WebForm1" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<body>
+		<form runat="server" ID="Form1">
+			<asp:DataGrid id="DataGrid1" runat="server" GridLines="Both" AutoGenerateColumns="false">
+				<Columns>
+					<asp:ButtonColumn HeaderText="Static Button" Text="Click Me" CommandName="Static" />
+					<asp:TemplateColumn HeaderText="Data">
+						<ItemTemplate>
+							<%#Container.DataItem%>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+				</Columns>
+			</asp:DataGrid>
+			<asp:Button id="btnAddAColumn" runat="server" Text="Add a column" />
+			<asp:Button id="btnRefresh" runat="server" Text="Refresh" />
+		</form>
+	</body>
+</HTML>
+
+2.WebForm1.aspx.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace WebTest1
+{
+	/// <summary>
+	/// WebForm1 的摘要说明。
+	/// </summary>
+	public class WebForm1 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+		protected System.Web.UI.WebControls.Button btnAddAColumn;
+		protected System.Web.UI.WebControls.Button btnRefresh;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (!IsPostBack)
+			{
+				BindGrid();
+			}
+
+		}
+		void BindGrid()
+		{
+			DataGrid1.DataSource = new string[] {"a","b","c"};
+			DataGrid1.DataBind();
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataGrid1.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_ItemCommand);
+			this.btnAddAColumn.Click += new System.EventHandler(this.btnAddAColumn_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			Response.Write("ItemCommand is called<BR>");
+			LinkButton btn = e.CommandSource as LinkButton;
+			if (btn != null)
+				Response.Write(String.Format("{0} is clicked on row {1}", btn.CommandName, e.Item.ItemIndex));
+
+		}
+		public void CreateGridColumn(DataGrid OperationDataGrid)
+		{
+			ButtonColumn NewButCol = new ButtonColumn() ;
+			NewButCol.Text = "编辑" ;
+			NewButCol.HeaderText = "操作" ;
+			NewButCol.CommandName = "Edit" ;
+			NewButCol.ButtonType = ButtonColumnType.LinkButton;
+			NewButCol.Visible = true ;
+			OperationDataGrid.Columns.Add(NewButCol) ;
+			//OperationDataGrid.Columns.AddAt(1,NewButCol) ;
+		}
+
+		private void btnAddAColumn_Click(object sender, System.EventArgs e)
+		{
+			CreateGridColumn(DataGrid1);
+			ButtonAdded = true;
+			BindGrid();
+			btnAddAColumn.Visible = false;
+
+		}
+		bool ButtonAdded
+		{
+			get 
+			{ 
+				object o = ViewState["ButtonAdded"]; 
+				if (o == null) 
+					return false; 
+				else return (bool)o;
+			}
+			set { ViewState["ButtonAdded"] = value;}
+		}
+		//重要
+		protected override void LoadViewState(object savedState)
+		{
+			base.LoadViewState(savedState);
+ 
+			//在这里重新添加，假如已经添加的话
+			if (ButtonAdded)
+				CreateGridColumn(DataGrid1); 
+		}
+
+
+	}
+}

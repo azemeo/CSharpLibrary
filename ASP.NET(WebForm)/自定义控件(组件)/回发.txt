@@ -1,0 +1,9 @@
+		public bool AutoPostBack
+		{
+			get{return MyAutoPostBack;}
+			set{MyAutoPostBack=value;}
+		}
+
+			if(AutoPostBack)
+				writer.WriteAttribute("onchange","javascript:"+
+					Page.GetPostBackEventReference(this));

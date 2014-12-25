@@ -1,0 +1,17 @@
+SqlConnection connection=new SqlConnection("server=localhost1;uid=sa;pwd=;database=pubs");
+			try
+			{
+				connection.Open();
+				SqlCommand command=new SqlCommand("select * from titles",connection);
+				SqlDataReader reader=command.ExecuteReader();
+				while(reader.Read())
+					Console.WriteLine(reader.GetString(1));
+			}
+			catch(SqlException e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			finally
+			{
+				connection.Close();
+			}

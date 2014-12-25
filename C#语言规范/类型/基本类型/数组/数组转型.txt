@@ -1,0 +1,59 @@
+引用类型数组,A类型->B类型,(条件，维数相同，A与B类型必须有显式/隐式关系)
+
+值类型数组,Array.Copy 达到期望的效果。
+
+将值类型元素装箱为引用类型元素，Int32[]->Object[]
+将引用类型元素拆箱为值类型元素,Object[]->Int32
+拓宽CLR基元类型,In32[]->Double[]
+
+
+using System;
+using System.Collections;
+using System.IO;
+namespace TestArray
+{
+
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//引用类型
+			FileStream[,] fs2dim=new FileStream[5,10];
+			Object[,] o2dim=fs2dim;
+			
+			//值类型
+			Int32[]ildim=new Int32[5];
+			Object[]oldim=new Object[ildim.Length];
+			Array.Copy(ildim,oldim,ildim.Length);
+		}
+
+	}
+}
+
+using System;
+using System.Collections;
+using System.IO;
+namespace TestArray
+{
+
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+						
+			Int32[]ildim=new Int32[5];
+			ildim[0]=2;
+			ildim[1]=5;
+			ildim[2]=6;
+			ildim[3]=8;
+			ildim[4]=2;
+			Double[]dldim=new Double[ildim.Length];
+			Array.Copy(ildim,dldim,ildim.Length);//值类型，数组转型
+			for(int i=0;i<dldim.GetLength(0);i++)
+				Console.WriteLine(dldim[i].ToString());
+		}
+
+	}
+}

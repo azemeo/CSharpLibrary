@@ -1,0 +1,8 @@
+Cursor.Current = Cursors.WaitCursor;
+
+
+Cursor.Current = Cursors.WaitCursor;
+			product_frm.Fill();//执行大任务，需要较长的时间
+			Cursor.Current = Cursors.Default;
+
+与所在的类是Form,Panel无关

@@ -1,0 +1,50 @@
+using System;
+namespace Movecont
+{
+		public class BitArray
+		{
+			private Byte[]byteArray;
+			private Int32 numBits;
+			public BitArray(Int32 numBits)
+			{
+				if(numBits<=0)
+					throw new ArgumentOutOfRangeException("numBits","numBits must be>0");
+				this.numBits=numBits;
+				byteArray=new Byte[(numBits+7)/8];
+			}
+			public Boolean this[Int32 bitPos]
+			{
+				get
+				{
+					if((bitPos<0)||(bitPos>=numBits))
+						throw new IndexOutOfRangeException();
+					return (byteArray[bitPos/8]&(1<<(bitPos%8)))!=0;
+				}
+				set
+				{
+					if((bitPos<0)||(bitPos>=numBits))
+						throw new IndexOutOfRangeException();
+					if(value)
+					{
+						byteArray[bitPos/8]=(Byte)(byteArray[bitPos/8]|(1<<(bitPos%8)));
+					}
+					else
+					{
+						byteArray[bitPos/8]=(Byte)(byteArray[bitPos/8]&~(1<<(bitPos%8)));
+					}
+					
+			}
+		}
+	}
+	class App
+	{
+		static void Main()
+		{
+			BitArray ba=new BitArray(14);
+			for(Int32 x=0;x<14;x++)
+				ba[x]=(x%2==0);
+			for(Int32 x=0;x<14;x++)
+				Console.WriteLine("Bit "+x+" is "+(ba[x]?"On":"Off"));	
+		}	
+	}
+}

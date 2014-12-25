@@ -1,0 +1,8 @@
+//			string str1="Gelifeng";
+//
+//			string str2="feng";
+//			int result=str1.IndexOf(str2,0);
+//			if(result>0)
+//				MessageBox.Show("Found");
+//			else
+//				MessageBox.Show("Not Found");

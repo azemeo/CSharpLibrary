@@ -1,0 +1,340 @@
+1.Web.config中存放着数据库的连接字符串
+2.Global.asax.cs中添加了会话事件开始处理程序Session_Start
+3.Congo.aspx 为商店页,有向购物车添加条目、查看购物车的功能。
+4.ViewCart.aspx 为购物车，有删除条目、返回商店的功能、
+5.Support.cs 实了两个序列化的类BookOrder(定单)、ShoppingCart(购物车)。
+
+6.使用状态服务器模式，将重启IIS,会话状态仍然保留。
+
+具体如下:
+1.Web.config关键部分
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <add key="connectString"
+      value="server=localhost;database=pubs;uid=sa;pwd=" />
+  </appSettings>
+<system.web>
+     <sessionState 
+            mode="InProc"
+            stateConnectionString="tcpip=127.0.0.1:42424"
+            sqlConnectionString="data source=127.0.0.1;Trusted_Connection=yes"
+            cookieless="false" 
+            timeout="20" 
+    />
+ </system.web>
+</configuration>
+2.Global.asax.cs 关键部分
+		protected void Session_Start(Object sender, EventArgs e)
+		{
+				Session["MyShoppingCart"] = new ShoppingCart();
+		}
+
+3.Congo.aspx
+<%@ Page language="c#" Codebehind="Congo.aspx.cs" AutoEventWireup="false" Inherits="MyCongo.WebForm1" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm1</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:Button id="BtnView" style="Z-INDEX: 101; LEFT: 56px; POSITION: absolute; TOP: 32px" runat="server"
+				Text="查看购物车"></asp:Button>
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 102; LEFT: 56px; POSITION: absolute; TOP: 80px" runat="server"
+				AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn HeaderText="标识" DataField="title_id" />
+					<asp:BoundColumn HeaderText="标题" DataField="title" />
+					<asp:BoundColumn HeaderText="价格" DataField="price" DataFormatString="{0:c}" HeaderStyle-HorizontalAlign="center"
+						ItemStyle-HorizontalAlign="right" />
+					<asp:ButtonColumn HeaderText="动作" Text="加入购物车" HeaderStyle-HorizontalAlign="center" ItemStyle-HorizontalAlign="center"
+						CommandName="AddToCart" />
+				</Columns>
+			</asp:DataGrid>
+		</form>
+	</body>
+</HTML>
+4.Congo.aspx.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Configuration;
+namespace MyCongo
+{
+	/// <summary>
+	/// WebForm1 的摘要说明。
+	/// </summary>
+	public class WebForm1 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Button BtnView;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (!IsPostBack) 
+			{
+				string ConnectString =
+					ConfigurationSettings.AppSettings["connectString"];
+				SqlDataAdapter adapter = new SqlDataAdapter
+					("select * from titles where price != 0", ConnectString);
+				DataSet ds = new DataSet ();
+				adapter.Fill (ds);
+				DataGrid1.DataSource = ds;
+				DataGrid1.DataBind ();
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.BtnView.Click += new System.EventHandler(this.BtnView_Click);
+			this.DataGrid1.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_ItemCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			if (e.CommandName == "AddToCart") 
+			{
+				BookOrder order = new BookOrder (e.Item.Cells[0].Text,
+					e.Item.Cells[1].Text, Convert.ToDecimal
+					(e.Item.Cells[2].Text.Substring (1)), 1);
+				ShoppingCart cart = (ShoppingCart) Session["MyShoppingCart"];
+				if (cart != null)
+					cart.AddOrder (order);
+			}
+		}
+
+		private void BtnView_Click(object sender, System.EventArgs e)
+		{
+			Response.Redirect ("ViewCart.aspx");
+		}
+	}
+}
+5.ViewCart.aspx
+<%@ Page language="c#" Codebehind="ViewCart.aspx.cs" AutoEventWireup="false" Inherits="MyCongo.ViewCart" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>ViewCart</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:Button id="BtnShop" style="Z-INDEX: 101; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
+				Text="返回商店"></asp:Button>
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 102; LEFT: 88px; POSITION: absolute; TOP: 80px" runat="server"
+				AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn HeaderText="标识" DataField="ItemID" />
+					<asp:BoundColumn HeaderText="标题" DataField="Title" />
+					<asp:BoundColumn HeaderText="价格" DataField="Price" DataFormatString="{0:c}" HeaderStyle-HorizontalAlign="center"
+						ItemStyle-HorizontalAlign="right" />
+					<asp:BoundColumn HeaderText="数量" DataField="Quantity" HeaderStyle-HorizontalAlign="center" ItemStyle-HorizontalAlign="center" />
+					<asp:ButtonColumn HeaderText="动作" Text="删除" HeaderStyle-HorizontalAlign="center" ItemStyle-HorizontalAlign="center"
+						CommandName="RemoveFromCart" />
+				</Columns>
+			</asp:DataGrid>
+			<asp:Label id="Total" style="Z-INDEX: 103; LEFT: 88px; POSITION: absolute; TOP: 392px" runat="server"></asp:Label>
+		</form>
+	</body>
+</HTML>
+6.ViewCart.aspx.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace MyCongo
+{
+	/// <summary>
+	/// ViewCart 的摘要说明。
+	/// </summary>
+	public class ViewCart : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Button BtnShop;
+		protected System.Web.UI.WebControls.Label Total;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			ShoppingCart cart = (ShoppingCart)Session["MyShoppingCart"];
+			if (cart != null) 
+			{
+				DataGrid1.DataSource = cart.Orders;
+				DataGrid1.DataBind ();
+				Total.Text = String.Format ("Total Cost: {0:c}",
+					cart.TotalCost);
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.BtnShop.Click += new System.EventHandler(this.BtnShop_Click);
+			this.DataGrid1.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.DataGrid1_ItemCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			if (e.CommandName == "RemoveFromCart") 
+			{
+				ShoppingCart cart = (ShoppingCart) Session["MyShoppingCart"];
+				if (cart != null) 
+				{
+					cart.RemoveOrder (e.Item.Cells[0].Text);
+					DataGrid1.DataBind ();
+					Total.Text = String.Format ("Total Cost: {0:c}",
+						cart.TotalCost);
+				}
+			}
+		}
+
+		private void BtnShop_Click(object sender, System.EventArgs e)
+		{
+			 Response.Redirect("Congo.aspx");
+		}
+	}
+}
+7.Support.cs 
+using System;
+using System.Collections;
+
+namespace MyCongo
+{
+	[Serializable]
+	public class BookOrder//定单
+	{
+		string _ItemID;
+		string _Title;
+		decimal _Price;
+		int _Quantity;
+
+		public string ItemID 
+		{
+			get { return _ItemID; }
+			set { _ItemID = value; }
+		}
+
+		public string Title 
+		{
+			get { return _Title; }
+			set { _Title = value; }
+		}
+
+		public decimal Price
+		{
+			get { return _Price; }
+			set { _Price = value; }
+		}
+
+		public int Quantity 
+		{
+			get { return _Quantity; }
+			set { _Quantity = value; }
+		}
+        //构造函数
+		public BookOrder (string ItemID, string Title, decimal Price,
+			int Quantity)
+		{
+			_ItemID = ItemID;
+			_Title = Title;
+			_Price = Price;
+			_Quantity = Quantity;
+		}
+	}
+
+	[Serializable]
+	public class ShoppingCart
+	{
+		Hashtable _Orders = new Hashtable ();//哈希表
+
+		//实现一个接口的属性，以便可以被绑定
+		public ICollection Orders 
+		{
+			get { return _Orders.Values; }
+		}
+	    //统计总价值
+		public decimal TotalCost
+		{
+			get 
+			{
+				decimal total = 0;
+				foreach (DictionaryEntry entry in _Orders) 
+				{
+					BookOrder order = (BookOrder) entry.Value;
+					total += (order.Price * order.Quantity);
+				}
+				return total;
+			}
+		}
+        //向购物车加入物品
+		public void AddOrder (BookOrder Order)
+		{
+			BookOrder order = (BookOrder) _Orders[Order.ItemID];
+			if (order != null)
+				order.Quantity += Order.Quantity;
+			else
+				_Orders.Add (Order.ItemID, Order);
+		}
+        //向购物车删除物品
+		public void RemoveOrder (string ItemID)
+		{
+			if (_Orders[ItemID] != null)
+				_Orders.Remove (ItemID);
+		}
+	}
+}

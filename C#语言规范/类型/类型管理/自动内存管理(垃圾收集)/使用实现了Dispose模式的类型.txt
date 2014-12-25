@@ -1,0 +1,30 @@
+FileStream 实现了Dispose模式
+
+Close方法并不是Dispose正定义的一部分，有此类型提供Close，而有此则没有。
+
+一般情况大家不需要调用Disponse或Close方法
+
+但需要显示清理非托管资源时，应调用Disponse或Close方法.阻止对象的代龄提升，提高应用程序的性能。
+
+using System;
+using System.IO;
+namespace TestDisp
+{
+	
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Byte[]bytesToWrite=new byte[]{1,2,3,4,5};
+			FileStream fs=new FileStream("Temp.dat",FileMode.Create);
+			fs.Write(bytesToWrite,0,bytesToWrite.Length);
+			//((IDisposable)fs).Dispose();//方法1:显式释放非托管资源
+			fs.Close();//方法2
+			File.Delete("Temp.dat");
+		}
+	}
+}

@@ -1,0 +1,27 @@
+1.建立基类的派生类
+private class mydataGrid1:System.Windows.Forms.DataGrid
+		{
+			protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData) 
+ 
+			{ 
+ 
+				if(msg.WParam.ToInt32() == (int) Keys.Enter) 
+ 
+				{ 
+ 
+					SendKeys.Send("{Tab}"); 
+ 
+					return true; 
+ 
+				} 
+ 
+				return base.ProcessCmdKey(ref msg, keyData); 
+ 
+			} 
+		}
+2.修改声明
+//		private System.Windows.Forms.DataGrid dataGrid1;
+		private mydataGrid1 dataGrid1;
+3.修改实例
+this.dataGrid1 = new mydataGrid1();
+

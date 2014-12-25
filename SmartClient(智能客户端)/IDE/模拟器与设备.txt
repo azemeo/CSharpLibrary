@@ -1,0 +1,5 @@
+VS2003 支持Pocket PC2002及以上设备及模拟器,Pocket PC2003(能正确播放Mp3)
+
+VS2005 只支持Pocket PC2003的设备及模拟器(也能播放Mp3文件)
+
+CF 2.0 不能安装在Pocket PC2002的设备上

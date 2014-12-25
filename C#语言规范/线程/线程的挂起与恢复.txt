@@ -1,0 +1,10 @@
+线程的挂起与恢复
+
+线程只能对自身调用Sleep,
+所有线程都可以对其他线程调用Suspend,Resume
+
+
+Thread.Sleep(5000);//暂停5秒继续执行(静态)
+
+thread.Suspend 暂停
+thread.Resume 恢复运行

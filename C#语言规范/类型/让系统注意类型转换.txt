@@ -1,0 +1,3 @@
+byte dest;
+short sour=281;
+dest=checked((byte)sour);

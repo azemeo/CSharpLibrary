@@ -1,0 +1,51 @@
+窗体:显示输入、输出信息。
+
+.由System.Windows.Forms.Form类直接或间接继承而来。
+.支持继承事件。
+.全屏幕显示。
+.以模式或非模式显示。
+.提供用户关闭与最小化功能。
+.直到关闭才能销毁窗体。 
+.关闭后特性失效。
+.由一个线程具备。
+
+
+
+Form类属性
+Capture  是否已捕获鼠标
+Visible 是否可视
+Enabled 是否可用
+Focused 有输入焦点
+DialogResult 对话框返回结果
+Bounds 非工作区大小
+ClientRectangle 工作区大小
+注意:
+跟尺寸、位置有关的属性，应使用默认值。为了防止窗体大小发生变，可以右击窗体设计，选择锁定控件.
+MinimieBox决定窗体关闭时是最小化(true)还是销毁窗体(false).
+ControlBox决定在顶部右上角是否显示控制框(OK或X按钮)
+
+
+Form类方法
+ShowDialog 显示窗体对话框并隐藏父窗口
+Show 显示窗体
+Hide 隐藏窗体
+Close 关闭
+Dispose 回收资源
+ToString() 窗体类名路径
+Equals 判别相等
+CreateGraphics 获得重绘窗体的对象。
+Invalide 使效重绘
+Refresh 重窗窗体
+Update 重效失效区域
+
+事件
+
+Validating 确认前事件
+Validated 确认后事件
+
+Load 加载时
+Closing 关闭前
+Closeed 关闭后
+
+Click 单击
+

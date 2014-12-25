@@ -1,0 +1,87 @@
+//在C#如何包装C++的DLL的调用
+using System;
+using System.Data;
+//using WbCodeTreeYWcl;
+using System.Runtime .InteropServices ;
+namespace WebcodeMain
+{
+	/// <summary>
+	/// ChartDepart 的摘要说明。
+	/// </summary>
+	public class ChartDepartCtl
+	{
+		public  const  string strPath=@"../bin/DepchartDLL.dll";
+		
+		[DllImport(@strPath)]
+			//private static extern bool sTestText(string parA);
+		public static extern bool SetConnectionString(string strConnection);
+		[DllImport(@strPath)]
+		public static extern bool SetPath(string strPath);
+		[DllImport(@strPath)]
+		public static extern bool SetTableName(string strTableName);
+		[DllImport(@strPath)]
+		public static extern bool InitDLL();
+		[DllImport(@strPath)]
+		public static extern bool SetScale(long iScale);
+		[DllImport(@strPath)]
+		public static extern bool SetTurn(bool bTurn);
+		[DllImport(@strPath)]
+			//private static extern void SetTurn(bool bTurn);
+		public static extern bool ExportToHTML(string strFileName);
+		[DllImport(@strPath)]
+		public static extern bool AllExpand();
+		[DllImport(@strPath)]
+		public static extern void Release();
+		[DllImport(@strPath)]
+		public static extern void SetRectTurn();
+		[DllImport(@strPath)]
+		public static extern void SetRowColRange(int iColRange,int iRowRange,int iUnitHigh,int iUnitWidth);
+		[DllImport(@strPath)]
+		public static extern bool ExportToWord(string strFileName);
+		[DllImport(@strPath)]
+		public static extern bool DeleteHtml(string strFileName);
+		[DllImport(@strPath)]
+		public static extern void SetUnitStyle(int iStyle);
+		[DllImport(@strPath)]
+		public static extern void SetHaveShadow(bool bHaveShadow);
+
+		//生成html的文件名称
+		public static long iFileCount=0;
+
+		public static string JGFileName
+		{
+			get
+			{
+				string strFileName= "a_" + iFileCount.ToString();
+				iFileCount++;
+				if (iFileCount>6000)
+					iFileCount=0;
+				return strFileName;
+				
+			}
+		}
+		public ChartDepartCtl()
+		{
+			//
+			// TODO: 在此处添加构造函数逻辑
+			//
+		}
+	}
+
+	public class clsWebCommon
+	{
+
+		public static string FormatDBStr(object strDBStr)
+		{
+			return strDBStr.ToString().Replace("'","''").Trim(); 
+		}
+		public static string GetConnection()
+		{
+			JYK.eHR.DB.DataService dbOper=new JYK.eHR.DB.DataService();
+			string strConn=dbOper.ConnectionString;
+			dbOper.Dispose();
+			
+			return strConn;
+		}
+	}
+}

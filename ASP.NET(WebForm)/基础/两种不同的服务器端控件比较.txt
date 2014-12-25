@@ -1,0 +1,7 @@
+1.HTML服务器控件简化了将现有HTML窗体转化为Web窗体
+2.Web控件在System.Web.UI.WebControls
+3.Html控件在System.Web.UI.HtmlControls
+4.它们都是服务端的控件,用于完成相同的任务
+OnClick   OnServerClick
+Text      Value
+Text      InterText

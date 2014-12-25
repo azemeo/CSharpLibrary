@@ -1,0 +1,33 @@
+Web模式，是事件在客户发生，处理在服务端进行。
+
+Button1->|用户实际单击产生  |->
+	 |客户端脚本模拟产生|->产生客户端事件|->客户端JavaScript处理程序
+	 |->由服务端事件处理程序|->产生客户端的脚本
+
+1.要点
+只有客端处理程序打开的窗口产闭后，才会将控制权交给服务端处理程序。
+
+1.在服务端添加控件的客户端JavaScript处理程序			this.Btn1.Attributes.Add("onclick","javascript:OpenSortFrm('child');");
+2.在服务端向客户动态输出函数
+string strTemp="<script language=javascript>javascript:self.close();</script>";
+	if(!this.IsClientScriptBlockRegistered("clientScript"))
+	this.RegisterStartupScript("clientScript",strTemp);
+3.在服务端向客户动态输出定时单击按钮函数
+string strClick=			
+	"<script language=\"JavaScript\">\n"+
+	"<!--\n"+
+	"function Refresh()\n"+
+	"{\n"+
+	" document.all.ButtonChoose.click();}\n"+//cmdRefresh为进行操作的按钮
+	" setTimeout(\"Refresh()\",100);"+		//设定刷新的时间为100毫秒
+	"\n"+
+	"-->\n"+
+	"</script>";
+	this.RegisterStartupScript("RefreshScript",strClick);
+	
+此交会会的：
+模拟Windows中的Modal对话框
+
+		
+
+

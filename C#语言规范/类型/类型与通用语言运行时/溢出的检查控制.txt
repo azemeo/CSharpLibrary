@@ -1,0 +1,56 @@
+源文件:Test_check.cs
+using System;
+class Hello 
+{
+   static void Main() 
+   {
+      byte b=100;
+      b=(byte)(b+200);
+      Console.WriteLine("Hello World!");
+   }
+}
+
+1.打开或关闭整个代码的溢出检查(通过编译器)
+
+csc /checked+ Test_check.cs    发生溢出，抛出System.OverflowException      
+
+csc /checked- Test_check.cs    发生溢出,不抛出异常.
+
+2.C#中的checked/unchecked操作符和语句(通过语法)
+
+a.操作符方式
+using System;
+class Hello 
+{
+   static void Main() 
+   {
+      byte b=100;
+      b=unchecked((byte)(b+200)); //checked     
+   }
+}
+
+csc  Test_check.cs
+b.语句方式
+using System;
+class Hello 
+{
+   static void Main() 
+   {
+      unchecked //checked
+      {
+	      byte b=100;
+	      b=(byte)(b+200);  
+      }
+   }
+}
+
+使用原则
+
+1.编写代码时希望抛出异常，我们应显式使用checked
+2.编写代码时希望不希望抛出异常，我们应显式使用unchecked
+
+3.开发时希望抛出异常,以便检测并及时修复(使用编译开关/checked+)，
+当发布应用程序时,不抛出异常,代码运行速度，不给用户留下坏的印象(使用编译开关/checked-)。
+
+4.在IDE中设置,项目属性页,配置属性|生成|检查算法上溢/下上溢=true/false.
+对decimal(不是FCL类型) 类型没有影响

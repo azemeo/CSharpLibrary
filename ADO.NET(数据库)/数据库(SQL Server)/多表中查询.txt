@@ -1,0 +1,1 @@
+SELECT emay_stud.si_id,sn_stuinfo.si_name,emay_stud.si_card FROM emay_stud,sn_stuinfo WHERE emay_stud.si_id=sn_stuinfo.si_id

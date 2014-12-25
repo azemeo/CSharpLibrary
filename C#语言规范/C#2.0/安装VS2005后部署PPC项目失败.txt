@@ -1,0 +1,5 @@
+安装VS2005后，部署和/或注册失败
+
+将
+CompactFramework将的所有文件复制到
+smartdevices\sdk

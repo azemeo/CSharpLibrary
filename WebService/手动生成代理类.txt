@@ -1,0 +1,6 @@
+VS.NET 命令提示符下，相关的目录
+wsdl http://localhost/second/calc.asmx
+为Microsoft远程WebService生成代理
+wsdl /namespace:TS http://terraservice.net/terraservice.asmx
+编译成DLL
+csc /t:library terraservice.cs

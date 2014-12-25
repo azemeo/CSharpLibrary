@@ -1,0 +1,26 @@
+DataSet 是一个常驻内存的数据库.
+DataSet 可以包含多个DataTable
+DataTable 可以定义约束
+DataTable 可以指定关系
+DataTable 可包含一个DataView对象，进行排序及过滤。
+
+查询能力
+
+foreach+rows集合，访问表的所有行
+Select方法，访问符合条件的某一行
+GetChildRow访问一个与之关联的行
+
+DataSet中Rows是行列的集合。
+通过名称访问，代码可读性强。dt.Rows[1]["categoryname"]
+通过索引访问，执行速度更快。
+
+
+
+
+
+
+
+
+
+
+

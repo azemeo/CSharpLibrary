@@ -1,0 +1,67 @@
+using System;
+//此技巧由Microsoft公司提供
+namespace EncShow
+{
+	struct Description
+	{
+		public B b;
+		public override string ToString()
+		{
+			//修改点2
+			return b.Desc;
+		}
+		public Description(B b)
+		{
+		this.b=b;
+		}	
+	}	
+
+	class B
+	{
+		private string desc=null;
+		public B(string d)
+		{
+			desc=d;
+		}
+		//修改点1
+		public string Desc
+		{
+			get
+			{
+				return desc;
+			}
+			set
+			{
+				desc=value;
+			}
+		}
+
+	}
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//
+			// TODO: 封装显示,知用于可以改变属性,不用频繁的调用ToString
+			//
+			//修改1,只需修改2,不需要修改3
+			//
+
+			B b1=new B("b1");
+			B b2=new B("b2");
+
+			//修改点3
+			Description d1=new Description(b1);
+			Console.WriteLine(d1);
+			Description d2=new Description(b2);
+			Console.WriteLine(d2);
+		}
+	}
+}

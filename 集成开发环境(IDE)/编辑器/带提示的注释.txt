@@ -1,0 +1,11 @@
+		/// <summary>
+		/// 葛利峰
+		/// 两个数据相加
+		/// </summary>
+		/// <param name="a">第一个数</param>
+		/// <param name="b">第二个数</param>
+		/// <returns>相加结果</returns>
+		public int Add(int a,int b)
+		{
+			return a+b;
+		}	

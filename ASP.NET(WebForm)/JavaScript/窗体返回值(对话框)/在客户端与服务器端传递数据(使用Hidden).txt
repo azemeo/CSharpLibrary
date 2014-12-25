@@ -1,0 +1,26 @@
+开始时
+<INPUT style="Z-INDEX: 147; LEFT: 520px; POSITION: absolute; TOP: 496px" type="hidden">
+
+加工后:
+<INPUT id="Hidden3" 	type="hidden" size="19" name="Hidden3" runat="server">
+
+如果在服务端也使用请加上,Name,Id,runat=server
+
+
+
+//客户端访问
+<script language="javascript">
+function SelectType(code)
+{				window.document.all("Hidden3").value=code;
+}			
+</script>
+
+
+//服务器端访问
+private void ButtonTest_Click(object sender, System.EventArgs e)
+{
+this.Hidden3.Value
+}
+
+注意：无论客户端与服务器端严格区分大小写,(Value与value不同)
+如客户端写成Value,编译通过，但无法成功传递参数

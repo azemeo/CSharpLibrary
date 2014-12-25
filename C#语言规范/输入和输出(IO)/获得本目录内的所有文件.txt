@@ -1,0 +1,3 @@
+using System.IO;					
+//获得本目录内的所有文件
+					string[]files=Directory.GetFiles(path);

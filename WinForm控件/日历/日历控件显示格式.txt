@@ -1,0 +1,2 @@
+dtpstartTime.Format = DateTimePickerFormat.Custom;
+			dtpstartTime.CustomFormat = "yyyyÄêMMÔÂddÈÕ,HH:mm:ss";

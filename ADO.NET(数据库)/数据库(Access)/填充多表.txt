@@ -1,0 +1,21 @@
+using System.Data;
+using System.Data.OleDb;
+OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+Application.StartupPath+"\\First.mdb;");
+				myConn.Open();
+				//建立数据集
+				DataSet thisDataSet=new DataSet();
+				//建立适配器
+				OleDbDataAdapter studentAdapter= new OleDbDataAdapter("SELECT * FROM Student",myConn);
+				OleDbCommandBuilder studentBuilder=new OleDbCommandBuilder(studentAdapter);
+				
+				OleDbDataAdapter teacherAdapter= new OleDbDataAdapter("SELECT * FROM Teacher",myConn);
+				OleDbCommandBuilder teacherBuilder=new OleDbCommandBuilder(teacherAdapter);
+				
+				OleDbDataAdapter genearchAdapter= new OleDbDataAdapter("SELECT * FROM Genearch",myConn);
+				OleDbCommandBuilder genearchBuilder=new OleDbCommandBuilder(genearchAdapter);
+
+								//填充
+				studentAdapter.Fill(thisDataSet,"Student");
+				teacherAdapter.Fill(thisDataSet,"Teacher");
+				genearchAdapter.Fill(thisDataSet,"Genearch");
+								myConn.Close();	

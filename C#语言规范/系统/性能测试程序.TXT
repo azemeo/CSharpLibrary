@@ -1,0 +1,28 @@
+using System;
+
+namespace TestApp
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			long dt = DateTime.Now.Ticks; //返回系统自启动起的毫秒数 
+			//双次循环用实际代码
+			for(int i=0;i<100;i++)
+				for(int j=0;j<100;j++)
+				{
+					Console.WriteLine("({0},{1})",i,j);
+				}
+			long dt2 = DateTime.Now.Ticks;
+			System.Console.WriteLine("Milliseconds = {0}", 
+				(dt2-dt)/10000); 
+		}
+	}
+}

@@ -1,0 +1,23 @@
+Microsoft SQL Server Windows CE Edition(简称SQL CE)
+是Microsoft SQL Server 桌面数据库的精简版(SQL Server)
+
+有两个任务
+	1.断开时操作数据。(ADO.NET 子集)
+	2.连接到桌面计算机时传送数据。(ADO,OLEDB CE)
+
+扩展名为sdf,可以加密码及用128位RSA加密算法对文件加密。
+
+回收数据库空间，通过SqlCeEngine类。
+
+单用户数据库
+
+
+不支持的功能
+视图、触发器、存储过程、用户定义函数、用户定义类型
+
+支持的功能
+数据库、表、索引、数据类型、约束
+Select,Insert,Upate,delete
+函数Aggregate,Math,DateTime,String,System
+Unicode 是唯一字符串类型
+事务

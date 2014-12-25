@@ -1,0 +1,14 @@
+建立VC++工程
+在Namake
+"生成"\全部重新生成中使用下列模板
+csc.exe /debug+ /noconfig /define:DESIGN /target:library /out:"$(TargetPath)" "$(SolutionDir)Win32.cs" "$(SolutionDir)TextBox.cs" "$(SolutionDir)AssemblyInfo.cs" /resource:"$(ProjectDir)ZGCF.Windows.Forms.TextBoxEx.bmp" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Design.dll" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Windows.Forms.dll" /r:"$(VSInstallDir)CompactFrameworkSDK\v1.0.5000\Windows CE\Designer\System.CF.Drawing.dll" /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:System.dll /r:System.XML.dll /r:System.Web.Services.dll /r:System.Data.dll /nowarn:1595
+
+输出
+ZGCF.Windows.Form.TextBox.dll
+
+TextBox 生成运行时的
+
+TextBoxDesigner 生成设计时的
+
+
+

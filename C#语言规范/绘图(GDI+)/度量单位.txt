@@ -1,0 +1,32 @@
+//度量单位
+			Pen pen=new Pen(Color.Black,0);
+			SolidBrush yellow=new SolidBrush(Color.Yellow);
+			SolidBrush black=new SolidBrush(Color.Black);
+			//
+			e.Graphics.PageUnit=GraphicsUnit.Inch;
+			//
+			e.Graphics.TranslateTransform(0.5f,0.5f);
+			e.Graphics.FillRectangle(yellow,0,0,6,1);
+			e.Graphics.DrawRectangle(pen,0,0,6,1);
+			//
+			for(float x=0.25f;x<6.0f;x+=0.25f)
+				e.Graphics.DrawLine(pen,x,0.0f,x,0.08f);
+			for(float x=0.5f;x<6.0f;x+=0.5f)
+				e.Graphics.DrawLine(pen,x,0.0f,x,0.16f);
+			for(float x=1.0f;x<6.0f;x+=1.0f)
+				e.Graphics.DrawLine(pen,x,0.0f,x,0.25f);
+			//
+			StringFormat format=new StringFormat();
+			format.Alignment=StringAlignment.Center;
+			format.LineAlignment=StringAlignment.Center;
+			for(float x=1.0f;x<6.0f;x+=1.0f)
+			{
+				string label=String.Format("{0}",Convert.ToInt32(x));
+				RectangleF rect=new RectangleF(x-0.25f,0.25f,0.5f,0.25f);
+				e.Graphics.DrawString(label,Font,black,rect,format);
+			}
+
+
+			pen.Dispose();
+			yellow.Dispose();
+			black.Dispose();

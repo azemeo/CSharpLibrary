@@ -1,0 +1,41 @@
+using System;
+using System.Collections;
+namespace MyQueue
+{
+	/// <summary>
+	/// 队列。
+	/// 特点:先进先出
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//
+			// TODO: 在此处添加代码以启动应用程序
+			//
+			Queue myQueue=new Queue();
+			myQueue.Enqueue("aa");//入队列
+			myQueue.Enqueue("bb");
+			myQueue.Enqueue("cc");
+			Console.Write("\tValues:" );
+			PrintValues(myQueue);//打印
+			Console.WriteLine("Dequeue...");
+			myQueue.Dequeue();//出队列
+			PrintValues(myQueue);
+
+
+		}
+		public static void PrintValues( IEnumerable myCollection )  
+		{
+			System.Collections.IEnumerator myEnumerator = myCollection.GetEnumerator();
+			while ( myEnumerator.MoveNext() )
+				Console.Write( "\t{0}", myEnumerator.Current );
+			Console.WriteLine();
+		}
+
+	}
+}

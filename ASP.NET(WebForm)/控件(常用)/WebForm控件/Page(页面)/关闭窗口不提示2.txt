@@ -1,0 +1,2 @@
+			//关闭窗口不提示
+			Page.RegisterStartupScript("ddd","<script>window.close();</script>");

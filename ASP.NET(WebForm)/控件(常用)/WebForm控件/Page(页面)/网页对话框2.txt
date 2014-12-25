@@ -1,0 +1,3 @@
+ÍøÒ³¶Ô»°¿ò
+
+				returnvalue=window.showModalDialog('Frameset.asp?ManageZbAdjust.aspx?setidFlag='+setidFlag,'','dialogHeight: 380px; dialogWidth: 260px;  edge: Raised; center: Yes; help: no; resizable: No; status: no;');

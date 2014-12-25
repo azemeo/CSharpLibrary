@@ -1,0 +1,4 @@
+1.安装Vs.Net7.0和Vss6.0C
+2.Visual SourceSafe 6.0 Admin中创建服务器数据库
+3.VS.NET创建解决方案。
+4.VS.NET中文件/源代码管理/添加解决方案到源代码

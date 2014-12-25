@@ -1,0 +1,21 @@
+			FileStream aFile=new FileStream(Server.MapPath("../jgzwgl")+"\\PassTrace.txt",FileMode.OpenOrCreate);
+			StreamWriter sw=new StreamWriter(aFile);
+			try
+			{
+
+				string strPath=Server.MapPath("../jgzwgl"); 
+				sw.WriteLine("1:"+bReturn+" OK");//¸ú×Ù
+				sw.WriteLine("2:"+bReturn+" OK");//¸ú×Ù
+				sw.WriteLine("3:"+bReturn+" OK");//¸ú×Ù
+				sw.WriteLine("4:"+bReturn+" OK");//¸ú×Ù
+
+			}
+			catch(Exception err)
+			{
+				throw err;
+			}
+			finally
+			{
+				sw.Close();
+				aFile.Close();
+			}

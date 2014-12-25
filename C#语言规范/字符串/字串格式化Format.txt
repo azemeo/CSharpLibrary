@@ -1,0 +1,1 @@
+					string sf=string.Format("{0}年{1}月{2}日 {3}时{4}分",temp.Year,temp.Month,temp.Day,currTime.TruantTime.Hour,currTime.TruantTime.Minute);

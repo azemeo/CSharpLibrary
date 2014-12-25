@@ -1,0 +1,4 @@
+Text指定显示文本，超过长度的将不被显示。
+TextAlign 内部对齐排列文字。
+
+技巧:将Label放在Panel中，通常改变Panel的背景色来改变Lable的背景色。

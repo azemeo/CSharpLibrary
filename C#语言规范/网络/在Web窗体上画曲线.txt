@@ -1,0 +1,27 @@
+可以利用SVG或VML来实现  
+---------------------------------------------------------------  
+ 
+简单的说可以绘制以后把它村为一个gif然后显现出来  
+<%@  Page  ContentType  =  "image/gif"%>  
+<%@  Import  Namespace  =  "System.Drawing"  %>  
+<%@  Import  Namespace  =  "System.Drawing.Imaging"  %>  
+ 
+<Script  Runat  =  "Server">  
+ 
+Sub  Page_Load  
+ 
+Dim  objBitmap  As  Bitmap  
+Dim  objGraphics  As  Graphics  
+ 
+objBitmap  =  New  Bitmap(200,  200)  
+objGraphics  =  Graphics.FromImage(objBitmap)  
+ 
+objGraphics.DrawLine(new  Pen(Color.Red),  0,  0,  200,  200)  
+ 
+objBitmap.Save(Response.OutputStream,  ImageFormat.Gif)  
+ 
+objBitmap.Dispose()  
+objGraphics.Dispose()  
+End  Sub  
+ 
+</Script>  

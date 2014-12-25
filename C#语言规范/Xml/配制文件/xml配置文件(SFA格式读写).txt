@@ -1,0 +1,69 @@
+1.主程序
+
+using System.Xml;
+using System.IO;
+using System.Reflection;
+
+
+
+
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			//读
+			string result = "";
+			XmlDocument xmlConfig = xmlConfig = new XmlDocument();	
+			//得到文件的路径
+			string AppPath = Path.GetDirectoryName( Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName );
+			string file = AppPath + @"\config.xml";
+			try
+			{
+				if ( System.IO.File.Exists(file) )
+				{
+					xmlConfig.Load(file);
+					//关键(读取节点属性的值)
+					result = xmlConfig["ConfigConnnection"]["ZeroWire.SC.FSA.DataMgr.User"]["ConnectionFlag"].GetAttribute("Flag");
+				}
+			}
+			catch(Exception ex)
+			{			
+				MessageBox.Show(ex.Message);
+			}
+			textBox1.Text=result;
+			
+		}
+
+		private void button2_Click(object sender, System.EventArgs e)
+		{
+			//写
+			XmlDocument xmlConfig = xmlConfig = new XmlDocument();
+
+			string AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName );
+			string file = AppPath + @"\config.xml";
+			try
+			{
+				FileStream fin = new FileStream(file, FileMode.OpenOrCreate, FileAccess.ReadWrite,FileShare.ReadWrite);
+				xmlConfig.Load(fin);
+				fin.Close();//关闭流
+				//ConfigConnnection 第一层
+				//ConnectionFlag 第二层
+				//Flag第三层(属性)
+				//关键
+				xmlConfig["ConfigConnnection"]["ZeroWire.SC.FSA.DataMgr.User"]["ConnectionFlag"].SetAttribute("Flag",textBox1.Text);
+				xmlConfig.Save(file);
+			}
+			catch(Exception ex)
+			{			
+				MessageBox.Show(ex.Message);
+			}
+			
+		}
+
+
+2.config.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigConnnection>
+  <ZeroWire.SC.FSA.DataMgr.User>
+    <ConnectionFlag Flag="False" />
+  </ZeroWire.SC.FSA.DataMgr.User>
+</ConfigConnnection>

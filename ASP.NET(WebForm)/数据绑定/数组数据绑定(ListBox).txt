@@ -1,0 +1,3 @@
+string[]names={"John","Paul","George","Ringo"};
+			this.ListBox2.DataSource=names;
+			this.ListBox2.DataBind();

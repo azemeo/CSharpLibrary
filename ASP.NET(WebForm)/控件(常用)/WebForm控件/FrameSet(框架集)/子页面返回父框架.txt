@@ -1,0 +1,17 @@
+aspxÒ³Ãæ
+<script language="JavaScript">
+	function MM_GotoPage(url)
+	{ 
+	  window.parent.location=url; 
+	}
+	
+			</script>
+
+
+
+
+cs´úÂë
+
+string strTmp="<script language=javascript>MM_GotoPage('Reg_Corp_Set/Index_Set.aspx');</script>";
+					if(!this.IsClientScriptBlockRegistered("clientScript"))
+						this.RegisterStartupScript("clientScript", strTmp);

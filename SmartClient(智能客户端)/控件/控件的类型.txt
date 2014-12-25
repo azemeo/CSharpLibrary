@@ -1,0 +1,8 @@
+1.类型转换
+在事件处理器中将object sender转化为相应的控件类型
+TextBox ts=(TextBox)sender;
+2.比较控件
+在事件处理器中将object sender用==直接与控件比较
+if(sender==btnTwo)
+3.检查对象的类型
+if(sender is Button)

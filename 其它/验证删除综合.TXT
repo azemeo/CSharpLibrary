@@ -1,0 +1,80 @@
+要求：服务端验证，客户端提示，服务器端判断用户的选择并执行操作
+时间：2004-07-09 Movecont
+
+1.控件
+<asp:button id="Delete" runat="server"  Text="删除" ></asp:button>
+<asp:Button id="BtnExecute" runat="server" BackColor="Transparent" BorderColor="Transparent" BorderStyle="None"></asp:Button>
+<INPUT id="HdnDelete"	type="hidden" value="False" name="HdnDelete" runat="server">
+
+2.客户端脚本 *.aspx
+<script language="javascript">
+<!--
+	//葛利峰 2004-07-09 移动 删除确认
+	function DelAffirmFrm()
+	{
+		debugger;
+		if(window.confirm("您确定要删除吗？")==true)
+		{
+			window.document.all("HdnDelete").value="True";
+		}				
+		else
+		{
+			window.document.all("HdnDelete").value="False";	
+		}		
+	}
+//-->
+</script>
+3.*.aspx.cs
+
+//增加客户端事件
+private void Page_Load(object sender, System.EventArgs e)
+{
+       if (!Page.IsPostBack)
+	{
+	BtnExecute.Attributes.Add("onclick","javascript:DelAffirmFrm();");
+        }
+}
+//验证删除的条件
+private void Delete_Click(object sender, System.EventArgs e)
+{
+	ArrayList al=DataGrid1.getMultiSelectedRows();
+	if(al.Count>0)
+	{					
+		//符合删除的条件,引发删除事件
+		string strClick=			
+			"<script language=\"JavaScript\">\n"+
+			"<!--\n"+
+			"function Refresh()\n"+
+			"{\n"+
+			" document.all.BtnExecute.click();}\n
+			" setTimeout(\"Refresh()\",100);"+		
+			"\n"+
+			"-->\n"+
+			"</script>";
+	this.RegisterStartupScript("RefreshScript",strClick);
+	}
+	else
+	{
+	this.RegisterStartupScript("","<script>window.alert('请勾选待删除的数据！');</script>");
+
+	}			
+	return;
+}
+//执行删除
+private void BtnExecute_Click(object sender, System.EventArgs e)
+{
+	//葛利峰 2004-07-09 增加
+	if(this.HdnDelete.Value=="True")//回答是
+	{
+		DataGrid1.batchDeleteRows();
+		DataGrid1.refresh();
+	}
+	//取消脚本
+	string strClick=			
+		"<script language=\"JavaScript\">\n"+
+		"<!--\n"+
+		"\n"+
+		"-->\n"+
+		"</script>";				
+		this.RegisterStartupScript("RefreshScript",strClick);
+}

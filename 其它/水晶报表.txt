@@ -1,0 +1,21 @@
+//引用
+using CrystalDecisions.Shared;//负责解释TableLogOnInfo类
+using CrystalDecisions.CrystalReports.Engine;//负责解释ReportDocument类
+//代码
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			TableLogOnInfo logOnInfo = new TableLogOnInfo ();
+			//这里必须事先申明一个ReportDocument对象 Report，同时加载数据报表
+			ReportDocument oRpt = new ReportDocument();
+			//获取.rpt文件真实路径
+			oRpt.Load(Server.MapPath ("")+"\\cr1.rpt");
+			//设置logOnInfo参数
+			logOnInfo.ConnectionInfo.ServerName="";
+			logOnInfo.ConnectionInfo.DatabaseName="";
+			logOnInfo.ConnectionInfo.UserID="Admin";
+			logOnInfo.ConnectionInfo.Password="";
+			oRpt.Database.Tables[0].ApplyLogOnInfo(logOnInfo);
+			//建立.rpt文件与CryStalReportviewer文件之间的连接
+			CrystalReportViewer1.ReportSource = oRpt;
+
+		}

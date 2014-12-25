@@ -1,0 +1,10 @@
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+//			float f=444.4444f;
+//			this.textBox1.Text=f.ToString("c2");
+			DateTime dt=DateTime.Now;
+//			this.textBox1.Text=dt.ToString("d");//2003-1-1
+//			this.textBox1.Text=dt.ToString("D");//2003年12月1日
+			this.textBox1.Text=dt.ToString("F");//2003年12月1日 16:27:39
+
+		}

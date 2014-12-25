@@ -1,0 +1,19 @@
+1.坐标 1,A 为0行,0列
+
+2.操作实例
+string FullPath=FileImport.PostedFile.FileName;
+			try
+			{
+				OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+FullPath+";Extended Properties=Excel 8.0;");
+				myConn.Open();
+				OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM [zw_product$]",myConn);
+				OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+				DataSet thisDataSet=new DataSet();
+				thisAdapter.Fill(thisDataSet,"ExcelInfo");
+				LabelStatus.Text=thisDataSet.Tables["ExcelInfo"].Rows[1][1].ToString();
+				myConn.Close();	
+			}
+			catch(OleDbException ex)
+			{
+				LabelStatus.Text=ex.Message;
+			}

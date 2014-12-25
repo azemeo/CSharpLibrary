@@ -1,0 +1,52 @@
+		<script language="javascript">
+		<!--
+		var bIsExpand = false;
+		function DoExpand(sender,who)
+		{
+			//sender-图像
+			//who-表格
+			if(bIsExpand)
+			{
+				who.style.display = "none";
+				sender.src = "../Images/Common/Expand_Open.gif";
+				bIsExpand = false;
+			}
+			else
+			{
+				who.style.display = "";
+				sender.src = "../Images/Common/Expand_Close.gif";
+				bIsExpand = true;
+			}
+			
+		}
+		-->
+		</script>
+
+
+<TABLE class="Song9" id="Table1" style="WIDTH: 656px" borderColor="#000000" cellSpacing="0"
+							borderColorDark="#ffffff" cellPadding="0" width="656" border="1" name="Table1">
+							<TR>
+								<TD vAlign="middle" bgColor="#cccccc"><A onclick="DoExpand(Img1,tHideTable2);" style="CURSOR: hand"><IMG id="Img1" alt="" src="../Images/Common/Expand_Open.gif">
+										相关信息， 点击打开，点击关闭</A></TD>
+							</TR>
+							<TR>
+								<TD vAlign="top">
+									<TABLE class="Song9" id="tHideTable2" style="DISPLAY: none; WIDTH: 656px; HEIGHT: 74px"
+										borderColor="#000000" cellSpacing="0" borderColorDark="#ffffff" cellPadding="0" width="656"
+										border="1" name="Table1">
+										<TR>
+											<TD style="HEIGHT: 17px" width="75%">&nbsp;<FONT face="宋体"> ◎内容内容内容内容</FONT></TD>
+										</TR>
+										<TR>
+											<TD width="75%">&nbsp;<FONT face="宋体"> ◎文字文字文字文字文字</FONT></TD>
+										</TR>
+										<TR>
+											<TD width="75%">&nbsp;<FONT face="宋体"> ◎内容内容内容内容</FONT></TD>
+										</TR>
+										<TR>
+											<TD width="75%">&nbsp;<FONT face="宋体"> ◎内容内容内容内容</FONT></TD>
+										</TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>

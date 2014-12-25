@@ -1,0 +1,4 @@
+设置为AutoPostBack=true;自动加上__doPostBack函数
+cbStart.Attributes.Add("onclick","javascript:if(Di_AffirmFrm('"+oName.ToString()+"','"+oAdmin.ToString()+"',"+cbStart.ClientID+"))");
+
+<input id="zdgMain__ctl7_CheckBoxStart" type="checkbox" name="zdgMain:_ctl7:CheckBoxStart" checked="checked" onclick="javascript:if(Di_AffirmFrm('VC','1',zdgMain__ctl7_CheckBoxStart))__doPostBack('zdgMain$_ctl7$CheckBoxStart','')" language="javascript" />

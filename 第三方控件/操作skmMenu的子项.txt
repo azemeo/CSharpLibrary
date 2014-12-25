@@ -1,0 +1,9 @@
+操作顶级菜单
+skmMenu\MenuClass\Properties\Items Property
+MenuItem FileNewMenuItem = MenuMain.Items[0];
+			FileNewMenuItem.Text="gelifeng";
+
+
+操作子菜单
+			MenuItem FileNewMenuItem = MenuMain.Items[0].SubItems[0].SubItems[1];
+			FileNewMenuItem.Text="gelifeng";

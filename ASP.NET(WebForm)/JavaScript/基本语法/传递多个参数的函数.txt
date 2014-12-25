@@ -1,0 +1,34 @@
+1.*.aspx
+
+<script language="javascript">
+<!--
+	function OpenJobBook(B90199,B001)
+	{		
+		window.showModalDialog('Frameset.asp?JGGL_Job.aspx?B90199='+B90199+'&B001='+B001,'','dialogHeight: 445px; dialogWidth: 569px;  edge: Raised; center: Yes; help: no; resizable: Yes; status: no;');
+	}
+
+//-->
+		</script>
+
+
+
+
+2.*.aspx.cs
+private void BtnJob_Click(object sender, System.EventArgs e)
+		{
+			
+				string strB90199="";	//当前选中的职位编码
+				
+				strB90199=this.TreeView1.SelectedDepCode;
+						
+				//********************************
+				//葛利峰 2004-09-07 增加 填报单位
+				string strB001=this.TreeView1.GetSelectedOrgan();//得到单位
+
+				//打开窗口
+				string strTemp="<script language=javascript>javascript:OpenJobBook('"+strB90199+"','"+strB001+"');</script>";
+				if(!this.IsClientScriptBlockRegistered("clientScript"))
+					this.RegisterStartupScript("clientScript",strTemp);
+
+			}
+		}

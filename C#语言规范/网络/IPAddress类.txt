@@ -1,0 +1,5 @@
+using System.Net;
+IPAddress ia=IPAddress.Parse("192.168.1.2");
+			int iAddress=(int)ia.Address;
+			string sAddress=ia.ToString();
+			tbIPAddress.Text=sAddress; 

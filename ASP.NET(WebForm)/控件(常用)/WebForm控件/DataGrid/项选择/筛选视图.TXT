@@ -1,0 +1,11 @@
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			DataSet ds = (DataSet) Session["MyDataSet"];
+			DataTable dt = ds.Tables["MyList"];
+
+			//为DataView的RowFilter指定条件
+			DataView dv=new DataView(dt);//通过DataTable建立DataView
+			dv.RowFilter=this.TextBox1.Text;
+			DataGrid1.DataSource=dv;
+			DataGrid1.DataBind();
+		}

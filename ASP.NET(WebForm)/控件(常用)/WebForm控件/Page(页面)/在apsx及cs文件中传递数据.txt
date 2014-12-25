@@ -1,0 +1,12 @@
+1.*.aspx/Javascirpt
+			function ShowInfo()
+			{
+				debugger;
+				var strID="<%=ViewState["filter"]%>";				
+			}
+
+
+
+2.*.cs/C#
+
+ViewState.Add("filter",strDepbm);

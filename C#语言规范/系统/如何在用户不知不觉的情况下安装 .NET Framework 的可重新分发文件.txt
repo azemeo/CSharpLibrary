@@ -1,0 +1,82 @@
+如何在用户不知不觉的情况下安装 .NET Framework 的可重新分发文件？
+
+(hangwire发表于2003-3-12 11:36:07)
+
+ 
+
+    如果你开发的程序要求在 .NET Framework 环境中运行，而大多数最终用户的机器上都可能没有装.NET Framework 环境，那么就需要安装 .NET Framework 的可重新分发文件，也就是Windows系统中常说的 redistributable 文件。每每碰到这种情况时，一般都是让用户先安装/或先下载可重新分发的文件，然后再运行相应的安装程序。以前微软的应用程序就经常这么做。大家知道，这样做对用户来说是很不爽的。说不定用户就因为这个原因不安装这个程序了。对程序员或者软件销售商来说，这可不是个好消息！本文将提供一个方法来解决这个问题，这里假设用户的计算机上没有.NET Framework的可重新分发文件，我们可以在用户不知不觉的情况下安装 .NET Framework 的可重新分发文件。这个方法不仅仅用在.NET Framework 的可重新分发文件安装上，对于其他任何文件的安装都可以如法炮制。
+    实际上，如果你的安装程序是用Visual Studio .NET IDE 提供的Setup工程打包制作的，当用户运行你的安装程序，当它发现系统中没有.NET Framework 的redistributable文件时，便会弹出一个对话框，让用户先运行dotnetfx.exe文件。为了不让用户忍受此中烦恼，安装程序可以在这个时候进行隐藏式安装，方法很简单，在安装程序里创建一个新的进程运行dotnetfx.exe程序。下面是一个函数，把整个过程都封装在一个函数调用里，这样可以方便大家使用：
+
+
+BOOL InstallNET()
+{
+  BOOL bRetVal = FALSE;
+  TCHAR szFileName[MAX_PATH];
+  TCHAR szCurrentDir[MAX_PATH];
+  DWORD dwExitCode = 0;
+  STARTUPINFO si;
+  PROCESS_INFORMATION pi;
+  BOOL bCreateProc = FALSE;
+
+  GetCurrentDirectory(sizeof(szCurrentDir), szCurrentDir);
+
+  if(NULL == szCurrentDir[3])
+  {
+      // at root directory
+      wsprintf(szFileName, TEXT("%sdotnetfx.exe /q:a /c:\"install /q\""), szCurrentDir);
+  }
+  else
+      wsprintf(szFileName, TEXT("\"%s\\%s"), szCurrentDir, TEXT("dotnetfx.exe /q:a /c:\"install /q\""));
+#ifdef _DEBUG
+  MessageBox(NULL, szFileName, TEXT(".NET Framework Filename"), MB_OK);
+#endif
+
+  ZeroMemory(&si, sizeof(si));
+  si.cb = sizeof(si);
+  bCreateProc = CreateProcess(NULL,
+      szFileName,
+      NULL,
+      NULL,
+      FALSE,
+      0,   
+      NULL,
+      NULL,
+      &si,
+      &pi);
+
+  if(bCreateProc)
+  {
+      // .NET Installation has started
+      CloseHandle(pi.hThread);
+      EnterCriticalSection(&g_cs);
+      LeaveCriticalSection(&g_cs);
+      WaitForSingleObject(pi.hProcess, INFINITE);
+      CloseHandle(pi.hProcess);
+      return TRUE;
+  }
+  else
+  {
+      DWORD dwErrCode = 0;
+      char szErr[25];
+      dwErrCode = GetLastError();
+      wsprintf(szErr, TEXT(".NET Framework Installation failed. Error Code:%u"), dwErrCode);
+      MessageBox(NULL, szErr, TEXT(".NET Framework Installation Failed"), MB_OK);
+      return FALSE;
+  }
+}
+
+注意：如果在当前目录中没有找到要安装的redistributable文件，这个函数会返回FALSE。
+
+在实际的安装处理中，可以在WinMain()函数里先创建一个线程，在线程里先判断系统中是不是安装了.NET Framework 环境 ，如果没有安装，则对上述函数进行调用来安装运行时的.NET Framework 可重分发文件：
+
+if (!IsNETPresent())
+{
+   if(!InstallNET())
+   {
+      // close app
+      CleanReg();
+      PostThreadMessage(g_dwMainThreadId, 
+                     WM_QUIT, 0, 0);
+      return 0;
+   }
+} 

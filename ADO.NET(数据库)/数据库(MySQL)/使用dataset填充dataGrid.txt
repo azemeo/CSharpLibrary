@@ -1,0 +1,20 @@
+OdbcConnection con = new OdbcConnection("DRIVER={MySQL ODBC 3.51 Driver};" + 
+				"SERVER=glf;" +
+				"DATABASE=qxk_db;" +
+				"UID=root;" +
+				"PASSWORD=;" +
+				"OPTION=3");
+			da=new OdbcDataAdapter("select * from achi_eval",con);
+			ds=new DataSet();
+			da.Fill(ds,"customers");
+			dtSource = ds.Tables["customers"];
+			pageSize=20;
+			maxRec = dtSource.Rows.Count;
+			PageCount = maxRec / pageSize;
+			if ((maxRec % pageSize) > 0) 
+			{
+				PageCount += 1;
+			}
+			currentPage = 1;
+			recNo = 0;
+			LoadPage();

@@ -1,0 +1,17 @@
+SQL CE 概述
+lSQL Server 的轻量级版本
+本地数据存储 
+远程 SQL Server 数据 
+用户输入 
+Web service 结果
+管理受一定限制
+支持Transact SQL 的一个子集
+
+不支持
+
+触发器
+视图
+存储过程
+用户自定义函数簇索引
+nText 或nImage索引
+计算引

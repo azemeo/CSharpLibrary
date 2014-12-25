@@ -1,0 +1,21 @@
+1.ÒýÓÃ
+using System.Drawing.Drawing2D;
+2.´úÂë
+		private void Form1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+		{
+			Pen redPen=new Pen(Color.LightSalmon,20);
+			int startX=80;
+			int startY=30;
+			int width=this.ClientSize.Width-2*startX;
+			Font _font=new Font("Arial Black",13);
+			foreach(LineCap LC in new LineCap[]{LineCap.ArrowAnchor,LineCap.DiamondAnchor,LineCap.Flat,LineCap.Round,LineCap.RoundAnchor,LineCap.Square,LineCap.SquareAnchor,LineCap.Triangle})
+			{
+				redPen.StartCap=LC;
+				redPen.EndCap=LC;
+				Point p1=new Point(startX,startY);
+				Point p2=new Point(startX+width,startY);
+				e.Graphics.DrawLine(redPen,p1,p2);;
+				e.Graphics.DrawString(LC.ToString(),_font,new SolidBrush(Color.Blue),startX+40,startY-13);
+				startY+=50;
+			}
+		}

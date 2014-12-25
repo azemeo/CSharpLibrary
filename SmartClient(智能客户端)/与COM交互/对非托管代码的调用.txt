@@ -1,0 +1,12 @@
+对非托管代码的调用
+跨平台调用 过程
+
+声明方法的输出 
+private static extern int PlaySound(string file, IntPtr hModule, int flags);
+
+添加 DLLImportAttribute
+[DllImport("coredll.dll")] 
+private static extern int PlaySound( string file, IntPtr hModule, int flags);
+
+调用包装 (wrapper)
+PlaySound(“Windows\someSound.wav”,IntPtr.Zero,SND_FILENAME);

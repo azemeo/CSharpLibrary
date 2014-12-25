@@ -1,0 +1,117 @@
+目的：
+1.提升传输效率。
+2.与非Uicode系统字符交互。
+
+BinaryWriter,StreamWriter
+
+发送到一个文件或网格流中，需要编码。
+
+从文件或网格流中接收，需要解码。
+
+常用编码
+
+UTF-16:将16位字符编码为2个字节。
+
+UTF-8:可能为1(美国),2(欧洲),3(东亚),4(代理字符)个字节
+
+不常用编码
+UTF-7:老式系统
+ASCII.
+
+编码类:System.Text.Encoding
+
+
+using System;
+using System.Text;
+using System.Globalization;
+namespace TestText
+{
+	class App
+	{		
+		[STAThread]
+		static void Main(string[] args)
+		{			
+			String s="Hi there";//编码对象
+			//Encoding encodingUTF8=System.Text.Encoding.Unicode;//编/解码器
+			Encoding encodingUTF8=System.Text.Encoding.UTF7;
+			Byte[] encodedBytes=encodingUTF8.GetBytes(s);//编码
+			Console.WriteLine("Encoded bytes:"+BitConverter.ToString(encodedBytes));
+
+			String decodedString=encodingUTF8.GetString(encodedBytes);//解码
+			Console.WriteLine("Decoded string:"+decodedString);
+
+		}
+	}
+}
+
+
+总述:
+
+静态方法 GetEncoding 指定代码页
+
+编码类型实例用于BinaryWriter,StreamWriter
+
+UnicodeEncoding 构造
+UTF8Encoding    构造
+UTF7Encoding    构造
+ASCIIEncoding   Encoding类的ASCII属性
+
+GetBytes 编码
+
+GetChars/GetString 解码
+
+GetBytesCount 返回编码所需字节个数(效率不高)
+GetCharCount 返回解码所需的字符个数
+
+每个继承自Encoding的对象都提供一组公有只读属性
+EncodingName String 编码名称
+CodePage Int32 编码的代码页
+IsBrowserDisplay Boolean 如果游览器可以显示，返回true
+
+示例:
+using System;
+using System.Text;
+using System.Globalization;
+namespace TestText
+{
+	class App
+	{		
+		[STAThread]
+		static void Main(string[] args)
+		{			
+			Show(Encoding.Unicode);
+			Show(Encoding.BigEndianUnicode);
+			Show(Encoding.UTF8);
+			Show(Encoding.UTF7);
+			Show(Encoding.ASCII);
+			Show(Encoding.Default);
+			Console.WriteLine();
+			Console.WriteLine("Below are some specific code pages:");
+			Show(Encoding.GetEncoding(437));
+			Show(Encoding.GetEncoding(28595));
+
+		}
+		static void Show(Encoding e)
+		{
+				//输出技巧
+				Console.WriteLine("{1}{0}"+
+				"\tCodePage={2}, WindowsCodePage={3}{0}"+
+				"\tWebName={4}, HeaderName={5}, BodyName={6}{0}"+
+				"\tIsBrowserDisplay={7}, IsBrowserSave={8}{0}"+
+				"\tIsMailNewsDisplay={9},IsMailNewsSave={10}{0}",
+				Environment.NewLine,e.EncodingName,e.CodePage,
+				e.WindowsCodePage,e.WebName,e.HeaderName,
+				e.BodyName,e.IsBrowserDisplay,e.IsBrowserSave,
+				e.IsMailNewsDisplay,e.IsMailNewsSave);
+
+		}
+	}
+}
+
+GetPreamble 返回一个字节数组，写入任何编码字节之前应该先写入流的内容。
+
+ 
+
+
+
+

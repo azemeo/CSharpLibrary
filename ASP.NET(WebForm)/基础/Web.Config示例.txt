@@ -1,0 +1,23 @@
+
+1.example1		
+<configuration>
+	<appSettings>
+		<add key="connectString" value="server=localhost;database=pubs;uid=sa;pwd=" />		
+	</appSettings>
+<system.web>
+	<sessionState timeout="1" />		
+</system.web>
+</configuration>
+2.example2
+<configuration>
+	<appSettings>
+		<add key="connectString" value="server=localhost;database=pubs;uid=sa;pwd=" />		
+	</appSettings>
+<system.web>
+	<sessionState mode="StateServer"
+		stateConnectionString="tcpip=localhost:42424"
+		/>		
+</system.web>
+</configuration>
+
+

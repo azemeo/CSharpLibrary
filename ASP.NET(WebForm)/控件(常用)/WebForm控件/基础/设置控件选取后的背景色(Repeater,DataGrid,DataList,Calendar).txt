@@ -1,0 +1,1 @@
+SelectedItemStyle,BackColor=gainsboro

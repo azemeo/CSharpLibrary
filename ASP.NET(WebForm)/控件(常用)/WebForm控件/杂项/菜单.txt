@@ -1,0 +1,58 @@
+引用
+using jykMenu;
+
+1.*.aspx
+<%@ Register TagPrefix="cc1" Namespace="jykMenu" Assembly="jykMenu" %>
+<cc1:Menu id="MenuMain" runat="server"></cc1:Menu>
+
+2.*.cs
+protected jykMenu.Menu MenuMain;
+
+if(Page.IsPostBack==false)
+			{
+				//TopMenuX为水平方向的顶级菜单,DownItemX为垂直方向的下菜单项目
+				MenuItem TopMenu1=new MenuItem("<img src=\"menublip.gif\" align=\"absmiddle\">类别选择", "");
+//				MenuItem TopMenu1=new MenuItem("类别选择", "");
+
+				MenuItem DownItem1=new MenuItem("在职人员 ->","");
+				DownItem1.SubItems.Add(new MenuItem("正式人员", "page1.html"));
+				DownItem1.SubItems.Add(new MenuItem("临时工", "page2.html"));
+				DownItem1.SubItems.Add(new MenuItem("返聘", "page2.html"));
+				DownItem1.SubItems.Add(new MenuItem("代办", "page2.html"));
+				TopMenu1.SubItems.Add(DownItem1);
+
+				MenuItem DownItem2=new MenuItem("离退人员 ->","");
+				DownItem2.SubItems.Add(new MenuItem("内退人员", "page1.html"));
+				DownItem2.SubItems.Add(new MenuItem("退体人员", "page2.html"));
+				DownItem2.SubItems.Add(new MenuItem("辞职人员", "page2.html"));
+				TopMenu1.SubItems.Add(DownItem2);
+				
+				MenuItem DownItem3=new MenuItem("调转人员 ->","");
+				DownItem3.SubItems.Add(new MenuItem("调出人员", "page1.html"));
+				TopMenu1.SubItems.Add(DownItem3);
+
+				MenuMain.Items.Add(TopMenu1);
+
+				MenuItem TopMenu2=new MenuItem("<img src=\"menublip.gif\" align=\"absmiddle\">编辑", "");
+//				MenuItem TopMenu2=new MenuItem("编辑", "");
+
+				TopMenu2.SubItems.Add(new MenuItem("照片...", "page3.html", "tooltip1"));
+				TopMenu2.SubItems.Add(new MenuItem("人员换位...", "page4.html", "tooltip2"));
+				TopMenu2.SubItems.Add(new MenuItem("类别变动...", "page5.html", "tooltip2"));
+				TopMenu2.SubItems.Add(new MenuItem("指标计算...", "javascript:document.all.Button1.click();", "tooltip2"));
+				MenuMain.Items.Add(TopMenu2);
+
+				MenuItem TopMenu3=new MenuItem("<img src=\"menublip.gif\" align=\"absmiddle\">查看","");
+				TopMenu3.SubItems.Add(new MenuItem("照片...",""));
+				TopMenu3.SubItems.Add(new MenuItem("详细信息...",""));
+				MenuMain.Items.Add(TopMenu3);
+
+				//设置菜单的属性
+				MenuMain.CssClass = "menustyle";
+				MenuMain.DefaultCssClass = "menuitem";
+				MenuMain.DefaultMouseOverCssClass = "mouseover";
+				MenuMain.HighlightTopMenu = true;
+				MenuMain.Opacity = "75";
+				MenuMain.zIndex = 100;
+				MenuMain.Layout=MenuLayout.Horizontal;
+			}

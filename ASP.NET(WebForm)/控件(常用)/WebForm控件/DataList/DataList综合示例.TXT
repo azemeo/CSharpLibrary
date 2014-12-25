@@ -1,0 +1,144 @@
+一个内部机制图形项与数据源中的相应元素相关联。
+
+1*.aspx
+<%@ Page language="c#" Codebehind="Ex_DataList.aspx.cs" AutoEventWireup="false" Inherits="Co_112.WebForm9" %>
+<%@ Import Namespace="System.Data" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm9</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:Label id="Label1" style="Z-INDEX: 101; LEFT: 56px; POSITION: absolute; TOP: 32px" runat="server">DataList</asp:Label>
+			<asp:DataList id="DataList1" DataKeyField="employeeid" style="Z-INDEX: 102; LEFT: 64px; POSITION: absolute; TOP: 72px"
+				runat="server" BorderColor="#3366CC" BorderStyle="None" BackColor="White" CellPadding="4"
+				GridLines="Both" BorderWidth="1px">
+				<SelectedItemStyle BackColor="LightBlue"></SelectedItemStyle>
+				<HeaderTemplate>
+					<h3>Northwind's Employees</h3>
+				</HeaderTemplate>
+				<ItemTemplate>
+					<asp:LinkButton id=LinkButton1 runat="server" CommandName="select" Text='<%#String.Format("{0}-{1:c},{2:c}",((DataRowView)Container.DataItem)["EmployeeID"],((DataRowView)Container.DataItem)["lastname"],((DataRowView)Container.DataItem)["firstname"])%>'>
+					</asp:LinkButton>
+				</ItemTemplate>
+			</asp:DataList>
+			<asp:Label id="theLabel" style="Z-INDEX: 103; LEFT: 336px; POSITION: absolute; TOP: 72px" runat="server">Label</asp:Label>
+			<asp:LinkButton id="LinkButtonUn" style="Z-INDEX: 104; LEFT: 72px; POSITION: absolute; TOP: 424px"
+				runat="server">UnSelect</asp:LinkButton>
+		</form>
+	</body>
+</HTML>
+
+2.*.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace Co_112
+{
+	/// <summary>
+	/// WebForm9 的摘要说明。
+	/// </summary>
+	public class WebForm9 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.Label theLabel;
+		protected System.Web.UI.WebControls.LinkButton LinkButtonUn;
+		protected System.Web.UI.WebControls.DataList DataList1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select employeeid,firstName,lastName From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];
+				DataList1.DataSource=oDS.Tables["EmployeesList"];
+				DataList1.DataBind();
+				oDS.Dispose();
+				oDS=null;
+				oCMD.Dispose();
+				oCMD=null;
+
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataList1.SelectedIndexChanged += new System.EventHandler(this.DataList1_SelectedIndexChanged);
+			this.LinkButtonUn.Click += new System.EventHandler(this.LinkButtonUn_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataList1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			//得到选择的索引:通过使DataKeys数组可以检索与所选项相关联的键值
+			int nEmpID=(int)DataList1.DataKeys[DataList1.SelectedIndex];
+			
+			string strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			SqlConnection cn=new SqlConnection(strConn);
+			string sText="Select title,hiredate,country,notes From Employees";
+			sText+=" Where employeeid="+nEmpID.ToString();
+			SqlCommand cmd=new SqlCommand(sText,cn);
+			cn.Open();
+			//检查一行时Reader性能更好
+			SqlDataReader dr=cmd.ExecuteReader();
+			dr.Read();
+			theLabel.Text="<b>"+dr["title"]+"</b><br>";
+			DateTime dtime=Convert.ToDateTime(dr["hiredate"]);
+			theLabel.Text+="Hired on"+dtime.ToShortDateString()+" from "+
+				dr["country"]+"<hr>";
+			theLabel.Text+="<i>"+dr["Notes"]+"<hr>";
+
+			LinkButtonUn.Visible=true;//启用取消选择
+			dr.Close();
+			cn.Close();
+			
+	}
+		//取消选
+		private void LinkButtonUn_Click(object sender, System.EventArgs e)
+		{
+			DataList1.SelectedIndex=-1;
+			theLabel.Text="Click to read more.";
+			LinkButtonUn.Visible=false;
+
+		}
+
+		private void DataList1_ItemCommand(object source, System.Web.UI.WebControls.DataListCommandEventArgs e)
+		{
+		}
+	}
+}

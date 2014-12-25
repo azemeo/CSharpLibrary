@@ -1,0 +1,47 @@
+private void InitCtrlList()
+		{
+			string AppPath = Path.GetDirectoryName( Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName );
+			string FullPath = AppPath + @"\ext.config";			
+			DataSet ds=new DataSet("ZeroWireSFA");
+			ds.ReadXml(FullPath);
+			
+			//加载服务器列表
+			DataTable dtServer=ds.Tables["Server"]; 
+			foreach (DataRow row in dtServer.Rows) 
+			{
+				zcbAddress.Items.Add((string)row["Name"],(string)row["ID"]);
+			}
+			//用户名 
+			DataTable dtUser=ds.Tables["User"]; 
+			foreach (DataRow row in dtUser.Rows) 
+			{
+				zcbUserName.Items.Add((string)row["Name"],(string)row["ID"]);
+			}
+			//系统语言 
+			DataTable dtLanguage=ds.Tables["Language"]; 
+			foreach (DataRow row in dtLanguage.Rows) 
+			{
+				zcbSysLanguage.Items.Add((string)row["Name"],(string)row["ID"]);
+			}
+			//界面风格
+			DataTable dtStyle=ds.Tables["Style"]; 
+			foreach (DataRow row in dtStyle.Rows) 
+			{
+				zcbStyle.Items.Add((string)row["Name"],(string)row["ID"]);
+			}
+			//日期列表 
+			DataTable dtDateFormat=ds.Tables["DateFormat"]; 
+			foreach (DataRow row in dtDateFormat.Rows) 
+			{
+				zcbDateFormat.Items.Add((string)row["Name"],(string)row["ID"]);
+			}
+
+			//自动升级
+			DataTable dtdtDateFormat=ds.Tables["AutoUpdate"]; 
+			foreach (DataRow row in dtdtDateFormat.Rows) 
+			{
+				zcbAutoUpdate.Items.Add((string)row["Name"],(string)row["ID"]);
+			}
+			
+			ds=null;
+		}

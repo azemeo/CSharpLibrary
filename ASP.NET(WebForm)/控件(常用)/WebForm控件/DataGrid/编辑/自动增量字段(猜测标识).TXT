@@ -1,0 +1,19 @@
+T-SQL
+猜测下一个标识
+select ident_current('employees')
+
+自动增字段值由数据库在插入时自动确定的数据库列。
+
+ADO.NET 的DataColumns对象支持AutoIncrement,以及Seed,Step属性
+
+为启用这特性，需要在填充之前
+oCMD.MissingSchemaAction=MissingSchemaAction.AddWithKey;//启用增加列自维护
+
+并单独设置
+			oDS.Tables["MyList"].Columns[this.DataKeyField].AutoIncrementSeed=1000;//起始值
+			oDS.Tables["MyList"].Columns[this.DataKeyField].AutoIncrementStep=1;//增量
+
+计算当前范围最大值
+
+int nSeed=(int)oDS.Tables["MyList"].Compute("Max("+this.DataKeyField+")","");//计算标标识最大值
+oDS.Tables["MyList"].Columns[this.DataKeyField].AutoIncrementSeed=nSeed+1;

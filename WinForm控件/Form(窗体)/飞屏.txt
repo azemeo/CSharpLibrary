@@ -1,0 +1,58 @@
+1.主窗体Form1.cs
+private void Form1_Load(object sender, System.EventArgs e)
+{
+	SplashForm f = new SplashForm();
+	f.ShowDialog();
+
+}
+2.飞屏窗体SplashForm.cs
+		a.控件
+		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.Timer timer1;//间隔=3000
+		b.事件
+				public SplashForm()
+		{
+			//
+			// Required for Windows Form Designer support
+			//
+			InitializeComponent();
+
+			this.FormBorderStyle = FormBorderStyle.None; 
+ 
+			this.MaximizeBox = false; 
+ 
+			this.MinimizeBox = false; 
+ 
+			this.StartPosition = FormStartPosition.CenterScreen; 
+ 
+			this.ControlBox = false; 
+
+
+			//load the bitmap...
+			string bmpName = "Splash.sync.bmp";
+			System.IO.Stream strm = null;
+			try
+			{
+				strm = this.GetType().Assembly.GetManifestResourceStream(bmpName);
+				pictureBox1.Image = new Bitmap(strm);
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show(ex.Message.ToString());
+			}
+			finally
+			{
+				if(strm != null)
+					strm.Close();
+			}
+ 
+			//start the timer
+			timer1.Start();
+			
+		}
+		private void timer1_Tick(object sender, System.EventArgs e)
+		{
+			timer1.Stop();
+			this.Close();
+		}
+gelifeng!

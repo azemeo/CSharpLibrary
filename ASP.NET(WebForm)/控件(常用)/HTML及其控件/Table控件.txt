@@ -1,0 +1,25 @@
+1.Table控件
+<asp:Table id="Table1"> 
+</asp:Table>
+2.动态改变表的内容
+this.Table1.Rows[0].Cells[0].Text="cell 1";
+this.Table1.Rows[1].Cells[0].Text="cell 2";
+3.动态构建表
+for(int i=0;i<2;i++)
+			{
+				TableRow row=new TableRow();
+				for(int j=0;j<2;j++)
+				{
+					TableCell cell=new TableCell();
+					cell.Text=String.Format("Row {0},Column {1}",i+1,j+1);
+					row.Cells.Add(cell);
+				}
+				this.Table1.Rows.Add(row);
+			}
+4.属性
+GridLines可设置边框
+CellPadding单元格内距离
+CellSpacing单元格之间距离
+BackImageUrl背景图像
+BackColor背景色
+

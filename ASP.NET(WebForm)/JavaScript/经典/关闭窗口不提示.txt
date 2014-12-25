@@ -1,0 +1,8 @@
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			//关闭窗口不提示
+			string strTemp="<script language=javascript>javascript:self.close();</script>";
+			if(!this.IsClientScriptBlockRegistered("clientScript"))
+				this.RegisterStartupScript("clientScript",strTemp);		
+			
+		}

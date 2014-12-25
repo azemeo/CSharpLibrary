@@ -1,0 +1,54 @@
+//读节点1----------------------------------------------------------------
+//			XmlTextReader tr=new XmlTextReader("books.xml");
+//			while(tr.Read())
+//			{
+//				if(tr.NodeType==XmlNodeType.Text)
+//					listBox1.Items.Add(tr.Value);				
+//			}
+//----------------------------------------------------------------------
+//读属性
+FileStream fs=new FileStream("books.xml",FileMode.Open);
+			XmlTextReader tr=new XmlTextReader(fs);
+			while(tr.Read())
+			{
+				if(tr.MoveToContent()==XmlNodeType.Element)
+				{
+					
+					for(int i=0;i<tr.AttributeCount;i++)
+					{
+						listBox1.Items.Add(tr.GetAttribute(i));
+					}
+				}
+				
+			}
+//读节点2----------------------------------------------------------------
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			FileStream fs=new FileStream("books.xml",FileMode.Open);
+			XmlTextReader tr=new XmlTextReader(fs);
+			while(!tr.EOF)
+			{
+				if(tr.MoveToContent()==XmlNodeType.Element&&tr.Name=="title")
+				
+				{
+					//从元素中读取文本数据
+					//listBox1.Items.Add(tr.ReadElementString());//自动定位到下一个节点
+					LoadList(tr);//忽略异常
+					
+				}
+				else
+				{
+					tr.Read();
+				}
+			}
+		}
+		private void LoadList(XmlReader reader)
+		{
+			try
+			{
+				listBox1.Items.Add(reader.ReadElementString());//自动定位到下一个节点
+			}
+			catch(XmlException er){}//ignore
+
+		}
+//----------------------------------------------------------------------

@@ -1,0 +1,52 @@
+public void RunSqlTransaction(string myConnString) 
+ {
+    SqlConnection myConnection = new SqlConnection(myConnString);
+    myConnection.Open();
+
+    SqlCommand myCommand = myConnection.CreateCommand();
+    SqlTransaction myTrans;
+
+    // Start a local transaction
+    myTrans = myConnection.BeginTransaction();
+    // Must assign both transaction object and connection
+    // to Command object for a pending local transaction
+    myCommand.Connection = myConnection;
+    myCommand.Transaction = myTrans;
+
+    try
+    {
+      myCommand.CommandText = "Insert into Region (RegionID, RegionDescription) VALUES (100, 'Description')";
+      myCommand.ExecuteNonQuery();
+      myCommand.CommandText = "Insert into Region (RegionID, RegionDescription) VALUES (101, 'Description')";
+      myCommand.ExecuteNonQuery();
+      myTrans.Commit();
+      Console.WriteLine("Both records are written to database.");
+    }
+    catch(Exception e)
+    {
+      try
+      {
+        myTrans.Rollback();
+      }
+      catch (SqlException ex)
+      {
+        if (myTrans.Connection != null)
+        {
+          Console.WriteLine("An exception of type " + ex.GetType() +
+                            " was encountered while attempting to roll back the transaction.");
+        }
+      }
+    
+      Console.WriteLine("An exception of type " + e.GetType() +
+                        " was encountered while inserting the data.");
+      Console.WriteLine("Neither record was written to database.");
+    }
+    finally 
+    {
+      myConnection.Close();
+    }
+}
+
+[C++, JScript] 没有可用于 C++ 或 JScript 的示例。若要查看 Visual Basic 或 C# 示例，请单击页左上角的“语言筛选器”按钮 。
+
+要求

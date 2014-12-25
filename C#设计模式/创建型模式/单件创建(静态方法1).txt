@@ -1,0 +1,40 @@
+using System;
+
+namespace SingExample
+{
+	//单件类
+	public class Spooler
+	{
+		private static bool instance_flag=false;
+		private Spooler(){}//防止类多次实例化
+		public static Spooler getSpooler()
+		{
+			if(!instance_flag)
+				return new Spooler();
+			else
+				return null;
+		}
+	}
+	/// <summary>
+	/// 主程序。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Spooler sp1=Spooler.getSpooler();
+			if(sp1!=null)
+				Console.WriteLine("Got 1 spooler");
+			Spooler sp2=Spooler.getSpooler();
+			if(sp2!=null)
+				Console.WriteLine("Got 2 spooler");
+			//编译失败
+			//Spooler sp3=new Spooler();
+
+		}
+	}
+}

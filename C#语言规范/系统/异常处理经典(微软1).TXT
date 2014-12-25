@@ -1,0 +1,19 @@
+		private void buttonCreate_Click(object sender, System.EventArgs e)
+		{
+			
+			// Next try to create a capture device
+			try
+			{
+				itemSelect = (DeviceDescription)comboboxCapture.Items[comboboxCapture.SelectedIndex];
+				if (Guid.Empty == itemSelect.info.DriverGuid)
+					applicationCapture = new Capture();
+				else
+					applicationCapture = new Capture(itemSelect.info.DriverGuid);
+			}
+			catch
+			{
+				MessageBox.Show("Could not create DirectSound Capture device.", "Failure!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			MessageBox.Show("Devices created successfully.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}

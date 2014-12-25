@@ -1,0 +1,5 @@
+Graphics g=Graphics.FromHwnd(Handle);
+				Pen pen=new Pen(Color.Black);
+				g.DrawLine(pen,e.X-4,e.Y-4,e.X+4,e.Y+4);
+				g.DrawLine(pen,e.X-4,e.Y+4,e.X+4,e.Y-4);
+				pen.Dispose();

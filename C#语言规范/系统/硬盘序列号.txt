@@ -1,0 +1,15 @@
+如何达到硬盘充列号
+1.在解决方案管理器中添加对System.Management组件的引用
+2.在代码中添加名称空称引用
+using System.Management;
+3.在事件中编码：
+try
+			{
+				ManagementObject m_objDisk = new ManagementObject("win32_logicaldisk.deviceid=\"c:\""); 
+				string strSN = (string)m_objDisk.GetPropertyValue("VolumeSerialNumber"); 
+				MessageBox.Show(strSN);
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}

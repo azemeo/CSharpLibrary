@@ -1,0 +1,61 @@
+1.实现迭式器的接口
+public class KidIterator : IEnumerator 	{
+		private ArrayList kids;
+		private int index;
+		public KidIterator(ArrayList kidz) 	{
+			kids = kidz;
+			index = 0;
+		}
+		//------
+		public bool MoveNext() {
+			index++;
+			return index < kids.Count ;
+		}
+		//------
+		public object Current {
+			get {
+				return kids[index];
+			}
+		}
+		//------
+		public void Reset() {
+			index = 0;
+		}
+	}
+
+2.数据
+	public class KidData{
+		private ArrayList kids;
+		private int index;
+		public KidData(string filename) 		{
+			kids = new ArrayList ();
+			csFile fl = new csFile (filename);
+			fl.OpenForRead ();
+			string line = fl.readLine ();
+			while(line != null) {
+				Kid kd = new Kid (line);
+				kids.Add (kd);
+				line = fl.readLine ();
+			}
+3.调用
+public Form1() 		{
+			InitializeComponent();
+			init();
+		}
+		private void init() {
+			kids = new KidData("50free.txt");
+			KidIterator kdi = kids.getIterator ();
+			while (kdi.MoveNext () ) {
+				Kid kd = (Kid)kdi.Current ;
+				lsKids.Items.Add (kd.getFrname()+ " "+ kd.getLname ());
+			}
+		}
+			fl.close ();
+			index = 0;
+		}
+		//-----
+		public KidIterator getIterator() {
+			return new KidIterator (kids);
+		}
+		
+	}

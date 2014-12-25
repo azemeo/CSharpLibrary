@@ -1,0 +1,6 @@
+Item 是一个索引器
+获取单元格的值
+dgRecord[1,1].ToString()
+
+设置单元格的值
+dgMain[dgMain.CurrentRowIndex,3]="aa";

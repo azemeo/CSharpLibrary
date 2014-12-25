@@ -1,0 +1,57 @@
+1.主窗体
+		enum Units
+		{
+			Inches,
+			Centimeters,
+			Pixels
+		}
+		int MyWidth=400;
+		int MyHeight=200;
+		Units MyUnits=Units.Pixels;
+2.对话框
+		public int UserWidth
+		{
+			get{return Convert.ToInt32(WidthBox.Text);}
+			set{WidthBox.Text=value.ToString();}
+		}
+		public int UserHeight
+		{
+			get{return Convert.ToInt32(HeightBox.Text);}
+			set{HeightBox.Text=value.ToString();}
+		}
+		public int UserUnits
+		{
+			get
+			{
+				for(int i=0;i<UnitsGroup.Controls.Count;i++)
+				{
+					RadioButton button=(RadioButton)UnitsGroup.Controls[i];
+					if(button.Checked)
+						return i;
+				}
+				return -1;
+			}
+			set			
+			{
+				RadioButton button=(RadioButton)UnitsGroup.Controls[value];
+				button.Checked=true;																		
+			}
+		}
+3.主窗体调用代码
+MyDialog dlg=new MyDialog();
+			dlg.UserWidth=MyWidth;
+			dlg.UserHeight=MyHeight;
+			dlg.UserUnits=(int)MyUnits;
+			if(dlg.ShowDialog(this)==DialogResult.OK)
+			{
+				MyWidth=dlg.UserWidth;
+				MyHeight=dlg.UserHeight;
+				MyUnits=(Form1.Units)dlg.UserUnits;
+			}
+4.对话框控件
+		private System.Windows.Forms.RadioButton InchesButton;
+		private System.Windows.Forms.RadioButton CentimetersButton;
+		private System.Windows.Forms.RadioButton PixelsButton;
+		private System.Windows.Forms.TextBox WidthBox;
+		private System.Windows.Forms.TextBox HeightBox;
+		private System.Windows.Forms.GroupBox UnitsGroup;

@@ -1,0 +1,1 @@
+myString=@"c:\windows\font\ms.dat";

@@ -1,0 +1,2 @@
+<input type="button" id="Button1" style="Z-INDEX: 103; LEFT: 24px; WIDTH: 64px; POSITION: absolute; TOP: 448px; HEIGHT: 20px"
+				class="button" value="ÐÞ¸Ä" Width="70" onclick="javascrip: location.href='Form_OppModi.aspx';">

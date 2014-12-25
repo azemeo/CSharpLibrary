@@ -1,0 +1,75 @@
+
+1.数组总是以引用的方式传递给方法
+
+2.Array.Copy(不希望引用的方式发生)
+	a.值类型(OK)
+	b.引用类型(每个元素的类型实现ICloneable)
+
+3.方法返回也是引用。
+
+返回0长数组比null更好。
+
+using System;
+using System.Collections;
+using System.IO;
+namespace TestArray
+{
+
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+						
+			String[] a=new String[2];//引用类型
+			Int32[] b=new Int32[2];//值类型
+			
+			a[0]="aaa";
+			a[1]="bbb";
+
+			b[0]=3;
+			b[1]=7;
+
+			//数组总是以引用的方式传递
+			//引用类型
+			Console.WriteLine("{0},{1}",a[0],a[1]);
+			SwapStr(a);
+			Console.WriteLine("{0},{1}",a[0],a[1]);
+			//值类型
+			Console.WriteLine("{0},{1}",b[0],b[1]);
+			SwapNum(b);
+			Console.WriteLine("{0},{1}",b[0],b[1]);
+
+			
+			//不希望发生这样的引互影响行为
+			//引用类型
+			Console.WriteLine("{0},{1}",a[0],a[1]);
+			String[] c=new String[2];	
+			Array.Copy(a,c,a.Length);
+			SwapStr(c);
+			Console.WriteLine("{0},{1}",a[0],a[1]);
+			//值类型
+			Console.WriteLine("{0},{1}",b[0],b[1]);
+			Int32[] d=new Int32[2];
+			Array.Copy(b,d,b.Length);
+			SwapNum(d);
+			Console.WriteLine("{0},{1}",b[0],b[1]);
+			
+		}
+		static void SwapStr(String[]a)
+		{
+			string temp=a[0];
+			a[0]=a[1];
+			a[1]=temp;
+		}
+		static void SwapNum(Int32[]a)
+		{
+			Int32 temp=a[0];
+			a[0]=a[1];
+			a[1]=temp;
+		}
+
+	}
+}
+
+

@@ -1,0 +1,40 @@
+using System;
+using System.Xml;
+namespace MyXMLTextReader
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			XmlTextWriter writer=null;
+			try
+			{
+				writer=new XmlTextWriter("Guitars.xml",System.Text.Encoding.Unicode);
+				writer.Formatting=Formatting.Indented;
+				writer.WriteStartDocument();
+				writer.WriteStartElement("Guitars");
+				writer.WriteStartElement("Guitar");
+				writer.WriteAttributeString("Image","MySG.jpg");
+				writer.WriteElementString("Make","Gibson");
+				writer.WriteElementString("Model","SG");
+				writer.WriteElementString("Year","1997");
+				writer.WriteElementString("Color","Tobacco Sunburst");
+				writer.WriteElementString("Neck","Rosewood");
+				writer.WriteEndElement();
+				writer.WriteEndElement();
+			}
+			finally
+			{
+				if(writer!=null)
+					writer.Close();
+			}
+		}
+	}
+}

@@ -1,0 +1,37 @@
+条件分支
+
+if(条件)
+{
+语句1
+}
+else
+{
+语句2
+}
+
+switch(条件)
+{
+	case 0:语句1;break;
+	case 1:语句2;break;
+	...
+	case n:语句n;break;
+	default:语句n+1;break;
+}
+
+循环
+
+for(初始化部分(可选);i<条件部分(可选);更新部分(可选))
+{
+语句;
+}
+
+for(变量 in 对象或数组)
+
+while(条件)
+	语句;
+do
+{}while(条件)
+
+break;中断
+continue;继续
+

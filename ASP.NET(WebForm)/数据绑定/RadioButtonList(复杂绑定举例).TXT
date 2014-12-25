@@ -1,0 +1,49 @@
+RepeatLayout  控制列表的布局:Table/Flow
+
+RepeatDirection 控制排列方式 Vertical(垂直)/Horizontal(水平)
+
+1.*.aspx
+
+			<asp:RadioButtonList id="RadioButtonList1" 
+				runat="server" RepeatDirection="Horizontal"></asp:RadioButtonList>
+			<asp:Label id="Label1" runat="server">Label</asp:Label>
+			<asp:Button id="Button1" runat="server"
+				Text="Button"></asp:Button>
+2.*.aspx.cs
+using System.Data.SqlClient;
+using System.Text;
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				//RadioButtonList数据绑定
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select employeeid,firstName,lastName From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];
+				RadioButtonList1.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+				RadioButtonList1.DataTextField="lastName";
+				RadioButtonList1.DataValueField="employeeid";
+				RadioButtonList1.DataBind();
+				//消除没有选中的可能(这个控件可以选中一个或没有一个选中)
+				if(RadioButtonList1.Items.Count>0)
+					RadioButtonList1.Items[0].Selected=true;
+			}
+		}
+
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			//检测选中项
+			foreach(ListItem item in RadioButtonList1.Items)
+			{
+				if(item.Selected)//选中标志
+				{
+					Label1.Text=item.Text.ToString();
+				}
+			}
+			
+		}

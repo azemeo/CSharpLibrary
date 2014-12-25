@@ -1,0 +1,1 @@
+Server.MapPath("Rates.xml");

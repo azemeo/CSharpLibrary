@@ -1,0 +1,7 @@
+一定要将字段改为主键后，再试
+更新：要求数据表中有一个字段是主键
+删除：条件如上，并加上主键一定要出现在选择语句中
+将SELECT *FROM Customer
+改为SELECT 客户号,客户名,生日,发送祝福 FROM Customer
+加上OdbcCommandBuilder st=new OdbcCommandBuilder(da);
+记录内容不正确

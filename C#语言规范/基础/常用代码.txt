@@ -1,0 +1,18 @@
+Ìõ¼þ			
+
+if()
+			{
+			
+			}
+			else
+			{
+
+			}
+Ñ­»·
+				for(int i=0;i<x;i++)
+				{
+
+				}
+
+
+(DropDownList)sender

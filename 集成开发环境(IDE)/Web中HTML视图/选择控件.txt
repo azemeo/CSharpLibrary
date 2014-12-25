@@ -1,0 +1,5 @@
+如何在VS.NET HTML编辑器中选择控件
+Shift
+Ctrl+]
+>
+释放Shift

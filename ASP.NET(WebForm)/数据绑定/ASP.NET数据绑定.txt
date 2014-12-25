@@ -1,0 +1,7 @@
+数据绑定：从数据源检索数据并动态地将其与一个可视化元素的属性相关联的过程。
+可用的数据绑定源：
+1、内存中的集合类：包括数组、字典、排序、列表、哈希表、堆栈和队列。
+2、用户定义的数据结构，只要这种结构公开ICollection,或基于ICollection的接口之一（如IList）
+3、面向数据库的类:DataTable、DataSet(可以包括多个表：DataSource属性指定DataSet,DataMember属性指定DataTable)
+4、根据DataTable对象所生成的筛选视图（DataView类或DataTable对象生成的类）
+5、间接的XML文档(将XML加载到DataSet或用XML阅读器类绑定得到的节点集合)

@@ -1,0 +1,11 @@
+ADO.NET的DataColumn支持AutoIncrement属性。
+
+SqlDataAdaPter da=new SqlDataAdapter(strCommand,conn);
+da.MissingSchemaAction=MissingSchemaAction.AddWithKey;
+ds.Fill(ds,"Employees");
+ds.Tables["Employees"].Columns["employeeid"].AutoIncrementSeed=1000;
+ds.Tables["Employees"].Columns["employeeid"].AutoIncrementStep=1;
+
+
+数据库的自动增加属性与DataColumn对象是完全不同的。
+

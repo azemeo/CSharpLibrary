@@ -1,0 +1,9 @@
+DIV 控件用于对控件进行分组
+
+
+<DIV style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; Z-INDEX: 102; LEFT: 180px; BORDER-LEFT: 1px solid; WIDTH: 282px; BORDER-BOTTOM: 1px solid; POSITION: absolute; TOP: 0px; HEIGHT: 527px"
+				ms_positioning="GridLayout">
+
+
+
+</DIV>

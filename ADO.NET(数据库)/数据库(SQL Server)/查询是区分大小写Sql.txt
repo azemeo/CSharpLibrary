@@ -1,0 +1,31 @@
+		SqlConnection connection=new SqlConnection("server=localhost;database=weblogin;uid=sa;pwd=");
+		try
+		{
+			connection.Open();
+			//Sql statament
+			//use weblogin
+			//go
+			//select count(*)from users where username='Jeff'
+			//and cast(rtrim(password)as varbinary)=cast('imbatman'as varbinary)
+			//go
+			StringBuilder builder=new StringBuilder();
+			builder.Append("select  count(*) from users"+
+				" where username=\'");
+			builder.Append(username);
+			builder.Append("\' and cast(rtrim(password)as"+
+				" varbinary)=cast(\'");
+			builder.Append(password);
+			builder.Append("\'as varbinary)");
+			SqlCommand command=new SqlCommand(builder.ToString(),
+				connection);
+			int count=(int)command.ExecuteScalar();
+			return (count>0);
+		}
+		catch(SqlException)
+		{
+			return false;
+		}
+		finally
+		{
+			connection.Close();
+		}

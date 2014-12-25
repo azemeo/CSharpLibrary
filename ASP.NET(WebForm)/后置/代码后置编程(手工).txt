@@ -1,0 +1,10 @@
+1.*.aspx,LanderPage为类名称
+<%@ Page Inherits="LanderPage" %>
+<asp:Label ID="Altitude" Text="15200.0"
+Runat="server" />
+2.*.cs,编译后放入bin子目录下
+public class LanderPage:Page
+{
+protected Label Altitude;//对应控件的ID
+}
+3.执行*.aspx即可。

@@ -1,0 +1,28 @@
+using System;
+using System.Threading;
+namespace TimerThread
+{
+	/// <summary>
+	/// 计时器线程,可以模拟时钟。
+	/// </summary>
+	class Class1
+	{
+		static bool TickNext=true;
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		//[STAThread]
+		static void Main(string[] args)
+		{
+			Console.WriteLine("Press Enter to terminate...");
+			TimerCallback callback=new TimerCallback(TickTock);//计时器线程
+			Timer timer=new Timer(callback,null,1000,1000);
+			Console.ReadLine();
+		}
+		static void TickTock(object state)
+		{
+			Console.WriteLine(TickNext?"Tick":"Tock");
+			TickNext=!TickNext;
+		}
+	}
+}

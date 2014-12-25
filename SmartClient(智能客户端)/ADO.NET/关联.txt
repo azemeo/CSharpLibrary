@@ -1,0 +1,3 @@
+//关联
+DataSet ds=new DataSet();			ds.Relations.Add("FKProduct",ds.Tables["categories"].Columns["cateid"],ds.Tables["Products"].Columns["cateid"],true);
+//根据条件得相关联表的数据行			ds.Tables["categories"].Select("categoryname='Widgets'")[0].GetChildRows("FKProduct");

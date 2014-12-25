@@ -1,0 +1,6 @@
+数据视图,与数据绑定无关
+dt.DefaultView; //第一次被访问时建立
+
+			ds.Tables[0].DefaultView;
+			ds.Tables[0].DefaultView.Sort="name";//排序
+			ds.Tables[0].DefaultView.RowFilter="xx";//过滤器

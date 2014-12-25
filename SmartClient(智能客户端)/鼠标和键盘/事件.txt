@@ -1,0 +1,25 @@
+为了使窗口得到消息
+.窗口必须处于最上层
+.窗口必须是可使用的。Enabled=true
+.窗口必须是可见的。Visible=true
+.为了获得键盘输入，必被聚焦于窗口上。
+	Focused必属判断是否得到焦点
+	KeyDown 按下
+	KeyPress 按住(包含键码)
+	KeyUp 弹起
+.为了获得鼠标输入，窗体必被位于光标下。
+	用户触击屏幕或移动鼠标时发生
+	MouseDown 触击屏幕或单击鼠标
+	MouseMove 移动触笔或鼠标
+	Click 完成触笔或鼠标动作
+	MouseUp	抬起触笔或释放鼠标按键
+
+
+Control
+DataGrid
+Form
+Panel
+PictureBox
+TabPage
+以上控件支持键盘、焦点、鼠标、点击.
+

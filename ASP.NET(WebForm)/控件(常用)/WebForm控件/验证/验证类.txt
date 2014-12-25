@@ -1,0 +1,189 @@
+using System;
+
+namespace Movecont.Utility
+{
+
+	public class Validate
+	{
+		public Validate()
+		{
+			//
+			// TODO: 在此处添加构造函数逻辑
+			//
+		}
+
+		/// <summary>
+		/// 验证指定字符串是否符合日期时间类型
+		/// </summary>
+		/// <param name="sString">要检查的字符串</param>
+		/// <returns>返回ture表示符合，返回false表示不符合</returns>
+		public static bool IsDateTime(string sStr)
+		{
+			sStr=sStr.Trim();
+			bool bResult;
+			try
+			{
+				System.DateTime dt=System.DateTime.Parse(sStr);
+				bResult=true;
+			}
+			catch
+			{
+				bResult=false;
+			}
+			return bResult;
+		}
+
+		/// <summary>
+		/// 验证指定字符串是否整型
+		/// </summary>
+		/// <param name="sString">要检查的字符串</param>
+		/// <returns>返回ture表示符合，返回false表示不符合</returns>
+		public static bool IsInt(string sStr)
+		{
+			sStr=sStr.Trim();
+			bool bResult;
+			try
+			{
+				
+				int i=int.Parse(sStr);
+				bResult=true;
+			}
+			catch
+			{
+				bResult=false;
+			}
+			return bResult;
+		}
+
+		/// <summary>
+		/// 验证指定字符串是否全部为整型数字（适用超出int长度的特长数字字符串）
+		/// </summary>
+		/// <param name="sString">要检查的字符串</param>
+		/// <returns>返回ture表示符合，返回false表示不符合</returns>
+		public static bool IsLongInt(string sStr)
+		{
+			sStr=sStr.Trim();
+			bool bResult=false;
+			try
+			{
+				for(int i=0; i< sStr.Length; i++)
+				{
+					int j=int.Parse(sStr.Substring(i,1));
+					bResult=true;
+				}
+			}
+			catch
+			{
+				bResult=false;
+			}
+			return bResult;
+		}
+
+		/// <summary>
+		/// 验证指定字符串是否小数型
+		/// </summary>
+		/// <param name="sString">要检查的字符串</param>
+		/// <returns>返回ture表示符合，返回false表示不符合</returns>
+		public static bool IsDecimal(string sStr)
+		{
+			sStr=sStr.Trim();
+			bool bResult;
+			try
+			{
+				Decimal d=Decimal.Parse(sStr);
+				bResult=true;
+			}
+			catch
+			{
+				bResult=false;
+			}
+			return bResult;
+		}
+
+
+		/// <summary>
+		/// 检查是否存在以下不允许出现的字符，
+		/// 如 ~`@#$%^&*?;:'"/<>,.-+\{}[]()
+		/// </summary>
+		/// <param name="checkString">要检查的字符串</param>
+		/// <param name="unallowableString">输出参数：被禁止字符的串</param>
+		/// <returns></returns>
+		public static bool IsExistUnallowableChar(string checkString, out string unallowableStrForMsg)
+		{
+			//			string sUnallowableStr = "`~!@#$%^&*()_-+=|\\{}[];:'\"<>,.?/";
+			string sUnallowableStr = "`~^;:'";
+			string sTmp = string.Empty;
+			bool bResult = false;
+
+			for(int i=0; i<sUnallowableStr.Length; i++)
+			{
+				sTmp = sUnallowableStr.Substring(i,1);
+				if(checkString.IndexOf(sTmp) > -1) //发现一个不允许的字符
+				{
+					bResult = true;
+					break;
+				}
+			}
+
+			//将“被禁止字符的串”变换成MessageBox、alert可以显示的字符串
+			unallowableStrForMsg = string.Empty;
+			for(int i=0; i<sUnallowableStr.Length; i++)
+			{
+				sTmp = sUnallowableStr.Substring(i,1);
+				unallowableStrForMsg += "\\" + sTmp;
+			}
+
+			return bResult;
+		}
+
+
+		/// <summary>
+		/// 检查是否存在不允许出现的字符
+		/// </summary>
+		/// <param name="checkString">要检查的字符串</param>
+		/// <param name="unallowableString">被禁止字符的串</param>
+		/// <returns></returns>
+		public static bool IsExistUnallowableChar(string checkString, string unallowableString)
+		{
+			string sTmp = string.Empty;
+			bool bResult = false;
+
+			for(int i=0; i<unallowableString.Length; i++)
+			{
+				sTmp = unallowableString.Substring(i,1);
+				if(checkString.IndexOf(sTmp) > -1) //发现一个不允许的字符
+				{
+					bResult = true;
+					break;
+				}
+			}
+
+			return bResult;
+		}
+
+		/// <summary>
+		/// 是否被检查的字符串中的字符是由指定的字符组成的
+		/// </summary>
+		/// <param name="checkString">被检查的字符串</param>
+		/// <param name="customString">指定的字符，一个或多个（写成一个字符串）</param>
+		/// <returns></returns>
+		public static bool IsCustomChar(string checkString, string customString)
+		{
+			string sTmp = string.Empty;
+			bool bResult = true;
+
+			for(int i=0; i<checkString.Length; i++)
+			{
+				sTmp = checkString.Substring(i,1);
+				if(customString.IndexOf(sTmp) <= -1) //发现当前字符sTmp不存在于customString中
+				{
+					bResult = false;
+					break;
+				}
+			}
+
+			return bResult;
+		}
+
+	}
+}

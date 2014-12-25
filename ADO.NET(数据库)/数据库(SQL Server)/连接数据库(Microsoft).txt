@@ -1,0 +1,109 @@
+
+		int count=0;//记录查询次数
+		private void btnLoad_Click(object sender, System.EventArgs e)
+		{
+			//方法1
+//			Employees ep=new Employees();
+//			dataGrid1.DataSource=ep.GetEmployees("Select * From Employees");
+//			ep.Dispose();
+
+			//方法2
+			using(Employees ep=new Employees())
+			{
+				if(count%2==0)
+				{
+					dataGrid1.DataSource=ep.GetEmployees(this.textBox1.Text.Trim()).Tables[0].DefaultView;
+				}
+				else
+				{
+					dataGrid1.DataSource=ep.GetEmployees(this.textBox2.Text.Trim()).Tables[0].DefaultView;
+				}
+				count++;
+				label1.Text="共查询 "+count.ToString()+"次";
+			}
+		}
+
+
+
+
+//----------------------------------------------------------------
+// Copyright (C) 2000-2001 Microsoft Corporation
+// Copyright (C) 2005 Movecont Corporation
+// 微软Duwamish示例访问简化版
+namespace ProuctName.DataAccess
+{
+	using System;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Data.SqlClient;    
+
+	public class Employees : IDisposable
+	{
+		
+		private SqlDataAdapter dsCommand;
+        
+		
+		string strConn="Server=(local);Integrated Security=SSPI;Initial Catalog=northwind;Max Pool Size=100; Min Pool Size=0;";
+		public Employees()
+		{
+			dsCommand = new SqlDataAdapter();
+			dsCommand.SelectCommand = new SqlCommand();
+			dsCommand.SelectCommand.Connection = new SqlConnection(strConn);
+			dsCommand.TableMappings.Add("Table", "Employees");//表名
+		}        
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(true);
+		}
+		protected virtual void Dispose(bool disposing)
+		{
+			if (! disposing)
+				return;
+
+			if (dsCommand != null)
+			{
+				if(dsCommand.SelectCommand != null)
+				{    
+					if( dsCommand.SelectCommand.Connection != null )
+						dsCommand.SelectCommand.Connection.Dispose();
+					dsCommand.SelectCommand.Dispose();
+				}    
+				dsCommand.Dispose();
+				dsCommand = null;
+			}
+		}     
+
+		//调用存储过程返回DataSet子类
+//		private DataSet FillEmployeesData(String commandText, String paramName, int paramValue)
+//		{
+//			
+//			return null;
+//		}
+		public DataSet GetEmployees(string commandText)
+		{
+			if ( dsCommand == null )
+			{
+				throw new System.ObjectDisposedException(GetType().FullName );
+			}            
+			return FillEmployeesData(commandText);
+		}
+		//调用SQL返回DataSet(用于示例)
+		private DataSet FillEmployeesData(String TableName)
+		{
+			
+			if (dsCommand == null)
+			{
+				throw new System.ObjectDisposedException( GetType().FullName );
+			}            
+			DataSet data    = new DataSet();
+			SqlCommand   command = dsCommand.SelectCommand;        
+			command.CommandText = TableName;
+			command.CommandType = CommandType.Text;        
+			dsCommand.Fill(data);				
+			return data;
+		}
+    
+	}
+    
+} 

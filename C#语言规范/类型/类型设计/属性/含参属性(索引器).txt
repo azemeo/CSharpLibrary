@@ -1,0 +1,116 @@
+含参属性:接收一个或者多个参数属性.
+
+
+类似数组的语法来访问。this[]
+
+1.查看.NET文档时以查找我为Item的属性来判断是否支持索引器
+using System;
+using System.Collections;
+namespace TestIndex
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SortedList mysort=new SortedList();
+			mysort.Add("ge",30);
+			mysort.Add("hu",28);
+			mysort.Add("chi",25);
+			
+			//支持索引器,文档中SortedList有Item属性
+			Console.WriteLine(mysort["hu"].ToString());
+			//迭代输出(通常)
+			for ( int i = 0; i < mysort.Count; i++ )  
+			{
+				Console.WriteLine( "\t{0}:\t{1}", mysort.GetKey(i), mysort.GetByIndex(i) );
+			}
+
+		}
+	}
+}
+
+
+
+
+2.索引器实现的一个例子
+
+using System;
+namespace Movecont
+{
+		public class BitArray
+		{
+			private Byte[]byteArray;
+			private Int32 numBits;
+			public BitArray(Int32 numBits)
+			{
+				if(numBits<=0)
+					throw new ArgumentOutOfRangeException("numBits","numBits must be>0");
+				this.numBits=numBits;
+				byteArray=new Byte[(numBits+7)/8];
+			}
+			public Boolean this[Int32 bitPos]
+			{
+				get
+				{
+					if((bitPos<0)||(bitPos>=numBits))
+						throw new IndexOutOfRangeException();
+					return (byteArray[bitPos/8]&(1<<(bitPos%8)))!=0;
+				}
+				set
+				{
+					if((bitPos<0)||(bitPos>=numBits))
+						throw new IndexOutOfRangeException();
+					if(value)
+					{
+						byteArray[bitPos/8]=(Byte)(byteArray[bitPos/8]|(1<<(bitPos%8)));
+					}
+					else
+					{
+						byteArray[bitPos/8]=(Byte)(byteArray[bitPos/8]&~(1<<(bitPos%8)));
+					}
+					
+			}
+		}
+	}
+	class App
+	{
+		static void Main()
+		{
+			BitArray ba=new BitArray(14);
+			for(Int32 x=0;x<14;x++)
+				ba[x]=(x%2==0);
+			for(Int32 x=0;x<14;x++)
+				Console.WriteLine("Bit "+x+" is "+(ba[x]?"On":"Off"));	
+		}	
+	}
+}
+
+3.改变编译器产生的名称,让其它语言访问
+
+	[System.Runtime.CompilerServices.IndexerName("Bit")]
+			public Boolean this[Int32 bitPos]
+			{
+
+
+VB
+
+Dima ba As New BitArray(10)
+
+Console.WriteLine(ba(2));
+
+Console.WriteLine(ba.Bit(2)); //通过名称访问
+
+4.System.String类型就是一个改变索引器名称的例子Chars,而非Item
+
+
+			string s="gelifeng";
+			Console.WriteLine(s[1].ToString());
+
+

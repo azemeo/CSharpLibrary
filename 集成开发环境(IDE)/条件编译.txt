@@ -1,0 +1,18 @@
+//#define FORM_DESIGN
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Windows.Forms;
+using System.Data;
+
+namespace SmartDeviceApplication2
+{
+ /// <summary>
+ /// Form1 的摘要说明。
+ /// </summary>
+#if (FORM_DESIGN)
+ public class Form1 : System.Windows.Forms.Form
+#else
+ public class Form1 : FormFat
+#endif
+ {

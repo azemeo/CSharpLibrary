@@ -1,0 +1,29 @@
+互斥体：是监视着一个资源，防止它同时被多个线程访问的同步对象。
+
+using System;
+using System.Threading;
+namespace MyMutex
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Mutex mutex=new Mutex();
+			try
+			{
+				//...
+			}
+			finally
+			{
+				mutex.ReleaseMutex();
+			}
+		}
+	}
+}

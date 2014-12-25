@@ -1,0 +1,4 @@
+1.放一个控件Button
+2.放一个控件ToolTip
+3.在Button中就会出来一个属性toolTip1上的ToolTip
+4.在其中输出准备显示的内容

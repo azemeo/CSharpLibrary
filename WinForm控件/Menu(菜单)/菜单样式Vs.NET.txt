@@ -1,0 +1,178 @@
+1.引用UtilityLibrary
+using System.Resources;
+using System.Reflection;
+using System.Xml;
+using UtilityLibrary.Menus;
+using System.Diagnostics;
+2.编辑MainMenu.xml,定制相应的项目
+<?xml version="1.0" encoding="UTF-8"?>
+<MainMenu>
+	<Menu Name="文件(&amp;F)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="退出(&amp;x)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>
+	<Menu Name="任务(&amp;T)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="我知道(&amp;I)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="管理(&amp;M)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>
+	<Menu Name="帮助(&amp;H)" Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True">
+		<Menu Name="目录(&amp;C)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="注册(&amp;R)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+		<Menu Name="关于(&amp;A)..." Shortcut="" Icon="" Checked="False" Radio="False" Enabled="True"/>
+	</Menu>	
+</MainMenu>
+3.编写代码处理程序
+a.申明并构造rm;
+static ResourceManager rm;
+rm = new ResourceManager("VSNetMenus", Assembly.GetCallingAssembly());
+b.复制如下代码:
+public  MenuItem[] CreateMainMenu()
+		{
+			string menuFile = Application.StartupPath + "\\" + "mainmenu.xml";//读配置文件
+			XmlDocument doc = new XmlDocument();
+			doc.Load(menuFile);
+			
+			XmlNodeList topMenus = doc.DocumentElement.ChildNodes;
+			MenuItem[] menuItems = new MenuItem[topMenus.Count];
+			int i = 0;
+			foreach ( XmlElement element in topMenus )  
+			{
+				menuItems[i++] = ProcessMenuItem(element);
+			}
+            			
+			return menuItems;
+		}
+
+		public static MenuItem ProcessMenuItem(XmlElement xmlelement)//生成菜单
+		{
+			string menuName = xmlelement.Attributes["Name"].InnerXml;
+			if ( menuName.IndexOf("&") != -1 ) 
+				menuName = menuName.Replace("&amp;", "&");
+            string menuShortcutString = xmlelement.Attributes["Shortcut"].InnerXml;
+			string menuIcon = xmlelement.Attributes["Icon"].InnerXml;
+			string menuChecked = xmlelement.Attributes["Checked"].InnerXml;
+			string menuRadio = xmlelement.Attributes["Radio"].InnerXml;
+			string menuEnabled = xmlelement.Attributes["Enabled"].InnerXml;
+			
+			Shortcut menuShortcut = Shortcut.None;
+			
+			if ( menuShortcutString != "" ) 
+			{
+				menuShortcut = (Shortcut)((Shortcut.F1.GetType()).InvokeMember(menuShortcutString, 
+					BindingFlags.GetField, null, Shortcut.F1, new object[0]));
+			}
+			//订阅事件
+			MenuItemEx parentMenu = new MenuItemEx(menuName, new EventHandler(SelectMenuItem), menuShortcut);
+			if ( menuIcon != "" )
+				parentMenu.Icon = GetIcon(menuIcon);//加载图标
+			if ( menuChecked == "True" )
+				parentMenu.Checked = true;
+			if ( menuEnabled == "False" ) 
+				parentMenu.Enabled = false;
+			if ( menuRadio == "True" )
+				parentMenu.RadioCheck = true;
+									
+			XmlNodeList nodes = xmlelement.ChildNodes;
+			if ( nodes.Count > 0 )
+			{
+				MenuItem[] menuItems = new MenuItem[nodes.Count];
+				int i = 0 ;
+				foreach ( XmlElement node in nodes ) 
+				{
+					menuItems[i] = ProcessMenuItem(node);
+					if ( menuItems[i] != null)
+						parentMenu.MenuItems.Add(menuItems[i]);
+					i++;
+				}
+			}
+			return parentMenu;
+		}
+
+		public  Bitmap GetIcon(string iconName)
+		{
+			Bitmap icon = (Bitmap)rm.GetObject(iconName);
+			return icon;
+		}
+		
+		public  void SelectMenuItem(object sender, EventArgs e)//事件处理程序
+		{
+			if (typeof(MenuItemEx).IsInstanceOfType(sender)) 
+			{
+				MenuItemEx item = (MenuItemEx)sender;
+				string menuText = item.Text;				
+//				MessageBox.Show(menuText);
+				switch(menuText)
+				{
+					case "退出(&x)":
+						MessageBox.Show("退出");
+						break;
+					case "我知道(&I)":
+						MessageBox.Show("我知道");
+						break;
+					case "管理(&M)...":
+						MessageBox.Show("管理");
+						break;
+					case "目录(&C)...":
+						MessageBox.Show("目录");
+						break;
+					case "注册(&R)...":
+						MessageBox.Show("注册");
+						break;
+					case "关于(&A)...":
+						MessageBox.Show("关于");
+						break;
+					default:
+						MessageBox.Show("未知");
+						break;
+
+				}
+			}
+		}
+c.改变Main
+public static void Main(string[] args)
+		{
+			Form1 mainForm = new Form1();
+            mainForm.Menu = new MainMenu(mainForm.CreateMainMenu());
+			mainForm.BackColor = Color.White;
+			
+			// make sure we respond to systemcolorchanges
+            mainForm.SystemColorsChanged += new EventHandler(MenuItemEx.UpdateMenuColors);			
+
+			Application.Run(mainForm);
+
+		}
+d.
+public  void SelectMenuItem(object sender, EventArgs e)//事件处理程序
+		{
+			if (typeof(MenuItemEx).IsInstanceOfType(sender)) 
+			{
+				MenuItemEx item = (MenuItemEx)sender;
+				string menuText = item.Text;				
+//				MessageBox.Show(menuText);
+				switch(menuText)
+				{
+					case "退出(&x)":
+						MessageBox.Show("退出");
+						break;
+					case "我知道(&I)":
+						MessageBox.Show("我知道");
+						break;
+					case "管理(&M)...":
+						MessageBox.Show("管理");
+						break;
+					case "目录(&C)...":
+						MessageBox.Show("目录");
+						break;
+					case "注册(&R)...":
+						MessageBox.Show("注册");
+						break;
+					case "关于(&A)...":
+						MessageBox.Show("关于");
+						break;
+					default:
+						MessageBox.Show("未知");
+						break;
+
+				}
+			}
+		}
+

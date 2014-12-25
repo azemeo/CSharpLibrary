@@ -1,0 +1,134 @@
+using System;
+
+using System.Collections;
+
+ 
+
+namespace DataStructure
+
+{
+
+     /// <summary>
+
+     /// BinaryTree 的摘要说明。
+
+     /// </summary>
+
+     public class BinaryTree:NaryTree
+
+     {
+
+         //构造二叉空树
+
+         public BinaryTree():base(2)
+
+         {
+
+              //
+
+              // TODO: 在此处添加构造函数逻辑
+
+              //
+
+         }
+
+         public BinaryTree(object _obj):base(2,_obj)
+
+         {}
+
+//------------------------------------------------------------------
+
+         protected override object GetEmptyInstance(uint _degree)
+
+         {    return new BinaryTree(_degree); }
+
+//------------------------------------------------------------------
+
+         //重写深度遍历
+
+         public override void DepthFirstTraversal(IPrePostVisitor _vis)
+
+         {
+
+              if ( !IsEmpty() )
+
+              {
+
+                   _vis.PreVisit(this.Key);
+
+                   this[0].DepthFirstTraversal(_vis);
+
+                   _vis.Visit(this.Key);
+
+                   this[1].DepthFirstTraversal(_vis);
+
+                   _vis.PostVisit(this.Key);
+
+                   
+
+                   
+
+              }
+
+         }
+
+ 
+
+     
+
+         //二叉树大小的比较
+
+         //先比较关键字，如果相等，再比较左子树，如果再相等，则比较右子树----如此递归
+
+         #region IComparable 成员
+
+ 
+
+         public override int CompareTo(object obj)
+
+         {
+
+              // TODO:  添加 BinaryTree.CompareTo 实现
+
+              //因为Comare()中已经进行了类型断定，故不会出现转型错误
+
+              BinaryTree tmpTree=(BinaryTree)obj;
+
+              
+
+              if( this.IsEmpty() )
+
+                   return tmpTree.IsEmpty()?0:-1;
+
+              if( tmpTree.IsEmpty() )
+
+                   return 1;
+
+ 
+
+              int result=Comparer.Default.Compare(this,tmpTree);
+
+              if(result==0)
+
+                   result=this[0].CompareTo(tmpTree[0]);
+
+              if(result==0)
+
+                   result=this[1].CompareTo(tmpTree[1]);
+
+ 
+
+              
+
+              return result;
+
+         }
+
+ 
+
+         #endregion
+
+     }
+
+}
+

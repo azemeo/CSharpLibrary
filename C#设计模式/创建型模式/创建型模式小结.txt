@@ -1,0 +1,5 @@
+工厂模式(Factory Pattern):根据提供给工厂的数据，从一系列相关的类中选择一个类实例并返回。例:Oracle,SQL Server 访问类的选择
+抽象工厂模式(Abstract Factory Pattern):为一组类返回一个工厂。
+生成器模式(Builder Pattern):根据提供给他的数据及表示，组装成新的对象。 例：根据用户不同的选择显示不同控件
+原型模式(Prototype Pattern):由结果到一个新的结果。例：根据由执行的SQL 查询结果得到另一个结果。
+单件模式(Singleton Pattern):保证一个类仅有一个实例，并提供一个访问它的全局访问点。例：跨窗体访问同一个实例。

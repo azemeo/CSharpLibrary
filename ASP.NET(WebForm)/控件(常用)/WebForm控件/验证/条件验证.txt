@@ -1,0 +1,6 @@
+通过改变验证控件的Enabled实现
+private void CheckBox1_CheckedChanged(object sender, System.EventArgs e)
+{
+	this.RequiredFieldValidator2.Enabled=this.CheckBox1.Checked;
+	this.RegularExpressionValidator1.Enabled=this.CheckBox1.Checked;
+}

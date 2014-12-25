@@ -1,0 +1,39 @@
+1.页面
+		<script language="javascript">
+<!--
+		
+		function DelAffirmFrm()
+	{	
+
+		if(!window.confirm("您确定要删除吗？"))			
+		{
+			return false;				
+		}
+		else
+		{
+			return true;
+		}
+
+	}
+
+//-->
+		</script>
+
+2.代码
+
+private void DataGridEx1_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			{
+				
+				//为删除增加确认
+				LinkButton btnMyDel=(LinkButton)e.Item.Cells[0].Controls[0];
+				btnMyDel.Attributes.Add("onclick","javascript:if(!DelAffirmFrm()) return false;else return;");
+
+			}
+		}		
+
+private void DataGridEx1_DeleteCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//删除
+		}

@@ -1,0 +1,29 @@
+		
+
+function DoExpand(sender,who)
+		{
+
+			
+			DoParentIframeHeight();
+			
+		}
+//根据页面的实际高度，动态改变iframe的高度
+		function DoParentIframeHeight()
+		{
+			if(top.location != self.location)
+			{
+			var a = window.parent.document.getElementsByTagName('iframe');
+				for (var i=0; i<a.length; i++)
+				{
+					if (a[i].name == self.name) 
+					{
+						a[i].height = document.body.scrollHeight + 10; return;
+					}
+				}
+			}  
+		}		
+		-->
+		</script>
+
+
+<body ms_positioning="GridLayout" onload="DoParentIframeHeight();">

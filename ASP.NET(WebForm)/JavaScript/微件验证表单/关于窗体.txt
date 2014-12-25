@@ -1,0 +1,46 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>廣過払移　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<script language="javascript">
+<!--
+function CloseKey()
+{
+	if( window.event.keyCode == 13)
+	{
+		window.close();
+		window.opener = null;
+	}
+}
+function Close()
+{
+	window.close();
+	window.opener = null;
+}
+//-->
+</script>
+
+	</HEAD>
+	<body onclick="Close();" onkeydown="CloseKey();">	
+		<form name="Form1" method="post" action="RegLost.aspx" id="Form1">
+<input type="hidden" name="__VIEWSTATE" value="dDwtNjU0MzcyMTk1Ozs+yvY9WaKW7z3MS1luk4TnjvhNB/w=" />
+
+			<table height="100%" width="100%" align="center" border="0">
+				<tr>
+					<td vAlign="middle">
+						<table align="center" cellpadding="1" cellspacing="1" bordercolordark="aliceblue" border="1">
+							<tr>
+								<td align="center"><img src="images/err.jpg"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</HTML>

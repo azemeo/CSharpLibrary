@@ -1,0 +1,5 @@
+System.Data.DataTable dt=ddd.GetTable (selectStr,true); 
+			foreach (System.Data.DataRow row in DT.Rows) 
+			{
+				string tableName=(string)row["setid"];
+}

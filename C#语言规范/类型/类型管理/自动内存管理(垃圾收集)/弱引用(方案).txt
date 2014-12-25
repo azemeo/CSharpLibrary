@@ -1,0 +1,50 @@
+弱引用:
+
+解决(容易创建但却需要大量的内存的数据结构)的问题
+如:硬盘所有目录和文件树
+
+1.第一次创建这个树。
+
+2.当用户程序离开这个树时，将树变了弱引用。
+
+3.当内存宽裕时，这个树所占的内存不会被回收.
+
+4.当内存紧张时，这个树所占的内存被回收.
+
+5.再次返回时，尝试得到强引用。
+
+5.由于用户计算内存的容量，可能速度快(得到了)，可能速度慢(没得到，重新构造)。
+
+对象复苏(resurrection):死而复生。尽可能不要使用这项技术。但对象复苏为实现对象池提供了生种简单有效方式。
+
+
+using System;
+using System.IO;
+namespace TestDisp
+{
+	
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+
+			Object o=new Object();
+
+			WeakReference wr=new WeakReference(o);//弱引用
+
+			o=null;//移除强引用
+
+			//其它操作
+			o=wr.Target;//尝试获得强引用
+			if(o==null)
+			{
+				//没有成功,出现了垃圾回收,重新建立o
+			}
+			else
+			{
+				//成功,继续使用o
+			}
+		}
+	}
+}

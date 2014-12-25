@@ -1,0 +1,22 @@
+更新数据源
+
+1.使用单个语句(大量的并发)
+2.更新内存中的DataSet以后再批量更新（适用于频繁的大量的修改）。
+3.使有一个或多个输出参数的存储过程返回直接从数据库中读取的更新过的值。
+然后修改缓冲的网络数据源并重新绑定。
+
+
+Create Procedure MySampleUpdate(
+	@nEmpID int,                      --EmployeeID
+	@sPosition nvarchar(30),          --用于更新Title字段的值
+	@sCountry nvarchar(15),           --用于更新Country的值
+	@NewPosition nvarchar(30) output, --返回Title当前值
+	@NewCountry nvarchar(15) output)  --返回country当前值
+As
+Update employees Set
+	Title=@sPosition,
+	Country=@sCountry
+	Where employeeid=@nEmpID
+Select @NewPosition=Title,@NewCountry=Country
+	From Employees Where employeeid=@nEmpID
+GO

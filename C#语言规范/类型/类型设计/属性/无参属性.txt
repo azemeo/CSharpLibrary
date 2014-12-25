@@ -1,0 +1,57 @@
+通常的属性(propety):一种智能字段
+
+设计初衷:
+1.避免错误使用字段.(如果以公用的形式提供,如Age=-5)
+2.访问字段是可能需要额外的操作.(检查越界)
+3.减少编写代码和更简单的使用(不用访问器的方法)
+
+限制:
+1.每个属性就有名称和一个类型(不能为void)
+2.get/set 读写
+3.set 只写
+4.get 只读
+5.get/set 并非必须访问一个后端字段.
+
+总结:设计类时,将所有字段设置为私有.至少是保护.永远不设为公有.
+
+e.g
+
+using System;
+namespace Movecont
+{
+	public class Employee
+	{
+		private String _Name;//后端字段
+		private Int32 _Age;
+		public String Name
+		{
+			get{return (_Name);}
+			set{_Name=value;}
+		}
+		public Int32 Age
+		{
+			get{return (_Age);}
+			set{
+				if(value<0)
+				throw new ArgumentOutOfRangeException(
+				"Age must be greater than or equal to 0");
+				_Age=value;
+			}
+	 }
+	}	
+	public class App
+	{
+		static void Main()
+		{
+			Employee emp=new Employee();
+			emp.Name="gelifeng";
+			emp.Age=30;
+			//
+			Employee emp2=new Employee();
+			emp2.Name="Chi";
+			emp2.Age=-5;
+				
+		}	
+	}
+	
+}

@@ -1,0 +1,256 @@
+private void InitExt()
+		{
+			//Temp 建立扩展配置文件
+			DataSet ds=new DataSet("ZeroWireSFA");
+			
+			//服务器表-----------------------------------------------------
+			DataTable  dtServer = new DataTable("Server");
+
+			//建立列
+			DataColumn  dtServerID = new DataColumn("ID");
+			dtServerID.DataType = typeof(int);
+			dtServerID.AutoIncrement = true;
+
+			DataColumn  dtServerName = new DataColumn("Name");
+			dtServerName.DataType = typeof(string );
+
+
+			//增加列.
+			dtServer.Columns.Add(dtServerID);
+			dtServer.Columns.Add(dtServerName);
+
+			//增加数据
+			DataRow drowServer;
+			drowServer = dtServer.NewRow();
+			drowServer["ID"] = 1;
+			drowServer["Name"] = "D-PEK-GGE";
+			dtServer.Rows.Add(drowServer);
+			//用户列表-----------------------------------------------------
+			DataTable  dtUser = new DataTable("User");
+
+			//建立列
+			DataColumn  dtUserID = new DataColumn("ID");
+			dtUserID.DataType = typeof(int);
+			dtUserID.AutoIncrement = true;
+
+			DataColumn  dtUserName = new DataColumn("Name");
+			dtUserName.DataType = typeof(string );
+
+
+			//增加列.
+			dtUser.Columns.Add(dtUserID);
+			dtUser.Columns.Add(dtUserName);
+
+			//增加数据
+			DataRow drowUser;
+			drowUser = dtUser.NewRow();
+			drowUser["ID"] = 1;
+			drowUser["Name"] = "Appolo.Chen";
+			dtUser.Rows.Add(drowUser);
+			DataRow drowUser2;
+			drowUser2 = dtUser.NewRow();
+			drowUser2["ID"] = 2;
+			drowUser2["Name"] = "Glen.Ge";
+			dtUser.Rows.Add(drowUser2);
+			//同步间隔列表-----------------------------------------------------
+			DataTable  dtInterval = new DataTable("Interval");
+
+			//建立列
+			DataColumn  dtIntervalID = new DataColumn("ID");
+			dtIntervalID.DataType = typeof(int);
+			dtIntervalID.AutoIncrement = true;
+
+			DataColumn  dtIntervalName = new DataColumn("Name");
+			dtIntervalName.DataType = typeof(string );
+
+
+			//增加列.
+			dtInterval.Columns.Add(dtIntervalID);
+			dtInterval.Columns.Add(dtIntervalName);
+
+			//增加数据
+			DataRow drowInterval;
+			drowInterval = dtInterval.NewRow();
+			drowInterval["ID"] = 1;
+			drowInterval["Name"] = "无";
+			dtInterval.Rows.Add(drowInterval);
+
+			DataRow drowInterval2;
+			drowInterval2 = dtInterval.NewRow();
+			drowInterval2["ID"] = 2;
+			drowInterval2["Name"] = "1";
+			dtInterval.Rows.Add(drowInterval2);
+
+			DataRow drowInterval3;
+			drowInterval3 = dtInterval.NewRow();
+			drowInterval3["ID"] = 3;
+			drowInterval3["Name"] = "5";
+			dtInterval.Rows.Add(drowInterval3);
+
+			DataRow drowInterval4;
+			drowInterval4 = dtInterval.NewRow();
+			drowInterval4["ID"] = 4;
+			drowInterval4["Name"] = "10";
+			dtInterval.Rows.Add(drowInterval4);
+
+			DataRow drowInterval5;
+			drowInterval5 = dtInterval.NewRow();
+			drowInterval5["ID"] = 5;
+			drowInterval5["Name"] = "15";
+			dtInterval.Rows.Add(drowInterval5);
+
+			DataRow drowInterval6;
+			drowInterval6 = dtInterval.NewRow();
+			drowInterval6["ID"] = 6;
+			drowInterval6["Name"] = "20";
+			dtInterval.Rows.Add(drowInterval6);
+
+			DataRow drowInterval7;
+			drowInterval7 = dtInterval.NewRow();
+			drowInterval7["ID"] = 7;
+			drowInterval7["Name"] = "30";
+			dtInterval.Rows.Add(drowInterval7);
+
+			DataRow drowInterval8;
+			drowInterval8 = dtInterval.NewRow();
+			drowInterval8["ID"] = 8;
+			drowInterval8["Name"] = "45";
+			dtInterval.Rows.Add(drowInterval8);
+
+			DataRow drowInterval9;
+			drowInterval9 = dtInterval.NewRow();
+			drowInterval9["ID"] = 9;
+			drowInterval9["Name"] = "60";
+			dtInterval.Rows.Add(drowInterval9);
+
+			DataRow drowInterval10;
+			drowInterval10 = dtInterval.NewRow();
+			drowInterval10["ID"] = 10;
+			drowInterval10["Name"] = "90";
+			dtInterval.Rows.Add(drowInterval10);
+
+			DataRow drowInterval11;
+			drowInterval11 = dtInterval.NewRow();
+			drowInterval11["ID"] = 11;
+			drowInterval11["Name"] = "120";
+			dtInterval.Rows.Add(drowInterval11);
+			//系统语言列表-----------------------------------------------------
+			DataTable  dtLanguage = new DataTable("Language");
+
+			//建立列
+			DataColumn  dtLanguageID = new DataColumn("ID");
+			dtLanguageID.DataType = typeof(int);
+			dtLanguageID.AutoIncrement = true;
+
+			DataColumn  dtLanguageName = new DataColumn("Name");
+			dtLanguageName.DataType = typeof(string );
+
+
+			//增加列.
+			dtLanguage.Columns.Add(dtLanguageID);
+			dtLanguage.Columns.Add(dtLanguageName);
+
+			//增加数据
+			DataRow drowLanguage;
+			drowLanguage = dtLanguage.NewRow();
+			drowLanguage["ID"] = 0;
+			drowLanguage["Name"] = "简体中文";
+			dtLanguage.Rows.Add(drowLanguage);
+			DataRow drowLanguage2;
+			drowLanguage2 = dtLanguage.NewRow();
+			drowLanguage2["ID"] = 1;
+			drowLanguage2["Name"] = "English";
+			dtLanguage.Rows.Add(drowLanguage2);
+			//界面风格列表-----------------------------------------------------
+			DataTable  dtStyle = new DataTable("Style");
+
+			//建立列
+			DataColumn  dtStyleID = new DataColumn("ID");
+			dtStyleID.DataType = typeof(int);
+			dtStyleID.AutoIncrement = true;
+
+			DataColumn  dtStyleName = new DataColumn("Name");
+			dtStyleName.DataType = typeof(string );
+
+
+			//增加列.
+			dtStyle.Columns.Add(dtStyleID);
+			dtStyle.Columns.Add(dtStyleName);
+
+			//增加数据
+			DataRow drowStyle;
+			drowStyle = dtStyle.NewRow();
+			drowStyle["ID"] = 1;
+			drowStyle["Name"] = "Style1";
+			dtStyle.Rows.Add(drowStyle);
+			DataRow drowStyle2;
+			drowStyle2 = dtStyle.NewRow();
+			drowStyle2["ID"] = 2;
+			drowStyle2["Name"] = "Style2";
+			dtStyle.Rows.Add(drowStyle2);
+			//日期格式列表-----------------------------------------------------
+			DataTable  dtDateFormat = new DataTable("DateFormat");
+
+			//建立列
+			DataColumn  dtDateFormatID = new DataColumn("ID");
+			dtDateFormatID.DataType = typeof(int);
+			dtDateFormatID.AutoIncrement = true;
+
+			DataColumn  dtDateFormatName = new DataColumn("Name");
+			dtDateFormatName.DataType = typeof(string );
+
+
+			//增加列.
+			dtDateFormat.Columns.Add(dtDateFormatID);
+			dtDateFormat.Columns.Add(dtDateFormatName);
+
+			//增加数据
+			DataRow drowDateFormat;
+			drowDateFormat = dtDateFormat.NewRow();
+			drowDateFormat["ID"] = 0;
+			drowDateFormat["Name"] = "YYYY-MM-DD";
+			dtDateFormat.Rows.Add(drowDateFormat);	
+
+			//自动升级列表-----------------------------------------------------
+			DataTable  dtAutoUpdate = new DataTable("AutoUpdate");
+
+			//建立列
+			DataColumn  dtAutoUpdateID = new DataColumn("ID");
+			dtAutoUpdateID.DataType = typeof(int);
+			dtAutoUpdateID.AutoIncrement = true;
+
+			DataColumn  dtAutoUpdateName = new DataColumn("Name");
+			dtAutoUpdateName.DataType = typeof(string );
+
+
+			//增加列.
+			dtAutoUpdate.Columns.Add(dtAutoUpdateID);
+			dtAutoUpdate.Columns.Add(dtAutoUpdateName);
+
+			//增加数据
+			DataRow drowAutoUpdate;
+			drowAutoUpdate = dtAutoUpdate.NewRow();
+			drowAutoUpdate["ID"] = 0;
+			drowAutoUpdate["Name"] = "否";
+			dtAutoUpdate.Rows.Add(drowAutoUpdate);
+			DataRow drowAutoUpdate2;
+			drowAutoUpdate2 = dtAutoUpdate.NewRow();
+			drowAutoUpdate2["ID"] = 1;
+			drowAutoUpdate2["Name"] = "是";
+			dtAutoUpdate.Rows.Add(drowAutoUpdate2);
+
+			//将表加入数据集中
+			string AppPath = Path.GetDirectoryName( Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName );
+			string FullPath = AppPath + @"\ext.config";
+
+			ds.Tables.Add(dtServer);
+			ds.Tables.Add(dtUser);
+			ds.Tables.Add(dtInterval);
+			ds.Tables.Add(dtLanguage);
+			ds.Tables.Add(dtStyle);
+			ds.Tables.Add(dtDateFormat);
+			ds.Tables.Add(dtAutoUpdate);
+			ds.WriteXml(FullPath);
+			ds=null;
+
+		}

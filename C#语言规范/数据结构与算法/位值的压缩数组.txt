@@ -1,0 +1,30 @@
+位值的压缩数组
+
+using System;
+using System.Collections;
+namespace TestIndex
+{
+	/// <summary>
+	/// 位值的压缩数组。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//构造
+			BitArray ba=new BitArray(10);
+			
+			//设置
+			for(int i=0;i<ba.Count;i++)
+				ba[i]=(i%2==0);
+			//使用
+			for(int i=0;i<ba.Count;i++)
+				Console.WriteLine("Bit "+i+" is "+(ba[i]?"On":"Off"));
+
+		}
+	}
+}

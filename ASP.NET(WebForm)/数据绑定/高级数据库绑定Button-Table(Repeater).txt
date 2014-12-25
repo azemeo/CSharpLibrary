@@ -1,0 +1,50 @@
+1.¿Ø¼þ
+			<asp:repeater id="Repeater1" runat="server">
+				<HeaderTemplate>
+					<table border="1">
+						<tr>
+							<td align="center">Title</td>
+							<td align="center">Price</td>
+							<td align="center">Action</td>
+						</tr>
+				</HeaderTemplate>
+				<ItemTemplate>
+					<tr>
+						<td>
+							<%#DataBinder.Eval(Container.DataItem,"title")%>
+						</td>
+						<td align="center">
+							<%#DataBinder.Eval(Container.DataItem,"price","{0:c}")%>
+						</td>
+						<td>
+							<asp:Button Text="Add to Cart" Runat="server" 
+ CommandArgument='<%#DataBinder.Eval(Container.DataItem,"title")%>'/>
+						</td>
+					</tr>
+				</ItemTemplate>
+				<FooterTemplate>
+					</table>
+				</FooterTemplate>
+			</asp:repeater>
+2.´úÂë(°ó¶¨)
+		private void Button2_Click(object sender, System.EventArgs e)
+		{
+			SqlConnection connection=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=");
+			try
+			{
+				connection.Open();
+				SqlCommand command=new SqlCommand("select * from titles where price!=0",connection);
+				SqlDataReader reader=command.ExecuteReader();
+				this.Repeater1.DataSource=reader;
+				this.Repeater1.DataBind();
+			}
+			finally
+			{
+				connection.Close();
+			}
+		}
+
+		private void Repeater1_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+		{
+			this.Label1.Text=e.CommandArgument.ToString();
+		}

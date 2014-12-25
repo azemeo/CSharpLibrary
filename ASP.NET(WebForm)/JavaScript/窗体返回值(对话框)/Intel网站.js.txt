@@ -1,0 +1,302 @@
+
+//additional function to restore page after a resize event on ns4
+// to use, put onResize="restore()" into body tag
+function restore() {
+	if (ns4) {
+		
+		if (GetCookie('intelresize') == null) {
+			SetCookie('intelresize','done');
+			this.location.reload();
+		} else {
+			DeleteCookie('intelresize');
+		}
+	}
+}
+
+//################### start of cookie library ###################
+
+var expHours = 1; // number of hours the cookie should last
+
+function GetCookie (name) {  
+	var arg = name + "=";  
+	var alen = arg.length;  
+	var clen = document.cookie.length;  
+	var i = 0;  
+	while (i < clen) {    
+		var j = i + alen;    
+		if (document.cookie.substring(i, j) == arg)      
+		return getCookieVal (j);    
+		i = document.cookie.indexOf(" ", i) + 1;    
+		if (i == 0) break;   
+	}  
+	return null;
+}
+
+function SetCookie (name, value) {  
+	var argv = SetCookie.arguments;  
+	var argc = SetCookie.arguments.length;  
+	var expires = (argc > 2) ? argv[2] : null;  
+	var path = (argc > 3) ? argv[3] : null;  
+	var domain = (argc > 4) ? argv[4] : null;  
+	var secure = (argc > 5) ? argv[5] : false;  
+	document.cookie = name + "=" + escape (value) + 
+	((expires == null) ? "" : ("; expires=" + expires.toGMTString())) + 
+	((path == null) ? "" : ("; path=" + path)) +  
+	((domain == null) ? "" : ("; domain=" + domain)) +    
+	((secure == true) ? "; secure" : "");
+}
+
+function DeleteCookie (name) {  
+	var exp = new Date();  
+	exp.setTime (exp.getTime() - 1);  
+	var cval = GetCookie (name);  
+	document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+}
+
+var exp = new Date(); 
+exp.setTime(exp.getTime() + (expHours*60*60*1000));
+
+function getCookieVal(offset) {
+	var endstr = document.cookie.indexOf(";", offset);
+	if (endstr == -1)
+	endstr = document.cookie.length;
+	return unescape(document.cookie.substring(offset, endstr));
+}
+
+//################### end of cookie library ###################
+
+/* function openBenchMarks() {
+
+  var win=window.open('http://www.intel.com/products/benchmarks/desktop/index.htm?iid=ihc+LeftNav_dtbm&','benchmark1','toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=715,height=550,left=326,top=182');
+  if (window.focus)win.focus();
+}*/
+
+function popup(url,winName,width,height)
+{
+   var new_window = window.open(url,winName,'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,width=' + width + ',height=' + height);
+}
+
+function launch(newURL, newName, newFeatures, orgName) {
+  var remote = open(newURL, newName, newFeatures);
+  //if (remote.opener == null)
+    remote.opener = window;
+  //remote.opener.name = orgName;
+  return remote;
+}
+
+function launchRemote() {
+ myRemote = launch("http://www.intel.com/personal/computing/emea/eng/ftaf/index.htm?country=uk&link="+window.location.href, "popup", "height=540,width=570,channelmode=0,dependent=0,directories=0,fullscreen=0,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0", "popup");
+ // myRemote = launch("http://www.intel.com/cd/corporate/europe/emea/eng/196049.htm?nocc&flash&country=uk&link="+window.location.href, "popup", "height=540,width=570,channelmode=0,dependent=0,directories=0,fullscreen=0,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0", "popup");
+}
+
+
+<!--|||||||||||||||||||||||||||||||||||||||||||||||-->
+
+
+var URL,width,height,scroll,menubar,toolbar,resize,xPos,yPos,winName = "";
+function openWin(URL,width,height,scroll,menubar,toolbar,resize,xPos,yPos,winName){
+	var focusFail = false;
+	if (width == "") width = "500";
+	if (height == "") height = "500";
+	if (scroll == "") scroll = "auto";
+	if (menubar =="") menubar = "no";
+	if (toolbar == "") toolbar = "no";
+	if (resize == "") resize = "yes";
+	if (xPos == "") xPos = "5";
+	if (yPos == "") yPos = "5";
+	if (winName == "") winName = "win";
+	var features ="width=" +width+ ",height=" +height+ ",scrollbars=" +scroll+ ",menubar=" +menubar+ ",toolbar=" +toolbar+ ",resizable=" +resize+ ",left=" +xPos+ ",top=" +yPos;
+	var newWin = window.open(URL,winName,features);
+	if (navigator.appVersion.indexOf("NT")!= -1){
+		if (navigator.appVersion.indexOf("NT 5")!= -1){
+			focusFail = false;
+		} else if (ie4 == true)	focusFail = true;
+	}
+	if (focusFail == false){
+		if (window.focus) newWin.focus();
+	}
+}
+
+function openDemo(URL){
+    if (hasFlash) { // if browser has flash
+        if (URL == ""){
+            URL = "http://www.intel.com/home/maximize/experience/demos/dig_experience/p_index.htm"
+        } else {
+            URL = "http://www.intel.com/home/maximize/experience/demos/dig_experience/p_index.htm?" + URL;
+        }
+    openWin(URL,'750','550','no','no','no','no','5','5','demo');
+    } else { // go to no-flash
+     openWin('http://www.intel.com/home/no_flash.htm','195','400','no','no','no','no','5','5','noflash');
+    }
+}
+
+
+
+<!--||||||||||||||||||||||||||||||||||||||||||||||||-->
+
+
+//Function to open to a off site url
+function openSite(siteURL) {
+  window.name='theopener';
+  theLocation = 'http://www.intel.com/personal/computing/emea/eng/leave.htm?jumpTo=' + escape(siteURL) + '&';
+  confirmWin = window.open(theLocation, 'confirmationWindow', 'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=370,height=200');
+
+  // This is important for Netscape 2.0 to enable the opener property
+  if (confirmWin.opener == null)
+  {
+   confirmWin.opener = self;
+  }
+
+  // Bring focus to the window in browsers that support focus
+  if (window.focus) confirmWin.focus();
+}
+
+
+<!--||||||||||||||||||||||||||||||||||||||||||||||||||-->
+
+var requiredVersion = 5;			
+// system globals
+var flash2Installed = flash3Installed = flash4Installed = flash5Installed = flash6Installed = hasRightVersion = false;		
+var maxVersion = 6; 
+var actualVersion = 0;
+var hasFlash = false;				
+//vbscript detection for Win IE
+var isIE = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;		
+var isWin = (navigator.appVersion.indexOf("Windows") != -1) ? true : false; 
+if(isIE && isWin){
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n');
+	document.write('on error resume next \n');
+	document.write('flash2Installed = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.2"))) \n');
+	document.write('flash3Installed = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.3"))) \n');
+	document.write('flash4Installed = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.4"))) \n');
+	document.write('flash5Installed = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.5"))) \n');
+	document.write('flash6Installed = (IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.6"))) \n');	
+	document.write('</SCR' + 'IPT\> \n'); 
+}
+function detectFlash(){	
+	if (navigator.plugins){								
+		if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]){		
+			var isVersion2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
+			var flashDescription = navigator.plugins["Shockwave Flash" + isVersion2].description;
+			// a flash plugin-description looks like this: Shockwave Flash 4.0 r5
+			var flashVersion = parseInt(flashDescription.charAt(flashDescription.indexOf(".") - 1));
+			flash2Installed = flashVersion == 2;		
+			flash3Installed = flashVersion == 3;
+			flash4Installed = flashVersion == 4;
+			flash5Installed = flashVersion == 5;
+			flash6Installed = flashVersion == 6;
+		}
+	}
+	for (var i = 2; i <= maxVersion; i++) {	
+		if (eval("flash" + i + "Installed") == true) actualVersion = i;
+	}
+	// if we're on webtv, the version supported is 3
+	if(navigator.userAgent.indexOf("WebTV") != -1) actualVersion = 3;	
+    // aol5/mac fix - AOL5/Mac always comes with Flash
+	if ( (navigator.userAgent.indexOf("Mac") != -1) && (navigator.userAgent.indexOf("AOL 5") != -1) )  actualVersion = 3;
+	if (actualVersion >= requiredVersion) { 		
+		hasFlash = true;						
+	} 
+}
+detectFlash();
+
+<!--||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
+
+
+//function BenchMarks(tabName,radiobutton,[iid identifier])
+
+function BenchMarks(t,q,p) {
+   var win=window.open('http://www.intel.com/products/benchmarks/'+t+'/'+q+'.htm'+p,'benchmark1','toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=715,height=550,left=326,top=182');
+  if (window.focus)win.focus();
+}
+
+function BenchMark(t,p) {
+   var win=window.open('http://www.intel.com/products/benchmarks/'+t+'/index.htm' + ( (p) ?'?iid=ihc+'+p+'&' : ''),'benchmark1','toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=715,height=550,left=326,top=182');
+  if (window.focus)win.focus();
+}
+
+
+function BenchMarkOpt(t,q,p) {
+   var win=window.open('http://www.intel.com/products/benchmarks/'+t+'/index.htm' + ( (p) ?'?iid=ihc+'+p+'&bm='+q+'&' : '?bm='+q ),'benchmark1','toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=715,height=550,left=326,top=182');
+  if (window.focus)win.focus();
+}
+
+//Functions Added by COS on 07_10_04
+<!--||||||||||||||||||||||||||||||||||||||||||||||||||-->
+
+//***** Function for TTTR popup *****//
+//opens the Top Ten Technology Risks
+function tttrPop(sec) {
+  window.name='home';
+  var url="http://www.intel.com/business/tech_risks/demo/launch.htm"; if (sec!=null) url="http://www.intel.com/business/tech_risks/demo/launch.htm?section="+sec;
+  var win=window.open(url,'tttrPop','width=700,height=567,pageX=60,left=60,pageY=0,top=0,menubar=0,toolbar=0,scrollbars=0,resizable=0,status=0,location=0')
+  win.focus();
+}
+//***** / Function for TTTR popup *****//
+
+
+/* - all popup functions ---------------------------------------------------------------------------------------------------------- */
+var wMax = window.screen.width;
+var hMax = window.screen.height;
+
+function popupUrl(pUrl, pWindowName, pWidth, pHeight, pResize, pToolbar, pStatusBar, pMenubar, pScrollbars) {
+	if (pWindowName=='') { pWindowName='newWindow_'+Math.floor(Math.random()*1000000000) }
+	if (pResize==null) { pResize=1 }
+	if (pToolbar==null) { pToolbar=1 }
+	if (pStatusBar==null) { pStatusBar=1 }
+	if (pMenubar==null) { pMenubar=1 }
+	if (pScrollbars==null) { pScrollbars=1 }	
+	eval("window.open('"+pUrl+"','"+pWindowName+"', 'width="+checker(pWidth,wMax)+", height="+checker(pHeight,hMax)+", resizable="+pResize+", toolbar="+pToolbar+", statusbar="+pStatusBar+", menubar="+pMenubar+", scrollbars="+pScrollbars+"');")
+}
+
+function popupcs(url) { var theWin = window.open(url,'theWindow','toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,width=676,height=480'); if (!theWin.opener) {theWin.opener=self;} if (window.focus) theWin.focus(); }
+
+function pop(url){
+	window.open( url, "", 'width=640,height=400' );
+}
+
+var ns6,ns4,ie4;
+// Show/Hide functions for non-pointer layer/objects
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+ns6 = false;
+//if the DOM is not IE and not NS4, it must be NS6
+if (ns4 == ie4) {
+	ns6 = true;
+	ie4 = ns4 = false;
+}
+var URL,width,height,scroll,menubar,toolbar,resize,xPos,yPos,winName = "";
+function openSpecial(URL,width,height,scroll,menubar,toolbar,resize,xPos,yPos,winName){
+	var focusFail = false;
+	if (width == "") width = "500";
+	if (height == "") height = "500";
+	if (scroll == "") scroll = "auto";
+	if (menubar =="") menubar = "no";
+	if (toolbar == "") toolbar = "no";
+	if (resize == "") resize = "yes";
+	if (xPos == "") xPos = "5";
+	if (yPos == "") yPos = "5";
+	if (winName == "") winName = "win";
+	var features ="width=" +width+ ",height=" +height+ ",scrollbars=" +scroll+ ",menubar=" +menubar+ ",toolbar=" +toolbar+ ",resizable=" +resize+ ",left=" +xPos+ ",top=" +yPos;
+	var newWin = window.open(URL,winName,features);
+	if (navigator.appVersion.indexOf("NT")!= -1){
+		if (navigator.appVersion.indexOf("NT 5")!= -1){
+			focusFail = false;
+		} else if (ie4 == true)	focusFail = true;
+	}
+	if (focusFail == false){
+		if (window.focus) newWin.focus();
+	}
+}
+
+function popupImg(path,w,h) {
+	eval("window.open('"+path+"','popup', 'resizable=1, width="+checker(w+20,wMax)+", height="+checker(h+20,hMax)+"');")
+}
+
+function checker(val,max) {
+	if (val > max) { return max }
+	else { return val }
+}
+
+/*------------------------------------------------------------------------------------------------------------------------------- */
+//End of Functions Added by COS on 07_10_04

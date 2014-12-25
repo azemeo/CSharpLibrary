@@ -1,0 +1,27 @@
+private void CreateStyles(DataGrid dg)
+		{
+			DataGridTableStyle style=new DataGridTableStyle();
+			style.MappingName="RecoTable";
+			//
+			DataGridTextBoxColumn customerID=new DataGridTextBoxColumn();
+			customerID.HeaderText="标识";
+			customerID.MappingName="ID";
+			customerID.Width=30;
+			//
+			DataGridTextBoxColumn english=new DataGridTextBoxColumn();
+			english.HeaderText="第一名称";
+			english.MappingName="firstname";
+			english.Width=300;
+			//
+			DataGridTextBoxColumn chinese=new DataGridTextBoxColumn();
+			chinese.HeaderText="第二名称";
+			chinese.MappingName="lastname";
+			chinese.Width=300;
+			//
+			DataGridTextBoxColumn times=new DataGridTextBoxColumn();
+			times.HeaderText="部门编号";
+			times.MappingName="numdep";
+			times.Width=40;
+			style.GridColumnStyles.AddRange(new DataGridColumnStyle[]{customerID,english,chinese,times});
+			dg.TableStyles.Add(style);
+		}

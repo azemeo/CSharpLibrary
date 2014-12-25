@@ -1,0 +1,12 @@
+A:link {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #FF6600; FONT-FAMILY: '宋体','Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+A:visited {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: '宋体','Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+A:hover {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #0000ff; FONT-FAMILY: '宋体','Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+A:active {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #006699; FONT-FAMILY: '宋体','Arial', 'Helvetica'; TEXT-DECORATION: none
+}

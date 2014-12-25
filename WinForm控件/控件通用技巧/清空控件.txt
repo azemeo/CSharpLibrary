@@ -1,0 +1,7 @@
+string mytext;
+			foreach(Control co in this.Controls)
+			{
+			mytext=co.GetType().ToString();
+			if(mytext=="System.Windows.Forms.TextBox")
+				((TextBox)co).Text="";    
+			}

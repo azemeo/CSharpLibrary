@@ -1,0 +1,8 @@
+透明数据源
+
+
+DataTable dt1=dt;        //引用，dt,dt1指向同一个对象
+
+DataTable dt1=dt.Clone();//浅层复制,创建一个与父对象的同样结构的新空DataTable对象。
+
+DataTable dt=dt.Copy();//深层复制,结合了Clone和行复制的功能。

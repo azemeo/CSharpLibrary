@@ -1,0 +1,3 @@
+dgRecord.DataSource=achievements;//绑定ArrayList到dataGrid
+// dgRecord为dataGrid
+// achievements为ArrayList

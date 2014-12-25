@@ -1,0 +1,7 @@
+		private void dataGrid1_CurrentCellChanged(object sender, System.EventArgs e)
+		{
+			//得到单元格的值
+			DataGrid dgSender=(DataGrid)sender;
+			DataGridCell cellCurr=dgSender.CurrentCell;//当前单元格
+			this.textBox1.Text=dgSender[cellCurr.RowNumber,cellCurr.ColumnNumber].ToString();
+		}

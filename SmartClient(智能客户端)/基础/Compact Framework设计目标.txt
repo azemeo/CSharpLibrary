@@ -1,0 +1,9 @@
+Compact Framework设计目标
+.保持语义的连贯性
+.减少依赖 
+Pocket 操作系统的 API
+COM 对象 
+支持网络和 Web service
+.对有限资源的平台进行了优化
+.2 MB 内存
+.复杂的内存管理

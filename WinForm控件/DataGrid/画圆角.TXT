@@ -1,0 +1,78 @@
+private void DrawCircleCorner()
+		{
+			Graphics grap=this.dataGrid1.CreateGraphics();
+			Pen pen=new Pen(Color.Black);
+			Rectangle re=dataGrid1.ClientRectangle;//获得控件工作区的矩形
+			//点的顺序为顺时针的方向
+			//画左角
+			Point point1 = new Point(re.X, re.Y);
+			Point point2 = new Point(re.X+10,re.Y);
+			Point point25 = new Point(re.X+7,re.Y+2);
+			Point point3 = new Point(re.X+4,re.Y+4);
+			Point point35 = new Point(re.X+2,re.Y+7);
+			Point point4 = new Point(re.X,re.Y+10);
+			
+			Point[] curvePoints =
+			{
+				point1,
+				point2,
+				point3,
+				point4
+			};			
+			SolidBrush brush=new SolidBrush(Color.White);
+			grap.FillPolygon(brush,curvePoints);//填充圆角
+
+			grap.DrawLine(pen,point2.X,point2.Y,point25.X,point25.Y);
+			grap.DrawLine(pen,point25.X,point25.Y,point3.X,point3.Y);
+			grap.DrawLine(pen,point3.X,point3.Y,point35.X,point35.Y);
+			grap.DrawLine(pen,point35.X,point35.Y,point4.X,point4.Y);
+
+			
+			//画右角
+			Point two1 = new Point(re.X+re.Width-10,re.Y);
+			Point two2 = new Point(re.X+re.Width, re.Y);
+			Point two3 = new Point(re.X+re.Width,re.Y+10);
+			Point two4 = new Point(re.X+re.Width-2,re.Y+7);
+			Point two5 = new Point(re.X+re.Width-4,re.Y+4);
+			Point two6 = new Point(re.X+re.Width-7,re.Y+2);
+
+
+			Point[] twoCorner =
+			{
+				two1,
+				two2,
+				two3,
+				two5,
+				two6
+			};
+			grap.FillPolygon(brush,twoCorner);//填充圆角
+
+			grap.DrawLine(pen,two3.X,two3.Y,two4.X,two4.Y);
+			grap.DrawLine(pen,two4.X,two4.Y,two5.X,two5.Y);
+			grap.DrawLine(pen,two5.X,two5.Y,two6.X,two6.Y);
+			grap.DrawLine(pen,two6.X,two6.Y,two1.X,two1.Y);
+
+			//画第三个角
+			Point three1 = new Point(re.X+re.Width, re.Y+re.Height);
+			Point three2 = new Point(re.X+re.Width-10,re.Y+re.Height);
+			Point three3 = new Point(re.X+re.Width-7,re.Y+re.Height-2);
+			Point three4 = new Point(re.X+re.Width-4,re.Y+re.Height-4);
+			Point three5 = new Point(re.X+re.Width-2,re.Y+re.Height-7);
+			Point three6 = new Point(re.X+re.Width,re.Y+re.Height-10);
+
+			Point[] threeCorner =
+			{
+				three1,
+				three2,
+				three3,
+				three5,
+				three6
+			};
+			grap.FillPolygon(brush,threeCorner);
+			grap.DrawLine(pen,three2.X,three2.Y,three3.X,three3.Y);
+			grap.DrawLine(pen,three3.X,three3.Y,three4.X,three4.Y);
+			grap.DrawLine(pen,three4.X,three4.Y,three5.X,three5.Y);
+			grap.DrawLine(pen,three5.X,three5.Y,three6.X,three6.Y);
+			grap.Dispose();			
+
+		}

@@ -1,0 +1,3 @@
+using System.IO;
+			FileInfo fileInfo=new FileInfo(ListFiles.Items[currindex].Tag.ToString());
+			long FileSize=fileInfo.Length/1024;	//KB

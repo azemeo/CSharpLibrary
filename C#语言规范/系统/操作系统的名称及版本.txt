@@ -1,0 +1,38 @@
+string SystemDes="";
+			switch(Environment.OSVersion.Platform)
+			{
+				case PlatformID.Win32NT://Windows NT或更新版本
+					switch(Environment.OSVersion.Version.Major)
+					{
+						case 4:
+							SystemDes="Windows NT";
+							break;
+						case 5:
+							if(Environment.OSVersion.Version.Minor==0)
+								SystemDes="Windows 2000";
+							else if(Environment.OSVersion.Version.Minor==1)
+								SystemDes="Windows XP";
+							else
+								SystemDes="Windows 未来";
+							break;
+						default:
+							break;
+					}
+					break;
+				case PlatformID.Win32S:
+					SystemDes="Windows 16位版本";
+					break;
+				case PlatformID.Win32Windows://Windows 95或更新版本
+					if(Environment.OSVersion.Version.Major==0)
+						SystemDes="Windows 95";
+					if(Environment.OSVersion.Version.Major==1)
+						SystemDes="Windows 98";
+					break;
+				case PlatformID.WinCE:
+					SystemDes="Windows CE.NET";
+					break;
+				default:
+					SystemDes="不可识别";
+					break;
+			}
+			this.label1.Text="Microsoft "+SystemDes+" 版本："+Environment.OSVersion.Version.ToString();

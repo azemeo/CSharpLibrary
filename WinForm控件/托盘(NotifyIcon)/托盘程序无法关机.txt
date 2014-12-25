@@ -1,0 +1,29 @@
+托盘程序无法关闭
+bool mGetOutFromHere = false;
+
+protected override void WndProc(ref System.Windows.Forms.Message m) 
+{
+    switch (m.Msg)
+    {
+case 0x0011://系统询问是否可以关闭
+    mGetOutFromHere = true;
+    break;
+case 0x0016://系统指示：关掉
+    notIcon.Visible = false;
+    notIcon.Dispose();
+    Application.Exit();
+    break;
+default:
+    break;
+     }
+     base.WndProc(ref m);
+}
+
+//窗体关闭事件
+private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+{
+     //请注意这里
+     e.Cancel = !mGetOutFromHere;
+    
+     this.Hide();
+}

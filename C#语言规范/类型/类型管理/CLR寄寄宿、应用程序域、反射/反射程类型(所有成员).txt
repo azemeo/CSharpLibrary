@@ -1,0 +1,18 @@
+					
+基于 反射程类型.txt
+
+可以显示所有类型的成员
+
+
+DeclaredOnly 声明定义的成员(忽略继承)
+NonPublic 非公有成员
+Instance 实例成员
+Static 静态成员
+Public 公有成员
+
+
+BindingFlags bf=BindingFlags.DeclaredOnly|BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static;
+					foreach(MemberInfo mi in t.GetMembers(bf))//获取此类型的所有成员并遍历
+					{
+						WriteLine(3,"{0}:{1}:",mi.MemberType,mi);
+					}

@@ -1,0 +1,10 @@
+1.电脑文件夹如下
+D:\Movecont\Arch
+2.在VSS中设置
+工具|选项|环境|项目和解决方案...Visual Studio项目位置:D:\Movecont
+3.建立虑拟目录
+D:\Movecont\MovecontArchitect为MovecontArchitect
+3.在VSS中新建项目
+文件|新建|项目...
+Visual C#项目|ASP.NET Web应用程序,MovecontArchitect,确定
+

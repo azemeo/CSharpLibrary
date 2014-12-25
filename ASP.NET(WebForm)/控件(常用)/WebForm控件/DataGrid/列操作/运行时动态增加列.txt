@@ -1,0 +1,38 @@
+//运行时动态增加列.
+
+				DataService dbOper=new DataService();
+				string strSql=string.Empty;//查描述的SQL
+				string ThisName=string.Empty;//字段
+				string ThisDesc=string.Empty;//描述
+				DataTable resultTable=null;
+
+				try
+				{
+					strSql="Select FieldName,Description From SM_Builtitem Where Setid='A001' AND Right(Flag,1)='0'";
+				
+					resultTable=dbOper.GetTable(strSql,true);
+					if(resultTable.Rows.Count>0)//有结果
+					{
+						for(int j=0;j<resultTable.Rows.Count;j++)
+						{
+							ThisName=resultTable.Rows[j]["FieldName"].ToString();//字段名
+							ThisDesc=resultTable.Rows[j]["Description"].ToString();//字段描述
+
+							if(ThisName=="A00101")//此列已在设计时建立
+								continue;
+							BoundColumn NumberColumn = new BoundColumn();
+							NumberColumn.HeaderText=ThisDesc; 
+							NumberColumn.DataField=ThisName;
+							DGMain.Columns.Add(NumberColumn);		
+						}
+
+					}
+				}
+				catch
+				{
+				}
+				finally
+				{
+					dbOper.Dispose();
+					dbOper=null;
+				}

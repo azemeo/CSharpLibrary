@@ -1,0 +1,4 @@
+			WebResponse wr=request.GetResponse();
+				TBHeader.Text="";
+				for(int i=0; i < wr.Headers.Count; ++i)  
+					TBHeader.Text+="\nHeader Name:"+wr.Headers.Keys[i]+", Header value :"+wr.Headers[i];	

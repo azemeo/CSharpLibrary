@@ -1,0 +1,4 @@
+				TextBox txtDesc = (TextBox)e.Item.Cells[3].Controls[0];//价格
+				string price= txtDesc.Text.Trim();
+				CheckBox cbIsDefault = (CheckBox)e.Item.Cells[5].Controls[0];//是否是缺省
+				string isdefu=cbIsDefault.Checked?"1":"0";

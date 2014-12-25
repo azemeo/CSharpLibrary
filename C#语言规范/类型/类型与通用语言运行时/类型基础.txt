@@ -1,0 +1,101 @@
+所有类型的基类型：System.Object
+
+每个类型最终要继承System.Object,确保任何对象都有一组方法的最小集合。
+
+System.Object的公有方法
+
+Equals 如果两个对象具有相同的值，方法将返回true,否则返回false.
+
+GetHashCode 返回对象散列码(用途：重写以区分对象)
+
+ToString 返回类型全名(用途：重写以以返回一个状态字符串，或用于调试)
+
+GetType 返回类型
+
+
+
+System.Object 中受保护的方法(在Object的子类中使用)
+
+MemberwiseClone 浅层复制
+
+Finalize 资源清理
+
+
+用new操作符来创建对象
+
+没有对应的delete操作符，由垃圾收集器回收不在使用的对象。
+
+演示如下：
+
+1.CodeFile1.cs
+
+using System;
+namespace CA_Base
+{
+	//隐式继承System.Object
+	public class Employee
+	{
+		public int id=0;
+		public Employee()
+		{}
+		public Employee(int id)
+		{
+			this.id=id;
+		}
+		//公有方法
+		public override int  GetHashCode()
+		{
+			return 10;
+		}
+		public override string ToString()
+		{
+			return "Employee";
+		}
+		public override bool Equals(object obj)
+		{
+			return base.Equals (obj);
+		}
+		//受保护的方法
+		public Employee Copy()
+		{
+			
+			Employee ep=(Employee)this.MemberwiseClone();
+			return ep;
+		}
+	}
+}
+
+2.Class1.cs
+
+using System;
+
+namespace CA_Base
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Employee ep=new Employee();
+			Employee ep2=new Employee();
+			Employee ep3=ep;
+			Console.WriteLine(ep.Equals(ep2));
+			Console.WriteLine(ep.Equals(ep3));
+			Console.WriteLine(ep.GetHashCode());
+			Console.WriteLine(ep.ToString());
+			Console.WriteLine(ep.GetType());
+			
+			Employee ep4=new Employee(5);
+			Employee ep5=ep4.Copy();
+			Console.WriteLine(ep4.id);
+			Console.WriteLine(ep5.id);
+		}
+	}
+}
+

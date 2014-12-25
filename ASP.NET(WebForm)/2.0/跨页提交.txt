@@ -1,0 +1,63 @@
+在ASP.NET 1.x的时候，很多朋友可能需要进行跨页提交的处理，也就是从页面A能够提交到页面B，甚至不同的Control其目标处理页面也各不相同。尤其是从ASP/JSP/PHP转过来的开发人员，可能更有这种需求。但很不幸，在ASP.NET 1.x的时候，处理这种跨页请求是十分丑陋的，需要非常多的“技巧化”处理。
+
+在ASP.NET 2.0的时候，对于跨页提交已经有了非常合理的解决方案，以下就是一个示例。
+
+SourcePage.aspx: 请注意Button1的PostBackUrl属性设置
+
+<%...@ Page Language="C#" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<script runat="server">...
+    public string YourName
+    {
+        get
+        {
+            return this.TextBox1.Text;
+        }
+    }
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:Label ID="Label1" runat="server" Text="请输入您的姓名" Width="183px"></asp:Label>
+        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+        <asp:Button ID="Button1" runat="server"  Text="提交" PostBackUrl="~/TargetPage.aspx" /></div>
+    </form>
+</body>
+</html>
+
+
+TargetPage.aspx：请注意PreviousPageType的属性设置
+
+<%@ Page Language="C#" %>
+<%@ PreviousPageType VirtualPath="~/SourcePage.aspx" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<script runat="server">
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        this.Label1.Text = PreviousPage.YourName;
+    }
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:Label ID="Label1" runat="server" ></asp:Label>
+    
+    </div>
+    </form>
+</body>
+</html>

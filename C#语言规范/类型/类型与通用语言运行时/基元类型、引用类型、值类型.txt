@@ -1,0 +1,24 @@
+基元类型(Primitive type)：编译器直接支持的数据类型。(如C#的基元类型)
+
+C#中基元类型  FCL类型
+int           System.Int32
+long          System.Int64
+char          System.Char
+float         System.Single
+double        System.Double
+bool          System.Boolean
+object        System.Object
+string        System.String
+
+byte          System.Byte
+short         System.Int16
+decimal       System.Decimal
+
+
+String a;与string a;是相同的。
+
+System.Convert类型可以进行不同类型的转换
+System.Convert.ChangeType 可以将一个类型换为另一个任意类型
+（前提是:被转换的类型实现为IConvertible接口,特别是ToType方法)
+
+

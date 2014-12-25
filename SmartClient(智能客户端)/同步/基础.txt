@@ -1,0 +1,30 @@
+远程数据程序:
+4种能力
+	a.从(服务端)获取数据存入(移动端)。
+	b.添加、删除、修改移动端数据并并跟踪变化。
+	c.从移动端提交改变并接收任何异常。
+	d.直接提交SQL给(服务端)。
+2个方法
+
+a,b,c 相关联(方法1),d是独立的(方法2)
+
+SQL Server CE Client Agent
+SQL Server CE Server Agent
+
+两种数据传递方法
+远程数据访问(RDA,Remote Data Access)
+	a.优点:计划、侦测改变。
+	b.缺点:交换数据部分复杂。
+合并复制(Merge Replication)
+
+服务器端必须安装IIS和SQL Server CE Server Agent.
+
+
+移动端 可通过多种方法与服端相连
+
+ActiveSync
+Moderm
+无线
+专线
+宽带 
+

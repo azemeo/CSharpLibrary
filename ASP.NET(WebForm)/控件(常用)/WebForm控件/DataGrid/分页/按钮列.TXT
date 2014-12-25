@@ -1,0 +1,72 @@
+按钮列：
+
+ItemCommand事件
+DataGridCommandEventArgs参数提供了三个关键属性
+Iem 被单击DataGridItem元素
+CommandName 代表与被单击的按钮相关联的命令名
+CommandSource 代表引发事件按钮的对象。
+
+ButtonColumn类的关键属性
+
+ButtonType            按钮的类型(LinkButton/PushButton)            
+
+CommandName           用户单击列时调用的命令名称
+
+DataTextField         数据源的字段名(按钮的标题)
+
+DataTextFormatString 标题的显示格式
+
+FooterText           列的脚注文本
+
+HeaderImageUrl       列标题图像的URL
+
+HeaderText           列标题文本
+
+SortExpresstion      排序时使用表达式
+
+Text                 按钮标题(如果设置了则所有按钮有同样的文本)
+
+1.
+<asp:datagrid id="DataGrid1" 		runat="server" AutoGenerateColumns="False" DataKeyField="employeeid">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="FirstName"></asp:BoundColumn>
+					<asp:BoundColumn DataField="lastname" HeaderText="LastName"></asp:BoundColumn>
+					<asp:ButtonColumn Text="按钮" HeaderText="More" CommandName="moreinfo">
+						<ItemStyle Font-Bold="True" BackColor="LightBlue"></ItemStyle>
+					</asp:ButtonColumn>
+				</Columns>
+			</asp:datagrid>
+			<asp:Label id="LabelMoreInfo" style="Z-INDEX: 102; LEFT: 384px; POSITION: absolute; TOP: 88px"
+				runat="server">MoreInfo</asp:Label></form>
+2.*.cs
+using System.Data.SqlClient;
+using System.Text;
+private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			if(e.CommandName=="moreinfo")
+			{
+				int nEmpID=(int)DataGrid1.DataKeys[e.Item.ItemIndex];
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select * From employees Where employeeid="+nEmpID.ToString();
+				SqlConnection conn=new SqlConnection(strConn);
+				SqlCommand cmd=new SqlCommand(strCmd,conn);
+				conn.Open();
+				SqlDataReader dr=cmd.ExecuteReader();
+				dr.Read();
+				LabelMoreInfo.Text=BuilderMoreInfoText(dr);
+				dr.Close();
+				conn.Close();
+			}
+		}
+		private string BuilderMoreInfoText(SqlDataReader dr)
+		{
+			StringBuilder sb=new StringBuilder();
+			sb.Append("<b>"+dr["title"]+"</b><br>");
+			DateTime dtime=Convert.ToDateTime(dr["hiredate"]);
+			sb.Append("Hired on"+dtime.ToShortDateString()+" from "+
+				dr["country"]+"<hr>");
+			sb.Append("<i>"+dr["Notes"]+"<hr>");
+			return sb.ToString();
+		}

@@ -1,0 +1,6 @@
+
+
+ostream中定义了
+int,long,short,float,bool,void*
+
+string在<string>中给出

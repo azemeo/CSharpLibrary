@@ -1,0 +1,60 @@
+接口：就是类，只不过只定义了方法。
+
+允许：定义事件、属性、索引器
+不允许:静态成员、构造器
+
+类型要加一个前缀I,关键字interface,修饰符99%为public
+
+using System;
+namespace TestInFace
+{
+	
+	public sealed class Point:ICloneable
+	{
+		public Int32 x,y;
+		public Point(Int32 x,Int32 y)
+		{
+			this.x=x;
+			this.y=y;
+		}
+		public override Boolean Equals(Object o)
+		{
+			Point other=o as Point;
+			if(other==null) 
+				return false;
+			return (x==other.x)&&(y==other.y);
+		}
+		//对ICloneable方法的实现
+		public Object Clone()
+		{
+			return MemberwiseClone();
+		}
+		
+	}
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Point p1=new Point(1,2);
+			Point p2=(Point)p1.Clone();
+
+			Console.WriteLine(Object.ReferenceEquals(p1,p2));
+			Console.WriteLine(p1.Equals(p2));
+		}
+	}
+}
+
+基类型和接口的选择
+
+IS-A:(基类) CAN-DO(接口)
+
+易用性：继承一个基类型比创建一个接口便为方法
+
+一致的实现:基类型更好，接口每个人可能不正确的实现。
+
+版本:接口有版本问题。
+
+FCL,数据流类采用了基类继承的设计.
+FCL,集合类采用了接口设计.操作基本一致,实现差别大，没有多少代码的共享。
+

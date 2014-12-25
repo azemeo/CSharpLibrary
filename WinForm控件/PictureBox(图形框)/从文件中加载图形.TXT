@@ -1,0 +1,1 @@
+pBMain.Image=Image.FromFile(FullPath);

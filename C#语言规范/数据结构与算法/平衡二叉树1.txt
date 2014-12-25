@@ -1,0 +1,268 @@
+using System;
+
+using System.Collections;
+
+ 
+
+namespace DataStructure
+
+{
+
+     /// <summary>
+
+     /// AVLTree 的摘要说明。-----平衡二叉查找树
+
+     /// </summary>
+
+     public class AVLTree:BST
+
+     {
+
+         protected int height;//空树的高定义为-1;
+
+         //构造一棵空的二叉查找树
+
+         public AVLTree():base()
+
+         {
+
+              //
+
+              // TODO: 在此处添加构造函数逻辑
+
+              //
+
+              height=-1;
+
+         }
+
+         public AVLTree(object _obj):base(_obj)
+
+         {
+
+              height=0;
+
+         }
+
+         //------------------------------------------------------------------
+
+         protected override object GetEmptyInstance(uint _degree)
+
+         {    return new AVLTree(); }
+
+         //------------------------------------------------------------------
+
+ 
+
+         protected int BalanceFactor()
+
+         {
+
+              if (this.IsEmpty() )
+
+                   return 0;
+
+              return ((AVLTree)this.Left).height-((AVLTree)this.Right).height;
+
+         }
+
+         //调整高度
+
+         protected void AdjustHeight(){   this.height=Math.Max( ((AVLTree)this.Left).height, ((AVLTree)this.Right).height)+1;     }
+
+         //平衡时的四种旋转方式
+
+         protected void LLRotation()
+
+         {
+
+              if( this.IsEmpty() )
+
+                   throw new Exception("My:invalid operation!");
+
+              AVLTree avlB=new AVLTree(this.key);
+
+                            avlB.AttachSubtree(1,(AVLTree)this[0][1]);
+
+              avlB.AttachSubtree(2,(AVLTree)this[1]);
+
+ 
+
+              
+
+              this.key=this[0].Key;
+
+              this[0]=this[0][0];
+
+              this[1]=avlB;
+
+              //调整两个节点的高度
+
+              ((AVLTree)this.Right).AdjustHeight();
+
+              this.AdjustHeight();
+
+         }
+
+         protected void LRRotation()
+
+         {
+
+              if( this.IsEmpty() )
+
+                   throw new Exception("My:invalid operation!");
+
+              ((AVLTree)this.Left).RRRotation();
+
+              this.LLRotation();
+
+ 
+
+         }
+
+         protected void RRRotation()
+
+         {
+
+              if( this.IsEmpty() )
+
+                   throw new Exception("My:invalid operation!");
+
+              AVLTree avlB=new AVLTree(this.key);
+
+              
+
+ 
+
+              avlB.AttachSubtree(1,(AVLTree)this[0]);
+
+              avlB.AttachSubtree(2,(AVLTree)this[1][0]);
+
+ 
+
+              //avlA.AttachSubtree(1,avlB);
+
+              
+
+              //this=avlA;
+
+              this.key=this[1].Key;
+
+              this[0]=avlB;
+
+              this[1]=this[1][1];
+
+              //调整两个节点的高度
+
+              ((AVLTree)this.Left).AdjustHeight();
+
+              this.AdjustHeight();
+
+         }
+
+         protected void RLRotation()
+
+         {
+
+              if( this.IsEmpty() )
+
+                   throw new Exception("My:invalid operation!");
+
+              ((AVLTree)this.Right).LLRotation();
+
+              this.RRRotation();
+
+         }
+
+public override void AttachKey(object _obj)
+
+         {
+
+              if(!IsEmpty())
+
+                   throw new Exception("My:this node must be a empty tree node!");
+
+              this.key=_obj;
+
+              //产生一个degree长的数组,并将其初始化为空树
+
+              this.treeList=new ArrayList();
+
+              this.treeList.Capacity=(int)this.degree;
+
+ 
+
+         
+
+              for(int i=0;i<this.degree;i++)
+
+              {
+
+                   treeList.Add(new AVLTree());
+
+              }
+
+              //
+
+              this.height=0;
+
+         }
+
+         //在改动树的结构后平衡树
+
+         public override void Balance()
+
+         {
+
+              this.AdjustHeight();
+
+              //大于1则说明不平衡
+
+              if( Math.Abs(this.BalanceFactor())>1)
+
+              {
+
+                   if(this.BalanceFactor()>0)
+
+                   {
+
+                       if (((AVLTree)this.Left).BalanceFactor()>0)
+
+                            this.LLRotation();
+
+                       else
+
+                            this.LRRotation();
+
+                   }                  
+
+                   else
+
+                   {
+
+                       if (((AVLTree)this.Right).BalanceFactor()<0)
+
+                            this.RRRotation();
+
+                       else
+
+                            this.RLRotation();
+
+                   }
+
+              }
+
+         }
+
+ 
+
+ 
+
+         
+
+         public int Height{get{return this.height;}}
+
+         
+
+}
+

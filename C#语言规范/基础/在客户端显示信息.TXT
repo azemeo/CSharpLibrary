@@ -1,0 +1,5 @@
+		public static bool ShowMessage(System.Web.UI.Page pCurrent,string strMessage)
+		{			
+			pCurrent.RegisterStartupScript(Guid.NewGuid().ToString(),"<script language='javascript'>alert('"+strMessage+"');</script>");			
+			return true;
+		}

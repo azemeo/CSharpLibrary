@@ -1,0 +1,26 @@
+using myJmail;
+			MessageClass jmailobj=new MessageClass();
+			jmailobj.Logging=true;
+			jmailobj.Silent=true;
+			jmailobj.MailServerUserName=tbAcco.Text.Trim(); //发信邮件服务器的帐号
+			jmailobj.MailServerPassWord=tbPass.Text.Trim(); //密码
+
+			jmailobj.Body=tbMemo.Text;//邮件内容
+			jmailobj.Charset="gb2312"; 
+			jmailobj.Subject=tbTitle.Text;//标题
+			jmailobj.From=tbFrom.Text.Trim();
+			jmailobj.FromName=tbNickName.Text;
+			jmailobj.AddRecipient("meet1028@sohu.com","Name","A"); //收件人地址
+			//jmailobj.AddRecipientBCC("shao9979@hotmail.com","ok");//抄送
+			jmailobj.Priority =1;
+			//jmailobj.AddAttachment(@"C:\My Documents\xx",true,"htm"); //附件 
+			
+			if(jmailobj.Send("smtp.sohu.com",false)) 
+			{
+				//mailserver.com邮件服务器
+				labelStatus.Text="发送成功"; 
+			}
+			else 
+			{
+				labelStatus.Text="发送失败";
+			}

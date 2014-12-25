@@ -1,0 +1,6 @@
+1.改变超级用户的口令
+C:\mysql\bin>mysqladmin -u root password "glf"
+2.更新用户口令
+mysql> UPDATE user SET Password=PASSWORD("GLF") WHERE User="root";
+3.重新加载表
+C:\mysql\bin>mysqladmin -u root reload

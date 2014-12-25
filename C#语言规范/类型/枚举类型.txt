@@ -1,0 +1,16 @@
+对话框返回值
+DialogResult
+颜色(150)
+Color
+视图
+View
+笔(150)using System.Drawing;
+Pens
+路径点using System.Drawing.Drawing2D;
+PathPointType
+画刷(150)
+Brushes
+边框样式BorderStyle.Solid
+
+
+

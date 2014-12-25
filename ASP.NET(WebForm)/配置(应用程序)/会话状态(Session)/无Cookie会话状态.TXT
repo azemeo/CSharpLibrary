@@ -1,0 +1,42 @@
+
+无Cookie会话状态:在不支持Cookie的浏览中仍然可用。
+
+工作原理:它通过URL munging(向地址栏中插入ID)
+缺点：不能阻止用户编辑URL
+
+通过向向Web.config或Machine.config中的sessionState元素中添加cookieless="true" 启用无Cookie会话状态
+
+Session.IsCookieless属性确定无会话状是否可用
+
+1.Cookies无法通过ASP.NET编程来启用或禁用。
+2.检查客户浏览器是否支持Cookie，并提示。
+a)在页面之间检查Cookie是否存在。
+b)通过检查它的客户端角本。
+
+如何试验?
+
+在客端 IE工具/Internet选项/隐私/设置中，将滑块拉到最上面(阻止所有Cookies)。
+
+在服务器端：修改Web.config的sessionState 
+
+cookieless="true" 
+
+测试代码
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (Session.IsNewSession || Session["Count"] == null) 
+			{
+				Session["Count"] = 1;
+				Label1.Text="Welcome! Because this is your first " +
+					"visit to this site, a new session has been created " +
+					"for you. Your session ID is " + Session.SessionID +
+					".";
+			}
+			else 
+			{
+				Session["Count"] = (int) Session["Count"] + 1;
+				Label1.Text="You have visited this site " +
+					Session["Count"] + " times. Your session ID is still " +
+					Session.SessionID + ".";
+			}
+		}

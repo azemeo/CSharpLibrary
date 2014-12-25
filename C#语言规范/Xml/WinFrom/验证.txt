@@ -1,0 +1,11 @@
+using System.Xml.Schema;
+FileStream fs=new FileStream("books.xml",FileMode.Open);
+			XmlTextReader tr=new XmlTextReader(fs);
+			XmlValidatingReader trv=new XmlValidatingReader(tr);
+			trv.ValidationType=ValidationType.XDR;
+			trv.ValidationEventHandler+=new ValidationEventHandler(this.ValidationEvent);
+			while(trv.Read())
+			{
+				if(trv.NodeType==XmlNodeType.Text)
+					listBox1.Items.Add(trv.Value);
+			}

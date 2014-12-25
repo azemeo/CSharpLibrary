@@ -1,0 +1,52 @@
+using System;
+namespace TestInFace
+{
+	
+	interface IChangeBoxedPoint
+	{
+		void Change(Int32 x,Int32 y);
+	}
+	public struct Point:IChangeBoxedPoint
+	{
+		public Int32 x,y;
+		public Point(Int32 x,Int32 y)
+		{
+			this.x=x;
+			this.y=y;
+		}
+		public void Change(Int32 x,Int32 y)
+		{
+			this.x=x;
+			this.y=y;
+		}
+		public override String ToString()
+		{
+			return String.Format("({0},{1})",x,y);
+		}
+		
+	}
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Point p=new Point();
+			p.x=p.y=1;
+			Console.WriteLine(p);
+
+			p.Change(2,2);
+			Console.WriteLine(p);
+
+			Object o=p;
+			Console.WriteLine(o);
+
+			((Point)o).Change(3,3);//没有达到期望
+			Console.WriteLine(o);
+
+			((IChangeBoxedPoint)o).Change(5,5);//达到期望(使用接口改变已装箱值类型中的字段)
+			Console.WriteLine(o);
+
+			
+		}
+	}
+}

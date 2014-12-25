@@ -1,0 +1,6 @@
+检查ViewState是否为空，可以先转换为object类型
+				object o = ViewState["__ShowAutoNumber"];
+				if(o == null)
+					m_ShowAutoNumber = false;
+				else
+					m_ShowAutoNumber = (bool)o;

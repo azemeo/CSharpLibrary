@@ -1,0 +1,30 @@
+//验证输入是否为有效的数字
+		private bool CheckTextBox()
+		{
+			bool IsOK=true;
+			int result=0;
+			try
+			{
+				result=int.Parse(tbLine.Text.Trim());
+				if(result>365)
+				{
+					MessageBox.Show("请输入小于365的数字");
+					IsOK=false;
+				}
+
+			}
+			catch(FormatException)
+			{
+				MessageBox.Show("请输入小于365的数字");
+				IsOK=false;				
+			}
+			return IsOK;
+		}
+		private void btnGoto_Click(object sender, System.EventArgs e)
+		{
+			if(CheckTextBox())
+			{
+				mf.GotoLine=int.Parse(tbLine.Text.Trim());
+				Close();
+			}
+		}

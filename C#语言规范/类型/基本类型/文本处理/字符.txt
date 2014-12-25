@@ -1,0 +1,115 @@
+常量字段
+MinValue 最小可能值0x0000
+MaxValue 最大可能值0xFFFF
+
+静态方法
+GetUnicodeCategory 判断字符的类形
+IsDigit,IsLetter 等,按受char或string索引.
+
+ToLower/ToUpper 大小它互换
+
+实例方法
+
+Equals
+CompareTo
+ToString   char->string的转化
+Parse      string->char的转化
+
+GetNumericValue 返回字符的数字形式
+
+转型方法
+
+1.转型(效率最高):编译器必须将转换类型看作是基元类型。
+2.使用Convert(中等),System.Convert:
+3.使用IConverible接口(最低),ToChar,ToUIn16:
+
+
+
+
+1.示例1
+using System;
+using System.Globalization;
+namespace TestText
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Double d;
+			d=Char.GetNumericValue('\uffff');
+			Console.WriteLine(d.ToString());
+
+			d=Char.GetNumericValue('\u00bc');
+			Console.WriteLine(d.ToString());
+
+			d=Char.GetNumericValue('A');
+			Console.WriteLine(d.ToString());
+
+		}
+	}
+}
+
+2.示例2:类型转换
+using System;
+using System.Globalization;
+namespace TestText
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Char c;
+			Int32 n;
+			
+			//1:使用转型
+			c=(Char)65;
+			Console.WriteLine(c);
+			
+			n=(Int32)c;
+			Console.WriteLine(n);
+
+			c=unchecked((Char)(65536+65));
+			Console.WriteLine(c);
+
+			//2:使用Convert
+			c=Convert.ToChar(65);
+			Console.WriteLine(c);
+
+			n=Convert.ToInt32(c);
+			Console.WriteLine(n);
+
+			try
+			{
+				c=Convert.ToChar(70000);
+				Console.WriteLine(c);
+			}
+			catch(OverflowException)
+			{
+				Console.WriteLine("Can't convert 70000 to a char.");
+			}
+			//3:使用IConvertible 
+
+			c=((IConvertible)65).ToChar(null);
+			Console.WriteLine(c);
+
+			n=((IConvertible)c).ToInt32(null);
+			Console.WriteLine(n);
+
+
+		}
+	}
+}

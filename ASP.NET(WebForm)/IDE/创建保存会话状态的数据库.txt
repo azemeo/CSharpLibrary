@@ -1,0 +1,1 @@
+osql -S localhost -U sa -P -i installsqlstate.sql

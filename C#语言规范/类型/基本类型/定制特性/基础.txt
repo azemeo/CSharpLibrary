@@ -1,0 +1,76 @@
+定制特性：定义一些信息，交将这些信息应用于几乎所有元素据表项上，然后运行时通过查询这些可扩展的元数据信息来动态地改变代码的执行方式。
+
+是为目标元素提供关联附加信息的一种方式。
+
+是一个类型的实例，
+此类型继承System.Attribute
+位于System.Runtime.InteropServies 命名空间中。
+
+在C#,将定制特性放在紧挨着目标元素前的一个方括号([,])中。
+多个特性用逗号分隔，后缀Attribute可选。
+VB用尖括号<,>
+
+经常用于以元数据的条目上
+TyepDef 类、结构、枚举、接口、委托
+MethodDef 构造器
+ParamDef 
+FieldDef
+ProertyDef
+EventDef
+AssemblyDef
+ModuleDef
+
+C#只充许
+程序集、模块、类型、字段、方法、方法参数、方法返回值、属性、事件。
+
+using System;
+using System.Diagnostics;
+using System.Reflection;
+
+[assembly:CLSCompliant(true)]
+[Serializable]
+[DefaultMemberAttribute("Main")]
+class App
+{
+	[Conditional("Debug")][Conditional("Release")]
+	public void DoSomething(){}
+	public App(){}
+
+	[CLSCompliant(true)]
+	[STAThread]
+	static void Main(string[] args)
+	{
+		Console.WriteLine("Attributes applied to:{0}",typeof(App));
+//GetCustomAttributes 返回特性实例数组		
+ShowAttributes(typeof(App).GetCustomAttributes(false));
+
+		MemberInfo[]members=typeof(App).FindMembers(MemberTypes.Constructor|MemberTypes.Method,
+			BindingFlags.DeclaredOnly|BindingFlags.Instance|BindingFlags.Public|BindingFlags.Static,
+			Type.FilterName,"*");
+		foreach(MemberInfo member in members)
+		{
+			Console.WriteLine("Attribute applied to:{0}",member.Name);
+			ShowAttributes(member.GetCustomAttributes(false));
+		}
+	}
+	public static void ShowAttributes(Object[] attributes)
+	{
+		foreach(Object attribute in attributes)
+		{
+			Console.WriteLine(" {0}",attribute.GetType().ToString());
+			if(attribute is ConditionalAttribute)
+				Console.WriteLine(" {0}",((ConditionalAttribute)attribute).ConditionString);
+
+			if(attribute is CLSCompliantAttribute)
+				Console.WriteLine(" {0}",((CLSCompliantAttribute)attribute).IsCompliant);
+			Console.WriteLine();
+		}
+		if(attributes.Length==0)
+			Console.WriteLine("No attributes applied to this target.");
+		Console.WriteLine();
+	}
+}
+
+
+
+

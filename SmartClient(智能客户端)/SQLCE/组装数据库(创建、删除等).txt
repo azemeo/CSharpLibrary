@@ -1,0 +1,143 @@
+添加命名空间(源码)及编译引用(项目引用文件夹)
+System.Data.SqlServerCe
+
+using System.IO;
+using System.Data.Common;
+using System.Data.SqlServerCe; 
+
+
+private string  strFile = @"My Documents\ourProduceCo.sdf";
+      private string  strConn = "Data Source=" + 
+                                @"My Documents\ourProduceCo.sdf";
+
+      private void FormMain_Load(object sender, System.EventArgs e)
+      {
+         this.MinimizeBox = false;
+      }
+
+      private void mitemCreateDB_Click(object sender, System.EventArgs e)
+      {
+         //创建数据库
+		 if ( File.Exists(strFile) ) { File.Delete(strFile); }
+
+         SqlCeEngine dbEngine = new SqlCeEngine();
+         dbEngine.LocalConnectionString = strConn;
+         try
+         {
+            dbEngine.CreateDatabase();
+         }
+         catch( SqlCeException exSQL )
+         {
+            MessageBox.Show("Unable to create database at " + 
+                            strFile + 
+                            ". Reason:  " + 
+                            exSQL.Errors[0].Message );
+         }
+      }
+
+      private void mitemCreateTables_Click(object sender, System.EventArgs e)
+      {
+         //创建表
+		 SqlCeConnection  connDB = new SqlCeConnection();
+         SqlCeCommand  cmndDB = new SqlCeCommand();
+
+         connDB.ConnectionString = strConn;
+         connDB.Open();
+
+         cmndDB.Connection = connDB;
+
+         cmndDB.CommandText =
+            " CREATE TABLE Categories " +
+            "  ( CategoryID integer not null " +
+            "         CONSTRAINT PKCategories PRIMARY KEY " +
+            "  , CategoryName nchar(20) not null " +
+            "  )";
+         cmndDB.ExecuteNonQuery();
+
+         cmndDB.CommandText =
+            " CREATE TABLE Products " +
+            "  ( ProductID integer not null " +
+            "         CONSTRAINT PKProducts PRIMARY KEY " +
+            "  , ProductName nchar(20) not null " +
+            "  , CategoryID integer not null " +
+            "  , CONSTRAINT FKProdCat " +
+            "       foreign key (CategoryID) " +
+            "       references Categories(CategoryID) " +
+            "  )";
+         cmndDB.ExecuteNonQuery();
+
+         connDB.Close();
+      }
+
+      private void mitemLoadData_Click(object sender, System.EventArgs e)
+      {
+         //插入数据
+		 SqlCeConnection  connDB = new SqlCeConnection();
+         SqlCeCommand  cmndDB = new SqlCeCommand();
+
+         connDB.ConnectionString = strConn;
+         connDB.Open();
+
+         cmndDB.Connection = connDB;
+         cmndDB.CommandText =
+            " INSERT Categories " +
+            "   (CategoryID, CategoryName)" +
+            "   VALUES (1, 'Franistans' )";
+         cmndDB.ExecuteNonQuery();
+         cmndDB.CommandText =
+            " INSERT Categories " +
+            "   (CategoryID, CategoryName)" +
+            "   VALUES (2, 'Widgets' )";
+         cmndDB.ExecuteNonQuery();
+
+         cmndDB.CommandText =
+            " INSERT Products " +
+            "   (ProductID, ProductName, CategoryID)" +
+            "   VALUES (11, 'Franistans - Large', 1 )";
+         cmndDB.ExecuteNonQuery();
+         cmndDB.CommandText =
+            " INSERT Products " +
+            "   (ProductID, ProductName, CategoryID)" +
+            "   VALUES (12, 'Franistans - Medium', 1 )";
+         cmndDB.ExecuteNonQuery();
+         cmndDB.CommandText =
+            " INSERT Products " +
+            "   (ProductID, ProductName, CategoryID)" +
+            "   VALUES (13, 'Franistans - Small', 1 )";
+         cmndDB.ExecuteNonQuery();
+         cmndDB.CommandText =
+            " INSERT Products " +
+            "   (ProductID, ProductName, CategoryID)" +
+            "   VALUES (21, 'Widgets - Large', 2 )";
+         cmndDB.ExecuteNonQuery();
+         cmndDB.CommandText =
+            " INSERT Products " +
+            "   (ProductID, ProductName, CategoryID)" +
+            "   VALUES (22, 'Widgets - Medium', 2 )";
+         cmndDB.ExecuteNonQuery();
+         cmndDB.CommandText =
+            " INSERT Products " +
+            "   (ProductID, ProductName, CategoryID)" +
+            "   VALUES (23, 'Widgets - Small', 2 )";
+         cmndDB.ExecuteNonQuery();
+
+         connDB.Close();
+      }
+
+      private void mitemDropDB_Click(object sender, System.EventArgs e)
+      {
+		  //删除数据库
+		  File.Delete(strFile);
+      }
+
+      private void mitemBuildDS_Click(object sender, System.EventArgs e)
+      {
+         //  Build the DataSet from the Database.
+         DataSet dsetWork = UtilData.BuildDataSet(strFile);
+         DataTable dtabCurrent = dsetWork.Tables[0];
+
+         //  Display the first table in the 
+         //     Parent datagrid control.
+         dgridParent.DataSource = dtabCurrent;
+         dgridParent.Text = dtabCurrent.TableName;
+      }

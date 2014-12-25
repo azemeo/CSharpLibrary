@@ -1,0 +1,49 @@
+using System;
+using System.Reflection;
+namespace TestSystem
+{
+	public interface IBookRetailer:IDisposable
+	{
+		void Purchase();
+		void ApplyDiscount();
+	}
+	public interface IMusicRetailer
+	{
+		void Purchase();
+	}
+	class MyRetailer:IBookRetailer,IMusicRetailer
+	{
+		public void Purchase(){}
+		public void Dispose(){}
+		void IBookRetailer.Purchase(){}
+		public void ApplyDiscount(){}
+		void IMusicRetailer.Purchase(){} 
+	}
+	class App
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//得到接口的集合
+			Type t=typeof(MyRetailer);
+			Type[] interfaces=t.FindInterfaces(new TypeFilter(App.TypeFilter),Assembly.GetCallingAssembly().GetName());
+			Console.WriteLine("MyRetailer implements the following interfaces(defined in this assembly):");
+			foreach(Type i in interfaces)
+			{
+				Console.WriteLine("\nInterface:"+i);//接口名称
+				InterfaceMapping map=t.GetInterfaceMap(i);//接口方法集合
+				for(Int32 m=0;m<map.InterfaceMethods.Length;m++)
+				{
+					//InterfaceMethods 接口方法(子类) TargetMethods 实现对应的接口方法(父接口)
+					Console.WriteLine(" {0} is imlemented by {1}",map.InterfaceMethods[m],map.TargetMethods[m]);
+				}
+			}
+			
+		}
+		//筛选器
+		static Boolean TypeFilter(Type t,Object filterCriteria)
+		{
+			return t.Assembly.GetName().ToString()==filterCriteria.ToString();
+		}
+	}
+}

@@ -1,0 +1,15 @@
+
+
+1.设定数据关键域，DataKeyField="employeeid"
+2.增加选择变化事件，DataList1_SelectedIndexChanged
+3.编辑项目模板中的LinkButton的CommandName=select
+4.加入代码
+		private void DataList1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			//得到选择的索引
+			int nEmpID=(int)DataList1.DataKeys[DataList1.SelectedIndex];			
+			//查询
+			
+	}
+
+缺少分页、排序和强大的基于列的呈现能力

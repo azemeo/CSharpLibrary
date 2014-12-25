@@ -1,0 +1,145 @@
+自动刷新的原理:Btn1和Btn2
+当用户单击Btn1时，首先调用的是Btn的客端代码OpenPersonAddFrm()
+这时窗口WebForm2.aspx打开，用户进行输入，当用户输入完毕后，关闭窗口。
+这时Btn1的服务端代码执行，将Refresh()函数与Btn2联系。
+Btn2的客户端代码执行后。Btn2的服务器端代码执行。并取消角本。
+
+
+1.客户端代码
+2.打开的窗口
+3.关闭窗口
+4.服务器端代码
+---------------------
+A.WebForm1.aspx
+<%@ Register TagPrefix="win" Namespace="Wintellect" Assembly="HelloControl" %>
+<%@ Page language="c#" Codebehind="WebForm1.aspx.cs" AutoEventWireup="false" Inherits="Test4.WebForm1" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm1</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	</HEAD>
+	<BODY ms_positioning="GridLayout">
+		<script language="javascript">
+		function OpenPersonAddFrm()
+		{							
+			returnvalue=window.showModalDialog('WebForm2.aspx','','dialogHeight: 490px; dialogWidth:590px;  edge: Raised; center: Yes; help: no; resizable: No; status: no;');
+		}
+		</script>
+		<form id="Form1" method="post" runat="server">
+			<asp:Button id="Button2" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 112px" runat="server"
+				Text="大任务刷新"></asp:Button>
+			<asp:Label id="Label1" style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 232px" runat="server">Label</asp:Label>
+			<asp:button id="Button1" runat="server" Text="开始激活" style="Z-INDEX: 103; LEFT: 424px; POSITION: absolute; TOP: 112px"></asp:button>
+		</form>
+	</BODY>
+</HTML>
+
+B.WebForm1.aspx.cs
+
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace Test4
+{
+	/// <summary>
+	/// WebForm1 的摘要说明。
+	/// </summary>
+	public class WebForm1 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Button Button1;
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.Button Button2;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			this.Button1.Attributes.Add("onclick","javascript:OpenPersonAddFrm();");
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Button1.Click += new System.EventHandler(this.Button1_Click);
+			this.Button2.Click += new System.EventHandler(this.Button2_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			
+			//通过客户端角本打窗口
+			//窗口关闭，开始角本	
+			string strClick=			
+					"<script language=\"JavaScript\">\n"+
+					"<!--\n"+
+					"function Refresh()\n"+
+					"{\n"+
+					" document.all.Button2.click();}\n"+//Button2为进行操作的按钮
+					" setTimeout(\"Refresh()\",100);"+		//设定刷新的时间
+					"\n"+
+					"-->\n"+
+					"</script>";
+			this.RegisterStartupScript("RefreshScript",strClick);
+		}
+
+		private void Button2_Click(object sender, System.EventArgs e)
+		{
+			//进行操作
+			Label1.Text="列表已更新";
+			//取消角本
+			string strClick=			
+				"<script language=\"JavaScript\">\n"+
+				"<!--\n"+
+				"\n"+
+				"-->\n"+
+				"</script>";				
+			this.RegisterStartupScript("RefreshScript",strClick);
+
+		}
+
+	}
+}
+c.WebForm2.aspx
+<%@ Page language="c#" Codebehind="WebForm2.aspx.cs" AutoEventWireup="false" Inherits="Test4.WebForm2" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm2</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:TextBox id="TextBox1" style="Z-INDEX: 101; LEFT: 208px; POSITION: absolute; TOP: 96px" runat="server"></asp:TextBox>
+		</form>
+	</body>
+</HTML>

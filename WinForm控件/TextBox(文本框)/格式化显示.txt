@@ -1,0 +1,1 @@
+this.lblMinFreq.Text = string.Format("{0} Hz", this.tbarFreq.Minimum);

@@ -1,0 +1,4 @@
+private void buttonExit_Click(object sender, System.EventArgs e)
+		{
+			this.Dispose();
+		}

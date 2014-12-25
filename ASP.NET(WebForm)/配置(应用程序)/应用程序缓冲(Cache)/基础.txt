@@ -1,0 +1,4 @@
+Session对象
+Application对象
+Cache对象
+DataSet对象

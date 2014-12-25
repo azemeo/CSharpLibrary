@@ -1,0 +1,44 @@
+用户控件业实现模板，用来解决视图重用的一种较好选择
+
+1.AwardNav.ascx
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="AwardNav.ascx.cs" Inherits="Mvc_asp.AwardNav" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<FONT face="宋体">My Left</FONT>
+
+2.AwardHeader.ascx
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="AwardHeader.ascx.cs" Inherits="Mvc_asp.AwardHeader" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<FONT face="宋体">Hello Top.</FONT>
+
+
+3.Main.aspx
+
+<%@ Page language="c#" Codebehind="Main.aspx.cs" AutoEventWireup="false" Inherits="Mvc_asp.Main" %>
+<%@ Register TagPrefix="uc1" TagName="AwardHeader" Src="AwardHeader.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AwardNav" Src="AwardNav.ascx" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>Main</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<div><uc1:AwardHeader runat="server" ID="Header1" /></div>
+				<div style="WIDTH:100%">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" id="TableTemplate">
+						<tr>
+							<td style="WIDTH:150px">
+								<uc1:AwardNav runat="server" ID="Awardnav2" />
+							</td>
+							<td valign="top" align="left">
+							</td>
+						</tr>
+					</table>
+				</div>
+		</form>
+		</FONT>
+	</body>
+</HTML>

@@ -1,0 +1,29 @@
+InputPanel控件用于操作SIP
+
+Enabled=true;//打开SIP 
+Enabled=false;//关闭SIP      
+
+EnabledChanged 用户打开或关闭SIP是触发
+
+//lviewOutput为ListView控件
+//sipMain为InputPanel控件
+private void 
+      sipMain_EnabledChanged(object sender, System.EventArgs e)
+      {
+         // SIP is open
+         if (sipMain.Enabled)
+         {
+            // Adjust list view height to make room for SIP.
+            lviewOutput.Height = this.Height - 
+               lviewOutput.Top -
+               sipMain.Bounds.Height
+               + 1;
+         }
+         else // SIP is closed
+         {
+            // Adjust scroll bar height to form height.
+            lviewOutput.Height = this.Height - 
+               lviewOutput.Top
+               + 1;
+         }
+      }

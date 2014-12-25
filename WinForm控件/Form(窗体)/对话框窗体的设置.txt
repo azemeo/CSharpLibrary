@@ -1,0 +1,20 @@
+1.窗体重要设置			
+                        this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.AcceptButton = this.OKbutton;
+			this.CancelButton = this.OKbutton;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.ShowInTaskbar = false;//防止在任务栏中出现对话框的按钮
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+
+2.OK与Canel按钮重要设置
+			// 
+			// OKbutton
+			// 
+			this.OKbutton.DialogResult = System.Windows.Forms.DialogResult.OK;			
+			// 
+			// Cancelbutton
+			// 
+			this.Cancelbutton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			
+

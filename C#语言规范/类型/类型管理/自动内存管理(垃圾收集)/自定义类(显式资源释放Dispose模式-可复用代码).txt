@@ -1,0 +1,59 @@
+
+自定义类(显式资源释放Dispose模式-可复用代码)
+///清理资源后，调用方法会抛出System.ObjectDisposedException 异常。
+/// <summary>
+	/// 用于封装托管类型
+	/// </summary>
+	public sealed class OSHandle:IDisposable
+	{
+		private IntPtr handle;//保存Win32句柄
+		//构造器-初始化句柄
+		public OSHandle(IntPtr handle)
+		{
+			this.handle=handle;
+		}
+		//析构器-当执行垃圾收集时执行(Finalize方法)
+		~OSHandle()
+		{
+			Dispose(false);
+		}
+		//显示关闭非托管资源(C#默认公有虚方法为公有密封)
+		public void Dispose()
+		{
+			GC.SuppressFinalize(this);//请求系统(垃圾收集器)不要调用指定对象的完成器(Finzlize方法)
+			Dispose(true);
+		}
+		//替换Dispose()方法
+		public void Close()
+		{
+			Dispose();
+		}
+		//实际清理工作
+		private void Dispose(Boolean disposing)
+		{
+			lock(this)//确保线程安全
+			{
+				if(disposing)
+				{
+					//对象是在显式的关闭，而非终止化,调用其它字段是安全的。
+				}
+				if(IsValid)
+				{
+					CloseHandle(handle);
+					handle=InvalidHandle;//避免多次调用
+				}
+			}
+		}
+
+		public IntPtr InvalidHandle{get{return IntPtr.Zero;}}//返回无效句柄
+		public IntPtr ToHandle(){return handle;}//返回句柄
+		public static implicit operator IntPtr(OSHandle osHandle)//返回句柄
+		{
+			return osHandle.ToHandle();
+		}
+		public Boolean IsValid{get{return (handle!=InvalidHandle);}}//句柄是否有效
+		public Boolean IsInvalid{get{return !IsInvalid;}}//句柄是否无效
+
+		[System.Runtime.InteropServices.DllImport("Kernel32")]
+		private extern static Boolean CloseHandle(IntPtr handle);//Win32函数,释放非托客资源
+	}

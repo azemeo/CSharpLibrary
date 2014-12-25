@@ -1,0 +1,2 @@
+Rows,同是显示的行数
+ListBox,支持多项选择SelectionMode=Multiple

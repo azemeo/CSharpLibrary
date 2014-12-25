@@ -1,0 +1,57 @@
+基础知识
+
+1。呈现以列组织的数据表，模板不是应用到整个控件中而是应用到特定列中。
+2。只有一种布局(列)
+3。支持DataList的所有事件，还支持PageIndexChanged和SortCommand
+
+由8个项组成
+
+项                        标题
+
+Header                    网页的标题。这个项不能绑定数据。HeaderStyle属性可以控制标题的外观
+
+Item                      正常数据绑定行。ItemStyle属可以控制外观
+
+Separator                 用于分隔行的项。不能绑定数据
+
+AlternatingItem           在奇数行的数据绑定项。AlternatingItemStyle可以控制外观
+
+Footer                    网页的脚注。不能绑定数据。FooterStyle可以控制外观
+
+EditItem                  该网格项当前为编辑模式。这种类型可以绑定数据。EditItemStyle可以控制外观。
+
+Pager                     页的导航栏。PageStyle可以控制外观。
+
+SelectedItem              当前被选定的表格项。这种类型可以绑定数据。SelectedItemStyle可以控制外观。
+
+注：每当创建立上述项，就会触发ItemCreated事件,并不是每列都发生，整个项创建完后发生。
+
+列类型
+
+AutoGenerateColumns=(true/false)的属性改变自动生成。
+
+默认算法创建简单的数据绑定。用文本控件显示字段的内容。
+
+由DataGridColumn类派生
+
+DataGrid支持的列类型
+
+BoundColumn            (绑定列)显示绑定到数据源的一个字段列，每一项显示为纯文本。
+
+ButtonColumn           为列中的每一项显示一个命令按钮。按钮的文字可以是数据绑定的。按钮的命令名对于列中的所有项必须是公用的。当命令名为select,单出列按钮会自动选择一行。
+
+EditCommandColumn  显示一个命令按钮，自动与Edit命令关联。很特殊，可以重绘。
+
+HyperLinkColumn         在列中每一项显示为链接。链接文本可绑定到数据源的一个字段。目标URL可以绑定。
+
+TempldateColumn       在列中基于指定的模板显示每一项，使您可以在列中提供自定义的控件。
+
+从网格中得到一个模板列
+TemplateColumn tc=(TemplateColumn)DataGrid1.Columns[1];
+定义主键
+DataKeyField="employeeid"
+
+
+
+
+

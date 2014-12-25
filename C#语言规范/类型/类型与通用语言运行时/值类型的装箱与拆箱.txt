@@ -1,0 +1,78 @@
+特点:值类型，是比引用类型更为轻量级的类型，因为它们没有被分配在托管堆中，不会被执行垃圾收集，也没有指向它们的指针.
+
+原因：很多情况下，必须获得一个指向值类型实例的引用(类似指针)。
+
+装箱（boxing):用来将一个值类型转换为一个引用类型。
+
+步骤如下：
+	a.从托管堆中为新生成的引用类型对象分配内存。
+	b.将值类型实例的字段拷贝到托管堆上新分配对象的内存中。
+	c.返回托管堆中新分配对象的地址。
+
+C#/VB.NET 自动装箱。
+C++ 必须编定代码装箱。
+
+拆箱(unboxing)：获取已装箱值类型的地址。
+	a.如果引用为null,将会抛出一个NullReferenceException异常。
+ 		例如:
+		object o=null;
+ 		Int16 y=(Int16)o;
+	b.如果引用对象与期望对象不同，将抛出一个InvalidCaseExceotion异常。
+		例如:
+		Int32 x=5;
+ 		object o=x;
+ 		Int16 y=(Int16)o;//抛出一个InvalidCaseExceotion异常
+	c.返回值类型的引用。
+字段拷贝:将字段的值从托管堆拷贝到位于线程堆栈上值类型实例中。
+
+拆箱+字段拷贝   装箱 互反操作。
+
+经验：
+
+装箱和拆箱/拷贝 从速度和内存两方面损伤应用程序的性能。
+目的：减少一些常用值类型的装箱操作。
+
+a.自已做装箱操作，提高程序性能。object o=v;
+b.一些类型的方法提供了重载版本，减少装箱操作。
+c.ToString(),返回引用，减少装箱操作。
+
+ 			Int32 v=5;
+ 			object o=v;
+ 			v=123;
+ 			//Console.WriteLine(v+","+(Int32)o);//性能差
+ 			//Console.WriteLine(v+","+o);  		//性能较好
+ 			//Console.WriteLine(v.ToString()+","+o); //性能最好
+
+
+
+注意：经过装箱的值类型实例(放在ArrayList中的p)的生存期超出了(大于)未装箱的值类型(Point的p)生存期。
+
+using System;
+using System.Collections;
+struct Point
+{
+	public Int32 x,y;
+}
+class Hello 
+{
+   static void Main() 
+   {      
+ 			
+ 			ArrayList a=new ArrayList();
+ 			Point p;
+ 			for(Int32 i=0;i<10;i++)
+ 			{
+ 					p.x=p.y=i;
+ 					a.Add(p);	//装箱(boxing)
+ 			} 
+ 			for(Int32 i=0;i<10;i++)
+ 			{
+ 				p=(Point)a[i];//拆箱(unboxing)/拷贝(copy)
+ 				Console.WriteLine("Point(x,y)={0},{1}\n",p.x,p.y); 					
+ 			}  			   
+   }
+}
+
+
+
+

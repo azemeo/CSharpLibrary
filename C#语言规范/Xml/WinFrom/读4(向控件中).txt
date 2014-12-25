@@ -1,0 +1,67 @@
+using System.Xml;
+using System.IO;
+string mypath="";
+		public Form1()
+		{
+			//
+			// Windows 窗体设计器支持所必需的
+			//
+			InitializeComponent();
+
+			//
+			// TODO: 在 InitializeComponent 调用后添加任何构造函数代码
+			//
+			mypath=Application.StartupPath;
+		}
+//--------------------------		
+private void Form1_Load(object sender, System.EventArgs e)
+		{
+			LoadHistory();
+		}
+		private void LoadHistory()
+		{
+			try
+			{
+				FileStream fs=new FileStream(mypath+"\\config.xml",FileMode.Open);
+				XmlTextReader tr=new XmlTextReader(fs);
+				while(!tr.EOF)
+				{
+					if(tr.MoveToContent()==XmlNodeType.Element&&tr.Name=="Excel2Access")
+				
+					{
+						LoadList(tr);//忽略异常					
+					}
+					else
+					{
+						tr.Read();
+					}
+				}
+				tr.Close();
+				fs.Close();
+			}
+			catch
+			{
+				;
+			//没有文件忽略
+			}
+		}
+//-------------------	
+		private void LoadList(XmlReader reader)
+		{
+			try
+			{
+				for(int i=0;i<reader.AttributeCount;i++)
+				{
+					
+					if(i==0)
+						tbExcel.Text=reader.GetAttribute(i).ToString();
+					else
+						tbAccess.Text=reader.GetAttribute(i).ToString();										
+					
+				}
+				reader.ReadElementString();
+
+			}
+			catch(XmlException er){}//ignore
+
+		}

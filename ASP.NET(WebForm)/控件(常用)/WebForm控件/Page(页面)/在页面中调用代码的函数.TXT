@@ -1,0 +1,14 @@
+在页面中调用，代码的函数。
+
+*.aspx
+
+<asp:CheckBox id=CheckBox1 runat="server" Enabled="False" Checked='<%# HasBoss((int)DataBinder.Eval(Container.DataItem,"boss")) %>'>
+
+*.cs
+
+		public bool HasBoss(int bossID)
+		{
+			if(bossID!=0)
+				return true;
+			return false;
+		}

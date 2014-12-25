@@ -1,0 +1,10 @@
+临时文件
+
+string temp=Session.SessionID+".ascx";
+
+StreamWriter sw=new StreamWriter(Server.MapPath(tmp));//物理路径
+sw.Write(strLayoutCode);
+sw.Close();
+
+TemplateColumn bc=new TemplateColumn();
+bc.ItempTemp=Page.LoadTemple(tmp);//相对路径

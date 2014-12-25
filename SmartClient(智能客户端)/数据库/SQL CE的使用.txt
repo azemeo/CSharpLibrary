@@ -1,0 +1,13 @@
+运行SQLCE Query
+
+连接数据库(数据库文件路径、密码)
+
+单击Objects标签：
+
+Database\Tables 建立新表
+
+SQL 标签中输入SQL语句
+
+Grid 标签中显示结果。
+
+Notes 樯标签中显示备注

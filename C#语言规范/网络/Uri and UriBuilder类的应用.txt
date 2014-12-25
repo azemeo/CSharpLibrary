@@ -1,0 +1,11 @@
+UriBuilder ub=new UriBuilder();
+			ub.Host=this.tbHost.Text;
+			ub.Port=int.Parse(this.tbPort.Text);
+			ub.Scheme=Uri.UriSchemeHttp;
+			ub.Path=this.tbPath.Text;
+
+			Uri ui=ub.Uri;
+			Process ps=new Process();
+			ps.StartInfo.FileName="iexplore.exe";
+			ps.StartInfo.Arguments=ui.ToString();
+			ps.Start();	

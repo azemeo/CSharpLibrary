@@ -1,0 +1,64 @@
+1.用户保存数据后
+
+2.Web卸载页面后
+
+3.费时操作前。
+
+原理：费时操作时间较长，用户感觉不到垃圾收集占用的时间。
+
+
+GC.Collect 对指定代龄对象强制执行垃圾回收
+GC.MaxGeneration 查询托管中最大的代龄
+GC.GetGeneration 查询对象的龄
+
+
+using System;
+using System.IO;
+namespace TestDisp
+{
+	
+	class GenObj
+	{
+		~GenObj()
+		{
+			Console.WriteLine("In Finalize method");
+		}
+	}
+	class Class1
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Console.WriteLine("Maximum generations:"+GC.MaxGeneration);
+
+			Object o=new GenObj();
+
+			Console.WriteLine("Gen "+GC.GetGeneration(o));
+
+			GC.Collect();
+
+			Console.WriteLine("Gen "+GC.GetGeneration(o));
+
+			GC.Collect();
+			Console.WriteLine("Gen "+GC.GetGeneration(o));
+
+			GC.Collect();
+			Console.WriteLine("Gen "+GC.GetGeneration(o));
+
+			o=null;
+			
+			Console.WriteLine("Collecting Gen 0");
+			GC.Collect(0);
+			GC.WaitForPendingFinalizers();
+
+			Console.WriteLine("Collecting Gen 1");
+			GC.Collect(1);
+			GC.WaitForPendingFinalizers();
+
+			Console.WriteLine("Collecting Gen 2");
+			GC.Collect(2);
+			GC.WaitForPendingFinalizers();
+			
+		}
+	}
+}

@@ -1,0 +1,12 @@
+		private int[]GetSelectedIndices(ListBox lb)
+		{
+			ArrayList a=new ArrayList();
+			for(int i=0;i<lb.Items.Count;i++)
+			{
+				if(lb.Items[i].Selected)
+					a.Add(i);
+			}
+			int[]indices=new int[a.Count];
+			a.CopyTo(indices);
+			return indices;
+		}

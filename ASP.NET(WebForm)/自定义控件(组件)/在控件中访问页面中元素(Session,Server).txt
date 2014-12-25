@@ -1,0 +1,1 @@
+string strFile=this.Page.Server.MapPath(this.Page.Session.SessionID+".xml");

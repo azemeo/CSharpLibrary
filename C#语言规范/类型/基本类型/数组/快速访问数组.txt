@@ -1,0 +1,22 @@
+csc.exe /unsafe
+或IDE项目属性/生成,允许不安全代码块(True)
+
+using System;
+namespace TestArray
+{
+
+	class App
+	{
+		unsafe static void Main(string[] args)
+		{	
+			Int32[] arr=new Int32[]{1,2,3,4,5};
+			fixed(Int32* element=&arr[0])
+			{
+				for(Int32 x=0,n=arr.Length;x<n;x++)
+					Console.WriteLine(element[x]);
+			}
+			
+		}
+
+	}
+}

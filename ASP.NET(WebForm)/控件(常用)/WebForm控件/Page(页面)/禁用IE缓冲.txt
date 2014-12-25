@@ -1,0 +1,12 @@
+Head
+
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+
+
+Page_Load
+
+Response.Expires = -1;
+Response.ExpiresAbsolute = DateTime.Now.AddDays(-1);
+Response.CacheControl = "no-cache";

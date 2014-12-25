@@ -1,0 +1,4 @@
+1.eMbedded Visual C++4.0+SP4 针对底层进行开发
+2.VS.NET 2003	
+3.VS.NET 2005(集成了eVC)
+4.ActiveSync管理Windows Mobile设备连接、与PC进行数据同步的工具。

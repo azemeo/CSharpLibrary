@@ -1,0 +1,18 @@
+1.Calc.asmx
+<%@ WebService Language="C#" Class="CalcService" %>
+using System;
+using System.Web.Services;
+[WebService(Name="Calculator Web Service",Description="Performs simple math over the Web")]
+class CalcService
+{
+	[WebMethod(Description="Computers the sum of two integers")]
+	public int Add(int a,int b)
+	{
+		return a+b;
+	}
+	[WebMethod(Description="Computers the difference between two integers")]
+	public int Subtract(int a,int b)
+	{
+		return a-b;
+	}
+}

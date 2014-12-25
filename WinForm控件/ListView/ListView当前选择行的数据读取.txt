@@ -1,0 +1,8 @@
+			int currindex=0;
+			foreach(int i in lvResult.SelectedIndices)
+			{
+				currindex=i;
+			}
+			MessageBox.Show(lvResult.Items[currindex].SubItems[0].Text);
+			MessageBox.Show(lvResult.Items[currindex].SubItems[1].Text);
+

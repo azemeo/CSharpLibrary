@@ -1,0 +1,28 @@
+
+代码为：DataList1.DataSource=oDS.Tables["EmployeesList"];
+方式一:
+				
+					<asp:LinkButton id=LinkButton1 runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"EmployeeID")+"-"+
+					DataBinder.Eval(Container.DataItem,"lastname")+","+
+					DataBinder.Eval(Container.DataItem,"firstname")
+					 %>'>
+					</asp:LinkButton>
+
+方法二:速度更快
+<%@ Import Namespace="System.Data" %>
+
+					<asp:LinkButton id=LinkButton1 runat="server" 
+					Text='<%#String.Format("{0}-{1:c},{2:c}",
+					((DataRowView)Container.DataItem)["EmployeeID"],
+					((DataRowView)Container.DataItem)["lastname"],
+					((DataRowView)Container.DataItem)["firstname"])%>'>
+					</asp:LinkButton>
+
+
+
+
+
+
+
+
+					

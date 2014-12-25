@@ -1,0 +1,5 @@
+using System.Text.RegularExpressions;
+if(Regex.Match(str,@"[0-9]+").Success==true&&Regex.Match(str,@"[0-9]+").Value==str)
+			{
+				return true;
+			}

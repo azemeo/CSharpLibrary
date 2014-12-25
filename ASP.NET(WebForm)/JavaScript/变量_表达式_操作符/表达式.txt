@@ -1,0 +1,21 @@
+表达式：任何变量、常量、操作符连接面组成的式子。
+1.条件表达式
+形式:()?A:B
+		var status=null;
+		var age=15;
+		status=(age>=18)?'adult':'minor';
+		window.alert(status);
+2.赋值=
+其它（与C相同）
++=
+-=
+*=
+/=
+%=
+<<=
+>>=
+&=
+^=
+|=
+
+搜索关键字：表达式，Javascript

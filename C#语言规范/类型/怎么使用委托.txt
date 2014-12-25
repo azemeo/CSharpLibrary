@@ -1,0 +1,49 @@
+怎么使用委托:
+1.delegate 准备委托函的返回类例 名称
+在类外生成
+如:delegate void SimpleDelegate();
+2.实例化
+在主函数中
+如:
+Class1 m=new Class1();
+SimpleDelegate d = new SimpleDelegate(m.G);
+3.调用
+d();
+全部代码
+using System;
+
+namespace ConsoleApplication9
+{
+	delegate void SimpleDelegate();
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		public void F() 
+		{
+			System.Console.WriteLine("Test.F");
+		}
+		public void G()
+		{
+			System.Console.WriteLine("Test.G");
+		}
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Class1 m=new Class1();
+			SimpleDelegate d = new SimpleDelegate(m.G);
+			d();
+
+		}
+//		void MultiCall(SimpleDelegate d, int count) 
+//		{
+//			for (int i = 0; i < count; i++)
+//				d();
+//		}
+	}
+}
+

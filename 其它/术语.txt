@@ -1,0 +1,5 @@
+GUID 设备提供者标识
+
+resource information file format (RIFF) 资源信息文件格式
+
+AVI(Audio Video Interleave)音频视频交叉存取格式

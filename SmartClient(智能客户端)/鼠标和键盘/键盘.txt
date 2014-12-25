@@ -1,0 +1,60 @@
+支持键盘输入的控件
+DataGrid
+Control
+Form
+Panel
+PictureBox
+TextBox
+
+输入的方式
+设备硬键
+	a.GAPI库GXOpenInput函数，接管所所有键
+	b.Win32库RegisterHotKey，可重新分配键。
+SIP输入,三种输入法
+	a.拼音输入(键盘输入)
+	b.全屏手写
+	c.手写输入
+	类InputPanel类可检测SIP是否被打开，显示及隐藏。
+键盘键
+	a.可以用外接键盘
+keybd_event函数
+	b.可以支持程序产生键盘事件
+
+事件
+	1.键盘事件
+		KeyDown
+		KeyPress
+		KeyUp
+	2.焦点事件
+		GotFocus	得到焦点
+		LostFocus	失去焦点
+	3.激活事件
+		Resize		窗体激活
+		GotFocus	窗体得到焦点
+	4.输入有关
+		Validating 询问控件的内容是否正确
+		validated 内容是正确的
+
+按键			键值			备注
+---------------------------------------------------------------
+音量键+			Up,F20			在PPC侧面
+音量键-			Down,F20
+方向键Up			Up,F21
+方向键Down		Down,F21
+方向键Left		Left,F21
+方向键Right		Right,F21
+动作键			NumLock,F21,Enter	方向键中间的键
+---------------------------------------------------------------
+
+KeyDown及KeyUp
+(object sender, System.Windows.Forms.KeyEventArgs e)
+			e.Alt;//是否按下ALT键
+			e.Control;//是否按下CONTROL 键
+			e.Shift;//是否按下SHIFT 键
+			e.KeyCode;//键盘代码
+			e.KeyData;//键数据
+			e.KeyValue;//扫描码
+			e.Handled;//否处理
+KeyPress
+(object sender, System.Windows.Forms.KeyPressEventArgs e)
+e.KeyChar;//字符值

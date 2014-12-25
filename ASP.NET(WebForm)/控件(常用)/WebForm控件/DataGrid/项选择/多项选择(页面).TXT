@@ -1,0 +1,142 @@
+1.
+<%@ Page language="c#" Codebehind="WebForm3.aspx.cs" AutoEventWireup="false" Inherits="Co_6.WebForm3" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm3</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 208px; POSITION: absolute; TOP: 40px"
+				runat="server" AutoGenerateColumns="False" DataKeyField="employeeid">
+				<Columns>
+					<asp:TemplateColumn>
+						<ItemTemplate>
+							<asp:CheckBox id="CheckBox1" runat="server"></asp:CheckBox>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="FirstName"></asp:BoundColumn>
+				</Columns>
+			</asp:DataGrid>
+			<asp:Button id="ButtonGet" style="Z-INDEX: 102; LEFT: 208px; POSITION: absolute; TOP: 320px"
+				runat="server" Text="GetSelect"></asp:Button>
+			<asp:TextBox id="TextBox1" style="Z-INDEX: 103; LEFT: 304px; POSITION: absolute; TOP: 320px"
+				runat="server" Width="280px"></asp:TextBox>
+			<asp:LinkButton id="LinkButton1" style="Z-INDEX: 104; LEFT: 208px; POSITION: absolute; TOP: 368px"
+				runat="server">取消选择</asp:LinkButton>
+		</form>
+	</body>
+</HTML>
+2.
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace Co_6
+{
+	/// <summary>
+	/// WebForm3 的摘要说明。
+	/// </summary>
+	public class WebForm3 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Button ButtonGet;
+		protected System.Web.UI.WebControls.TextBox TextBox1;
+		protected System.Web.UI.WebControls.LinkButton LinkButton1;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select * From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.ButtonGet.Click += new System.EventHandler(this.ButtonGet_Click);
+			this.LinkButton1.Click += new System.EventHandler(this.LinkButton1_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void ButtonGet_Click(object sender, System.EventArgs e)
+		{
+			ArrayList a=new ArrayList();
+
+			int i=0;
+			foreach(DataGridItem dgi in DataGrid1.Items)
+			{
+				CheckBox cb=(CheckBox)dgi.FindControl("CheckBox1");//在当前的空器中搜索控件
+				if(cb.Checked)
+					a.Add(i.ToString());
+				i++;
+			}
+			TextBox1.Text="ID=";
+			DataSet ds = (DataSet)Session["MyDataSet"];
+			DataTable dt = ds.Tables["MyList"];
+			int j=0;
+			for(i=0;i<a.Count;i++)
+			{
+				j=int.Parse(a[i].ToString());//索引
+				TextBox1.Text+=dt.Rows[j]["firstname"].ToString()+",";//相应的项				
+			}
+
+		}
+
+		private void LinkButton1_Click(object sender, System.EventArgs e)
+		{
+			//取消选择
+			foreach(DataGridItem dgi in this.DataGrid1.Items)
+			{
+				CheckBox cb=(CheckBox)dgi.FindControl("CheckBox1");
+				cb.Checked=false;
+			}
+		}
+
+	}
+}

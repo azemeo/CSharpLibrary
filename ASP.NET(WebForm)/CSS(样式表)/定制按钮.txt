@@ -1,0 +1,9 @@
+1.css文件中
+INPUT.button {
+	BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #336699 1px solid; FONT-WEIGHT: bold; FONT-SIZE: 8pt; BORDER-LEFT: #336699 1px solid; CURSOR: hand; COLOR: #ffffff; BORDER-BOTTOM: #666666 1px solid; FONT-FAMILY: 'Arial', 'Helvetica'; BACKGROUND-COLOR: #003366
+}
+
+2.使用文件中(ASP/HTML按钮都可)
+<asp:Button class="button" id="Button1" style="Z-INDEX: 101; LEFT: 136px; POSITION: absolute; TOP: 232px"
+					runat="server" Text="Button"></asp:Button><INPUT class="button" style="Z-INDEX: 102; LEFT: 320px; POSITION: absolute; TOP: 232px"
+					type="button" value="Button">

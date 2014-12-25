@@ -1,0 +1,19 @@
+1.安装 Duwamish
+C:\Program Files\Microsoft Visual Studio .NET 2003\Enterprise Samples\Duwamish 7.0 CS\duwamish.msi
+
+readme.htm 为安装说明文件.
+
+为安装后虚拟目录
+
+C:\Program Files\Microsoft Visual Studio .NET 2003\Enterprise Samples\Duwamish 7.0 CS\web
+
+设置 Web为默认的项目
+设置 default.aspx为起始页。
+
+
+用户界面——Web  
+业务外观——BusinessFacade  
+业务规则——BusinessRules  
+数据访问——DataAccess 
+
+每个项目的输出(*.dll)到Web\Bin目录下

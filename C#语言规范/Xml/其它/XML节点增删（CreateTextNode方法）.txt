@@ -1,0 +1,74 @@
+1.Guitars.xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Guitars>
+	<Guitar Image="MySG.jpg">
+		<Make>Gibson</Make>
+		<Model>SG</Model>
+		<Year>1997</Year>
+		<Color>Tobacco Sunburst</Color>
+		<Neck>Rosewood</Neck>
+	</Guitar>
+	<Guitar Image="Mystrat.jpg" PreviousOwner="Eric Clapton">
+		<Make>Fender</Make>
+		<Model>Stractocaster</Model>
+		<Year>1990</Year>
+		<Color>Black</Color>
+		<Neck>Maple</Neck>
+	</Guitar>
+</Guitars>
+
+2.Class1.cs
+using System;
+using System.Xml;
+namespace MyXML1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			XmlDocument doc=new XmlDocument();
+			doc.Load("Guitars.xml");
+			//删除第一个Guitars元素
+			XmlNode root=doc.DocumentElement;
+			root.RemoveChild(root.FirstChild);
+			//创建元素节点
+			XmlNode guitar=doc.CreateElement("Guitar");
+			XmlNode elem1=doc.CreateElement("Make");
+			XmlNode elem2=doc.CreateElement("Model");
+			XmlNode elem3=doc.CreateElement("Year");
+			XmlNode elem4=doc.CreateElement("Color");
+			XmlNode elem5=doc.CreateElement("Neck");
+			//创建文本的节点
+			XmlNode text1=doc.CreateTextNode("Gibson");
+			XmlNode text2=doc.CreateTextNode("Les Paul");
+			XmlNode text3=doc.CreateTextNode("1959");
+			XmlNode text4=doc.CreateTextNode("Gold");
+			XmlNode text5=doc.CreateTextNode("Rosewood");
+			//把文本节点附给元素节点
+			elem1.AppendChild(text1);
+			elem2.AppendChild(text2);
+			elem3.AppendChild(text3);
+			elem4.AppendChild(text4);
+			elem5.AppendChild(text5);
+			//把元素节点附给Guitar
+			guitar.AppendChild(elem1);
+			guitar.AppendChild(elem2);
+			guitar.AppendChild(elem3);
+			guitar.AppendChild(elem4);
+			guitar.AppendChild(elem5);
+			//把Guitar节点附给文档节点
+			root.AppendChild(guitar);
+			//保存文档
+			doc.Save("Guitars.xml");
+
+		}
+
+	}
+}

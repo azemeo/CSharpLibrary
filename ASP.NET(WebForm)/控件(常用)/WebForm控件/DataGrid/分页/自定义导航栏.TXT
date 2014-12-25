@@ -1,0 +1,38 @@
+6.自定义导航栏
+如果要改变单个按钮的风格，而要响应ItemCreated事件。
+1*.aspx
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 80px; POSITION: absolute; TOP: 96px" runat="server"
+					AllowPaging="True" AutoGenerateColumns="False" PageSize="3">
+					<Columns>
+						<asp:BoundColumn DataField="ProductID" HeaderText="ID"></asp:BoundColumn>
+						<asp:BoundColumn DataField="ProductName" HeaderText="Name"></asp:BoundColumn>
+						<asp:BoundColumn DataField="UnitPrice" HeaderText="Price"></asp:BoundColumn>
+					</Columns>
+					<PagerStyle BorderWidth="1px" BorderStyle="Dotted" BackColor="#FFC080" Mode="NumericPages"></PagerStyle>
+				</asp:DataGrid></FONT>
+		</form>
+2.*.aspx.cs
+private void DataGrid1_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			ListItemType elemType=e.Item.ItemType;//获得被创建项的类型
+			if(elemType==ListItemType.Pager)//确定是页导航栏
+			{
+				TableCell pager=(TableCell)e.Item.Controls[0];
+				for(int i=0;i<pager.Controls.Count;i+=2)
+				{
+					Object o=pager.Controls[i];
+					if(o is LinkButton)
+					{
+						LinkButton h=(LinkButton)o;
+						h.Text="["+h.Text+"]";
+					}
+					else
+					{
+						Label l=(Label)o;
+						l.Text="页 "+l.Text;
+					}
+				}
+			 }
+		 }

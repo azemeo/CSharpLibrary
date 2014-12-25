@@ -1,0 +1,19 @@
+
+a1.aspx
+function SetUnit()
+			{
+				window.showModalDialog('b1.aspx?ModelID=HR_XXGL','','dialogHeight: 431px; dialogWidth: 530px;  edge: Raised; center: Yes; help: no; resizable: No; status: no;');
+			}
+
+
+
+
+b1.aspx.cs
+
+PageLoad
+ViewState["ModelID"]=Request.Params["ModelID"];
+DepTree.ModelId=ViewState["ModelID"].ToString();
+
+
+Click
+ViewState["ModelID"]

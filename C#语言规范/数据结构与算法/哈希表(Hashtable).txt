@@ -1,0 +1,35 @@
+using System;
+using System.Collections;
+
+namespace MyHashTable
+{
+	/// <summary>
+	/// 哈希表。
+	/// 速度快
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Hashtable myHashtable=new Hashtable();
+			myHashtable.Add("Add","AddButton");//添加元素
+			myHashtable.Add("Delete","DelButton");
+			myHashtable.Add("Edit","EditButton");
+			PrintKeysAndValues(myHashtable);//打印
+
+		}
+		public static void PrintKeysAndValues( Hashtable myList )  
+		{
+			IDictionaryEnumerator myEnumerator = myList.GetEnumerator();
+			Console.WriteLine( "\t-KEY-\t-VALUE-" );
+			while ( myEnumerator.MoveNext() )
+				Console.WriteLine("\t{0}:\t{1}", myEnumerator.Key, myEnumerator.Value);
+			Console.WriteLine();
+		}
+
+	}
+}

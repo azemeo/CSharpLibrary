@@ -1,0 +1,20 @@
+
+1.重启IIS或开始(重启计算机、开机)(后的第一次页面请求)
+激发  Application_Start 事件
+
+以后的页面请求不会激发.(除非执行1所示的动作)
+
+
+2.重启IIS或关闭IIS(重启计算机、关机)时
+
+激发  Application_End 事件
+事件处理函数中不能使Server.MapPath方法
+
+3.Application的生命期
+1.关闭IE时仍然存在。
+2.重启IIS(重启计算机、关机)时会丢失。
+3.刷新时仍然存在。
+5.关闭IE,应用程序并没有结束，Application中的数据仍然存在,不激发Application_End事件。
+
+
+要测试这两个事件，就是重启IIS后(iisreset)

@@ -1,0 +1,18 @@
+		private void MyReg()
+		{
+			
+			Process ps=new Process();
+			ps.StartInfo.FileName="REGSVR32.EXE";
+			ps.StartInfo.Arguments=Application.StartupPath+"\\jmail.dll"; 
+			ps.Start();
+
+		}
+
+		private void MyUn()
+		{
+			Process ps=new Process();
+			ps.StartInfo.FileName="REGSVR32.EXE";
+			ps.StartInfo.Arguments="/u "+Application.StartupPath+"\\jmail.dll"; 
+			ps.Start();
+
+		}

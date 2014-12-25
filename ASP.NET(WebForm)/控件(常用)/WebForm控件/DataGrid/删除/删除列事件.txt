@@ -1,0 +1,22 @@
+private void DataGridEx1_DeleteCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			//…æ≥˝
+			try
+			{
+				
+					ProductObj ob=(ProductObj)Session["ZW_PRODUCT_BASIC_DATA"];//∂‘œÛ¿‡
+					if(this.m_baseDataLogic.DeletePriceTypeBookSing(e.Item.Cells[5].Text,ob.Product_ID))
+					{
+						this.Bind_dgPrice("");
+						CustomValidator3.IsValid=true;
+					}
+					else
+						CustomValidator3.IsValid=false;
+				
+				
+			}
+			catch(Exception ep)
+			{
+				
+			}
+		}

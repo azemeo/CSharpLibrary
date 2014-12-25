@@ -1,0 +1,38 @@
+1.代码文件
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			TemplateColumn tc=new TemplateColumn();
+			tc.HeaderText="Employee Name";
+			tc.ItemTemplate=Page.LoadTemplate("template.ascx");
+			DataGrid1.Columns.Add(tc);
+
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select titleofcourtesy,employeeid,firstName,lastName,country,title From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+2.模板文件
+<%@ Language="c#" %>
+<%# 
+DataBinder.Eval(((DataGridItem)Container).DataItem,"titleofcourtesy")+
+"<b>"+
+DataBinder.Eval(((DataGridItem)Container).DataItem,"LastName")+
+"</b>"+","+
+DataBinder.Eval(((DataGridItem)Container).DataItem,"FirstName") 
+%>

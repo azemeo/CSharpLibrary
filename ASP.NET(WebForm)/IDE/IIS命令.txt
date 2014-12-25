@@ -1,0 +1,19 @@
+IISRESET.EXE (c) Microsoft Corp. 1998-1999
+
+Usage:
+iisreset [computername]
+
+    /RESTART            停止然后重新启动所有 Internet 服务。
+    /START              启动所有 Internet 服务。
+    /STOP               停止所有 Internet 服务。
+    /REBOOT             重新启动计算机。
+    /REBOOTONERROR      如果在启动、停止或重新启动 Internet 服务时发生错误，则重
+新启动计算机。
+    /NOFORCE            假如尝试停止失败时，不要强制终止 Internet 服务
+。
+    /TIMEOUT:val        指定超时值(以秒为单位)来等待  Internet 服务的成功终止。
+       假如 REBOOTONERROR 参数已被指定，超时后可以重新启动计算机。
+                        默认值为 20 秒重新开始，60 秒停止，0 秒重新启动 。
+    /STATUS             显示所有 Internet 服务的状态。
+    /ENABLE             在本地系统上启用 Internet 服务的重新启动。
+    /DISABLE            在本地系统上禁用 Internet 服务的重新启动。

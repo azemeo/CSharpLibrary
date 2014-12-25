@@ -1,0 +1,13 @@
+protected  override  bool  ProcessDialogKey(System.Windows.Forms.Keys    aKey)  
+		{  
+			if  (aKey  ==  Keys.Enter && this.ActiveControl is TextBox)  
+			{  
+ 
+//				SendKeys.Send(  "{TAB}  ");  
+				SendKeys.Send(  "{TAB}");  
+				return  true;  
+ 
+			}  
+			base.ProcessDialogKey(aKey);  
+			return  false;  
+		}

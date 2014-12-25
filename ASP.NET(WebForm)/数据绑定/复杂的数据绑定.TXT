@@ -1,0 +1,4 @@
+将列表控件或者重复控件绑定到一个或多个数据列时就会了现复杂的数据绑定。
+
+列表控件:(DropDownList、CheckBoxList、RadioButtonList、ListBox)
+重复控件:(Repeater、DataList、DataGrid)

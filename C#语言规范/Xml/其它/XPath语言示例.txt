@@ -1,0 +1,16 @@
+XPath:XML查询语言，相当于SQL Server中的SQL语言
+---------------------
+axis::node-test[pre][pre2][...]
+---------------------
+/Guitars/Guitar                Guitars根元素下的所有名为Guitar的子元素
+/Guitars/Guitar/@Image         Guitars根元素下的所有名为Guitar的子元素名为Image的属性
+//Guitar                       任意位置的Guitar元素
+//Guitars/*                    根目录下所有元素
+//Guitars/@*                   文件任意位置的Guitar元素的所有属性
+/descend-or-self::Guitar       Guitar元素要么的根元素的后代，要么自己就是
+//Guitar[@Image]               有Image属性的元素Guitar
+//Guitar[@Image="MyStart.jpg"] 有Image属性的元素Guitar且值"MyStart.jpg"
+//Guitar[Year>1980]            包含了Year元素，且值为>1980的Guitar元素
+//Guitar[Year>1980 and Make="Fender"] 制造日期在1980后且由Fender制作制造的吉它
+//Guitar[start-with(Make,"G")] 含有Make元素且值第一个字母以G开头的
+

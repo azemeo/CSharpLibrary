@@ -1,0 +1,37 @@
+在.NET中使用ADO
+
+从COM库生成的程序集可能不能跨.NET框架的不同版本。对于新的版本必须重新生成。
+
+>tlbimp msado15.dll  可生成msado.dll
+
+另外，在项目解决方案右击一个[添加引用]的节点,再选择一个COM库。VS会自动生成。
+
+
+
+
+
+
+
+引用:COM选择卡:Microsoft ActiveX Data Objects 2.8 Library
+
+using ADODB;
+using System.Text;
+
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			Recordset rs=new Recordset();//创建新的记录集
+			string strCommandText="Select firstname from employees";
+			string strConn="Provider=SQLOLEDB;Data Source=localhost;Database=Northwind;UID=sa;PWD=;";
+			rs.Open(strCommandText,strConn,CursorTypeEnum.adOpenForwardOnly,
+				LockTypeEnum.adLockReadOnly,1);
+			StringBuilder sb=new StringBuilder("");
+			while(!rs.EOF)
+			{
+				
+				sb.Append(rs.Fields["firstname"].Value.ToString());
+				sb.Append(",");
+				rs.MoveNext();
+			}
+			label1.Text=sb.ToString();
+		}

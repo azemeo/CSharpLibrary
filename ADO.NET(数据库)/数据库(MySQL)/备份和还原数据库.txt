@@ -1,0 +1,1 @@
+C:\mysql\bin>mysqldump mysql> samp_db2003-6-16

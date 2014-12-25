@@ -1,0 +1,1 @@
+Graphics g=Graphics.FromImage(pbxMiniature_Pic.Image);

@@ -1,0 +1,5 @@
+RangValidator
+Minimumvalue=0
+MaxviewState=999999.99
+Type=Integer 重要
+ErrorMessage=数字太大,已超出允许的范围

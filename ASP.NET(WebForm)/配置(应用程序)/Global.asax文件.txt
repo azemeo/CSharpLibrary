@@ -1,0 +1,87 @@
+
+
+Global.asax文件
+收容了应用程序级别的事件外处理程序，知用于整个应用程序的声明，及其它全局应用程序元素。
+ASP.NET程序不一定要有Global.asax,如果有只能有一个，必须放在应用程序的虚拟目录下。
+
+支持三种类型的元素
+全局指令、
+全局事件处理程序、
+全局对象标记:以声明的方式创建对象的实例
+
+1.全局指令:
+@Application(只能有一个):代码后置
+@Import(无数):导入ASP.NET默认不导入的命名空间
+@Assembly(无数):标识使用的程序集
+
+Global.asax
+<%@ Application Codebehind="Global.asax.cs" Inherits="MyApp.Global" %>
+
+Global.asax.cs
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Web;
+using System.Web.SessionState;
+
+namespace MyApp 
+{
+	/// <summary>
+	/// Global 的摘要说明。
+	/// </summary>
+	public class Global : System.Web.HttpApplication
+	{
+		public Global()
+		{
+			InitializeComponent();
+		}	
+		//程序启动时激发
+		protected void Application_Start(Object sender, EventArgs e)
+		{
+
+		}
+                //会话开始时激发
+		protected void Session_Start(Object sender, EventArgs e)
+		{
+       
+		}
+                //每个请求开始时
+		protected void Application_BeginRequest(Object sender, EventArgs e)
+		{
+
+		}
+                //每个请求结束时
+		protected void Application_EndRequest(Object sender, EventArgs e)
+		{
+
+		}
+                //用来对调用者进行验证
+		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+		{
+
+		}
+                //引发未处理的异常时激发
+		protected void Application_Error(Object sender, EventArgs e)
+		{
+                //保存日志
+                //向管理员发送电子邮件
+		}
+                //会话结束时激发
+		protected void Session_End(Object sender, EventArgs e)
+		{
+
+		}
+                //程序结束时激发(或应用程序已经有20分钟没有请求)
+		protected void Application_End(Object sender, EventArgs e)
+		{
+                //关闭封装在非托管模块中的数据库连接及其它资源
+                //向永久性媒体写数据
+		}		
+
+	}
+}
+
+
+全局对象标记:以声明的方式创建对象的实例
+
+<object id="MyShoppingCart" class="ShoppingCart" scope="session" runat="server"/>

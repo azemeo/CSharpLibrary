@@ -1,0 +1,6 @@
+<span style="BORDER-RIGHT:green 1px solid;  BORDER-TOP:green 1px solid;  LEFT:304px;  OVERFLOW:hidden;  BORDER-LEFT:green 1px solid;  BORDER-BOTTOM:green 1px solid;  POSITION:absolute;  TOP:200px">
+			<SELECT style="MARGIN: -2px">
+				<option selected>1111</option>
+				<option>11111111111111</option>
+				<option>111111111</option>
+			</SELECT></span>

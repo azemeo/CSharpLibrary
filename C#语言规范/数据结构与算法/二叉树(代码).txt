@@ -1,0 +1,130 @@
+using System;
+
+namespace BSTExample
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			BinaryTree btree = new BinaryTree();
+			btree.Root = new Node(1);
+			btree.Root.Left = new Node(2);
+			btree.Root.Right = new Node(3);
+			btree.Root.Left.Left = new Node(4);
+			btree.Root.Right.Right = new Node(5);
+			btree.Root.Left.Left.Right = new Node(6);
+			btree.Root.Right.Right.Right = new Node(7);
+			btree.Root.Right.Right.Right.Right = new Node(8);
+
+		}
+	}
+}
+
+using System;
+
+namespace BSTExample
+{
+	//节点类
+	public class Node
+	{
+
+		private object data;//存储的数据
+		private Node left, right;//左右孩子
+		#region Constructors
+
+		public Node():this(null){}
+		public Node(object data):this(data,null,null){}
+		public Node(object data, Node left, Node right)
+		{
+			this.data = data;
+			this.left = left;
+			this.right = right;
+		}
+
+		#endregion
+
+		#region Public Properties
+		public object Value
+		{
+			get
+			{
+				return data;
+			}
+			set
+			{
+				data = value;
+			}
+		}
+		public Node Left
+		{
+			get
+			{
+				return left;
+			}
+			set
+			{
+				left = value;
+			}
+
+		}
+		public Node Right
+		{
+			get
+			{
+				return right;
+			}
+			set
+			{
+				right = value;
+			}
+
+		}
+		#endregion
+
+	}
+	//二叉树
+	public class BinaryTree
+	{
+		private Node root;
+
+		public BinaryTree()
+		{
+			root = null;
+		} 
+
+		#region Public Methods
+		public virtual void Clear()
+		{
+			root = null;
+		}
+		#endregion 
+
+		#region Public Properties
+
+		public Node Root
+		{
+
+			get
+			{
+				return root;
+			}
+			set
+			{
+				root = value;
+			}
+
+		}
+
+		#endregion
+
+	}
+
+
+}

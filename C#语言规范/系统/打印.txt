@@ -1,0 +1,24 @@
+名称空间System.Drawing.Printing
+基类PrintDocument
+PrintController类，控制打印的任务流
+PrinterSettings,获得/设置打印机配置,打印设置对话框。
+PrintDialog类
+---------------------------------------
+PrintDocument的Print()方法启动打印序列
+---------------------------------------
+实践
+1.放置printDocument控件
+a.PrintPage事件处理程序添加代码
+   e.Graphics.DrawString("test",new Font("Arial",10),Brushes.Black,x,y);
+b.打印菜单项事件处理程序添加代码
+   printDocument1.Print();
+好，完成打印。
+2.放置PageSetupDialog控件
+a.设置Document属性为printDocument1
+b.添加打印设置菜单项代码:
+PageSetupDialog.ShowDialog();
+3.放置PrintPreviewDialog
+a.设置Document属性为printDocument1
+b.添加菜单项事件:
+printPreviewDialog1.ShowDialog();
+

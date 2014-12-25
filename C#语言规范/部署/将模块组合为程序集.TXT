@@ -1,0 +1,60 @@
+程序集(assebmly):包括一个或多个类型定义文件和资源文件的集合。
+其中有有一个文件叫manifest(清单):另一组元数据的集合,其中包括文件的名称、语言文件、发布者、公有导出类型，组成该程序集的所有文件。
+
+程序集的特性：
+定义了可重用的类型
+标识有一个版本号
+程序集可以包含与之相关的安全信息。
+
+程序集提出的原因是：允许我们分离可重用类型的逻辑表示和物理表示。
+
+使用多文件程序集:
+1.可以将类型分别实现在不同的文件中。
+2.可以按需要向程序集中添加资源或数据文件。
+3.可以使我们的程序集中包含用不同语言实现的类型。
+
+程序集是一个可重用、可实施版本策略和安全策略的单元。
+
+VS.NET不支持创建多文件的程序集，必须使用命令行工具。
+
+csc /t:module RUT.cs                (产生文件RUT.netmodule)
+
+csc /out:fut.dll /t:library /addmodule:RUT.netmodule Fut.cs (产生文件fut.dll)
+
+Rut.netmodule(包括自向的IL及元数据)
+fut.dll(包括自向的IL及元数据,清单(程序集文件:自身,RUT.module;公有程序集类型:自身,RUT.moduel))
+
+
+csc s5.cs /r:fut.dll
+
+1.编译时Rut.netmodule必须在。
+2.如s5中没有用到RUT.cs的类型,运行时Rut.netmodule可以不在。
+
+文件
+fut.cs
+public class c2
+{
+	public string name="huyi";
+}
+
+fut.cs
+public class c1
+{
+	public string name="gelifeng";
+}
+
+s5.cs
+using System;
+public class App
+{
+	static public void Main(string[] args)
+	{
+		//c1 cc1=new c1();
+		//Console.WriteLine(cc1.name);
+		c2 cc2=new c2();
+		Console.WriteLine(cc2.name);	
+	}
+}
+
+
+

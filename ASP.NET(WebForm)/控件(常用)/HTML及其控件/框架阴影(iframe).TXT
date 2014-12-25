@@ -1,0 +1,31 @@
+<%@ Page language="c#" Codebehind="MyGrid2.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MyGrid2" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyGrid</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<style>
+		IFRAME { BORDER: solid 1px black; FILTER: progid:DXImageTransform.Microsoft.dropshadow(OffX=2,OffY=2,Color='gray',Positive='true'); }
+		</style>
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">		
+			<iframe frameborder="no" name="frInfo" style="Z-INDEX: 103; LEFT: 312px; WIDTH: 308px; POSITION: absolute; TOP: 24px; HEIGHT: 216px">
+			</iframe>
+		</form>
+	</body>
+</HTML>
+
+关键时这两段
+
+<style>
+		IFRAME { BORDER: solid 1px black; FILTER: progid:DXImageTransform.Microsoft.dropshadow(OffX=2,OffY=2,Color='gray',Positive='true'); }
+		</style>
+
+
+<iframe frameborder="no" name="frInfo" style="Z-INDEX: 103; LEFT: 312px; WIDTH: 308px; POSITION: absolute; TOP: 24px; HEIGHT: 216px">
+			</iframe>
+
+

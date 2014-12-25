@@ -1,0 +1,25 @@
+#define Emay
+#define TCL
+#define ShenKe
+
+//#undef Emay
+#undef TCL
+#undef ShenKe
+
+
+			//Ìõ¼þ±àÒë
+			pbTCL.Visible=false;
+			pbSheng.Visible=false;
+			#if Emay
+			//ÎÞ
+			#endif
+			#if TCL
+				pbTCL.Left=8;
+				pbTCL.Top=10;
+				pbTCL.Visible=true;
+			#endif
+			#if ShenKe
+				pbSheng.Left=8;
+				pbSheng.Top=10;
+				pbSheng.Visible=true;
+			#endif

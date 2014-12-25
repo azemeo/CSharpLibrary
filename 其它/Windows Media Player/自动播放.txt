@@ -1,0 +1,2 @@
+autoStart:ture
+当用户设置playlist或URL属性时

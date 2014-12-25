@@ -1,0 +1,7 @@
+1.在页面中定义DataKeyField
+<asp:datagrid id="DataGrid1" DataKeyField="employeeid">	
+2.在代码中访问
+int nEmpID=(int)DataGrid1.DataKeys[e.Item.ItemIndex];
+	
+				
+

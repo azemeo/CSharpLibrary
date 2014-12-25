@@ -1,0 +1,15 @@
+在代码中设置控件的风格		
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				fname.Style["font-family"]="verdana";
+				fname.Style["border"]="solid 1px black";
+				fname.Style["background-color"]="beige";
+
+				lname.Style["font-family"]="verdana";
+				lname.Style["border"]="solid 1px black";
+				lname.Style["background-color"]="beige";
+			}
+		}

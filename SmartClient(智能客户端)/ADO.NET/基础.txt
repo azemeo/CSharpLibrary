@@ -1,0 +1,14 @@
+.NET CF 提供了三种持久性存储方法:
+XML,SQL CE,SQL Server.
+
+数据同步选择
+合并复制
+远程数据访问
+Web Service
+ActiveSync (桌面Acess(*.mdb)和Pocket Acess(*.cdb)文件同步。
+远程API
+
+ADO.NET 一组访问和管理内存数据的类。
+
+两层连接
+三层非连接

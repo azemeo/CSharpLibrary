@@ -1,0 +1,1 @@
+MessageBox.Show(System.Security.Principal.WindowsIdentity.GetCurrent().Name);

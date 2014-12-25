@@ -1,0 +1,53 @@
+<TABLE id="Table1" style="FONT-SIZE: 9pt; WIDTH: 600px; HEIGHT: 256px" cellSpacing="1"
+							cellPadding="1" width="600" border="0">
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款单ID</TD>
+								<TD>
+									<asp:Label id="Label2" runat="server">1000100001</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款用户ID</TD>
+								<TD>
+									<asp:Label id="Label3" runat="server">wang</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款所属业务机会</TD>
+								<TD>
+									<asp:Label id="Label4" runat="server">业务机会1</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款金额</TD>
+								<TD>
+									<asp:Label id="Label5" runat="server">50000</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款时间</TD>
+								<TD>
+									<asp:Label id="Label6" runat="server">2004-11-20</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">要求归还时间</TD>
+								<TD>
+									<asp:Label id="Label7" runat="server">2005-11-20</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">实际归还时间</TD>
+								<TD>
+									<asp:Label id="Label8" runat="server">2004-10-01</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款状态标识</TD>
+								<TD>
+									<asp:Label id="Label9" runat="server">全部归还</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">借款说明</TD>
+								<TD>
+									<asp:Label id="Label10" runat="server">说明说明说明，说明说明说明。</asp:Label></TD>
+							</TR>
+							<TR>
+								<TD style="WIDTH: 121px" bgColor="#cccccc">备注</TD>
+								<TD>
+									<asp:Label id="Label11" runat="server">备注备注备注备注，备注备注，备注备注备注备注备注备注备注，备注备注备注备注。</asp:Label></TD>
+							</TR>
+						</TABLE>

@@ -1,0 +1,6 @@
+增加Com组件Microsoft 浏览器			
+int Zero=0;
+			object OZero=Zero;
+			string Str="";
+			object OStr=Str;
+			axWebBrowser1.Navigate("http://localhost/myasp",ref OZero,ref OStr,ref OStr,ref OStr);

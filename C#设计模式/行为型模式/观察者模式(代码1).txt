@@ -1,0 +1,355 @@
+1.Form1.cs 数据
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace Observer
+{
+	/// <summary>
+	/// 主窗体实现了接口.Subject
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form, Subject
+	{
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.RadioButton opRed;
+		private System.Windows.Forms.RadioButton opGreen;
+		private System.Windows.Forms.RadioButton opBlue;
+		private ArrayList observers;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+
+		public Form1()
+		{
+			InitializeComponent();
+			init();
+		}
+		private void init() {
+			EventHandler evh = new EventHandler (opButton_Click);
+			opRed.Click += evh;
+			opBlue.Click += evh;
+			opGreen.Click += evh;
+			observers =  new ArrayList ();
+			//创建观察者1-ListObs:将选择中颜色增加在列表框中
+			ListObs lobs = new ListObs (this);//复杂：进行了两次相互调用,从而可以日后调用.
+			lobs.Show ();
+			//创建观察者2-ColObServer:将选择中颜色显示出来
+			ColObserver colObs = new ColObserver (this);
+			colObs.Show();
+		}
+		//注册该类中感兴趣的数据
+		public void registerInterest(Observer obs ) {
+			observers.Add (obs);
+		}
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if (components != null) 
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.opRed = new System.Windows.Forms.RadioButton();
+			this.opGreen = new System.Windows.Forms.RadioButton();
+			this.opBlue = new System.Windows.Forms.RadioButton();
+			this.groupBox1.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.AddRange(new System.Windows.Forms.Control[] {
+																					this.opBlue,
+																					this.opGreen,
+																					this.opRed});
+			this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.groupBox1.Location = new System.Drawing.Point(32, 24);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(160, 144);
+			this.groupBox1.TabIndex = 0;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Select colors";
+			// 
+			// opRed
+			// 
+			this.opRed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.opRed.ForeColor = System.Drawing.Color.Red;
+			this.opRed.Location = new System.Drawing.Point(32, 32);
+			this.opRed.Name = "opRed";
+			this.opRed.TabIndex = 0;
+			this.opRed.Text = "Red";
+			
+			// 
+			// opGreen
+			// 
+			this.opGreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.opGreen.ForeColor = System.Drawing.Color.FromArgb(((System.Byte)(0)), ((System.Byte)(192)), ((System.Byte)(0)));
+			this.opGreen.Location = new System.Drawing.Point(32, 64);
+			this.opGreen.Name = "opGreen";
+			this.opGreen.Size = new System.Drawing.Size(96, 16);
+			this.opGreen.TabIndex = 1;
+			this.opGreen.Text = "Green";
+			// 
+			// opBlue
+			// 
+			this.opBlue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.opBlue.ForeColor = System.Drawing.Color.Blue;
+			this.opBlue.Location = new System.Drawing.Point(32, 88);
+			this.opBlue.Name = "opBlue";
+			this.opBlue.Size = new System.Drawing.Size(80, 16);
+			this.opBlue.TabIndex = 2;
+			this.opBlue.Text = "Blue";
+			// 
+			// Form1
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(224, 205);
+			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.groupBox1});
+			this.Name = "Form1";
+			this.Text = "Observer demo";
+			this.groupBox1.ResumeLayout(false);
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
+		static void Main() 
+		{
+			Application.Run(new Form1());
+		}
+
+		private void opButton_Click(object sender, System.EventArgs e) {
+			RadioButton but = (RadioButton)sender;
+			//遍历观察者集合,并调用每个观察者的方法sendNotify
+			for(int i=0; i< observers.Count ; i++ ) {
+				Observer obs = (Observer)observers[i];
+				obs.sendNotify (but.Text );//将单选的文本以消息发送
+			}
+		}
+	}
+}
+
+2.Observer.cs 观察者接口
+using System;
+
+namespace Observer
+{
+	/// <summary>
+	/// 观察者.
+	/// </summary>
+	public interface Observer 	{
+		void sendNotify(string message);
+	}
+}
+3.Subject.cs 数据接口
+using System;
+
+namespace Observer
+{
+	/// <summary>
+	/// 目标.
+	/// </summary>
+	public interface Subject 	{
+		 void registerInterest(Observer obs);
+	}
+}
+4.ColObserver.cs (观察者1)
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Observer
+{
+	/// <summary>
+	/// Summary description for ColObserver.
+	/// </summary>
+	public class ColObserver : System.Windows.Forms.Form, Observer 	{
+		private System.ComponentModel.Container components = null;
+		private Brush bBrush;
+		private System.Windows.Forms.PictureBox pic;
+		private Font fnt;
+		private Hashtable colors;
+		private string colName;
+		//-----
+		public ColObserver(Subject subj) 		{
+			InitializeComponent();
+			init(subj);
+		}
+		//-----
+		private void init(Subject subj) {
+			subj.registerInterest (this);
+			fnt = new Font("arial", 18, FontStyle.Bold);
+			bBrush = new SolidBrush(Color.Black);
+			pic.Paint+= new PaintEventHandler (paintHandler);
+			colors = new Hashtable ();
+			colors.Add("red", Color.Red );
+			colors.Add ("blue", Color.Blue );
+			colors.Add ("green", Color.Green );
+			colName = "";
+		}
+		//-----
+		public void sendNotify(string message) {
+			//接收消息
+			colName = message;
+			message = message.ToLower ();
+			Color col = (Color)colors[message];
+			pic.BackColor = col;
+		}
+		//-----
+		private void paintHandler(object sender, PaintEventArgs e) {
+			 Graphics g = e.Graphics ;
+			 g.DrawString(colName, fnt, bBrush, 20, 40);
+		}
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.pic = new System.Windows.Forms.PictureBox();
+			this.SuspendLayout();
+			// 
+			// pic
+			// 
+			this.pic.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.pic.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pic.Location = new System.Drawing.Point(24, 24);
+			this.pic.Name = "pic";
+			this.pic.Size = new System.Drawing.Size(184, 152);
+			this.pic.TabIndex = 0;
+			this.pic.TabStop = false;
+			// 
+			// ColObserver
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(248, 213);
+			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.pic});
+			this.Name = "ColObserver";
+			this.Text = "Color observer";
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+	}
+}
+5.ListObs.cs (观察者 2)
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Observer
+{
+	/// <summary>
+	/// 观察者 ListObs.实现了Observer接口
+	/// </summary>
+	public class ListObs : System.Windows.Forms.Form, Observer
+	{
+		private System.Windows.Forms.ListBox lsColors;
+		/// <summary>
+		/// Adds text of color to list box
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+
+		public ListObs(Subject subj) 		{
+			InitializeComponent();
+			init(subj);
+		}
+		//------
+		public void init(Subject subj) {
+			subj.registerInterest (this);//注册感兴趣的数据(把自己添加在通知列表中)
+		}
+		//------
+		public void sendNotify(string message){
+			//接收消息
+			lsColors.Items.Add(message);
+		}
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.lsColors = new System.Windows.Forms.ListBox();
+			this.SuspendLayout();
+			// 
+			// lsColors
+			// 
+			this.lsColors.Location = new System.Drawing.Point(16, 16);
+			this.lsColors.Name = "lsColors";
+			this.lsColors.Size = new System.Drawing.Size(216, 173);
+			this.lsColors.TabIndex = 0;
+			// 
+			// ListObs
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(264, 213);
+			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.lsColors});
+			this.Name = "ListObs";
+			this.Text = "List observer";
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+	}
+}

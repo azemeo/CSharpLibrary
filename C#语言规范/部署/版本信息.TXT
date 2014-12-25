@@ -1,0 +1,27 @@
+版本号：依次为：主版本号、次版本号、生成版本号、修订版本号,如2.5.7192.2
+
+前两个版本号面向公众。
+
+后两个版号面向开发者(生成版本号：每天增加一次，修订版本号：同一天生成多次时增加)。
+
+对于VS.NET生成的AssemblyInfo.cs文件中的AssemblyVersion自动生成特性，因避免使用，手工指定程序集版本号的四个部分。
+
+
+
+
+[assembly: AssemblyTitle("ZipMedia main program")]//程序集名称
+[assembly: AssemblyDescription("This assembly contains maininterface")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("The Movecont Company")]//公司名称
+[assembly: AssemblyProduct("ZipMedia")]//产品名称
+[assembly: AssemblyCopyright("Copyright (C) 2005 Glen Ge")]//版权
+[assembly: AssemblyTrademark("ZipMeida is a registered trademark of the Movecont Company")]//商标
+[assembly: AssemblyCulture("")]	
+
+[assembly: AssemblyFileVersion("1.1.0.0")]//程序集文件版本(辅助:Win32资源,设置前两个版本号，如果此程序未随1.0发布，而是2.0新增，版本可以比产品版要小)
+[assembly: AssemblyInformationalVersion("2.0.0.0")]//产品版本(辅助:Win32资源,设置前两个版本号，为用户所关心,VS不自动生成此属性,可通过Application.ProductVersion得到)	
+[assembly: AssemblyVersion("3.5.719.2")]//程序集版本(重要:CLS关心)
+
+
+在程序中通过如下方式得到用户关心的版本号
+this.label1.Text=Application.ProductVersion;

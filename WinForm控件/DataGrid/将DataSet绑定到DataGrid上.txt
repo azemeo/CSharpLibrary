@@ -1,0 +1,63 @@
+		private void btnLoad_Click(object sender, System.EventArgs e)
+		{
+
+			//传统方法
+			SqlConnection con = new SqlConnection("server=chihy;uid=sa;pwd=;database=MyPattern");
+			try
+			{
+				con.Open();
+
+				SqlDataAdapter da = new SqlDataAdapter("Select * from Person", con);
+				SqlCommandBuilder thisBuilder=new SqlCommandBuilder(da);
+				DataSet ds = new DataSet();
+				da.Fill(ds, "Person");
+				dgMain.SetDataBinding(ds,"Person");
+				dgMain.CurrentRowIndex=0;//定位左则选择列的光标
+				dgMain.Select(0);//定位整行选择的光标
+			}
+			catch(SqlException ex)
+			{
+				string s=ex.Message;
+			}
+			catch(Exception ex)
+			{
+				string s=ex.Message;
+			}
+			finally
+			{
+				con.Close();				
+			}
+		}
+
+private void CreateStyles(DataGrid dg)
+		{
+			DataGridTableStyle style=new DataGridTableStyle();
+			style.MappingName="RecoTable";
+			//
+			DataGridTextBoxColumn customerID=new DataGridTextBoxColumn();
+			customerID.HeaderText="标识";
+			customerID.MappingName="ID";
+			customerID.Width=30;
+			//
+			DataGridTextBoxColumn english=new DataGridTextBoxColumn();
+			english.HeaderText="第一名称";
+			english.MappingName="firstname";
+			english.Width=300;
+			//
+			DataGridTextBoxColumn chinese=new DataGridTextBoxColumn();
+			chinese.HeaderText="第二名称";
+			chinese.MappingName="lastname";
+			chinese.Width=300;
+			//
+			DataGridTextBoxColumn times=new DataGridTextBoxColumn();
+			times.HeaderText="部门编号";
+			times.MappingName="numdep";
+			times.Width=40;
+			style.GridColumnStyles.AddRange(new DataGridColumnStyle[]{customerID,english,chinese,times});
+			dg.TableStyles.Add(style);
+		}
+
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+			CreateStyles(dgMain);
+		}

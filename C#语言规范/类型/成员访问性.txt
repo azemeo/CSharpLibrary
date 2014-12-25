@@ -1,0 +1,5 @@
+Public，选择它的方法是在成员声明中包括 public 修饰符。public 的直观含义是“访问不受限制”。 
+Protected internal（意为受保护或内部的），选择它的方法是在成员声明中包括 protected 和 internal 修饰符。protected internal 的直观含义是“访问仅限于此程序或从包含类派生的类型”。 
+Protected，选择它的方法是在成员声明中包括 protected 修饰符。protected 的直观含义是“访问仅限于包含类或从包含类派生的类型”。 
+Internal，选择它的方法是在成员声明中包括 internal 修饰符。internal 的直观含义是“访问仅限于此程序”。 
+Private，选择它的方法是在成员声明中包括 private 修饰符。private 的直观含义是“访问仅限于包含类型”。

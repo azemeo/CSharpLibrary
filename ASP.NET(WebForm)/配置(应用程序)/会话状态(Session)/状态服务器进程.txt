@@ -1,0 +1,13 @@
+启动状态服务器进程
+net start aspnet_state
+Web.config配置
+<configuration>
+	<appSettings>
+		<add key="connectString" value="server=localhost;database=pubs;uid=sa;pwd=" />		
+	</appSettings>
+<system.web>
+	<sessionState mode="StateServer"
+	stateConnectionString="tcpip=localhost:42424"
+	/>		
+</system.web>
+</configuration>

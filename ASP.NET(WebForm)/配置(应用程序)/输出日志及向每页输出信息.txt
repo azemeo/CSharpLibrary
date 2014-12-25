@@ -1,0 +1,17 @@
+1.向每页输出版权信息
+protected void Application_PostRequestHandlerExecute(Object sender,EventArgs e)
+		{
+			HttpApplication app=(HttpApplication)sender;
+			app.Context.Response.Write("<hr><center><i>"+
+				"Copyright (@)2002 by Me,MySelf,and I</i></center>");
+		}
+2.日志	
+protected void Application_Error(Object sender, EventArgs e)
+		{
+			string msg="Error accesing"+Request.Path+"\n";
+			Server.GetLastError().ToString();
+			//
+			EventLog log=new EventLog();
+			log.Source="My ASP.NET Application";
+			log.WriteEntry(msg,EventLogEntryType.Error);
+		}

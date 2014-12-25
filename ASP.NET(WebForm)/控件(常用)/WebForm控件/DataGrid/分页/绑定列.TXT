@@ -1,0 +1,79 @@
+
+
+如果要手工绑定到DataGrid,要确保显式设置AutoGenerateColumns=false
+
+可以声明或编程来做到这一点，否则在手工创建最后一列后，将加入额外的列（所有自动生成的列）
+
+BoundColumn类的结构属性
+
+DataField                   列所绑定的数据源中的字段名
+
+DataFormatString            显示的格式字符串
+
+FooterText                  在列的脚注部分显示的文本
+
+HeaderImageUrl              显示在列标题部分图像的URL
+
+HeaderText                  标题部分
+
+ReaOnly                     是否可以编辑。如果为true,则不受编辑模式的影响。
+
+SortExpresstion             列进行排序时所用的排序表达式
+
+以上所有属性都可以在(页中声明)或(编程设置)
+
+另外支持FooterStyle 脚注风格
+ItemStyle 列风格
+HeaderStyle 标题风格
+
+1.申明绑定
+
+<asp:datagrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 80px"
+				runat="server" AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="FirstName"></asp:BoundColumn>
+					<asp:BoundColumn DataField="lastname" HeaderText="LastName"></asp:BoundColumn>
+				</Columns>
+			</asp:datagrid>
+
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				//...
+              			DataTable dt=oDS.Tables["EmployeesList"];
+				DataGrid1.DataSource=oDS.Tables["EmployeesList"];
+				DataGrid1.DataBind();
+				//...
+			}
+		}
+2.代码绑定
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				//...
+				DataTable dt=oDS.Tables["EmployeesList"];
+				//增加employeeid列
+				BoundColumn bc=new BoundColumn();
+				bc.DataField="employeeid";
+				bc.HeaderText="ID";
+				DataGrid1.Columns.Add(bc);
+				//增加firstname列
+				BoundColumn bc3=new BoundColumn();
+				bc3.DataField="firstname";
+				bc3.HeaderText="FirstName";
+				DataGrid1.Columns.Add(bc3);
+				//增加lasttname列
+				BoundColumn bc2=new BoundColumn();
+				bc2.DataField="lastname";
+				bc2.HeaderText="LastName";
+				DataGrid1.Columns.Add(bc2);
+				//绑定
+				DataGrid1.DataSource=oDS.Tables["EmployeesList"];
+				DataGrid1.DataBind();
+				//...
+
+			}
+		}

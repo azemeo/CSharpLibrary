@@ -1,0 +1,4 @@
+char ch = 'a'; 
+			short ii = 65;
+			Console.WriteLine("char to ascii:{0}",(short)ch);
+			Console.WriteLine("ascii to char:{0}",(char)ii);

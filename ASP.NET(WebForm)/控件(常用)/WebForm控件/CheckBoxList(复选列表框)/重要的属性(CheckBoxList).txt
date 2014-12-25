@@ -1,0 +1,5 @@
+Items,项目
+RepeatColumns，列数
+RepeatDirection:排列的方向
+Cellpadding内距
+CellSpaceing间距

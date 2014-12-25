@@ -1,0 +1,21 @@
+//保存用户访问站点的次数		
+
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (Session.IsNewSession || Session["Count"] == null) 
+			{
+				Session["Count"] = 1;
+				Label1.Text="Welcome! Because this is your first " +
+					"visit to this site, a new session has been created " +
+					"for you. Your session ID is " + Session.SessionID +
+					".";
+			}
+			else 
+			{
+				Session["Count"] = (int) Session["Count"] + 1;
+				Label1.Text="You have visited this site " +
+					Session["Count"] + " times. Your session ID is still " +
+					Session.SessionID + ".";
+			}
+		}

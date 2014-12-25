@@ -1,0 +1,34 @@
+安装
+IEWebControls.exe
+
+将Toolbar 放到网页上
+
+Items属性是个按钮的集合。
+
+ToolbarButton可以：文本、图像、提示、启用/禁用。
+
+并可以添加各种元素:下拉列表、标签、分隔线等。
+
+响应事件
+
+this.Toolbar1.ButtonClick += new System.EventHandler(this.Toolbar1_ButtonClick);
+
+
+
+		private void Toolbar1_ButtonClick(object sender, System.EventArgs e)
+		{
+			ToolbarButton btn=new ToolbarButton();
+			btn=(ToolbarButton)sender;
+			switch(btn.ID)
+			{
+				case "b1":	
+					this.Label1.Text="b1";
+					break;
+				case "b2":	
+					this.Label1.Text="b2";
+					break;
+				case "b3":	
+					this.Label1.Text="b3";
+					break;
+			}
+		}

@@ -1,0 +1,33 @@
+为模板列中的单选按钮定阅事件
+
+1.默认不能全是选中，否则，事件不触发
+2.单选为动态创建，所以必须在代码中增加事件.
+
+<asp:RadioButton id=rbItem runat="server" >
+
+
+private void DataGridEx1_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			{
+				RadioButton cbIsDefault = (RadioButton)e.Item.Cells[4].FindControl("rbItem");//是否是缺省
+				if(cbIsDefault!=null)
+				{
+					cbIsDefault.AutoPostBack=true;
+					cbIsDefault.CheckedChanged+=new EventHandler(cbIsDefault_CheckedChanged);
+				}
+			}
+		}
+
+		private void cbIsDefault_CheckedChanged(object sender, EventArgs e)
+		{
+			if(!(sender is RadioButton)) return;			
+
+			for(int i=0; i<DataGridEx1.Items.Count; i++)
+			{
+				RadioButton rbtn = (RadioButton)DataGridEx1.Items[i].FindControl("rbItem");
+				rbtn.Checked = false;					
+			}
+			((RadioButton)sender).Checked=true;		
+
+		}

@@ -1,0 +1,35 @@
+基础
+类型(type)又叫组件。
+
+csc /out:s4.exe /t:exe /r:mscorLib.dll s4.cs
+
+mscorlib.dll 包括.NET框架中所有核心类型。
+
+csc /out:s4.exe /t:exe  s4.cs      (C#编译会自动引用该程序集,这行与上一行编译命令等效)
+
+csc s4.cs                          (/out:s4.exe /t:exe是C#编译器默认设置,这行与上一行编译命令等效)
+
+csc /out:s4.exe /t:exe /nostdlib s4.cs (/nostdlib不让C#编译引用程序集mscorLib.dll,编译失败)
+
+
+
+
+
+
+/t:exe        编译为CUI程序
+
+/t:winexe   编译为GUI程序
+
+ILDASM /Adv s4.exe 
+
+(Adv启用高级功能,进入后选择视图\元信息\显示 Ctrl+M)
+(视图\统计，显示文件大小，代码所占的比例。)
+
+
+
+
+
+
+
+
+

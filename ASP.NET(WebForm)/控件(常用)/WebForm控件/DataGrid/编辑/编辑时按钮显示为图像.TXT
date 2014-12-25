@@ -1,0 +1,4 @@
+<asp:EditCommandColumn ButtonType="LinkButton" UpdateText="<img src=ok.ico border=0 align=absmiddle alt='Save changes'>"
+							CancelText="<img src=cancel.ico border=0 align=absmiddle alt='Cancel changes'>" EditText="<img src=edit.ico border=0 align=absmiddle alt='Edit this item'>">
+							<ItemStyle BackColor="Yellow" HorizontalAlign="Center"></ItemStyle>
+						</asp:EditCommandColumn>

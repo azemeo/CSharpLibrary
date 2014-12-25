@@ -1,0 +1,19 @@
+//
+			//Ìî³äÊý¾Ý
+			listViewReco.Items.Clear();
+			ListViewItem lvi;
+			listViewReco.BeginUpdate();
+			for (int i=0; i<result.Count; i++)
+			{
+				lvi = new ListViewItem();
+				lvi.Text=((Student)result[i]).Serial.ToString();
+				lvi.SubItems.Add(((Student)result[i]).Name);
+				lvi.SubItems.Add(((Student)result[i]).IDNumber);
+				lvi.SubItems.Add(((Student)result[i]).Sex?"ÄÐ":"Å®");
+				lvi.SubItems.Add(((Student)result[i]).Address);
+				lvi.SubItems.Add(((Student)result[i]).Telephone);
+				lvi.SubItems.Add(((Student)result[i]).Borndate.ToString());
+				lvi.SubItems.Add(((Student)result[i]).IDCard);
+				listViewReco.Items.Add(lvi);						
+			}					
+			listViewReco.EndUpdate();	

@@ -1,0 +1,55 @@
+//包装器
+		private string GenXX(string s,int n)
+		{
+			StringBuilder t = new StringBuilder();
+			switch(n)
+			{			
+				case 1://自动生成ID型
+					if(s!="")
+						t.Append(s);
+					else
+						t.Append("");
+					break;
+				case 2://字符串型或日期					 
+					if(s!="")
+					{
+						t.Append("'");
+						t.Append(s);
+						t.Append("'");
+					}
+					else
+					{
+						t.Append("''");
+					}
+					break;
+				case 3:	//数字型				 
+					if(s!="")
+						t.Append(s);
+					else
+						t.Append("0");
+					break; 
+			}	
+			return t.ToString();
+		}
+		public string[] CreateParamArray()
+		{
+			StringBuilder result=new StringBuilder();
+			result.Append(GenXX(this.company_ID.ToString(),3));result.Append(",");			
+			result.Append(GenXX(this.action_ID.ToString(),3));result.Append(",");
+			result.Append(GenXX(this.sMS_Flag.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.sMS_Owner.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.sMS_Manager.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.sMS_Boss.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.sMS_Others.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.email_Flag.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.email_Owner.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.email_Manager.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.email_Boss.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.Email_Others.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.config_Time.ToString(),2));result.Append(",");
+			result.Append(GenXX(this.note.ToString(),2));
+			string[]paramArray;
+			char[]charSepar=new char[]{','};
+			paramArray=result.ToString().Split(charSepar);			
+			return paramArray;
+		}

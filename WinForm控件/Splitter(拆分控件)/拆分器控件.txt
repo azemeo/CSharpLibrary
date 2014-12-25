@@ -1,0 +1,6 @@
+增加一个Panel
+Dock=Fill
+在Panel上添中
+TreeView,Dock=Left
+ListView,Dock=Fill
+将Splitter放在中间

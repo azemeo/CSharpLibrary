@@ -1,0 +1,7 @@
+				string strpath="../cache/XXGL_";
+				Random  rand_number= new Random();
+				for(int j=0;j<50;j++)
+				{
+					strpath+=rand_number.Next(9).ToString();
+				}
+				strpath+=".htm";

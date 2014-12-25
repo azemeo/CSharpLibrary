@@ -1,0 +1,16 @@
+		public static void ReDrawBackImage(PaintEventArgs e,Rectangle rt,string picName)
+		{
+			Image backImage = GetImage(picName);
+			
+			if (backImage != null)
+			{
+				e.Graphics.DrawImage(backImage,rt,new Rectangle(0,0,backImage.Width,backImage.Height),GraphicsUnit.Pixel);
+			}
+		}
+
+
+SC 项目 调用(引用Resource1)
+PictureManager.ReDrawBackImage(e,this.ClientRectangle,"BackImage.bgMain_Top.gif");
+
+Resource1项目
+BackImage目录下bgMain_Top.gif(嵌入的资源)

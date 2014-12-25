@@ -1,0 +1,39 @@
+public bool  InsertPicture(ProductFileObj pf)
+		{
+			
+			bool bResult = false;
+	
+			//0.事务开始
+			System.Data.IDbTransaction transaction =dataAccess.getTransaction(dataAccess.getConnection());
+			try
+			{
+				
+				//SQL1 更新数据库 			
+
+				//SQL2 更新数据库
+
+				
+
+				//根据SQL2的返回值
+				if(iRows > 0)
+				{
+					transaction.Commit();
+					bResult = true;
+				}
+				else
+				{
+					transaction.Rollback();
+					bResult = false;
+				}
+
+			}
+			catch (Exception ex)
+			{
+				transaction.Rollback();
+				bResult = false;
+				throw ex;
+			}
+
+			return bResult;
+
+		}

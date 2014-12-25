@@ -1,0 +1,1 @@
+做透明CheckBox,有透明的Lable+没文字的CheckBox(长和宽为15:15)

@@ -1,0 +1,6 @@
+<script language="JavaScript">
+	function MM_callJS() { 
+
+	  window.location="ExeDel.asp";	  
+	}
+</script>

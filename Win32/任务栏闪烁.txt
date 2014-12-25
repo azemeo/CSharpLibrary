@@ -1,0 +1,9 @@
+using System.Runtime.InteropServices;
+--------------------------		
+[DllImport("user32.dll")]
+		public static extern bool FlashWindow(
+			IntPtr hWnd,     // handle to window
+			bool bInvert   // flash status
+			);
+----------------------------------			
+FlashWindow(handle,true);//иак╦

@@ -1,0 +1,22 @@
+1.CLR以COM服务器的方式实现(C:\WindDir\System\MSCorEE.DLL).
+2.安装.NET框架时CLR(一个COM服务器)在注册表中注册。
+3.SDK在MSCorEE.h中。
+4.任何Windows程序都可以寄宿CLR,通过CorBindtoRuntimeEx函数。
+5.通过配置文件可设置本程序使用的CLR的版本.
+
+
+<?xml version="1.0"?>
+<configuration>
+  <startup>
+  	<requiredRuntime version="v1.1.4322" safemode="true" />
+  </startup>
+  <runtime>
+    <gcConcurrent enabled="true" />
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <publisherPolicy apply="yes" />
+      <probing privatePath="" />
+    </assemblyBinding>
+  </runtime>
+</configuration>
+6.指定CLR版本兼容性，我们不要去修改。
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\policy\standards

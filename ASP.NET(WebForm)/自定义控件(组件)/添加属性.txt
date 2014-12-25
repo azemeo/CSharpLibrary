@@ -1,0 +1,36 @@
+		int width=0;
+		
+//最简的属性
+		public int Width
+		{
+			get
+			{
+				return width;
+			}
+			set
+			{
+				width=value;
+			}	
+		}
+
+
+
+		//Width属性
+		public string Width
+		{
+			get
+			{
+				return width+"px";//设计时的输出(用户设计属性看到)
+			}
+			set
+			{
+				//用户可能输入:100px,或100,value为设计时的输入
+				int start=value.IndexOf("px",0,value.Length);//查找px
+				string numWidth="";
+				if(start!=-1)//找到
+					numWidth=value.Substring(0,(value.Length-start)+1);
+				else
+					numWidth=value;
+				width=int.Parse(numWidth);
+			}	
+		}

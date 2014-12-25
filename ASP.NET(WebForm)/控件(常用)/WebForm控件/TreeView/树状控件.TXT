@@ -1,0 +1,62 @@
+安装 Microsoft IE Web Control 它不是VS.NET的一部分
+
+using Microsoft.Web.UI.WebControls;//树状控件
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{			
+
+				//加载机构树
+				LoadTree();
+			}
+		}
+		private void LoadTree()
+		{
+			//建立根
+			TreeNode newNode = new TreeNode();
+			newNode.Text="机构树";
+			newNode.Expanded=true;
+			TreeView1.Nodes.Add(newNode);
+			//加载机构的列表
+			ClassDB cd=new ClassDB();
+			ds=new DataSet();
+			if(cd.GetDataSet("Select PPtr,CPtr,depName,depBM from sm_department",ds))
+				GetDepList("UN",TreeView1.Nodes[0].Nodes);
+			ds=null;
+
+		}
+		//递归函数
+		private void GetDepList(string Folder,TreeNodeCollection who)
+		{	
+			//得到单位
+			DataTable table=ds.Tables["MyList"];
+			DataRow[] rows=table.Select("PPtr='"+Folder+"'");//选取
+			foreach(DataRow row in rows)
+			{
+				TreeNode newNode = new TreeNode();
+				newNode.Text=row["depName"].ToString();//机构名
+				newNode.NodeData=row["depBM"].ToString();//机构编码
+				who.Add(newNode);	
+				if(row["CPtr"].ToString()=="1")//是否有子节点
+					GetDepList(row["depBM"].ToString(),newNode.Nodes);
+			}		
+		}		
+		//根据索引串(类似IP)返回当前节点
+		TreeNode GetCurrNode(string s)
+		{			
+			strArray=s.Split(charSepar);//将用.分隔的字串放入数组中
+			int len=strArray.Length;
+			TreeNode newNode=this.TreeView1.Nodes[0];
+			for(int i=1;i<len;i++)//得到当前选择的节点
+			{
+				newNode=newNode.Nodes[int.Parse(strArray[i].ToString())];
+			}
+			return newNode;//返回节点
+		}
+//索引变化
+		private void TreeView1_SelectedIndexChange(object sender, Microsoft.Web.UI.WebControls.TreeViewSelectEventArgs e)
+		{
+			TreeNode tn=GetCurrNode(e.NewNode.ToString());
+			Label2.Text=tn.Text+":"+tn.NodeData;
+		}

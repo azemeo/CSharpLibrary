@@ -1,0 +1,31 @@
+public class MyButton : System.Windows.Forms.Button 
+ 
+	{ 
+ 
+		public MyButton() 
+ 
+		{ 
+ 
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.button1_Paint); 
+ 
+		} 
+ 
+		private void button1_Paint(object sender, System.Windows.Forms.PaintEventArgs e) 
+ 
+		{ 
+ 
+			//custom drawing 
+ 
+			Pen pen2 = new Pen(Color.Red); 
+ 
+			pen2.Width = 8; 
+ 
+			e.Graphics.DrawLine(pen2, 7, 4, 7, this.Height - 4); 
+ 
+			pen2.Width = 1; 
+ 
+			e.Graphics.DrawEllipse(pen2, this.Width - 16 , 6, 8, 8); 
+ 
+		} 
+ 
+	}

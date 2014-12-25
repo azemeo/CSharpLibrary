@@ -1,0 +1,23 @@
+			<TABLE id="Table1" style="Z-INDEX: 101; LEFT: 288px; POSITION: absolute; TOP: 20px" height="20"
+				cellSpacing="0" cellPadding="0" name="Table1">
+				<TR bgColor="<%=TableUpBackColor%>" height="<%=TableUpHeight%>">
+					<TD vAlign="top"><IMG src="Images/Common/lt_tabnotch.gif" width=5 border=0></TD>
+					<TD><a href="Index.aspx" target="_parent">主页</a></TD>
+					<TD vAlign="top" ><IMG src="Images/Common/rt_tabnotch.gif" width=5 border=0></TD>
+					<TD vAlign="top" width=1 bgcolor="#FFFFFF"></TD>
+					<TD vAlign="top" ><IMG src="Images/Common/lt_tabnotch.gif" width=5 border=0></TD>
+					<TD><a href="Opportunity\Main.aspx?Action=Main" target="_parent">业务机会</a></TD>
+					<TD vAlign="top"><IMG src="Images/Common/rt_tabnotch.gif" width=5 border=0></TD>
+					<TD vAlign="top" width=1 bgcolor="#FFFFFF"></TD>
+					<TD vAlign="top"><IMG src="Images/Common/lt_tabnotch.gif" width=5 border=0></TD>
+					<TD><a href="Calendar\Main.aspx?Action=Main" target="_parent">业务日程</a></TD>
+					<TD vAlign="top"><IMG src="Images/Common/rt_tabnotch.gif"></TD>
+				</TR>
+				<!--
+				<TR bgColor="<%=TableDownBackColor%>" height="<%=TableDownHeight%>">
+					<TD></TD>
+					<TD></TD>
+					<TD></TD>
+				</TR>
+				-->
+			</TABLE>

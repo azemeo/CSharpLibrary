@@ -1,0 +1,2 @@
+			<asp:TextBox id="TextBox1" style="Z-INDEX: 101; LEFT: 24px; POSITION: absolute; TOP: 144px" runat="server"
+				 ToolTip="Type you name here"></asp:TextBox>

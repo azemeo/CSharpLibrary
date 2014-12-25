@@ -1,0 +1,5 @@
+把PictureBox放到一个Panel中，
+
+设置Panel的AutoScroll= true
+
+把PictureBox的大小设置得和图片一样大

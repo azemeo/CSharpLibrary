@@ -1,0 +1,44 @@
+		/// <summary>
+		/// 葛利峰 2004-06-01 增加
+		/// </summary>
+		/// <param name="strTable">表名</param>
+		/// <param name="strField">字段名</param>
+		/// <returns>返回新增时的标识</returns>
+		public bool GetIdentifier(string strTable,string strField)
+		{
+			bool IsSucess=false;
+			DataService dbOper=new DataService();
+			try
+			{
+				string strSql="Select Max("+strField+") From "+strTable;
+				DataTable dt=dbOper.GetTable(strSql,true);
+				if(dt.Rows.Count!=0)
+				{
+					if(dt.Rows[0][0]==System.DBNull.Value)
+						newID="000000000000000000000000000001";//默认的第一个字串
+					else
+					{
+						newID=dt.Rows[0][0].ToString();//得到现在最大标识串
+						int MaxId=int.Parse(newID);//转化为整数
+						MaxId++;//加1
+						newID=MaxId.ToString();//将处理后的整数转化为字符串
+						newID=newID.PadLeft(30,'0');//左补0以达到30位长度
+					}
+					IsSucess=true;
+				}
+				else
+				{
+					IsSucess=false;
+				}
+
+			}
+			catch
+			{
+			}
+			finally
+			{
+				dbOper.Dispose();
+				dbOper=null;
+			}
+			return IsSucess;
+		}

@@ -1,0 +1,1 @@
+ibDel.Attributes.Add("onclick","javascript:if(!window.confirm(\""+this.DelMessage+"\")) "+" return false;else return;");

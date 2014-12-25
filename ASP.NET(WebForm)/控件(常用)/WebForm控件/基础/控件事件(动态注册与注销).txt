@@ -1,0 +1,80 @@
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+
+namespace WebApplication1
+{
+	/// <summary>
+	/// WebForm1 的摘要说明。
+	/// </summary>
+	public class WebForm1 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Button ButtonTest;
+		protected System.Web.UI.WebControls.Button ButtonAdd;
+		protected System.Web.UI.WebControls.Label LabelMess;
+		protected System.Web.UI.WebControls.Label Mem;
+		protected System.Web.UI.WebControls.Button ButtonRem;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(ViewState["Test_Btn_Click"]!=null)
+			{
+				if(ViewState["Test_Btn_Click"].ToString()=="ON")
+					ButtonTest.Click+=new System.EventHandler(this.ButtonTest_Click);
+				else
+					ButtonTest.Click-=new System.EventHandler(this.ButtonTest_Click);
+			}
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			//
+			
+
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.ButtonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
+			this.ButtonRem.Click += new System.EventHandler(this.ButtonRem_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void ButtonTest_Click(object sender, System.EventArgs e)
+		{
+			LabelMess.Text+=" OK ";
+		}
+
+		private void ButtonAdd_Click(object sender, System.EventArgs e)
+		{
+			//ButtonTest.Click+=new System.EventHandler(this.ButtonTest_Click);//这种方式不可以
+			ViewState["Test_Btn_Click"]="ON";
+		}
+
+		private void ButtonRem_Click(object sender, System.EventArgs e)
+		{
+			//ButtonTest.Click-=new System.EventHandler(this.ButtonTest_Click);//这种方式不可以
+			ViewState["Test_Btn_Click"]="OFF";
+		}
+	}
+}

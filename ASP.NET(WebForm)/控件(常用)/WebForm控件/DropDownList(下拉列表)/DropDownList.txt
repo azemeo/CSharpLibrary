@@ -1,0 +1,14 @@
+string strConn,strCmd;
+			strConn="DATABASE=Northwind;SERVER=localhost;UID=sa;PWD=;";
+			strCmd="SELECT employeeid,firstName,lastName FROM Employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"EmployeesList");
+			DataTable dt=oDS.Tables["EmployeesList"];
+			dt.Columns.Add("EmployeeName",typeof(string),"lastName+','+firstname");
+			EmpList.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+			EmpList.DataTextField="EmployeeName";
+			EmpList.DataValueField="employeeid";
+			EmpList.DataBind();
+//SQL Server开销大，应避免使用
+strCmd="SELECT lastname+','+firstName AS 'EmployeeName' FROM Employees";

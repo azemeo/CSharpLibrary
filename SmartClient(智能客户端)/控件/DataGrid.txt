@@ -1,0 +1,89 @@
+.NET Framework 精简版支持的DataGrid
+
+公共构造函数
+DataGrid 构造函数 
+
+
+公共属性
+BackColor 已重写。获取或设置网格中偶数行的背景色。
+BindingContext 获取或设置控件的 BindingContext
+Bounds 获取或设置控件（包括其非工作区元素）的大小和位置。
+Capture 获取或设置一个值，该值指示控件是否已捕获鼠标。
+ClientRectangle 获取表示控件的工作区的矩形。
+ClientSize 获取或设置控件的工作区的高度和宽度。
+ContextMenu 获取或设置与控件关联的快捷菜单。
+Controls获取包含在控件内的控件的集合。
+CurrentRowIndex 获取或设置选定行的索引。
+DataBindings 为该控件获取数据绑定。
+DataSource 获取或设置网格所显示数据的数据源。
+FirstVisibleColumn 获取网格中第一个可见列的索引。
+Focused 获取一个值，该值指示控件是否有输入焦点。
+Font 获取或设置控件显示的文字的字体。
+ForeColor 已重写。获取或设置 System.Windows.Forms.DataGrid 控件的前景色（通常为文本的颜色）属性。
+GridLineColor 获取或设置网格线的颜色。
+HeaderBackColor 获取或设置所有行标头和列标头的背景色。
+Location 获取或设置该控件的左上角相对于其容器的左上角的坐标。
+Parent 获取或设置控件的父容器。
+RowHeadersVisible 获取或设置一个值，该值指定行标题是否可见。
+SelectionForeColor 获取或设置选定行的前景色。
+Size 获取或设置控件的高度和宽度。
+TableStyles 获取网格的 DataGridTableStyle 对象的集合。
+Text 已重写。
+TopLevelControl 获取没有另一个 Windows 窗体控件作为其父级的父控件。通常，这是控件所在的最外面的
+Visible 获取或设置一个值，该值指示是否显示该控件。
+VisibleRowCount  获取可见行的数目。
+
+
+
+公共方法
+BringToFront 将控件带到 Z 顺序的前面。
+CreateGraphics 为控件创建 Graphics 对象
+Dispose 已重载。释放由 Component 占用的资源。
+Equals 已重载。确定两个 Object 实例是否相等。
+Focus 为控件设置输入焦点。
+GetCellBounds 已重载。获取指定某单元格四个角的 Rectangle。
+GetHashCode 用作特定类型的哈希函数，适合在哈希算法和数据结构（如哈希表）中使用。
+GetType 获取当前实例的 Type。
+Hide 对用户隐藏控件。
+HitTest 已重载。获取屏幕上指定点的 System.Windows.Forms.DataGrid 控件的信息。
+Invalidate 已重载。使控件的特定区域无效并向控件发送绘制消息。
+Invoke 已重载。在拥有此控件的基础窗口句柄的线程上执行委托。
+IsSelected 获取一个值，该值指示指定行是否被选定。
+PointToClient 将指定屏幕点的位置计算成工作区坐标。
+PointToScreen 将指定工作区点的位置计算成屏幕坐标。
+RectangleToClient 计算指定屏幕矩形的大小和位置（以工作区坐标表示）。
+RectangleToScreen 计算指定工作区矩形的大小和位置（以屏幕坐标表示）。
+Refresh 强制控件使其工作区无效并立即重绘自己和任何子控件。
+Select 选择指定行。
+SendToBack 将控件发送到 Z 顺序的后面。
+Show 向用户显示控件
+ToString 返回表示当前 Object 的 String。
+UnSelect 取消指定行的选定。
+Update 使控件重绘其工作区内的无效区域。
+
+公共事件
+
+未知
+
+受保护的方法
+Dispose 已重载。已重写。
+Finalize 已重写。在通过垃圾回收将 Component 回收之前，释放非托管资源并执行其他清理操作。 
+MemberwiseClone 创建当前 Object 的浅表副本
+OnBindingContextChanged  
+OnClick 引发 Click 事件。
+OnCurrentCellChanged 引发 CurrentCellChanged 事件
+OnEnabledChanged 引发 EnabledChanged 事件
+OnGotFocus 引发 GotFocus 事件
+OnKeyDown 已重写。
+OnKeyPress 已重写
+OnKeyUp 已重写
+OnLostFocus 引发 LostFocus 事件
+OnMouseMove 已重写。引发 MouseMove 事件
+OnMouseUp 已重写。引发 MouseUp 事件。
+OnPaint 已重写。引发 Paint 事件。
+OnParentChanged 引发 ParentChanged 事件。
+OnResize 已重写。引发 Resize 事件。
+OnTextChanged 引发 TextChanged 事件
+
+
+

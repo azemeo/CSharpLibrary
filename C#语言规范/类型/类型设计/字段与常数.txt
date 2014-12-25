@@ -1,0 +1,65 @@
+常数是一个表示恒定不变的值的符号。
+只有基元类型的数据成员才能利用文本常数。
+
+可义定义的常数为:
+Boolean,Char,Byte,SByte,Decimal,Int16,UInt16,Int32,UInt32,Int64,UInt64,Single,Double,String
+
+常数隐含有版本问题
+
+如果要求一个模块中的数值能够在运行时(而不是编译时)被另一个模块获取,那么不应该使用常数.
+
+R1.cs
+using System;
+public class Component
+{
+	public const Int32 MaxEntr=1000;
+}
+
+U1.cs
+using System;
+class App
+{
+	static void Main()
+	{
+		Console.WriteLine("Max entries supported int list:"+
+		Component.MaxEntr);	
+	}
+}
+
+---------------------------
+
+字段以称数据成员,它保存着一个值类型的实例,或者一个指向引用类型的引用.
+分为类型(静态)和实例(非静态)两种:
+类型(静态):类型被加载到应用程序域是分配内存.
+实例(非静态):实例被构建时分配内存.
+
+没有版本问题,类型没有限制.
+支持只读/读写两种
+只读字段(实例):只能在实例构造器中赋值.public readonly Int32 MaxEntr=50;
+只读字段(类型):只能在类型构造器中赋值.public static readonly Int32 MaxEntr=50;
+
+读写字段(实例):public Int32 MaxEntr;
+读写字段(类型):static Int32 MaxEntr=50;
+
+通常为读写
+内联初始化仅是一种简化的表达方式,实际上它们的初始化是在构造器中完成的.
+----------------------------
+R1.cs
+using System;
+public class Component
+{
+	public static readonly Int32 MaxEntr=50;
+}
+
+U1.cs
+using System;
+class App
+{
+	static void Main()
+	{
+		Console.WriteLine("Max entries supported int list:"+
+		Component.MaxEntr);	
+	}
+}
+
+

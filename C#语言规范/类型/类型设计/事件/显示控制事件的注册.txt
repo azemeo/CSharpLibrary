@@ -1,0 +1,60 @@
+显式控件事件注册
+
+1.优点:性能好
+2.缺点:线程不安全。
+
+3.应用在:单线程环境下频繁添加或移除委托的实例。
+
+
+如下代码基于：事件.txt文件的代码
+
+using System;
+namespace Movecont
+{
+	class MailManager
+	{
+		//传递给事件接受者的类型定义信息(可选)
+		public class MailMsgEventArgs:EventArgs
+		{
+			//...
+		}
+		//接受者必须实现的回调方法原型(可选)
+		public delegate void MailMsgEventHandler(Object sender,MailMsgEventArgs args);
+		//事件成员(自动维护订阅对象)
+		//public event MailMsgEventHandler MailMsg;//1.编译器产生Add,remove方法
+		//手工产生Add,Remove方法
+		private MailMsgEventHandler mailMsgEventHandlerDelegate;
+		public event MailMsgEventHandler MailMsg
+		{
+			add
+			{
+				mailMsgEventHandlerDelegate=(MailMsgEventHandler)
+					Delegate.Combine(mailMsgEventHandlerDelegate,value);
+			}
+			remove
+			{
+				mailMsgEventHandlerDelegate=(MailMsgEventHandler)
+					Delegate.Remove(mailMsgEventHandlerDelegate,value);
+			}
+		}
+		//通知对象
+		protected virtual void OnMailMsg(MailMsgEventArgs e)
+		{
+//			if(MailMsg!=null)
+//				MailMsg(this,e);
+			if(mailMsgEventHandlerDelegate!=null)
+				mailMsgEventHandlerDelegate(this,e);
+		}
+		//输入转化为事件
+		public void SimulateArrivingMsg(String from,String to,String subject,String body)
+		{
+			//...
+		}
+	}
+
+	class Fax
+	{
+		//...
+	}
+}
+

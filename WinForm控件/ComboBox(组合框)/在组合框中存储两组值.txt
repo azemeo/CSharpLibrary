@@ -1,0 +1,47 @@
+//在组合框中存储两组值
+	public class DataDual
+	{
+		private string category_id;
+		private string category_name;
+		public DataDual(string category_id,string category_name)
+		{
+			this.category_id=category_id;
+			this.category_name=category_name;				
+		}
+		public string CATEGORY_ID
+		{
+			get
+			{
+				return category_id;
+			}
+		}
+
+		public string CATEGORY_NAME
+		{
+      
+			get
+			{
+				return category_name ;
+			}
+		}
+
+	}
+
+//初始化
+
+			ArrayList al=new ArrayList();
+			al.Add(new DataDual("0","所有"));
+			DataTable DT=ds.Tables[0];
+			foreach (System.Data.DataRow row in DT.Rows) 
+			{
+				al.Add(new DataDual(row["CATEGORY_ID"].ToString(),row["category_name"].ToString()));
+			}
+			cbxCategory.DataSource=al;
+			cbxCategory.DisplayMember="CATEGORY_NAME";
+			cbxCategory.ValueMember="CATEGORY_ID";
+			if(cbxCategory.Items.Count>0)
+				cbxCategory.SelectedIndex=0;
+
+
+//使用
+cbxCategory.SelectedValue.ToString().Trim();

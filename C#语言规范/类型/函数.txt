@@ -1,0 +1,4 @@
+static void Write()
+{
+Console.WriteLine("Text output from function.");
+}

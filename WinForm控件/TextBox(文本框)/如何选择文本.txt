@@ -1,0 +1,3 @@
+TextBox
+HideSelection=false
+this.tbMain.SelectAll();

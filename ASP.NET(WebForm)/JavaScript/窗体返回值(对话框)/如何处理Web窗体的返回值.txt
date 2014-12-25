@@ -1,0 +1,9 @@
+				var returnvalue;  
+				returnvalue=window.showModalDialog('Frameset.asp?WebSortStart.aspx?setidFlag='+setidFlag,'','dialogHeight: 295px; dialogWidth: 376px;  edge: Raised; center: Yes; help: no; resizable: Yes; status: no;');
+				debugger;
+				window.returnValue=returnvalue;
+				//葛利峰 2004-06-16 修改
+				if((returnvalue=="")||(returnvalue==undefined))//取消或系统关闭按钮
+					return;
+				else//确定
+					window.close();	

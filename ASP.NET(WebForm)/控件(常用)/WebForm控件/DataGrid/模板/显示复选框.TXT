@@ -1,0 +1,112 @@
+重要:有些字段转换失败后请使用Convert.ToInt32
+
+
+<asp:CheckBox id=cbAccess runat="server" Checked='<%# HasThenFun(Convert.ToInt32(DataBinder.Eval(Container.DataItem,"Flag1"))) %>'>
+
+
+
+1.页面
+<%@ Page language="c#" Codebehind="MyKind.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MyKind" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyKind</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 224px; POSITION: absolute; TOP: 208px"
+				runat="server" AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="First Name"></asp:BoundColumn>
+					<asp:TemplateColumn HeaderText="Reports">
+						<ItemTemplate>
+							<asp:CheckBox id=CheckBox1 runat="server" Enabled="False" Checked='<%# HasBoss((int)DataBinder.Eval(Container.DataItem,"boss")) %>'>
+							</asp:CheckBox>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+				</Columns>
+			</asp:DataGrid>
+		</form>
+	</body>
+</HTML>
+
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace Co_112
+{
+	/// <summary>
+	/// 显示布尔值。
+	/// </summary>
+	public class MyKind : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			// ISNULL:使用指定的替换值替换 NULL
+			strCmd="Select employeeid,titleofcourtesy,firstname,lastname,title,ISNULL(reportsto,0) AS boss From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			//Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+		public bool HasBoss(int bossID)
+		{
+			if(bossID!=0)
+				return true;
+			return false;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+	}
+}

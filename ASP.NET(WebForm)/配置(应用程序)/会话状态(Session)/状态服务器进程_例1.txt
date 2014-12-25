@@ -1,0 +1,56 @@
+1.现在有两个机器A和B
+
+2.A用于存在Web应用程序(假设B机器IP为192.168.0.53)
+
+   a)Web.config
+    <sessionState 
+            mode="StateServer"
+            stateConnectionString="tcpip=192.168.0.53:42424"
+            sqlConnectionString="data source=127.0.0.1;Trusted_Connection=yes"
+            cookieless="false" 
+            timeout="20" 
+    />
+
+    b)WebForm1.aspx
+    protected System.Web.UI.WebControls.Label Label1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (Session.IsNewSession || Session["Count"] == null) 
+			{
+				Session["Count"] = 1;
+				Label1.Text="Welcome! Because this is your first " +
+					"visit to this site, a new session has been created " +
+					"for you. Your session ID is " + Session.SessionID +
+					".";
+			}
+			else 
+			{
+				Session["Count"] = (int) Session["Count"] + 1;
+				Label1.Text="You have visited this site " +
+					Session["Count"] + " times. Your session ID is still " +
+					Session.SessionID + ".";
+			}
+		}
+     c)建立Web虚拟目录为MySessionSpy
+
+3.B用作客户端和StateServer(状态服务器)
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\aspnet_state\Parameters
+AllowRemoteConnection=1 重启计算机
+
+在服务中手工启动ASP.NET State Service(aspnet_state.exe)
+
+试验开始:
+
+1.确保两个计算互相可以访问(Windows2000启动后一段时间)
+
+2.在B机器中打开IE,在地址栏输入:http://chihy/MySessionSpy/WebForm1.aspx
+
+3.显示 1次
+
+4.生启A计算机后(确保两个计算互相可以访问)
+5.在B机器中已打开IE,按刷新。
+6.显示 2次。
+7.表示了 会话状态在重新A机器(Web服务器时)，会话状态没有丢失(因为它存在B机器上的状态服务器中了).
+

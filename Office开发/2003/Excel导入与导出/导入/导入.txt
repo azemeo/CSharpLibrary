@@ -1,0 +1,43 @@
+//联系人
+		private void DaoRuCantact()
+		{			
+
+			//从文件得数据并导入
+			//上传的服务器临时目录
+			string FullPath=Page.Server.MapPath("..\\..\\")+"ExcelFolder\\TempFile\\"+Session.SessionID.ToString()+".Tmp";
+			FileImport.PostedFile.SaveAs(FullPath);
+			//从临时目录中连接Excel
+			OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+FullPath+";Extended Properties=Excel 8.0;");
+
+			try
+			{
+				myConn.Open();
+				OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM [Sheet1$]",myConn);
+				OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+				DataSet thisDataSet=new DataSet();
+				thisAdapter.Fill(thisDataSet);
+				DataTable dt1=thisDataSet.Tables[0];
+				object obj = Session["UserInfo"];
+				UserInfo userInfoObj = (UserInfo)obj;
+				CustomerLogic cusLogic = new CustomerLogic();
+
+				for(int i=0;i<dt1.Rows.Count;i++)
+				{
+					ContactDetailObj newConDetailObj = new ContactDetailObj();
+					newConDetailObj.First_Name		= dt1.Rows[i][0].ToString();
+					newConDetailObj.Last_Name		= dt1.Rows[i][1].ToString();
+					
+					cusLogic.InsertContactDetail(newConDetailObj);
+				}
+				this.RegisterStartupScript("message","<script language='javascript' defer>alert('导入成功！');</script>");
+			}
+			catch(OleDbException ex)
+			{
+				this.RegisterStartupScript("message","<script language='javascript' defer>alert('导入失败！');</script>");
+			}
+			finally
+			{
+				myConn.Close();				
+			}
+
+		}

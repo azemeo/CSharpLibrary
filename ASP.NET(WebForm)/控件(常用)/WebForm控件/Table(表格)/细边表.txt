@@ -1,0 +1,7 @@
+<TABLE id="Table2" style="Z-INDEX: 107; LEFT: 384px; POSITION: absolute; TOP: 232px" cellPadding="0"
+				cellSpacing="0" bordercolordark="#ffffff" width="300" border="1">
+
+
+¹Ø¼üÊÇ
+
+cellPadding="0" cellSpacing="0" bordercolordark="#ffffff"

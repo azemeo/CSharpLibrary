@@ -1,0 +1,36 @@
+Smart clients 是下一代客户端软件的代表。
+1、充分利用终端设备的优势(PC,PDA,Phone)。
+2、能够调用Web Services.
+3、支持在线各和离线两种状态。
+4、能够如果Web应用程序一般简单方便的部署。
+同时具备C/S和B/S两种架构的优点,另外对Web Service的调用
+
+核心特性:
+利用本地处理器的能力
+使用Web Service
+支持在线和离线场景
+根据运行设备调整(有不同设备的版本)。
+集中式的部署和更新模型
+
+Fat Clients:
+优点：丰富的用户体验、开发效率高、相应块
+缺点：Heavy Footprint,部署困难，DLL地狱
+
+Thin Clients:
+优点：small Footprint 易于部署、易于更改业务逻辑
+缺点：依赖网格、糟糕的体验、开发复杂
+
+
+下一代指(代号为Longhorn操作系统)
+
+VS.NET(VS.NET2005支持Longhorn:XAML)
+
+下一代UI(Avlon),即可在Web中启动，也可以独立启动。
+
+Smart client 向下一代UI转形的中间产品。
+
+Web Service可以穿任何企业的防火墙(跨平台、跨语言、复用)。
+
+BizTalk 可以整个任何应用程序,企业应用集成(底层XML,Web Service)。
+
+VS.NET 2005 可以开发Smart phone

@@ -1,0 +1,1 @@
+			OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\PEK\;Extended Properties=""text;HDR=Yes;FMT=Delimited"""); 

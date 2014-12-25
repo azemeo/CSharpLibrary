@@ -1,0 +1,15 @@
+Thread.Suspend和Thread.Resume被废弃(obsolete) 
+
+实例函数(Instance Method)Thread.Suspend和Thread.Resume在2.0版本下被标为obsolete. 编译使用这2个函数的代码会得到warning. 当然在以后的.NET版本下可能就会是编译错误了。
+
+ 
+
+其警告信息包含下列信息：Please use other classes in System.Threading, such as Monitor, Mutex, Event, and Semaphore, to synchronize Threads or protect resources. (请使用System.Threading中的其他类，如Monitor, Mutex, Event, 和Semaphore，以同步线程和保护资源。)
+
+ 
+
+Thread.Suspend和Thread.Resume被废弃的主要原因是因为其使用很容易造成线程死锁(Deadlock)。
+
+ 
+
+静态函数（Static Method）Thread.Sleep的使用在.NET 2.0下不受影响。

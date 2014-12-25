@@ -1,0 +1,61 @@
+String
+1)字符串处理
+
+		var mystr="Look at This.";//索引从0开始
+		document.writeln(mystr.charAt(5)+"<BR>");//charAt返回指定位置的字符
+		document.writeln(mystr.substring(5,7)+"<BR>");//substring返回指定位置的字符串
+		document.writeln(mystr.indexOf("o")+"<BR>");//指定字符串的索引位置(从左向右搜索)
+		document.writeln(mystr.lastIndexOf("o")+"<BR>");//指定字符串的索引位置(从右向左搜索)
+		document.writeln(mystr.toLowerCase()+"<BR>");//把字符串转化为小写
+		document.writeln(mystr.toUpperCase()+"<BR>");//把字符串转化为大写
+
+2)Web外观处理
+		//字符特效
+		document.writeln(mystr.big()+"<BR>");//加大字号
+		document.writeln(mystr.small()+"<BR>");//减小字号
+		document.writeln(mystr.blink()+"<BR>");//闪烁(IE无效)
+		document.writeln(mystr.bold()+"<BR>");//黑体
+		document.writeln(mystr.fixed()+"<BR>");//等宽体
+		document.writeln(mystr.fontcolor("green")+"<BR>");//指定字体颜色
+		document.writeln(mystr.fontsize(12)+"<BR>");//指定字体大小
+		document.writeln(mystr.italics()+"<BR>");//斜体
+		document.writeln(mystr.strike()+"<BR>");//删除线
+		document.writeln(mystr.sub()+"<BR>");//下标显示(IE无效)
+		document.writeln(mystr.sup()+"<BR>");//上标显示(IE无效)
+		//由于HTML用""来分隔字符串,如果要在HTML中使javscript语句，必须使用'自分隔自已的字符串
+
+3)链接的处理
+		//把字符转化为HTML链接
+		var linktext="Yahoo";
+		var URL="http://www.yahoo.com";
+		document.open();
+		document.write("This is"+linktext.link(URL)+"超级连接");
+		document.close();
+4)其它函数
+		document.writeln(mystr.concat("water")+"<BR>");//字串连接	
+		document.writeln(mystr.slice(5,8)+"<BR>");//获得子串,第二个参数为+,表示从左起(不包含自身)
+		document.writeln(mystr.slice(5)+"<BR>");//省略第二个参数,子串至末尾
+		document.writeln(mystr.slice(5,-2)+"<BR>");//第二个参数为-,表示从右起
+		
+		//match() 用正则表达式搜索字符串
+		var r, re;         // 声明变量。
+		var s = "The rain in Spain falls mainly in the plain";
+		re = /ain/i;    // 创建正则表达式模式。
+		r = s.match(re);   // 尝试匹配搜索字符串。
+		document.writeln(r+"<BR>");
+		
+		re= /ain/ig; //带g,寻找所有匹配
+		r=s.match(re);
+		document.writeln(r+"<BR>");
+		
+		//找网址没有实现
+		
+		
+		//replace() 字符替换,以match为基础
+		
+		r=s.replace(re,"mov");
+		document.writeln(r+"<BR>");		
+		
+		//search() 搜索字符串是否存在,以match为基础,索引位置,没有找到则为-1
+		r=s.search(re);
+		document.writeln(r+"<BR>");	

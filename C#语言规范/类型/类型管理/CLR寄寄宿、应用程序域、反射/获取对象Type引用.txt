@@ -1,0 +1,21 @@
+因使用操作符typeof替代反射。反射会有性能上的损失。
+
+using System;
+
+namespace TestSystem
+{
+	public class MyType
+	{}
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Type t=typeof(MyType);
+			Console.WriteLine(t.ToString());
+		}
+	}
+}

@@ -1,0 +1,12 @@
+1.创建数据库:mysql>为提示符
+mysql> CREATE DATABASE samp_db;
+2.使数据库成为当前数据库(可不加;结束符)
+mysql> USE samp_db
+3.查看谁为当前数据库
+mysql> SELECT DATABASE();
+4.另处可以在激活mysql时指定:%为操作系统提示符
+% mysql -u paul -p samp_db
+5.有哪些数据库
+mysql> show databases;
+6.删除数据库
+DROP DATABASE temp_db;

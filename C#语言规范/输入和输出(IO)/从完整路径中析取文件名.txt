@@ -1,0 +1,2 @@
+				string[]filepart=file.Split('\\');
+				string filename=filepart[filepart.Length-1].ToString();

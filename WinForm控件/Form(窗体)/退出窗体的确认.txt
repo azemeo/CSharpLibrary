@@ -1,0 +1,4 @@
+//退出窗体的确认
+			DialogResult result=MessageBox.Show("Close this form?","Please Verify",
+				MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+			e.Cancel=(result==DialogResult.No);

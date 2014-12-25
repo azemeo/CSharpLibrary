@@ -1,0 +1,162 @@
+用字段值选择行(页内定位)
+DataTable的select方法计算表达式并返回包含匹配的DataRow对象数组
+1.
+<%@ Page language="c#" Codebehind="WebForm2.aspx.cs" AutoEventWireup="false" Inherits="Co_6.WebForm2" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm2</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<table>
+				<tr>
+					<td valign="top">
+						<asp:DataGrid id="DataGrid1" runat="server" AutoGenerateColumns="false" CssClass="Shadow" BackColor="white"
+							CellPadding="2" CellSpacing="0" BorderStyle="solid" BorderColor="black" BorderWidth="1" Font-Size="x-small"
+							Font-Names="verdana" AllowPaging="true" PageSize="6" DataKeyField="employeeid">
+							<SelectedItemStyle BorderWidth="10px" BorderStyle="Solid" BorderColor="Black" BackColor="#77E4EE"></SelectedItemStyle>
+							<AlternatingItemStyle BackColor="LightYellow"></AlternatingItemStyle>
+							<ItemStyle BackColor="Ivory"></ItemStyle>
+							<HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="White" BackColor="Brown"></HeaderStyle>
+							<Columns>
+								<asp:ButtonColumn DataTextField="firstname" HeaderText="Employee" CommandName="Select"></asp:ButtonColumn>
+								<asp:BoundColumn DataField="title" HeaderText="Position"></asp:BoundColumn>
+								<asp:BoundColumn DataField="country" HeaderText="From"></asp:BoundColumn>
+								<asp:BoundColumn DataField="hiredate" HeaderText="Hired" DataFormatString="{0:d}"></asp:BoundColumn>
+							</Columns>
+							<PagerStyle HorizontalAlign="Right" Mode="NumericPages"></PagerStyle>
+						</asp:DataGrid>
+					</td>
+					<td valign="top">
+						<asp:textbox runat="server" id="FirstName" />
+						<hr>
+						<asp:label runat="server" text="<b>ID</b>" ID="Label1" />
+						<asp:textbox runat="server" id="txtEmployeeID" text="1" width="50px" />
+						<asp:linkbutton runat="server" cssclass="stdtext" text="Go" tooltip="Select the matching record"
+							ID="Linkbutton1" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+				</tr>
+			</table>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		</form>
+	</body>
+</HTML>
+2.
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace Co_6
+{
+	/// <summary>
+	/// WebForm2 的摘要说明。
+	/// </summary>
+	public class WebForm2 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.TextBox txtEmployeeID;
+		protected System.Web.UI.WebControls.LinkButton Linkbutton1;
+		protected System.Web.UI.WebControls.TextBox FirstName;
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select * From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Linkbutton1.Click += new System.EventHandler(this.Linkbutton1_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void Linkbutton1_Click(object sender, System.EventArgs e)
+		{
+			int nEmpID = Convert.ToInt32(txtEmployeeID.Text);
+			DataGrid1.SelectedIndex = GetPageIndexFromID(nEmpID);
+			SelectRecordByID(nEmpID);
+		}
+                //根据输入返回索引
+		private int GetPageIndexFromID(int nEmpID)
+		{
+			int nRetValue = -1;
+
+			for (int i=0; i<DataGrid1.DataKeys.Count; i++)
+				if (nEmpID == (int)DataGrid1.DataKeys[i])
+				{
+					nRetValue = i;
+					break;
+				}
+
+			return nRetValue;	
+		}
+                //根据输入检索
+		private void SelectRecordByID(int nEmpID)
+		{
+			DataSet ds = (DataSet) Session["MyDataSet"];
+			DataTable dt = ds.Tables["MyList"];
+
+			DataRow[] a = dt.Select("EmployeeID=" + nEmpID.ToString());
+			try 
+			{
+				FirstName.Text = a[0]["firstname"].ToString();
+			}
+			catch (Exception exc) 
+			{
+
+			}
+		}
+	}
+}

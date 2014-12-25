@@ -1,0 +1,52 @@
+完成任务后自动刷新(Javascript)
+模拟按钮单击
+
+WebForm1.aspx
+1.
+<script language="javascript">
+function OpenPersonAddFrm()
+{							
+	returnvalue=window.showModalDialog('WebForm2.aspx','','dialogHeight: 490px; dialogWidth:590px;  edge: Raised; center: Yes; help: no; resizable: No; status: no;');
+}
+</script>
+2.WebFrom1.aspx.cs
+
+private void Page_Load(object sender, System.EventArgs e)
+{
+	// 在此处放置用户代码以初始化页面
+	this.Button1.Attributes.Add("onclick","javascript:OpenPersonAddFrm();");
+}
+
+private void Button1_Click(object sender, System.EventArgs e)
+{
+	
+	//通过客户端角本打窗口
+	//窗口关闭，开始角本	
+	string strClick=			
+			"<script language=\"JavaScript\">\n"+
+			"<!--\n"+
+			"function Refresh()\n"+
+			"{\n"+
+			" document.all.Button2.click();}\n"+//Button2为进行操作的按钮
+			" setTimeout(\"Refresh()\",100);"+		//设定刷新的时间
+			"\n"+
+			"-->\n"+
+			"</script>";
+	this.RegisterStartupScript("RefreshScript",strClick);
+}
+
+private void Button2_Click(object sender, System.EventArgs e)
+{
+	//进行操作
+	Label1.Text="列表已更新";
+	//取消角本
+	string strClick=			
+		"<script language=\"JavaScript\">\n"+
+		"<!--\n"+
+		"\n"+
+		"-->\n"+
+		"</script>";				
+	this.RegisterStartupScript("RefreshScript",strClick);
+
+}
+3.WebForm2.aspx

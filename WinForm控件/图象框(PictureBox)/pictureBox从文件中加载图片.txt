@@ -1,0 +1,1 @@
+pictureBoxMain.Image=Image.FromFile("a.bmp");	

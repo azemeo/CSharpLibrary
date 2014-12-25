@@ -1,0 +1,41 @@
+
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Tables>
+	<Table Name="User_Info">
+		<Field Name="User_ID">
+			<Chinese>标识</Chinese>
+			<English>ID</English>
+			<Type>NUMBER(10)</Type>
+			<CodeId></CodeId>
+		</Field>
+		<Field Name="User_Name">
+			<Chinese>名称</Chinese>
+			<English>Name</English>
+			<Type>VARCHAR2(20)</Type>
+			<CodeId></CodeId>
+		</Field>
+	</Table>	
+</Tables>		
+
+
+
+
+private void Button2_Click(object sender, System.EventArgs e)
+		{
+			XmlDocument doc=new XmlDocument();
+			doc.Load(Server.MapPath("TableDesc.xml"));
+			XmlNodeList nodes1=doc.GetElementsByTagName("Table");
+			foreach(XmlNode node1 in nodes1)	//第一层
+			{				
+				if(node1.Attributes["Name"].Value=="User_Info")
+				{
+					XmlNodeList nodes2=node.ChildNodes;
+					foreach(XmlNode node2 in nodes2)//第二层
+					{
+						TextBox1.Text=node2["Chinese"].InnerText;
+					}
+				}
+			}
+
+		}

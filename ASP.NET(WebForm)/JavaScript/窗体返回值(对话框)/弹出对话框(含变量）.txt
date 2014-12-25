@@ -1,0 +1,3 @@
+string strTemp="<script language=javascript>window.alert("+this.Hidden3.Value.ToString()+");</script>";
+			if(!this.IsClientScriptBlockRegistered("clientScript"))
+				this.RegisterStartupScript("clientScript",strTemp);

@@ -1,0 +1,10 @@
+切换到HTML视图
+
+将光标定义到颜色值上
+BackColor单击...,自定义颜色。
+拖动RGB,OK
+
+在HTML
+BackColor="#cdcdcd"
+在设计上输入
+#CDCDCD

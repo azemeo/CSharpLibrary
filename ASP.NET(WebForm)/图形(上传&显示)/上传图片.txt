@@ -1,0 +1,21 @@
+using System.IO;
+		private void btnUpload_Click(object sender, System.EventArgs e)
+		{
+			
+			//Html选择卡的File field组件,设置为服务器端运行
+			if (FilePath.PostedFile != null) 
+			{
+				//生成一个随机路径
+				string filepath = Path.Combine(Path.GetTempPath(), Path.GetFileName(FilePath.Value));
+				try 
+				{
+					FilePath.PostedFile.SaveAs(filepath);//上传文件
+					//成功
+					
+				}
+				catch (Exception exc) 
+				{
+					//出错
+				}
+			}
+		}

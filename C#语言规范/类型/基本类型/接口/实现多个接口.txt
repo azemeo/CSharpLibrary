@@ -1,0 +1,22 @@
+public interface IWindow
+{
+	Object GetMenu();
+
+}
+
+pubic interface IRestaurant
+{
+	Object GetMenu();
+}
+
+public class Giu:IWindow,IRestaurant
+{
+	Object IWindow.GetMenu(){}//添加接口名称限定
+	Object IRestaurant.GetMenu(){}
+	public Object GetMenu(){}//内部定义
+}
+
+原则:先安全限定接口成员，后非完全限定接口成员。
+
+
+实现中类型很少实现多个定义相同方法的接口。

@@ -1,0 +1,72 @@
+注意：
+IFRAME不能有Server属性
+自定义变量是public类型
+
+
+1. A1.aspx
+
+<IFRAME id=ifame1 
+      style="WIDTH: 99.8%; HEIGHT: 100%" name=ifame1 src="<%=NavUrl%>" 
+      frameBorder=no width="100%" 
+    > </IFRAME>
+
+2. A1.aspx.cs
+
+//自定义变量
+public string NavUrl="";
+
+//按钮		
+protected System.Web.UI.WebControls.ImageButton btnTeamTech;
+		protected System.Web.UI.WebControls.ImageButton btnTeamBackTalent;
+		protected System.Web.UI.WebControls.ImageButton btnTeamLeader;
+		protected System.Web.UI.WebControls.ImageButton btnTeamBackLeader;
+//按钮事件
+		private void btnTeamTech_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			this.NavUrl="TeamInfo/Person_ability.aspx?ID=0";
+		}
+
+		private void btnTeamBackTalent_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			this.NavUrl="TeamInfo/Person_ability.aspx?ID=1";
+		}
+
+		private void btnTeamLeader_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			this.NavUrl="TeamInfo/Person_ability.aspx?ID=2";
+		}
+
+		private void btnTeamBackLeader_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			this.NavUrl="TeamInfo/Person_ability.aspx?ID=3";
+		}
+
+3. Person_ability.aspx.cs (被包含的页面)
+
+private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				string i=Request.QueryString["ID"].Trim();//C#
+				switch(i)
+				{
+					case "0":
+						LabelTitle.Text="技术人才";
+						break;
+					case "1":
+						LabelTitle.Text="后备人才";
+						break;
+					case "2":
+						LabelTitle.Text="干部队伍";
+						break;
+					case "3":
+						LabelTitle.Text="后备干部";
+						break;
+					default:
+						LabelTitle.Text="未知类型";
+						break;
+
+				}
+			}
+		}

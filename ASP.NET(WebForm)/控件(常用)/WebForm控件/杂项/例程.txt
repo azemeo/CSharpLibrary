@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title></title>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<script language=javascript>
+			function one(para1,para2)
+			{
+				para1=para1*2;
+				b=b+1;
+				var c;
+				c=100;
+				document.writeln("int function one,<BR>");
+				document.writeln("pass get para1="+para1+"<BR>");
+				document.writeln("a="+a+"<BR>");
+				document.writeln("b="+b+"<BR>");
+				document.writeln("c="+c+"<BR>");
+			}
+			var a=1,b=2,c=3;
+			one(a,b);
+			document.writeln(" in one wei<BR>");
+			document.writeln("a="+a+"<BR>");
+			document.writeln("b="+b+"<BR>");
+			document.writeln("c="+c+"<BR>");
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

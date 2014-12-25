@@ -1,0 +1,9 @@
+		1.重载这个方法
+		protected override bool ProcessCmdKey(ref Message msg,Keys keyData)
+		{
+			//禁用Ctrl+C,及Ctrl+V
+			if(keyData==(Keys.Control|Keys.C))//Keys.V
+				return true;
+			else
+				return false;
+		}

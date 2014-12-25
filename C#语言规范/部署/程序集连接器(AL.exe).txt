@@ -1,0 +1,28 @@
+程序集连接器(AL.exe)
+
+1.用来生成，含有多个模块的多文件程序集。
+
+csc /t:module RUT.cs
+csc /t:module FUT.cs
+
+Al /out:JeffTypes.dll /t:library FUT.netmodule RUT.netmodule
+
+最后我们的程序集包含三个文件：rut.netmodule fut.netmodule JeffTypes.dll
+
+2.产生CUI或GUI文件
+
+3.包资源文件
+AL.exe
+/embed[resource]将资源文件的内容嵌入在PE中。
+/link[resource]将资源文件的路径包含在PE中。
+
+csc.exe
+
+/resource[resource]将资源文件的内容嵌入在PE中。
+/linkresource[resource]将资源文件的路径包含在PE中。
+
+嵌入标准的Win32资源
+/Win32res
+/Win32icon  (为托管程序指定图标)
+
+

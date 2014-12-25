@@ -1,0 +1,8 @@
+DataTable ds=dbOper.GetTable(strTempValue,true);
+
+if(ds.Columns["aValue"].DataType.ToString()=="System.DateTime")
+					{
+						DateTime dt=DateTime.Parse(ds.Rows[0][1].ToString());
+						lblaValueResult.Text=dt.Year.ToString()+"-"+
+							dt.Month.ToString()+"-"+dt.Day.ToString();
+					}

@@ -1,0 +1,12 @@
+			//新增
+			DataTable dt=CurrDataSet.Tables["RecoTable"];
+			DataRow dr=dt.NewRow();
+			dt.Rows.InsertAt(dr,0);
+			dr["ID"]=tbID.Text.Trim();
+			dr["English"]=tbSentence.Text.Trim();
+			dr["Chinese"]=tbChinese.Text.Trim();
+			dr["Times"]=0;
+			dt.AcceptChanges();
+			//以后的UpdateView
+			dgMain.SetDataBinding(CurrDataSet,"RecoTable");
+			dgMain.Select(CurrIndex);//定位整行选择的光标

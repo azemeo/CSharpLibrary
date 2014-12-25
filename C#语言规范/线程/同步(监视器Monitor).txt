@@ -1,0 +1,93 @@
+using System;
+using System.Threading;
+namespace BadNews
+{
+	/// <summary>
+	/// 使用临视以同步线程。
+	/// </summary>
+	class Class1
+	{
+		static Random rng=new Random();
+		static byte[]buffer=new byte[100];
+		static Thread writer;
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		//[STAThread]
+		static void Main(string[] args)
+		{
+			//初始化缓冲区
+			for(int i=0;i<100;i++)
+			{
+				buffer[i]=(byte)(i+1);
+			}
+			//开始一个编写器线程
+			writer=new Thread(new ThreadStart(WriterFunc));
+			writer.Start();
+			//开始10个阅读器线程
+			Thread[]readers=new Thread[10];
+			for(int i=0;i<10;i++)
+			{
+				readers[i]=new Thread(new ThreadStart(ReaderFunc));
+				readers[i].Name=(i+1).ToString();
+				readers[i].Start();
+			}
+		}
+		static void ReaderFunc()
+		{
+			//循环直到编写器线程终止
+			for(int i=0;writer.IsAlive;i++)
+			{
+				int sum=0;
+				//计算缓冲区数值的和
+				Monitor.Enter(buffer);//获得一个锁
+				try
+				{
+					for(int k=0;k<100;k++)
+						sum+=buffer[k];
+				}
+				finally
+				{
+					Monitor.Exit(buffer);//释放锁
+				}
+				//如果不正确，报告错误
+				if(sum!=5050)
+				{
+					string message=String.Format("Thread{0} "+
+						"reports a corrupted read on iteration {1}",
+						Thread.CurrentThread.Name,i+1);
+					Console.WriteLine(message);
+					writer.Abort();
+					return;
+				}
+			}			
+
+		}
+		static void WriterFunc()
+		{
+			DateTime start=DateTime.Now;
+			//最多循环10秒
+			while((DateTime.Now-start).Seconds<10)
+			{
+				int j=rng.Next(0,100);
+				int k=rng.Next(0,100);
+				Monitor.Enter(buffer);//获得一个锁
+				try
+				{
+					Swap(ref buffer[j],ref buffer[k]);
+				}
+				finally
+				{
+					Monitor.Exit(buffer);//释放一个锁
+				}
+			}
+		}
+		//交换数据
+		static void Swap(ref byte a,ref byte b)
+		{
+			byte tmp=a;
+			a=b;
+			b=tmp;
+		}
+	}
+}

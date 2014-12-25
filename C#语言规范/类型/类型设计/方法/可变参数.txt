@@ -1,0 +1,42 @@
+接受可变的参数的方法会为匀们的开发带来方便。
+
+params 关键字：产生代码传入参数
+
+参数必须为一个一维数组，但类型可以任意的。
+
+using System;
+public class MyOpt
+{
+	static Int32 Add(params Int32[]values)
+	{
+		Int32 sum=0;
+		for(Int32 x=0;x<values.Length;x++)
+		{
+			sum+=values[x];	
+		}
+		return sum;
+	}
+	static void Main()
+	{
+			//Console.WriteLine(Add(new Int32[]{1,2,3,4,5}));	
+			Console.WriteLine(Add(1,2,3,4,5,6));	
+	}
+}
+
+接受多个任意类型的参数，接受Object数据即可。
+using System;
+public class MyOpt
+{
+	static void DisplayTypes(params Object[]objects)
+	{
+		foreach(Object o in objects)
+		{
+			Console.WriteLine(o.GetType());	
+		}	
+	}
+
+	static void Main()
+	{
+		DisplayTypes(new Object(),new Random(),"Jeff",5);
+	}
+}

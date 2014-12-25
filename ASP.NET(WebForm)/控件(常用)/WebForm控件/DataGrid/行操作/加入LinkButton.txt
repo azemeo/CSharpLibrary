@@ -1,0 +1,32 @@
+//服务器端
+private void DGRefuse_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item || e.Item.ItemType==ListItemType.SelectedItem)
+			{
+				e.Item.Cells[0].Text = Convert.ToString(e.Item.ItemIndex+1);	//序号
+
+			
+				string strID=((LinkButton)e.Item.Cells[1].FindControl("btnDisplayDetail")).Text;	
+						
+				((LinkButton)e.Item.Cells[1].FindControl("btnDisplayDetail")).CommandArgument=strID;
+			}
+		}
+		//显示详细内容
+		protected void btnDisplayDetail_Command(object sender, System.Web.UI.WebControls.CommandEventArgs e)
+		{				
+			string strTmp="<script language=javascript>ShowInfo("+e.CommandArgument.ToString()+");</script>";
+
+			if(!this.IsStartupScriptRegistered("ShowInfo"))
+				this.RegisterStartupScript("ShowInfo", strTmp);			
+		}
+
+//客户端脚本
+<script language="javascript">
+		<!--				
+		function ShowInfo(strID)
+		{
+			//debugger;
+			window.showModalDialog('ShowDetails.aspx?ID='+strID,null,'dialogHeight:515px;dialogWidth:625px;center: yes;edge:sunken;resizable:no ;help: no;resizable: no;scroll: on;status: no;unadorned: no;');			
+		}	
+		//-->
+		</script>

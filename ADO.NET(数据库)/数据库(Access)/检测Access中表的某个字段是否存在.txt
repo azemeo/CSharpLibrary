@@ -1,0 +1,6 @@
+			OleDbConnection oleDbConnection1=new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+Environment.CurrentDirectory+"\\CustSMS.mdb");
+			oleDbConnection1.Open();
+			object[] oa={null, null, "Customer", "终止日期"};
+			DataTable schemaTable  = oleDbConnection1.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Columns, oa);
+			MessageBox.Show((schemaTable.Rows.Count ==0? "不存在": "存在"));
+			oleDbConnection1.Close();

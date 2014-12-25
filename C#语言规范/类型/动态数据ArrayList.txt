@@ -1,0 +1,19 @@
+using System.Collections;
+//ArrayList list=new ArrayList();
+			ArrayList list=new ArrayList(10000);//性能更好
+			for(int i=0;i<10000;i++)//增加
+				list.Add(i);
+			foreach(int i in list)  //迭代
+			{
+				//System.Diagnostics.Debug.WriteLine(i);
+				Console.WriteLine(i);
+			}
+			int c=(int)list[100];//检索
+			Console.WriteLine(c.ToString());
+			list[100]=999;//赋值
+			c=(int)list[100];//检索
+			Console.WriteLine(c.ToString());
+			list.RemoveRange(0,9990);//删除项
+			list.TrimToSize();//调节数据组大小
+			for(int i=0;i<list.Count;i++)
+				Console.WriteLine(list[i].ToString());

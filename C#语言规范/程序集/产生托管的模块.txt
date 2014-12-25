@@ -1,0 +1,2 @@
+csc /t:module complex.cs //C#
+vbc /t:module simple.vb  'VB

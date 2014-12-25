@@ -1,0 +1,8 @@
+引用强命名程序集
+
+有两分程序集被安装
+
+一份安装中CLR所在目录:C:\WINDOWS\Microsoft.NET\Framework\Vx.x.xxxx
+另一安装在GAC目录C:\WINDOWS\assembly\GAC
+
+CSC在CLR中搜索引用的程序集。/reference开关来指定希望引用的程序集文件。

@@ -1,0 +1,48 @@
+public string NetStatus()
+                {
+                        ManagementObjectCollection objects;
+                        string status = "";
+                        ManagementObjectSearcher searcher = new ManagementObjectSearcher();
+                        searcher.Query.QueryString = "Select * From Win32_NetworkAdapter ";
+                        objects = searcher.Get();
+                        foreach(ManagementObject obj in objects)
+                        {
+                                foreach(PropertyData p in obj.Properties)
+                                {
+                                        if(p.Name.Equals("NetConnectionStatus"))
+                                        {
+                                                if(p.Value!=null)
+                                                {
+                                                        status = p.Value.ToString();
+                                                }
+                                        }
+                                }
+                        }
+                        switch(status)
+                        {
+                                case "0":
+                                        return "Disconnected";
+                                case "1":
+                                        return "Connecting ...";
+                                case "2":
+                                        return "Connected";
+                                case "3":
+                                        return "Disconnecting ...";
+                                case "4":
+                                        return "Hardware not present";
+                                case "5":
+                                        return "Hardware disabled";
+                                case "6":
+                                        return "Hardware malfunction";
+                                case "7":
+                                        return "Media disconnected";
+                                case "8":
+                                        return "Authenticating";
+                                case "9":
+                                        return "Authentication succeeded";
+                                case "10":
+                                        return "Authentication failed";
+                                default:
+                                        return "";
+                        }
+                }

@@ -1,0 +1,36 @@
+浅拷贝:值字段被会拷贝,引用字段(不)会被拷贝。(shallow copy)
+
+深拷贝:值字段会被拷贝,引用字段会被拷贝。(deep copy)
+
+对用引用的自定义类型:
+
+如果希望实现浅拷贝,继承ICloneable接口，并在Clone方法中调用MemberwiseClone.
+
+引用类型
+1.实现浅拷贝
+class MyType:ICloneable
+{
+	public Object Clone()//浅拷贝
+	{
+		return MemberwiseClone();
+	}
+}
+2.实现深拷贝
+class MyType:ICloneable
+{
+	ArrayList set;
+	private MyType(ArrayList set)
+	{
+		this.set=(ArrayList)set.Clone();
+	}
+	public Object Clone()//深拷贝
+	{
+		return new MyType(set);
+	}
+}
+
+值类型
+1.本身支持浅拷贝
+2.如果要实现深拷贝,向引用类型一样继承ICloneable接口.
+
+

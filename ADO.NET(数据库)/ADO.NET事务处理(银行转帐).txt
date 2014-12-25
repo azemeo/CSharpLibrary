@@ -1,0 +1,50 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+namespace MyDataReader
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			SqlTransaction trans=null;
+			SqlConnection conn=new SqlConnection("server=localhost;database=mybank;uid=sa;pwd=");
+			try
+			{			
+				
+				conn.Open();
+				//开始一个本地事务
+				trans=conn.BeginTransaction(IsolationLevel.Serializable);//指派最高的隔离级别
+				//从帐户1111中借1000
+				SqlCommand cmd=new SqlCommand();
+				cmd.Connection=conn;
+				cmd.Transaction=trans;
+				cmd.CommandText="update accounts set balance=balance-1000"+" where account_id='1111'";
+				cmd.ExecuteNonQuery();
+				//向帐户2222中存1000
+				cmd.CommandText="update accounts set balance="+"balance+1000 where account_id='2222'";
+				cmd.ExecuteNonQuery();
+				//提交事务(提交更改)
+				trans.Commit();
+				Console.WriteLine("OK");
+			}
+			catch(SqlException)
+			{
+				//退出事务处理(撤消更改)
+				if(trans!=null)
+					trans.Rollback();
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+	}
+}

@@ -1,0 +1,2 @@
+从名称全程中析取目录名称
+PathSoundFile = Path.GetDirectoryName(ofd.FileName);

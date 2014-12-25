@@ -1,0 +1,8 @@
+		protected override void OnPaint ( System.Windows.Forms.PaintEventArgs e )			
+		{
+		Font font = new Font("ºÚÌå",28);
+		SolidBrush bluepen = new SolidBrush(Color.Blue);
+		SolidBrush blackpen = new SolidBrush(Color.Black);
+		e.Graphics.DrawString("VC#",font,blackpen,65,25);
+		e.Graphics.DrawString("VC#",font,bluepen,61,21);
+		}

@@ -1,0 +1,32 @@
+1.单击属性被设置为关键词select的列按钮来触发选择。
+在DataGrid控件中中放置一个ButtonColumn列
+CommandName=select
+Text可以显示文本或图像。Text="<img src="select.gif" border=0 />"
+DataField为绑定的字段。
+SelectedIndex 获取或设置当前选择项的索引(从0开始)
+单击列触发SelectedIndexChanged事件
+DataSetIndex 数据集中的绝索引。
+
+SelectedItemIndex属性可以自定义风格(选择背景)。(通常只支持一行，不支持多选)
+
+<form id="Form1" method="post" runat="server">
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 176px; POSITION: absolute; TOP: 144px"
+				runat="server" AutoGenerateColumns="False">
+				<SelectedItemStyle BackColor="MediumTurquoise"></SelectedItemStyle>
+				<Columns>
+					<asp:ButtonColumn Text="选择" CommandName="Select"></asp:ButtonColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="Firstname"></asp:BoundColumn>
+					<asp:BoundColumn DataField="lastname" HeaderText="LastName"></asp:BoundColumn>
+				</Columns>
+			</asp:DataGrid>
+</form>
+
+2.选择分格比ItemStyle风格优先级低，如果定义了列的风格，即即选择后其背景颜色也不会改变。
+但网格级别的ItemStyle,AlternatingStyle的风格会在选择时覆盖。
+
+          <asp:BoundColumn DataField="firstname" HeaderText="Firstname">
+						<ItemStyle BackColor="#ffddff"></ItemStyle>					
+					</asp:BoundColumn>
+
+3.还可改变选择的字体，以反应改变。
+         <SelectedItemStyle Font-Bold="True" BackColor="MediumTurquoise"></SelectedItemStyle>

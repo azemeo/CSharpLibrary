@@ -1,0 +1,18 @@
+需要OpenNet
+using System.Reflection;
+using ZWCF.Diagnostics;		
+private void button1_Click(object sender, System.EventArgs e)
+		{
+			//得到当前程序的路径
+			string full = Assembly.GetExecutingAssembly().GetName().CodeBase.ToString();
+			string name = Assembly.GetExecutingAssembly().GetName().ToString() ;
+			name = name.Substring(0,name.IndexOf(",")) + ".exe"; 
+			string applocal = full.Substring(0,full.IndexOf(name));
+			
+			//打开Mp3文件
+			Process ps=new Process();
+			ps.StartInfo.FileName="player.exe";
+			ps.StartInfo.Arguments=applocal+"test_ly.mp3"; 
+			ps.Start();
+
+		}

@@ -1,0 +1,31 @@
+构建大型的、工业强度级的电子商务网站。
+
+1.Web.config
+    <sessionState 
+            mode="SQLServer"
+            stateConnectionString="tcpip=127.0.0.1:42424"
+            sqlConnectionString="server=localhost;uid=sa;pwd="
+            cookieless="false" 
+            timeout="20" 
+    />
+2.WebForm1.aspx
+protected System.Web.UI.WebControls.Label Label1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (Session.IsNewSession || Session["Count"] == null) 
+			{
+				Session["Count"] = 1;
+				Label1.Text="Welcome! Because this is your first " +
+					"visit to this site, a new session has been created " +
+					"for you. Your session ID is " + Session.SessionID +
+					".";
+			}
+			else 
+			{
+				Session["Count"] = (int) Session["Count"] + 1;
+				Label1.Text="You have visited this site " +
+					Session["Count"] + " times. Your session ID is still " +
+					Session.SessionID + ".";
+			}
+		}

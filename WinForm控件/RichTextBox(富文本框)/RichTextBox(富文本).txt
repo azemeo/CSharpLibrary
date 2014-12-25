@@ -1,0 +1,5 @@
+			
+语法高度显示
+richTextBox1.Find("Good", RichTextBoxFinds.MatchCase);
+			richTextBox1.SelectionFont = new Font("Verdana", 12, FontStyle.Bold);
+			richTextBox1.SelectionColor = Color.Blue;

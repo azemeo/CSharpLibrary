@@ -1,0 +1,97 @@
+为了提高应用程序性能：提供了2种机制缓存常用数据：应用程序状态(ASP沿用)、应用程序缓冲(ASP.NET新增)。
+
+3个共同特点：
+应用程序的各个部分都能访问它们保存的数据。
+都将数据保存在内存中，而不会保存在其他地方。
+都保存了键/值对。
+
+
+
+3.Application的生命期
+1.关闭IE时仍然存在。
+2.重启IIS(重启计算机、关机)时会丢失。
+3.刷新时仍然存在。
+5.关闭IE,应用程序并没有结束，Application中的数据仍然存在,不激发Application_End事件。
+
+
+使用应用程序状态:Add,[]方法
+
+Application["AMZN"]=10.00m;
+Application["INTC"]=20.00m;
+Application["MSFT"]=30.00m;
+
+Application.Add("AMZN",10.00m);
+
+即使指定键的条目已存在时，Add仍会增加一个项目，[]却不会而是修改。
+
+读取
+
+decimal amzn=(decimal)Application["AMZN"];
+
+其它方法
+Remove,RemoveAt,RemoveAll,Clear
+
+
+Application.Lock(); //锁定
+Application["ItemSold"]=(int)Application["ItemSold"]+1;
+Application.UnLock();//解锁
+
+
+1.Global.asax
+<%@Import Namespace="System.IO" %>
+<script language="C#" runat="server" >
+	static string _path;
+	void Application_Start()
+	{
+		StreamReader reader=null;
+		try
+		{
+			_path=Server.MapPath("/Count.txt");
+			reader=new StreamReader(_path);
+			string line=reader.ReadLine();
+			int count=Convert.ToInt32(line);
+			Application["Count"]=count;
+		}
+		catch(Exception)
+		{
+			Application["Count"]=0;
+		}
+		finally{
+			if(reader!=null)
+				reader.Close();
+		}
+	}
+	void Application_End()
+	{
+		StreamWriter writer=null;
+		try
+		{
+			writer=new StreamWriter(_path,false);
+			writer.Write(Application["Count"]);
+		}
+		finally
+		{
+			if(writer!=null)
+				writer.Close();
+		}
+			
+	}
+</script>
+2.AppCounter.aspx
+<%@Page Language="C#" %>
+<html>
+	<body>
+		<%
+			Application.Lock();
+			int count=(int)Application["Count"]+1;
+			Application["Count"]=count;
+			Application.UnLock();
+			//
+			Response.Write("Pages in this application"+
+				"have been requested"+count+" time");
+			if(count>1)
+				Response.Write("s");
+			Response.Write(".");			
+		%>
+	</body>
+</html>

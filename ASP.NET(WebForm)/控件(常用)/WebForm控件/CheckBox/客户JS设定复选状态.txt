@@ -1,0 +1,25 @@
+重点：传递带不单引号的ID有区别
+只有设置了AutoPostback=true,时自动在onlick后的Javascript加上__doPostback函数.
+//方法1
+function Di_AffirmFrm(ci)
+		{
+			
+			
+				eval('document.all.'+ci+'.checked=true;') //拼接执行
+				
+
+		}
+
+
+cbStart.Attributes.Add("onclick","javascript:if(Di_AffirmFrm('"+cbStart.ClientID+"'))");
+
+//方法2
+function Di_AffirmFrm(s,t,ci)
+		{
+			
+			
+				ci.checked=true;//直接执行				
+
+		}
+
+cbStart.Attributes.Add("onclick","javascript:if(Di_AffirmFrm("+cbStart.ClientID+"))");

@@ -1,0 +1,39 @@
+线程池：并非自己启动一个线程，而是向线程池管理器提出请求。
+线程管理器维护一组线程，它的数目根据传入请求进行调整。
+
+using System;
+using System.Threading;
+namespace MyPool
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		static int count=0;
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			WaitCallback callback=new WaitCallback(ProcessRequest);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			ThreadPool.QueueUserWorkItem(callback);
+			Thread.Sleep(5000);//给请求一个执行的机会
+		}
+		static void ProcessRequest(object state)
+		{
+			int n=Interlocked.Increment(ref count);
+			Console.WriteLine(n);
+		}
+	}
+}

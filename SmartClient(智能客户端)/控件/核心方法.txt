@@ -1,0 +1,32 @@
+1.线程安全调用
+	Invoke
+2.对象清除
+	Dispose
+3.坐标转换
+	PointToClient 屏幕点->工作区点
+	PointToScreen 工作区点->屏幕点
+	RectangleToClient 屏幕矩形->工作区矩形
+	RectangleScreen 工作区矩形->屏幕矩形
+4.Z轴次序
+	BringToFront 带到Z顺序前面
+	SendToBack 发送到Z顺序后面
+5.可视函数
+	Show
+	Hide
+	与Visible属性相同的功能.
+
+
+
+
+
+
+
+屏幕点转化为工作区点的例子:
+
+		private void Calc_Click(object sender, System.EventArgs e)
+		{
+			Point p1=this.textBox1.Location;
+			Point p=this.textBox1.PointToScreen(p1);
+			MessageBox.Show(String.Format("S(x,y)={0},{1},C(x1,y1)={2},{3}",p.X,p.Y,p1.X,p1.Y));
+		}
+	

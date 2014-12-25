@@ -1,0 +1,45 @@
+private void buttonSave_Click(object sender, System.EventArgs e)
+		{
+			//
+			string orig=tbConn.Text.Trim();//orig,原字符串			
+			string coding="";//coding,编码
+			for(int i=0;i<orig.Length;i++)                     
+				coding+=((short)orig[i]).ToString()+"|";
+			FileStream aFile=new FileStream(Application.StartupPath+"\\sqlconn.dat",FileMode.OpenOrCreate);
+			StreamWriter sw=new StreamWriter(aFile);
+			sw.WriteLine(coding);
+			sw.Close();
+			aFile.Close();
+
+		}
+		private void LoadConn()
+		{
+			try{
+				string deco="";//解码后
+				string coding="";//加密串
+				string[]strArray;
+				char[]charArray=new char[]{'|'};
+				//
+				FileStream aFile=new FileStream(Application.StartupPath+"\\sqlconn.dat",FileMode.Open);
+				StreamReader sr=new StreamReader(aFile);
+				coding=sr.ReadLine();
+				if(coding!=null)
+				{
+					//
+					strArray=coding.Split(charArray);
+					for(int i=0;i<strArray.Length-1;i++)
+					{
+						short temp =short.Parse(strArray[i]);
+						deco+=((char)temp).ToString();
+					}
+					tbConn.Text=deco;
+				}
+				sr.Close();
+				aFile.Close();
+			}
+			catch
+			{
+				//没有文件
+				;
+			}			
+		}

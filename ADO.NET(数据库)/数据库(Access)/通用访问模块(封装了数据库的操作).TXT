@@ -1,0 +1,47 @@
+using System;
+using System.Data;
+using System.Data.OleDb;
+using System.Configuration;
+using System.Windows.Forms;
+namespace Study365
+{
+	public class DataAccess
+	{
+		
+		private string strConn="";
+		public DataAccess()
+		{
+			strConn=ConfigurationSettings.AppSettings["connStr"].ToString()+Application.StartupPath+"\\Sentence.mdb;";
+		}
+		
+		public DataTable GetTable()
+		{
+			DataSet ds=new DataSet();
+			OleDbConnection myConn=new OleDbConnection(strConn);
+			//OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\Micrsoft\CS5\Study365\Study365\bin\Debug\Sentence.mdb;");
+			myConn.Open();
+			OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM RecoTable",myConn);
+			OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+			thisAdapter.Fill(ds,"RecoTable");
+			myConn.Close();
+			return ds.Tables["RecoTable"];
+		}
+	}
+}
+
+
+
+
+<?xml version="1.0"?>
+<configuration>
+  <runtime>
+    <gcConcurrent enabled="true" />
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <publisherPolicy apply="yes" />
+      <probing privatePath="bin" />
+    </assemblyBinding>
+  </runtime>
+  <appSettings>
+    <add key="connStr" value="Provider=Microsoft.Jet.OLEDB.4.0;Data Source="/>    
+  </appSettings>
+</configuration>

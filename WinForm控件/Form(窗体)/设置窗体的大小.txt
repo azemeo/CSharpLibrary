@@ -1,0 +1,1 @@
+ClientSize=new Size(640,480);

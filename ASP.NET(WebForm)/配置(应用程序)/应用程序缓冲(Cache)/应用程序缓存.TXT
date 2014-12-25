@@ -1,0 +1,30 @@
+应用程序缓存：可以完成应用程序状态可以完成的任何事情，而且更多。提高程序的性能
+它是应用程序的内存中的存储。能够包存任何托管类型。
+
+与应用程序状态不同点
+应用程序缓存可以以指定到期策略(绝对到期和弹性到期、建立依赖关系、优选级)
+不具备Lock,UnLock方法,自已必须提供锁机制。System.Threading.ReaderWriterLock
+
+添加和删除条目
+
+由System.web.Caching.Cache的实例表示
+
+页面中通过Page.Cache访问应用程序缓存。Cache["AMZN']=10.00m;
+
+Global.asax通过HttpApplication.Context.Cache访问应用程序缓存。Context.Cache["AMZN']=10.00m;
+
+添加
+Cache.Insert("AMZN",10.00mm)
+Cache.Add
+
+
+检索
+decimal amzn=(decimal)Cache["AMZN"];
+
+删除
+Remove
+
+缓冲删除回调 CacheItemRemoveCallback
+ASP.NET删除缓冲中的条目，可以得到通知。
+
+

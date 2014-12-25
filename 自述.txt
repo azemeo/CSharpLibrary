@@ -1,0 +1,39 @@
+1.系统需求:
+硬件:CPU Intel Pentium 750以上,内存 128M以上,硬盘 10M以上剩余空间
+软件:Microsoft Windows 98以上,Microsoft .NET Framework 1.1以上
+
+2.介绍
+C#高手是由C#知识库中提取精华部分而得
+是一种知识管理软件,主要收藏C#语言程序设计技巧.
+C#语言,2001年2月问世,Microsoft .NET 平台上的首选编程语言.由Anders Hejlsberg设计,他被誉为C#之父.也是Delphi之父，Borland创造人。现在Microsoft任Microsoft.NET 首席架构师.
+
+3.Movecont Repository 的历史
+C#高手 1.00 2006-2-20
+C#高手 1.11 2006-4-01
+
+4.使用说明
+
+a.使用的方法类似Windows资源管理器,打开树型节点，双击打开文件。
+b.将文件夹或文件通过Windows资源管理器添加到软件安装目录，软件启动时自动检测新增的内容。
+
+5.软件注册时访问http://www.movecont.com,获得最新的信息。
+
+关于注册:
+注册方法:
+1.将你的机器码发到sales@movecont.com邮箱中。
+2.通过如下链接任意链接付款:
+	a.网路http://www.softreg.com.cn/shareware.asp?id=26192
+	b.天天http://www.sharebank.com.cn/soft/softbuy.php?soid=16070
+	c.天空http://shareware.skycn.com/soft/6603.htm
+	d.华军http://www.pcsoft.com.cn/Order/form_set_order.aspx?CardID=3398
+	e.动连http://www.movecont.com/
+3.我们将在二个工作日内将注册码发到你的邮箱中。
+4.您将收到注册码复制到注册码编辑框中，单击注册。
+
+5.联系
+作者：葛利峰
+MSN：gelifeng@hotmail.com
+网址：http://www.movecont.com
+Copyright (C) 2006 Movecont Corp.
+
+19:05 2006-4-1

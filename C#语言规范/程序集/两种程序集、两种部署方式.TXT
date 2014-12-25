@@ -1,0 +1,42 @@
+两种程序集、两种部署方式
+
+两种程序集:弱命名、强命名
+两种部署方式:私有、全局
+
+
+程序集种类            是否可以私有部署            是否可以全局部署
+弱命名程序集          是                          否
+强命名程序集          是                          是
+
+
+强命名程序集：为了解决DLL的地狱的问题，用于唯一标识文件。
+
+
+弱命名程序集：用文件名为来标识程序集的特性。
+
+强命名程序集：用文件名(无扩展名)、版本号、语言文化标识、和一个公有密钥标记。
+
+强命名的区分，使得我们以够创建有着相同名称、版本、语言文件的程序集、而不引起任何冲突。
+
+System.Refection.AssemblyName 类用于操作上述特性。
+
+强命名实用工具：SN.exe 命令开关区分大小写
+1.创建密钥对
+sn -k MyCompany.keys
+2.查看它
+   a.创建公钥文件
+      sn -p MyCompany.keys MyCompany.PublicKey
+   b.查看公钥
+      sn -tp MyCompany.PublicKey
+3.应用到源码中AssemblyInfo.cs
+    [assembly: AssemblyKeyFile("..\\..\\MyCompany.keys")]
+
+
+公钥的尺寸使得它很难使用，为了方便用户，公有密钥标记(public key token)应运而生。是一个64位的公有密钥散列值.
+
+可以使用Al.EXE的/algid开关，或Systetm.Reflection.AssemblyAlgorithmIdAttribute 来改变默认的期列算法(SHA)
+
+
+
+
+

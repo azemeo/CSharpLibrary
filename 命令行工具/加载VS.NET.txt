@@ -1,0 +1,46 @@
+
+用法: 
+devenv  [solutionfile | projectfile | anyfile.ext]  [switches]
+
+可以调用 devenv，用第一个参数指定解决方案文件或项目文件。
+也可以调用 devenv，使第一个参数作为要在编辑器中打开的任何
+其他类型的文件。如果提供项目文件，IDE 将通过在与项目文件
+相同的目录中查找与项目文件具有相同基名称的 .sln 文件，在
+解决方案的上下文中打开该项目文件。如果存在 .sln 文件，则 
+IDE 将查找引用该项目的单个 .sln 文件。如果不存在这样的单
+个 .sln 文件，则 IDE 将创建一个具有默认 .sln 文件名的未保
+存的解决方案，而该默认文件名与项目文件具有相同的基名称。
+
+命令行生成: 
+devenv solutionfile.sln  /build solutionconfig [ /project projectnameorfile [ /projectconfig name ] ]
+
+可用的命令行开关: 
+
+/build	生成指定的解决方案配置
+/project	指定生成项目而不是解决方案
+	必须指定 /build 才能使用 /project
+/projectconfig	指定要生成的项目配置
+	必须指定 /project 才能使用 /projectconfig
+/out	将生成结果写入指定的文件
+/rebuild	与 /build 类似，但先执行强制清理
+/clean	清理生成结果
+/deploy	生成指定的解决方案配置然后部署它
+/run	运行指定的解决方案配置
+/runexit	运行指定的解决方案配置然后终止
+/command	启动后执行指定的内部命令行
+/mditabs	使用选项卡式文档界面
+/mdi	使用 MDI 界面
+/fn	使用指定的字体名称
+/fs 	使用指定的字体大小
+/LCID	使用指定的语言 ID
+/noVSIP	禁用用于 VSIP 测试的VSIP 开发人员许可证密钥
+/safemode	出于稳定性仅加载默认的环境和服务
+/resetskippkgs	允许曾被标记为加载失败的 VsPackages
+	再次加载
+/migratesettings 迁移另一个版本中的某些用户设置
+
+产品特定的开关: 
+
+
+若要从命令行附加调试器，请使用: 
+	vs7jit.exe -p <pid>

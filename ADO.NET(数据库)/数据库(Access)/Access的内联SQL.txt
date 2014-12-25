@@ -1,0 +1,3 @@
+Access的内联操作
+不支持AS及别名
+Select Product.ID,Product.PedName,Product.Tel,Product.Mobile,Product.Counter,Product.PostTime From Product,CityKind,ProductKind,BrandKind Where 0=0 AND 0=0 AND 0=0

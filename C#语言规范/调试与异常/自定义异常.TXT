@@ -1,0 +1,69 @@
+所有的异常类都应该以单词 Exception 结尾，并且应该从类 ApplicationException 派生。尽管这不是严格的要求，并且不这样做也不会中断任何事，但是这样做会使人们更容易维护您的代码。
+
+1.
+using System;
+
+namespace MyException
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	/// 
+
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			try
+			{
+				f();
+			}
+			catch(MoveException ex)
+			{
+				Console.WriteLine(ex.Value.ToString());
+			}
+		}
+		static void f()
+		{
+			throw new MoveException("Movecont Exception");
+		}
+	}
+}
+2.
+using System;
+
+namespace MyException
+{
+	/// <summary>
+	/// MoveException 的摘要说明。
+	/// </summary>
+	public class MoveException:ApplicationException
+	{
+		string ss;
+		public MoveException()
+		{
+
+		}
+		public MoveException(string message): base(message)
+		{
+			ss=message;
+		}
+		public MoveException(string message, Exception inner): 
+			base(message, inner)
+		{
+			ss=message;
+		}
+		public string Value
+		{
+			get
+			{
+				return ss;
+			}
+		}
+
+	}
+}

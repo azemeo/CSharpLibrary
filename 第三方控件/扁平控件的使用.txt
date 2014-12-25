@@ -1,0 +1,68 @@
+1.将文件LumiSoft.UI.dll复制到项目的bin\debug目录下
+2.在解决方案管理器中添加引用LumiSoft.UI.dll
+3.在工具栏中添加引用LumiSoft.UI.dll
+4.在源码中添加引用
+using LumiSoft.UI.Controls.WOutlookBar;
+5.放置三个控件:
+		private LumiSoft.UI.Controls.WFrame wFrame1;
+		private LumiSoft.UI.Controls.WOutlookBar.WOutlookBar wOutlookBar1;
+		private System.Windows.Forms.ImageList imageList1;
+		设置:wOutlookBar1.ImageList=imageList1;
+6.代码如下:
+//建立联系
+private void Form1_Load(object sender, System.EventArgs e)
+{
+	wFrame1.Frame_BarControl=this.wOutlookBar1;
+	Init_Bar();
+}
+//添加子项
+private void Init_Bar()
+{
+	Bar bar = null;
+
+	Bar stuckingTest = this.wOutlookBar1.Bars.Add("收件箱");
+	stuckingTest.Items.Add("第1封信",0);
+	stuckingTest.Items.Add("第2封信",0);
+
+	bar = wOutlookBar1.Bars.Add("发件箱");//选择方式不一样
+	bar.ItemsStyle = ItemsStyle.FullSelect;
+	bar.Items.Add("第3封信",0);
+	bar.Items.Add("第4封信",0);
+
+	bar = wOutlookBar1.Bars.Add("垃圾箱");
+	bar.Items.Add("第5封信",0);
+	bar.Items.Add("第6封信.",0);
+	bar.Items.Add("第7封信",0);
+}
+//事件处理
+private void wOutlookBar1_ItemClicked(object sender, LumiSoft.UI.Controls.WOutlookBar.ItemClicked_EventArgs e)
+{
+	MessageBox.Show(e.Item.Caption);
+}
+//致此第一部分已完成
+7.新建窗体form2.cs
+a.添加引用
+using LumiSoft.UI;
+b.添加控件:toolBar1
+Appearance=Flat,imagelist=imagelist1,Buttons添加相应的按钮，并使用imageindex=x;
+c.修改构造体:Form2
+public Form2(LumiSoft.UI.Controls.WFrame wFrame)
+		{
+			//
+			// Windows 窗体设计器支持所必需的
+			//
+			InitializeComponent();
+
+			//
+			// TODO: 在 InitializeComponent 调用后添加任何构造函数代码
+			//
+			wFrame.Frame_TooBar=this.toolBar1;
+		}
+d.再次修改调用窗体:Form1
+private void Form1_Load(object sender, System.EventArgs e)
+		{
+			wFrame1.Frame_BarControl=this.wOutlookBar1;//OutLook状态栏
+			wFrame1.Frame_Form=new Form2(wFrame1);//借壳
+			Init_Bar();
+		}
+e.对于其它控件采用复制的方式。

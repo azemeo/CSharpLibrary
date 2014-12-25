@@ -1,0 +1,73 @@
+Repeater 转发器控件
+
+HeadTempldate  标题(只显示一次)
+
+ItemTemplate 每一行数据
+
+AlternatingItemTemplate 隔行呈现
+
+SeparatorTemplate 各行之间的HTML
+
+FooterTempldate 页脚
+
+没有内置布局工具，预定义的风格，也不支持选择与编辑，只能手工编写进行选择和编辑。
+
+灵活性高
+
+DataBinder.Eval 不会给您便大编程能力，只能使编程更容易.
+
+
+1.*.aspx
+<%@ Import Namespace="System.Data" %>
+<asp:Repeater id="Repeater1" runat="server">
+				<HeaderTemplate>
+					<table style="border:1px solid black;" class="stdtext">
+					<thead bgcolor="blue" style="color:white">
+						<td><b>ID</b></td>
+						<td><b>First Name</b></td>
+						<td><b>Last Name</b></td>
+					</thead>
+				</HeaderTemplate>
+				<ItemTemplate>
+					<tr>
+						<td bgcolor="white"><%#DataBinder.Eval(Container.DataItem,"EmployeeID")%></td>
+						<td bgcolor="white"><%#DataBinder.Eval(Container.DataItem,"FirstName")%></td>
+						<td bgcolor="white"><%#DataBinder.Eval(Container.DataItem,"LastName")%></td>
+					</tr>
+				</ItemTemplate>
+				<AlternatingItemTemplate>
+					<td bgcolor="lightblue"><%#DataBinder.Eval(Container.DataItem,"EmployeeID")%></td>
+					<td bgcolor="lightblue"><%#DataBinder.Eval(Container.DataItem,"FirstName")%></td>
+					<!--
+					以下表达式性能较好，并且需要增加名称空间包含
+					-->
+					<td bgcolor="lightblue"><%#String.Format("{0:c}",((DataRowView)Container.DataItem)["LastName"])%></td>
+
+				</AlternatingItemTemplate>
+				<FooterTemplate>
+					<tfoot>
+						<td bgcolor="silver" colspan="3">						
+						<b><%=Count%> </b>employees found.
+						</td>
+					</tfoot>
+					</table>
+				</FooterTemplate>
+			</asp:Repeater>
+
+
+2.*.cs
+			if(!Page.IsPostBack)
+			{
+				//ListBox数据绑定
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select employeeid,firstName,lastName From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];
+				Repeater1.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+				Repeater1.DataBind();
+				Count=((DataView)Repeater1.DataSource).Count.ToString();
+
+			}

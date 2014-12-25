@@ -1,0 +1,9 @@
+一、增加一个WinForm为SplashScreen,设置其Formborderstyle:None
+二、增加引用using System.Threading;
+三、在Form1的static void Main() 中增加入下代码:
+SplashScreen splashForm = new SplashScreen(); //飞屏
+			splashForm.Show();
+			Application.DoEvents();//让系统在百忙中抽空刷新飞屏控件显示
+			Thread.Sleep(2000);//暂停
+			splashForm.Close();			
+			Application.Run(new Form1()); 

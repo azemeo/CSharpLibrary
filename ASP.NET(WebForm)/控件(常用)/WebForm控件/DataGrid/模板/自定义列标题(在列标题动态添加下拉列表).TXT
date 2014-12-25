@@ -1,0 +1,170 @@
+如果希望改变列的标题模板，只要不排序，那么尽管去做，如果要排序，最在标题动态添加额外的控件。
+给SortExpression 不寻常的值。
+1.页面
+<%@ Page language="c#" Codebehind="MySortGrid2.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MySortGrid2" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MySortGrid</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:datagrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 72px; POSITION: absolute; TOP: 80px" runat="server"
+				AutoGenerateColumns="False" AllowSorting="True">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:TemplateColumn SortExpression="*" HeaderText="Sort by">
+						<ItemTemplate>
+							<asp:Label id="Label1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"titleofcourtesy")+"<b>"+DataBinder.Eval(Container.DataItem,"LastName")+"</b>"+","+DataBinder.Eval(Container.DataItem,"FirstName") %>'>Label</asp:Label>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+					<asp:BoundColumn DataField="Title" HeaderText="Position"></asp:BoundColumn>
+					<asp:BoundColumn DataField="country" HeaderText="From"></asp:BoundColumn>
+				</Columns>
+			</asp:datagrid></form>
+	</body>
+</HTML>
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Xml;
+namespace Co_112
+{
+	/// <summary>
+	/// MySortGrid 的摘要说明。
+	/// </summary>
+	public class MySortGrid2 : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select titleofcourtesy,employeeid,firstName,lastName,country,title From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			DataGrid1.DataSource=oDS.Tables["MyList"];
+			DataGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+		//序列化到XML文件(写入)
+		private void SerializeDataSource(DataSet ds)
+		{
+			string strFile=Server.MapPath(Session.SessionID+".xml");
+			XmlTextWriter xtw=new XmlTextWriter(strFile,null);
+			ds.WriteXml(xtw);
+			xtw.Close();			
+		}
+		//反序列XML文件(读出)
+		private DataSet DeserializeDataSource()
+		{
+			string strFile=Server.MapPath(Session.SessionID+".xml");
+			XmlTextReader xtr=new XmlTextReader(strFile);
+			DataSet ds=new DataSet();
+			ds.ReadXml(xtr);
+			xtr.Close();
+			return ds;
+		}
+
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.DataGrid1.ItemCreated += new System.Web.UI.WebControls.DataGridItemEventHandler(this.DataGrid1_ItemCreated);
+			this.DataGrid1.SortCommand += new System.Web.UI.WebControls.DataGridSortCommandEventHandler(this.DataGrid1_SortCommand);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void DataGrid1_SortCommand(object source, System.Web.UI.WebControls.DataGridSortCommandEventArgs e)
+		{
+			
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			if(e.SortExpression!="*")
+				dv.Sort=e.SortExpression;
+			else
+			{
+				DataGridItem dgi=(DataGridItem)e.CommandSource;
+				DropDownList dd=(DropDownList)dgi.FindControl("ddSort");//在当前的空器中搜索控件
+				dv.Sort=dd.SelectedItem.Value;
+				//保留当前选定的下拉列表项
+				ViewState["FieldIndex"]=dd.SelectedIndex.ToString();			
+			}
+			DataGrid1.DataSource=dv;
+			DataGrid1.DataBind();
+		}		
+
+		private void DataGrid1_ItemCreated(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			ListItemType elemType=e.Item.ItemType;//获得被创建项的类型
+			if(elemType==ListItemType.Header)
+			{
+				//创建下拉列表控件
+				DropDownList dd=new DropDownList();
+				dd.ID="ddSort";
+				ListItem li1,li2,li3;
+				//ListItem构造函数获得项的Text和Value值
+				li1=new ListItem("Title of courtesy","titleofcourtesy");
+				dd.Items.Add(li1);
+				li2=new ListItem("Last Name","lastname");
+				dd.Items.Add(li2);
+				li3=new ListItem("First Name","firstname");
+				dd.Items.Add(li3);
+				//选最后一次选择的项(如果有的话)
+				if(ViewState["FieldIndex"]==null)
+				{
+					dd.SelectedIndex=0;
+				}
+				else
+				{
+					dd.SelectedIndex=Convert.ToInt32(ViewState["FieldIndex"]);
+				}
+				//向第二个标题中添加下拉列表
+				TableCell cell1=(TableCell)e.Item.Controls[1];
+				cell1.Controls.Add(dd); 
+			}
+		}
+	}
+}

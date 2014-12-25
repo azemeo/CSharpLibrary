@@ -1,0 +1,19 @@
+命令行工具：
+1.代码访问安全性策略工个
+caspol -listgroups
+2.强名工具
+sn -k key.snk
+3.安全查看
+secutil.exe -hex -strongname strongname.exe
+4.证书创建
+makecert -sk ABC -n "CN=ABC Corporation" abccorptest.cer
+5.证书标记
+signcode
+6.环境设置
+setreg.exe 1 true
+7.检查证书
+chktrust.exe app1.exe
+8.il中间语言反汇编
+ildasm.exe
+
+C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Bin\ildasm.exe

@@ -1,0 +1,30 @@
+1.@Page,ASPX文件定义一般的属性和编译设置
+例如:指定所有角本的默认语言,及调试选项
+<%@ Page Language="C#" Debug="true" %>
+<html>
+	<body>
+		<%
+		Response.Write("Hello,world");
+		%>
+	</body>
+</html>
+2.@Import导入一个名称空间
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.SqlClient" %>
+<html>
+	<body>
+		<%
+		Response.Write("Hello,world");
+		%>
+	</body>
+</html>
+3.@Assembly导入程序集
+<%@ Assembly Name="System.DirectoryServices" %>
+4.控制缓冲页
+<%@ Page Language="C#" %>
+<%@ OutputCache Duration="60" VaryByParam="None" %>
+<html>
+	<body>
+		Today is<%=DateTime.Now.ToLongDateString() %>
+	</body>
+</html>

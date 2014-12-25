@@ -1,0 +1,6 @@
+DateTime start=DateTime.Now;
+			//×î¶àÑ­»·10Ãë
+			while((DateTime.Now-start).Seconds<5)
+			{
+				;
+			}

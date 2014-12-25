@@ -1,0 +1,270 @@
+介绍:
+目前必须通过自定义控件来实现
+1.RoseGrid
+2.ViewState["SelectCond"]管理选择项的集合。
+3.使用了一个普通ButtonColumn(不要用第二层的选择Button列)
+4.使用：单击一次，再次单击取消。
+
+1.控件
+using System;
+using System.Drawing;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Collections;
+using System.Data;
+
+namespace Movecont
+{
+	/// <summary>
+	/// RoseGrid
+	/// 作者：葛利峰
+	/// 2005-3-29
+	/// 具有扩展功能的DataGrid
+	/// </summary>
+	public class RoseGrid : DataGrid
+	{
+		public class SuperGridColumnTemplate : ITemplate
+		{
+			public void InstantiateIn(Control container) 
+			{
+				CheckBox cb = new CheckBox();
+				container.Controls.Add(cb);
+			}
+		}
+		//构造函数
+		public RoseGrid()
+		{
+			AutoGenerateColumns=false;//禁用自动生成列
+			ViewState["RowSelectFilter"] = "";
+			//设置事件处理
+			Init += new EventHandler(OnInit);
+			ItemCreated += new DataGridItemEventHandler(OnItemCreated);
+		}
+		//在创建项时激发
+		public void OnItemCreated(Object sender, DataGridItemEventArgs e)
+		{
+			//得到一个新建的项
+			ListItemType itemType = e.Item.ItemType;
+
+			//被选择项的背景色
+			if (itemType == ListItemType.Item || itemType == ListItemType.AlternatingItem) 
+			{
+				DataRowView drv = (DataRowView) e.Item.DataItem;
+				if (drv != null && RowSelectFilter != "")
+				{
+					if ((bool) drv["RowSelectFilter"])
+						e.Item.BackColor = SelectBackColor;
+				}
+			}
+		}
+		//初始控件时激发
+		public void OnInit(Object sender, EventArgs e)
+		{
+			if (AllowMultiSelect)//多选择项
+				AddSelectColumn();			
+		}
+		private void AddSelectColumn()
+		{
+			TemplateColumn tc = new TemplateColumn();
+			tc.ItemStyle.BackColor = Color.SkyBlue;
+			tc.ItemTemplate = new SuperGridColumnTemplate();
+			Columns.AddAt(0, tc);
+		}
+		public bool AllowMultiSelect = false;//允许多项选择
+		//属性:行选择过滤器 
+		public String RowSelectFilter 
+		{
+			get { return(String)  ViewState["RowSelectFilter"]; }
+			set { ViewState["RowSelectFilter"] = value; }
+		}
+		//属性:选择时背景色
+		private Color m_SelectBackColor = Color.SkyBlue;
+		public Color SelectBackColor 
+		{
+			get { return m_SelectBackColor; }			
+			set { m_SelectBackColor = value;}
+		}
+		//属性:数据源
+		public override object DataSource
+		{
+			get {return base.DataSource;}
+			set 
+			{
+				base.DataSource = value;
+
+				DataTable dt = null;
+				if (DataSource is DataTable)
+					dt = (DataTable) DataSource;
+				else if (DataSource is DataView)
+					dt = ((DataView)DataSource).Table;
+		
+				DataColumn dc;	
+				try 
+				{
+					if (dt.Columns.Contains("RowSelectFilter"))
+						dt.Columns["RowSelectFilter"].Expression = RowSelectFilter;
+					else
+					{
+						dc = new DataColumn("RowSelectFilter", typeof(bool), RowSelectFilter);
+						dt.Columns.Add(dc);
+					}
+				}
+				catch {RowSelectFilter="";}
+			}
+		}
+	}
+}
+			
+2.页面
+<%@ Register TagPrefix="gee" Namespace="Movecont" Assembly="RoseGrid" %>
+<%@ Page language="c#" Codebehind="WebForm5.aspx.cs" AutoEventWireup="false" Inherits="Co_6.WebForm5" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>WebForm5</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<FONT face="宋体">
+				<asp:Label id="Label1" style="Z-INDEX: 101; LEFT: 56px; POSITION: absolute; TOP: 56px" runat="server">自定义DataGrid终极控件示例</asp:Label>
+				<gee:RoseGrid id="RoseGrid1" style="Z-INDEX: 102; LEFT: 56px; POSITION: absolute; TOP: 112px"
+					runat="server" AutoGenerateColumns="False" SelectBackColor="SkyBlue">
+					<Columns>
+						<asp:BoundColumn DataField="employeeid" HeaderText="Id"></asp:BoundColumn>
+						<asp:BoundColumn DataField="firstname" HeaderText="firstname"></asp:BoundColumn>
+						<asp:BoundColumn DataField="lastname" HeaderText="lastname"></asp:BoundColumn>
+						<asp:ButtonColumn Text="选择" CommandName="se"></asp:ButtonColumn>
+					</Columns>
+				</gee:RoseGrid></FONT>
+		</form>
+	</body>
+</HTML>
+3.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+namespace Co_6
+{
+	/// <summary>
+	/// WebForm5 的摘要说明。
+	/// </summary>
+	public class WebForm5 : System.Web.UI.Page
+	{
+		protected Movecont.RoseGrid RoseGrid1;
+		protected System.Web.UI.WebControls.Label Label1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{				
+				ViewState["SelectCond"]=(new ArrayList());
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			strCmd="Select * From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"MyList");
+			DataTable dt=oDS.Tables["MyList"];				
+			RoseGrid1.DataSource=oDS.Tables["MyList"];
+			RoseGrid1.DataBind();
+			Session["MyDataSet"]=oDS;//保存数据集
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.RoseGrid1.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.RoseGrid1_ItemCommand);
+			this.RoseGrid1.SelectedIndexChanged += new System.EventHandler(this.RoseGrid1_SelectedIndexChanged);
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+
+		private void RoseGrid1_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+
+		}
+		//最新状态显示
+		private void UpdateView()
+		{
+			DataSet ds=(DataSet)Session["MyDataSet"];
+			DataView dv=ds.Tables["MyList"].DefaultView;
+			RoseGrid1.DataSource=dv;
+			RoseGrid1.DataBind();
+		}
+
+		private void RoseGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		{
+			if(e.CommandName=="se")
+			{
+				RoseGrid1.RowSelectFilter=ManExp(e.Item.Cells[0].Text);
+				UpdateView();
+			}
+		}
+		//管理表达式集合(单击选择，再次单击取消)
+		private string ManExp(string key)
+		{
+			
+			ArrayList al=(ArrayList)ViewState["SelectCond"];
+
+			int j=al.IndexOf(key);
+			if(j!=-1)
+			{
+				al.RemoveAt(j);
+				ViewState["SelectCond"]=al;
+			}
+			else
+			{
+				al.Add(key);
+				ViewState["SelectCond"]=al;
+			}
+			string res="";
+			if(al.Count>0)
+				res="Employeeid="+al[0].ToString();
+			for(int i=1;i<al.Count;i++)
+			{
+				res+=" or Employeeid="+al[i].ToString();
+			}
+			return res;
+		}
+
+		private void CheckBox1_CheckedChanged(object sender, System.EventArgs e)
+		{
+		}
+	}
+}

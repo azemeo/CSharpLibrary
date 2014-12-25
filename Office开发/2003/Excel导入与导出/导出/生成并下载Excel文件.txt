@@ -1,0 +1,9 @@
+public void ToExcel2(string FileName)
+		{
+			HttpResponse resp = Page.Response;
+			resp.ContentEncoding = System.Text.Encoding.Default;
+			resp.AppendHeader("Content-Disposition", "attachment;filename=" +FileName+".xls");
+			resp.Write("√˚≥∆\t÷÷¿‡");
+			resp.End();
+
+		}

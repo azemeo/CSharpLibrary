@@ -1,0 +1,5 @@
+FileInfo aFile=new FileInfo("history.xml");
+			if(aFile.Exists)
+				AppHistory();
+			else
+				NewHistory();

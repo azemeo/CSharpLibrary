@@ -1,0 +1,139 @@
+关键：
+在页中包含页指令System.Data
+向DataSet中多加一个表并建立关联
+
+1.页面
+<%@ Page language="c#" Codebehind="MyKind.aspx.cs" AutoEventWireup="false" Inherits="Co_112.MyKind" %>
+<%@ Import Namespace="System.Data" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>MyKind</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<asp:DataGrid id="DataGrid1" style="Z-INDEX: 101; LEFT: 224px; POSITION: absolute; TOP: 208px"
+				runat="server" AutoGenerateColumns="False">
+				<Columns>
+					<asp:BoundColumn DataField="employeeid" HeaderText="ID"></asp:BoundColumn>
+					<asp:BoundColumn DataField="firstname" HeaderText="First Name"></asp:BoundColumn>
+					<asp:TemplateColumn HeaderText="Reports">
+						<ItemTemplate>
+							<asp:CheckBox id=CheckBox1 runat="server" Enabled="False" Checked='<%# HasBoss((int)DataBinder.Eval(Container.DataItem,"boss")) %>'>
+							</asp:CheckBox>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+					<asp:TemplateColumn HeaderText="Territories">
+						<ItemTemplate>
+							<asp:DropDownList id=DropDownList1 runat="server" Width="120px" DataSource="<%# GetTerritories((DataRowView)Container.DataItem) %>">
+							</asp:DropDownList>
+						</ItemTemplate>
+					</asp:TemplateColumn>
+				</Columns>
+			</asp:DataGrid>
+		</form>
+	</body>
+</HTML>
+
+2.代码
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Text;
+namespace Co_112
+{
+	/// <summary>
+	/// 显示布尔值。
+	/// </summary>
+	public class MyKind : System.Web.UI.Page
+	{
+		protected System.Web.UI.WebControls.DataGrid DataGrid1;
+	
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			if(!Page.IsPostBack)
+			{
+				Display();
+			}
+		}
+		private void Display()
+		{
+			string strConn,strCmd;
+			strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+			//添加第一个表
+			// ISNULL:使用指定的替换值替换 NULL
+			strCmd="Select employeeid,titleofcourtesy,firstname,lastname,title,ISNULL(reportsto,0) AS boss From employees";
+			SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+			DataSet oDS=new DataSet();
+			oCMD.Fill(oDS,"EmployeesTable");
+			//添加第二个表
+			string ss="Select et.employeeid,t.territorydescription From EmployeeTerritories As et Inner join Territories As t on t.territoryid=et.territoryid";
+			SqlDataAdapter da=new SqlDataAdapter(ss,strConn);
+			da.Fill(oDS,"TerritoriesTable");			
+			DataColumn dc1=oDS.Tables["EmployeesTable"].Columns["employeeid"];
+			DataColumn dc2=oDS.Tables["TerritoriesTable"].Columns["employeeid"];
+			//建立关联
+			DataRelation dre1=new DataRelation("EmployeesAndTerritories",dc1,dc2);
+			oDS.Relations.Add(dre1);
+
+			DataGrid1.DataSource=oDS.Tables["EmployeesTable"];
+			DataGrid1.DataBind();
+			oDS.Dispose();
+			oDS=null;
+			oCMD.Dispose();
+			oCMD=null;
+
+			
+		}
+		public bool HasBoss(int bossID)
+		{
+			if(bossID!=0)
+				return true;
+			return false;
+		}
+		public ArrayList GetTerritories(DataRowView drv)
+		{
+			DataRow dr=drv.Row;//提取底层行
+			//根据关系检索子行
+			DataRow [] adr=dr.GetChildRows("EmployeesAndTerritories");
+			//创建并返回一个数组列表
+			ArrayList a=new ArrayList();
+			foreach(DataRow tmp in adr)
+				a.Add(tmp["territorydescription"]);
+			return a;
+		}
+
+		#region Web 窗体设计器生成的代码
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
+		/// 此方法的内容。
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+
+		}
+		#endregion
+	}
+}

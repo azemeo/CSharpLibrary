@@ -1,0 +1,8 @@
+			if(this.CheckBoxList1.Items[2].Selected)
+			{
+				Label2.Text="选中";
+			}
+			else
+			{
+				Label2.Text="没选中";
+			}

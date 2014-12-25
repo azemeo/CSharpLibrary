@@ -1,0 +1,4 @@
+示列代码一：
+	byte dest;
+	short sour=7;
+	dest=(byte)sour;

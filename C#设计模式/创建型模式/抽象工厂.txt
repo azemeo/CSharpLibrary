@@ -1,0 +1,2 @@
+抽象工厂(Abstract Factory Pattern)
+比工厂模式具有更高的抽象性.返回一系列相关类的某一个。

@@ -1,0 +1,80 @@
+1.页面
+<zwctl:datagridex id="zdgMain" runat="server" Width="100%" AutoGenerateColumns="False" ShowSelectControl="True"
+							ShowSelectType="CheckBox" ShowAutoNumber="True" AllowSorting="True" NoDataDispalyText="暂无任何数据！" ShowNoDataDispalyText="False" PageSize="16">
+							
+							<Columns>
+								<zwctl:myCheckBoxColumn></zwctl:myCheckBoxColumn>
+								<zwctl:myAutoNumberColumn></zwctl:myAutoNumberColumn>
+								<asp:BoundColumn DataField="User_Name" SortExpression="User_Name" HeaderText="用户名称"></asp:BoundColumn>
+								<asp:BoundColumn DataField="Dep_Name" SortExpression="Dep_Name" HeaderText="部门"></asp:BoundColumn>
+								<asp:BoundColumn DataField="Company_Name" SortExpression="Company_Name" HeaderText="公司"></asp:BoundColumn>
+								<asp:TemplateColumn>
+									<HeaderTemplate>
+										<FONT face="宋体">
+											<asp:Label id="Label3" runat="server">经理</asp:Label></FONT>
+									</HeaderTemplate>
+									<ItemTemplate>
+										<asp:CheckBox id="cbIsMan" runat="server"></asp:CheckBox>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+								<asp:BoundColumn Visible="False" DataField="User_ID" SortExpression="User_ID" HeaderText="用户ID"></asp:BoundColumn>
+							</Columns>
+						</zwctl:datagridex>
+
+
+
+
+2.数据结构
+public class DataDual
+		{
+			private string user_id;
+			private string is_manger;
+			public DataDual(string user_id,string is_manger)
+			{
+				this.user_id=user_id;
+				this.is_manger=is_manger;				
+			}
+			public string USER_ID
+			{
+				get
+				{
+					return user_id;
+				}
+			}
+
+			public string IS_MANGER
+			{
+      
+				get
+				{
+					return is_manger ;
+				}
+			}
+
+		}
+3.算法
+ArrayList al=new ArrayList();
+			string User_Id="";//用户ID
+			string IsManager="0";//是否是经理
+			int ColCount = this.zdgMain.Columns.Count;//列数
+			for(int i=0;i<zdgMain.Items.Count;i++)
+			{
+				CheckBox cbSelect = (CheckBox)zdgMain.Items[i].Cells[0].FindControl("__cbSelect");	
+				if(cbSelect != null)
+				{
+					if(cbSelect.Checked)
+					{
+						User_Id=zdgMain.Items[i].Cells[ColCount-1].Text.Trim();//得到用户ID
+						CheckBox cbIsMan=(CheckBox)zdgMain.Items[i].Cells[ColCount-2].FindControl("cbIsMan");	//得到是否是经理
+						if(cbIsMan!=null)
+						{
+							if(cbIsMan.Checked)
+								IsManager="1";
+							else
+								IsManager="0";
+						}
+						al.Add(new DataDual(User_Id,IsManager));
+					}
+				}
+			}
+			Session["Setup_UserTerr_SelectUser"] = al;

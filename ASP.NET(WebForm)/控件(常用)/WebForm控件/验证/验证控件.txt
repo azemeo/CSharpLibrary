@@ -1,0 +1,114 @@
+验证控件-----------------
+公共属性
+ControlToValidate:指定需要验证的控件
+Disaplay:消息如何显示
+ErrorMessage:错误提示
+-------------------------
+RequiredFieldValidator
+多个控件一块验证是:Display=Dynamic,让错误信息显示在相同的地方。
+1.检查相应不能为空
+------------------------
+RangeValidator
+MinimuValue,最小值
+MaximuValue,最大值
+type,类型
+1.拒绝这个范围之外的数字
+<asp:TextBox id="Percent" style="Z-INDEX: 101; LEFT: 48px; POSITION: absolute; TOP: 80px" runat="server"></asp:TextBox>
+<asp:RangeValidator id="RangeValidator1" style="Z-INDEX: 102; LEFT: 264px; POSITION: absolute; TOP: 80px"
+	runat="server" ErrorMessage="Value out of range" ControlToValidate="Percent" MinimumValue="2003-10-01"
+	MaximumValue="2003-12-31" Type="Date"></asp:RangeValidator>
+-------------------------
+CompareValidator
+关键属性:
+ControlToValidte:验证的控件
+Controlcompare:目标控件
+Type:类型
+Operator:操作符
+1.最大值不能小于最小值
+<asp:TextBox id="Minimum" style="Z-INDEX: 103; LEFT: 48px; POSITION: absolute; TOP: 136px" runat="server"></asp:TextBox>
+<asp:TextBox id="Maximum" style="Z-INDEX: 104; LEFT: 48px; POSITION: absolute; TOP: 192px" runat="server"></asp:TextBox>
+<asp:CompareValidator id="CompareValidator1" style="Z-INDEX: 105; LEFT: 264px; POSITION: absolute; TOP: 144px"
+	runat="server" ErrorMessage="Invalid maximum" ControlToValidate="Maximum" Type="Integer" ControlToCompare="Minimum"
+	Operator="DataTypeCheck"></asp:CompareValidator>
+
+2.前后两次密码必须相同
+<asp:TextBox id="Password1" style="Z-INDEX: 106; LEFT: 48px; POSITION: absolute; TOP: 248px"
+	runat="server"></asp:TextBox>
+<asp:TextBox id="Password2" style="Z-INDEX: 107; LEFT: 48px; POSITION: absolute; TOP: 288px"
+	runat="server"></asp:TextBox>
+<asp:CompareValidator id="CompareValidator2" style="Z-INDEX: 108; LEFT: 272px; POSITION: absolute; TOP: 256px"
+	runat="server" ErrorMessage="Mismatch" ControlToValidate="Password2" ControlToCompare="Password1"></asp:CompareValidator>
+
+-------------------------
+RegularExpressionValidator(正则表达工验证器)
+关键属性:
+ValidationExpression:验证表达式
+1.只允许数字输入
+<asp:TextBox id="Quantity" style="Z-INDEX: 109; LEFT: 48px; POSITION: absolute; TOP: 344px" runat="server"></asp:TextBox>
+<asp:RegularExpressionValidator id="RegularExpressionValidator1" style="Z-INDEX: 110; LEFT: 272px; POSITION: absolute; TOP: 344px"
+	runat="server" ErrorMessage="Digits only" ControlToValidate="Quantity" ValidationExpression="^\d+$"></asp:RegularExpressionValidator>
+2.电子邮件
+<asp:TextBox id="Quantity" style="Z-INDEX: 109; LEFT: 48px; POSITION: absolute; TOP: 344px" runat="server"></asp:TextBox>
+<asp:RegularExpressionValidator id="RegularExpressionValidator1" style="Z-INDEX: 110; LEFT: 272px; POSITION: absolute; TOP: 344px"
+	runat="server" ErrorMessage="Digits only" ControlToValidate="Quantity" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+--------------------------
+CustomValidator(定制验证器)
+属性:
+ClientValidationFunction:客户端验函数
+事件:
+ServerValidate:服务器验证事件
+1.验证用户输入为10的倍数
+a.控件
+<asp:CustomValidator id="CustomValidator1" style="Z-INDEX: 112; LEFT: 272px; POSITION: absolute; TOP: 408px"
+	runat="server" ErrorMessage="CustomValidator" ControlToValidate="Amount" ClientValidationFunction="__ValidateAmount"></asp:CustomValidator>
+b.客户端代码
+<script language=javascript>
+<!--
+function __ValidateAmount(source,args)
+{
+	args.IsValid=(args.Value%10==0);
+}
+//-->
+</script>
+c.服务器端
+private void CustomValidator1_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+{
+	try
+	{
+		args.IsValid=(Convert.ToInt32(args.Value)%10==0);
+	}
+	catch(FormatException)
+	{
+		args.IsValid=false;
+	}
+
+}
+---------------------------
+ValidationSummary(验证摘要)
+DisplayMode:显示方式
+ShowSummary：显示示摘要
+ShowMessageBox:显示对话框
+其它控件的Display=None
+验证发生中提交前，所有必须有一个激发提交的控件
+1.
+<form id="Form1" method="post" runat="server">
+	<asp:TextBox id="UserName" style="Z-INDEX: 101; LEFT: 40px; POSITION: absolute; TOP: 64px" runat="server"></asp:TextBox>
+	<asp:TextBox id="Password" style="Z-INDEX: 102; LEFT: 40px; POSITION: absolute; TOP: 112px" runat="server"
+		TextMode="Password" Width="200px"></asp:TextBox>
+	<asp:RequiredFieldValidator id="RequiredFieldValidator1" style="Z-INDEX: 103; LEFT: 256px; POSITION: absolute; TOP: 72px"
+		runat="server" ErrorMessage="The user name can't be blank." ControlToValidate="UserName" Display="None"></asp:RequiredFieldValidator>
+	<asp:RequiredFieldValidator id="RequiredFieldValidator2" style="Z-INDEX: 104; LEFT: 256px; POSITION: absolute; TOP: 120px"
+		runat="server" ErrorMessage="The password can't be blank" ControlToValidate="Password" Display="None"></asp:RequiredFieldValidator>
+	<asp:RegularExpressionValidator id="RegularExpressionValidator1" style="Z-INDEX: 105; LEFT: 264px; POSITION: absolute; TOP: 120px"
+		runat="server" ErrorMessage="RegularExpressionValidator" ControlToValidate="Password" Display="None" ValidationExpression=".{8,}"></asp:RegularExpressionValidator>
+	<asp:ValidationSummary id="ValidationSummary1" style="Z-INDEX: 106; LEFT: 40px; POSITION: absolute; TOP: 208px"
+		runat="server" HeaderText="This page containts the following errors:" DisplayMode="List"></asp:ValidationSummary>
+	<asp:Button id="Button1" style="Z-INDEX: 107; LEFT: 272px; POSITION: absolute; TOP: 168px" runat="server"
+		Text="Button"></asp:Button>
+</form>
+
+
+
+
+
+

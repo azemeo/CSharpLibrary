@@ -1,0 +1,3 @@
+			string s="ff";
+			int t=Convert.ToInt32(s,16);
+			Console.WriteLine(t);

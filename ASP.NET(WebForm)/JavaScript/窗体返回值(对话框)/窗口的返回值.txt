@@ -1,0 +1,8 @@
+Window 窗口的返回值				
+
+function closeWindow()
+				{
+					window.returnValue=window.document.all("txtSetidFlag").value;
+					window.close();
+					
+				}

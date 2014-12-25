@@ -1,0 +1,3 @@
+MemoryStream stream=new MemoryStream();
+//从数据库中得到流
+pbMain.Image=Image.FromStream(stream);

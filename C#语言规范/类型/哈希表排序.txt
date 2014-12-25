@@ -1,0 +1,4 @@
+				SortedList list=new SortedList(table);//≈≈–Ú
+				Console.WriteLine("{0}unique word ound in {1}",table.Count,args[0]);
+				foreach(DictionaryEntry entry in list)
+					Console.WriteLine("{0}({1})",entry.Key,entry.Value);

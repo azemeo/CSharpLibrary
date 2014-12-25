@@ -1,0 +1,59 @@
+using System.Text.RegularExpressions;			
+string Text="The software ad,is MeTone,  a,is very gaaad!,Your Need";
+			//一般
+//			string Pattern="is";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,以n开头的单词
+//			string Pattern=@"\bn";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,以e结尾的单词
+//			string Pattern=@"e\b";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,以M开头,以e结尾，中间是任何数量不为空的字符,\S表示不是空白的字符,*任何数量
+//			string Pattern=@"\bM\S*e\b";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,以T只能是总文本中的第一个字符
+//			string Pattern=@"^T";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,以d只能是总文本中的第一个字符
+//			string Pattern=@"d$";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,.是除以换行符\n以外的任何一个字符
+//			string Pattern=@"g.d";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//				Console.WriteLine(NextMatch.Index);
+			//转义,+可以重复一次或多次的前导字符
+//			string Pattern=@"ga+d";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,?可以重复零次或多次的前导字符
+//			string Pattern=@"ga+d";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//转义,?可以重复零次或多次的前导字符
+//			string Pattern=@"\sa";
+//			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+//			foreach(Match NextMatch in Matches)
+//				Console.WriteLine(NextMatch.Index);
+			//提取网址
+			Text="I'found the URL is http://www.emay.net.cn is very good";
+			string Pattern=@"\b(\S+)://(\S+)(?::(\S+))?\b";
+			MatchCollection Matches=Regex.Matches(Text,Pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+			foreach(Match NextMatch in Matches)
+				Console.WriteLine(NextMatch);

@@ -1,0 +1,3 @@
+从VSS下载的项目XXX(WebService项目)要求提供Web的URL
+
+方法是去掉xxx.csproj的只读属性

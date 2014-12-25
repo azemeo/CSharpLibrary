@@ -1,0 +1,15 @@
+
+
+生成操作=嵌入的资源
+
+代码
+
+using System.Reflection;
+
+imageButton1.Image = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("SD_Button.smiley.gif"));
+
+
+解释:
+SD_Button 当前窗体的名称空间
+smiley.gif 图片名称
+

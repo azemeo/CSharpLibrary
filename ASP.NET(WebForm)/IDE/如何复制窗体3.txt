@@ -1,0 +1,11 @@
+复制窗体后:
+
+CS
+
+修class 的名称
+
+ASPX
+
+修Page CodeBehind 链接文件名 及Inherits 类，即可。 
+
+如果：B.cs在A.*下，则B.aspx做一次签入与签出即改变挂在B.aspx下

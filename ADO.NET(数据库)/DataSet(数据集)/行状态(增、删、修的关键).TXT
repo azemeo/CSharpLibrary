@@ -1,0 +1,43 @@
+行状态DataRow.RowState
+
+
+Added        (4)该行已添加到 DataRowCollection 中，AcceptChanges 尚未调用
+Deleted      (8)该行已通过 DataRow 的 Delete 方法被删除
+Detached     (1)该行已被创建，但不属于任何 DataRowCollection。
+             DataRow 在以下情况下立即处于此状态：创建之后添加到集合中之前；或从集合中移除之后。)
+Modified     (16)该行已被修改，AcceptChanges 尚未调用
+UnChanged    (2) 该行自上次调用 AcceptChanges 以来尚未更改, 这也是表第一次创表后所行的状态.
+
+
+HasChanges 表中是否有挂起更改的布尔值。
+
+AcceptChanges  提交自上次调用 AcceptChanges 以来对该行进行的所有更改。并接受值UnChanged
+
+RejectChanges  拒绝自上次调用 AcceptChanges 以来对该行进行的所有更改。并接受值UnChanged
+
+插入行
+
+DataRow dr=dt.NewNow();
+//DataRow.RowState=Detached
+dt.Rows.Add(dr);
+
+
+更新行
+
+DataRow[] rgRows;
+rgRows=dt.Select("employeeid="+grid.DataKeys[e.ItemIndex]);
+DataRow dr=rgRows[0];
+dr["name"]="xxx";
+
+
+删除行
+
+DataRow[] rgRows;
+rgRows=dt.Select("employeeid="+grid.DataKeys[e.ItemIndex]);
+rgRows[0].Delete();
+//DataRow.RowState=Deleted 
+rgRows[0].Remove();
+//DataRow.RowState=Detached 
+
+
+

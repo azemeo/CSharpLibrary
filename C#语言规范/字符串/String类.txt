@@ -1,0 +1,4 @@
+支持索引器,索引器名称Chars
+
+			string s="gelifeng";
+			Console.WriteLine(s[1].ToString());

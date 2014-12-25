@@ -1,0 +1,25 @@
+1.控件
+			<asp:Repeater id="Repeater1" runat="server">
+				<ItemTemplate>
+					<%#DataBinder.Eval(Container.DataItem,"title")+"("+
+						DataBinder.Eval(Container.DataItem,"price","{0:c}")+
+						")"%>
+					<br>
+				</ItemTemplate>
+			</asp:Repeater>
+2.代码
+			SqlConnection connection=new SqlConnection("server=localhost;database=pubs;uid=sa;pwd=");
+			try
+			{
+				connection.Open();
+				SqlCommand command=new SqlCommand("select * from titles where price!=0",connection);
+				SqlDataReader reader=command.ExecuteReader();
+				this.Repeater1.DataSource=reader;
+				this.Repeater1.DataBind();
+			}
+			finally
+			{
+				connection.Close();
+			}
+3.引用
+using System.Data.SqlClient;

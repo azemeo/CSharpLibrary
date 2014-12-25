@@ -1,0 +1,12 @@
+绑定主键        
+
+ dgridProjects.DataSource = utilData.GetProjectsDT();
+         dgridProjects.DataBindings.Clear();
+         dgridProjects.DataBindings.Add(
+                              "Text", 
+                              dgridProjects.DataSource, 
+                              "strIdent");//列名
+
+//显示主键
+
+lblDatumKey.Text = dgridSender.Text;

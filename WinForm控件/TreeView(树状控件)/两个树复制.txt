@@ -1,0 +1,5 @@
+			for(int i=0;i<this.treeView1.Nodes.Count;i++)
+			{
+				object m=this.treeView1.Nodes[i].Clone();
+				this.treeView2.Nodes.Add((TreeNode)m);
+			}

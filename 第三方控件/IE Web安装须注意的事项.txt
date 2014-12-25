@@ -1,0 +1,2 @@
+1.执行build.bat时,通过VS.NET命令提示符进入。
+2.建立Bin目录时，有可能是c:\inpub\wwwroot

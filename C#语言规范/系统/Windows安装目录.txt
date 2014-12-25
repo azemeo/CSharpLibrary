@@ -1,0 +1,1 @@
+Environment.SystemDirectory.Substring(0, Environment.SystemDirectory.LastIndexOf("\\"))

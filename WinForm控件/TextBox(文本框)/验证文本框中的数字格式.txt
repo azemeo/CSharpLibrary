@@ -1,0 +1,12 @@
+验证文本框中的数字格式
+
+int MaxVal=0;
+			try
+			{
+				MaxVal=Convert.ToInt32(Input.Text);
+			}
+			catch(FormatException)
+			{
+				MessageBox.Show("Please enter a number greater than 2");
+				return;
+			}

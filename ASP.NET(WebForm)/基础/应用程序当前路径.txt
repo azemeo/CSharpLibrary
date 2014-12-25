@@ -1,0 +1,7 @@
+
+
+using System.Web;
+
+			System.Web.HttpApplication ha=new HttpApplication();
+			string strPath=ha.Request.PhysicalApplicationPath.ToString();
+			string file=strPath+"\\temp.xml";

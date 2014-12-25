@@ -1,0 +1,15 @@
+try
+			{
+				OleDbConnection myConn=new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=aa.xls;Extended Properties=Excel 8.0;");
+				myConn.Open();
+				OleDbDataAdapter thisAdapter= new OleDbDataAdapter("SELECT * FROM [Sheet1$]",myConn);
+				OleDbCommandBuilder thisBuilder=new OleDbCommandBuilder(thisAdapter);
+				DataSet thisDataSet=new DataSet();
+				thisAdapter.Fill(thisDataSet,"ExcelInfo");
+				MessageBox.Show(thisDataSet.Tables["ExcelInfo"].Rows[1][1].ToString());
+				myConn.Close();	
+			}
+			catch(OleDbException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}

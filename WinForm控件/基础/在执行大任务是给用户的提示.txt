@@ -1,0 +1,710 @@
+1.添加BackgroundThreadStatusDialog.cs文件。下面提供
+2.改变BackgroundThreadStatusDialog.cs名称空间为当前应用程序的。
+3.加入如下代码
+private void button1_Click(object sender, System.EventArgs e)
+{
+	BackgroundThreadStatusDialog statusDialog = new BackgroundThreadStatusDialog();
+	try
+	{
+		for (int n = 0; n < 1000; n++)
+		{
+			statusDialog.Percent = n/10;//进度
+			statusDialog.Description=n.ToString();//提示
+			int ticks = System.Environment.TickCount;
+			while (System.Environment.TickCount - ticks < 10)
+				;
+			if (statusDialog.IsCanceled)//查看用户是按下Cancel键
+				return;
+		}
+		statusDialog.Close();//关闭显示窗口
+		MessageBox.Show(statusDialog.IsCanceled ? "Canceled" : "Success");
+	}
+	finally
+	{
+		statusDialog.Close();
+	}
+}
+4.添加一个参考窗体Form2.cs,来调整BackgroundThreadStatusDialog.cs控件的布局。
+5.BackgroundThreadStatusDialog.cs如下:
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace MyDialog1
+{
+	/// <summary>
+	/// Summary description for BackgroundThreadStatusDialog.
+	/// </summary>
+	public class BackgroundThreadStatusDialog : IDisposable
+	{
+		// Fields
+		private string description = "";
+		private int percent = 0;
+		private BackgroundThread backgroundThread = null;
+		bool isCanceled = false;
+
+
+		public BackgroundThreadStatusDialog()
+			: this(true)
+		{
+		}
+
+		public BackgroundThreadStatusDialog(bool show)
+		{
+			if (show)
+				Show();
+		}
+
+		void IDisposable.Dispose()
+		{
+			Close();
+		}
+
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				if (description != value)
+				{
+					description = value;
+					this.backgroundThread.UpdateLabel();
+				}
+			}
+		}
+
+		public int Percent
+		{
+			get
+			{
+				return percent;
+			}
+			set
+			{
+				if (percent != value)
+				{
+					percent = value;
+					this.backgroundThread.UpdateLabel();
+				}
+			}
+		}
+
+		public bool IsCanceled
+		{
+			get
+			{
+				return isCanceled;
+			}
+			set
+			{
+				isCanceled = value;
+			}
+		}
+
+		public bool IsDialogVisible
+		{
+			get
+			{
+				return backgroundThread != null;
+			}
+		}
+
+		public void Show()
+		{
+			if (IsDialogVisible)
+				return;
+
+			if (this.backgroundThread == null) 
+				this.backgroundThread = new BackgroundThread(this);
+			if (this.backgroundThread != null)
+			{
+				this.backgroundThread.UpdateLabel();
+				if (this.isCanceled)
+					Close();
+			}
+		}
+
+		public void Close()
+		{
+			if (this.backgroundThread != null) 
+				this.backgroundThread.Stop();
+			this.backgroundThread = null;
+		}
+
+		private class BackgroundThread 
+		{
+            
+			// Fields
+			private BackgroundThreadStatusDialog parent;
+			private StatusDialog dialog;
+			private Thread thread;
+			private bool alreadyStopped = false;
+            
+			// Constructors
+			internal BackgroundThread(BackgroundThreadStatusDialog parent)
+			{
+				this.parent = parent;
+				this.thread = new Thread(new ThreadStart(Run));
+				this.thread.ApartmentState = ApartmentState.STA;
+				this.thread.Start();
+			} 
+            
+			private void Run()
+			{
+				try 
+				{
+					lock(this)
+					{
+						if (!this.alreadyStopped) 
+						{
+							this.dialog = new StatusDialog();
+							this.ThreadUnsafeUpdateLabel();
+							this.dialog.Visible = true;
+						}
+					}
+					if (!this.alreadyStopped) 
+						Application.Run(this.dialog);
+				}
+				finally 
+				{
+					lock(this)
+					{
+						if (this.dialog != null)
+						{
+							this.dialog.Dispose();
+							this.dialog = null;
+						}
+					}
+				}
+			} 
+            
+            
+			internal void Stop()
+			{
+				lock(this)
+				{
+					if (this.dialog != null && this.dialog.IsHandleCreated) 
+						this.dialog.BeginInvoke(new MethodInvoker(this.dialog.Close));
+					this.alreadyStopped = true;
+				}
+			} 
+            
+			private void ThreadUnsafeUpdateLabel()
+			{
+				this.dialog.Label = parent.description;
+				this.dialog.Percent = parent.percent;
+				if (this.dialog.IsCanceled)
+					parent.IsCanceled = true;
+			} 
+            
+            
+			internal void UpdateLabel()
+			{
+				if (this.dialog != null && this.dialog.IsHandleCreated) 
+					this.dialog.BeginInvoke(new MethodInvoker(this.ThreadUnsafeUpdateLabel));
+			}             
+		} 
+
+	
+		/// <summary>
+		/// Summary description for StatusDialog.
+		/// </summary>
+		private class StatusDialog : System.Windows.Forms.Form
+		{
+			private System.Windows.Forms.Button buttonCancel;
+			private System.Windows.Forms.Label labelStat;
+			private System.Windows.Forms.ProgressBar pbStat;
+			private bool canceled = false;
+
+			public bool IsCanceled
+			{
+				get
+				{
+					return canceled;
+				}
+				set
+				{
+					canceled = value;
+				}
+			}
+
+			public int Percent
+			{
+				get
+				{
+					return pbStat.Value;
+				}
+				set
+				{
+					pbStat.Value = value;
+				}
+			}
+
+			public string Label
+			{
+				get
+				{
+					return labelStat.Text;
+				}
+				set
+				{
+					labelStat.Text = value;
+				}
+			}
+
+			public StatusDialog()
+			{
+				InitializeComponent();
+			}
+
+			/// <summary>
+			/// Required method for Designer support - do not modify
+			/// the contents of this method with the code editor.
+			/// </summary>
+			private void InitializeComponent()
+			{
+				this.pbStat = new System.Windows.Forms.ProgressBar();
+				this.buttonCancel = new System.Windows.Forms.Button();
+				this.labelStat = new System.Windows.Forms.Label();
+				this.SuspendLayout();
+				// 
+				// pbStat
+				// 
+				this.pbStat.Location = new System.Drawing.Point(16, 72);
+				this.pbStat.Name = "pbStat";
+				this.pbStat.Size = new System.Drawing.Size(312, 16);
+				this.pbStat.Step = 5;
+				this.pbStat.TabIndex = 0;
+				// 
+				// buttonCancel
+				// 
+				this.buttonCancel.Location = new System.Drawing.Point(253, 136);
+				this.buttonCancel.Name = "buttonCancel";
+				this.buttonCancel.TabIndex = 1;
+				this.buttonCancel.Text = "取消";
+				this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+				// 
+				// labelStat
+				// 
+				this.labelStat.AutoSize = true;
+				this.labelStat.Location = new System.Drawing.Point(16, 40);
+				this.labelStat.Name = "labelStat";
+				this.labelStat.Size = new System.Drawing.Size(54, 17);
+				this.labelStat.TabIndex = 2;
+				this.labelStat.Text = "[status]";
+				// 
+				// Form2
+				// 
+				this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
+				this.ClientSize = new System.Drawing.Size(344, 173);
+				this.ControlBox = false;
+				this.Controls.Add(this.labelStat);
+				this.Controls.Add(this.buttonCancel);
+				this.Controls.Add(this.pbStat);
+				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+				this.MaximizeBox = false;
+				this.MinimizeBox = false;
+				this.Name = "Form2";
+				this.ShowInTaskbar = false;
+				this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+				this.Text = "发送短信...(Ref)";
+				this.TopMost = true;
+				this.ResumeLayout(false);
+
+			}
+			private void buttonCancel_Click(object sender, System.EventArgs e)
+			{
+					canceled = true;
+			}
+		}
+	}
+}
+6.修改文件BackgroundThreadStatusDialog.cs
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows.Forms;
+namespace MyDialog1
+{
+	/// <summary>
+	/// Summary description for BackgroundThreadStatusDialog.
+	/// </summary>
+	public class BackgroundThreadStatusDialog : IDisposable
+	{
+		// Fields
+		private string description = "";
+		private int percent = 0;
+		private BackgroundThread backgroundThread = null;
+		bool isCanceled = false;
+
+		public BackgroundThreadStatusDialog()
+			: this(true)
+		{
+		}
+
+		public BackgroundThreadStatusDialog(bool show)
+		{
+			if (show)
+				Show();
+		}
+
+		void IDisposable.Dispose()
+		{
+			Close();
+		}
+
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				if (description != value)
+				{
+					description = value;
+					this.backgroundThread.UpdateLabel();
+				}
+			}
+		}
+
+		public int Percent
+		{
+			get
+			{
+				return percent;
+			}
+			set
+			{
+				if (percent != value)
+				{
+					percent = value;
+					this.backgroundThread.UpdateLabel();
+				}
+			}
+		}
+		public void IsFinished()
+		{
+			this.backgroundThread.UpdateButton();
+		}
+
+		public bool IsCanceled
+		{
+			get
+			{
+				return isCanceled;
+			}
+			set
+			{
+				isCanceled = value;
+			}
+		}
+
+		public bool IsDialogVisible
+		{
+			get
+			{
+				return backgroundThread != null;
+			}
+		}
+
+		public void Show()
+		{
+			if (IsDialogVisible)
+				return;
+
+			if (this.backgroundThread == null) 
+				this.backgroundThread = new BackgroundThread(this);
+			if (this.backgroundThread != null)
+			{
+				this.backgroundThread.UpdateLabel();
+				if (this.isCanceled)
+					Close();
+			}
+		}
+
+
+		public void Close()
+		{
+			if (this.backgroundThread != null) 
+				this.backgroundThread.Stop();
+			this.backgroundThread = null;
+		}
+
+		private class BackgroundThread 
+		{
+            
+			// Fields
+			private BackgroundThreadStatusDialog parent;
+			private StatusDialog dialog;
+			private Thread thread;
+			private bool alreadyStopped = false;
+            
+			// Constructors
+			internal BackgroundThread(BackgroundThreadStatusDialog parent)
+			{
+				this.parent = parent;
+				this.thread = new Thread(new ThreadStart(Run));
+				this.thread.ApartmentState = ApartmentState.STA;
+				this.thread.Start();
+			} 
+            
+			private void Run()
+			{
+				try 
+				{
+					lock(this)
+					{
+						if (!this.alreadyStopped) 
+						{
+							this.dialog = new StatusDialog();
+							this.ThreadUnsafeUpdateLabel();
+							this.dialog.Visible = true;
+						}
+					}
+					if (!this.alreadyStopped) 
+						Application.Run(this.dialog);
+				}
+				finally 
+				{
+					lock(this)
+					{
+						if (this.dialog != null)
+						{
+							this.dialog.Dispose();
+							this.dialog = null;
+						}
+					}
+				}
+			} 
+            
+            
+			internal void Stop()
+			{
+				lock(this)
+				{
+					if (this.dialog != null && this.dialog.IsHandleCreated) 
+						this.dialog.BeginInvoke(new MethodInvoker(this.dialog.Close));
+					this.alreadyStopped = true;
+				}
+			} 
+            
+			private void ThreadUnsafeUpdateLabel()
+			{
+				this.dialog.Label = parent.description;
+				this.dialog.Percent = parent.percent;
+				if (this.dialog.IsCanceled)
+					parent.IsCanceled = true;
+			} 
+            
+            
+			internal void UpdateLabel()
+			{
+				if (this.dialog != null && this.dialog.IsHandleCreated) 
+					this.dialog.BeginInvoke(new MethodInvoker(this.ThreadUnsafeUpdateLabel));
+			}   
+			private void ThreadUnsafeUpdateButton()
+			{
+				this.dialog.ShowOk();
+			}
+			internal void UpdateButton()
+			{
+				if (this.dialog != null && this.dialog.IsHandleCreated) 
+					this.dialog.BeginInvoke(new MethodInvoker(this.ThreadUnsafeUpdateButton));
+	
+			}
+
+		} 
+
+	
+		/// <summary>
+		/// 状态对话框
+		/// </summary>
+		private class StatusDialog : System.Windows.Forms.Form
+		{
+			private System.Windows.Forms.Button buttonCancel;
+			private System.Windows.Forms.Label labelStat;
+			private System.Windows.Forms.ProgressBar pbStat;
+			private System.Windows.Forms.Button buttonOk;
+
+			private bool canceled = false;
+
+			public bool IsCanceled
+			{
+				get
+				{
+					return canceled;
+				}
+				set
+				{
+					canceled = value;
+				}
+			}
+
+			public int Percent
+			{
+				get
+				{
+					return pbStat.Value;
+				}
+				set
+				{
+					pbStat.Value = value;
+				}
+			}
+
+			public string Label
+			{
+				get
+				{
+					return labelStat.Text;
+				}
+				set
+				{
+					labelStat.Text = value;
+				}
+			}
+			public StatusDialog()
+			{
+				InitializeComponent();
+			}
+
+			/// <summary>
+			/// Required method for Designer support - do not modify
+			/// the contents of this method with the code editor.
+			/// </summary>
+			private void InitializeComponent()
+			{
+				this.pbStat = new System.Windows.Forms.ProgressBar();
+				this.buttonCancel = new System.Windows.Forms.Button();
+				this.labelStat = new System.Windows.Forms.Label();
+				this.buttonOk = new System.Windows.Forms.Button();
+				this.SuspendLayout();
+				// 
+				// pbStat
+				// 
+				this.pbStat.Location = new System.Drawing.Point(16, 72);
+				this.pbStat.Name = "pbStat";
+				this.pbStat.Size = new System.Drawing.Size(312, 16);
+				this.pbStat.Step = 5;
+				this.pbStat.TabIndex = 0;
+				// 
+				// buttonCancel
+				// 
+				this.buttonCancel.Location = new System.Drawing.Point(253, 136);
+				this.buttonCancel.Name = "buttonCancel";
+				this.buttonCancel.TabIndex = 1;
+				this.buttonCancel.Text = "取消(&C)";
+				this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+				// 
+				// buttonOk
+				// 
+				this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+				this.buttonOk.Location = new System.Drawing.Point(128, 136);
+				this.buttonOk.Name = "buttonOk";
+				this.buttonOk.TabIndex = 3;
+				this.buttonOk.Text = "确定(&O)";
+				this.buttonOk.Visible = false;
+				this.buttonOk.Click+=new System.EventHandler(this.buttonOk_Click);
+				// 
+				// labelStat
+				// 
+				this.labelStat.AutoSize = true;
+				this.labelStat.Location = new System.Drawing.Point(16, 40);
+				this.labelStat.Name = "labelStat";
+				this.labelStat.Size = new System.Drawing.Size(54, 17);
+				this.labelStat.TabIndex = 2;
+				this.labelStat.Text = "[status]";
+				// 
+				// Form2
+				// 
+				this.AcceptButton = this.buttonOk;
+				this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
+				this.ClientSize = new System.Drawing.Size(344, 173);
+				this.ControlBox = false;
+				this.Controls.Add(this.labelStat);
+				this.Controls.Add(this.buttonCancel);
+				this.Controls.Add(this.buttonOk);
+				this.Controls.Add(this.pbStat);
+				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+				this.MaximizeBox = false;
+				this.MinimizeBox = false;
+				this.Name = "Form2";
+				this.ShowInTaskbar = false;
+				this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+				this.Text = "发送短信...";
+				this.TopMost = true;
+				this.ResumeLayout(false);
+
+			}
+			private void buttonCancel_Click(object sender, System.EventArgs e)
+			{
+				canceled = true;
+			}
+			private void buttonOk_Click(object sender, System.EventArgs e)
+			{
+				Close();
+			}
+			public void ShowOk()
+			{
+				this.buttonCancel.Visible=false;//隐藏Cancel按钮
+				this.buttonOk.Location=this.buttonCancel.Location;//将OK移动到Cancel的位置
+				this.buttonOk.Visible=true;//显示OK按钮
+			}
+		}
+	}
+}
+7.修订调用
+private void btnSendMsg_Click(object sender, System.EventArgs e)
+{
+BackgroundThreadStatusDialog statusDialog = new BackgroundThreadStatusDialog();
+	try
+	{	
+		int count=lvSearchResult.Items.Count;
+		for (int i=0;i<count;i++)
+		{
+			//
+			statusDialog.Percent = 100/count*i;//进度
+			statusDialog.Description="正在发送第"+i.ToString()+"条短信...";//提示
+			if (statusDialog.IsCanceled)//查看用户是按下Cancel键
+				return;
+
+			if (lvSearchResult.Items[i].Checked)
+			{
+				ArrayList parents = (ArrayList)lvSearchResult.Items[i].Tag;
+				foreach (jxt.DataAccess.Entity.Genearch gen in parents)
+				{
+					try
+					{
+						string content=lvSearchResult.Items[i].SubItems[3].Text;
+						if (gen.Issubs.Substring(0,1) == "1")
+						{
+							jxt.BizObject.SmsHelper.SendSms(gen.Mobile, lvSearchResult.Items[i].SubItems[1].Text , content,room_id, 0);
+						}
+					}
+					catch{}
+				}
+
+			}
+		}
+		//statusDialog.Close();//关闭显示窗口
+		statusDialog.Percent=100;
+		statusDialog.IsFinished();
+		statusDialog.Description="发送完毕。";//提示
+	}
+	finally
+	{
+		//statusDialog.Close();
+	}
+
+}
+

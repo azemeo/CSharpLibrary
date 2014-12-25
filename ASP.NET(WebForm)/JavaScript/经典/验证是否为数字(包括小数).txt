@@ -1,0 +1,4 @@
+验证是否为数字
+对VS中托一个控件RegularExpressionValidator1
+ValidationExpression为 ^(0|[1-9]\d*)$|^(0|[1-9]\d*)\.(\d+)$
+ControlToValidate指向TextBox1

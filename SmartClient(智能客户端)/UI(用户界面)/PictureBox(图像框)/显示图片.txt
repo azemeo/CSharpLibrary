@@ -1,0 +1,7 @@
+using System.IO;			
+//œ‘ æÕº∆¨
+			Product_Ctrl ctrlImage=new Product_Ctrl();
+			byte[]blob=ctrlImage.GetImage(ProductID);
+			MemoryStream stream=new MemoryStream();
+			stream.Write(blob,0,blob.Length);
+			pbxMiniature_Pic.Image=new Bitmap(stream);

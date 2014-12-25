@@ -1,0 +1,11 @@
+相应Command事件
+if(e.CommandName=="Sort"&&e.CommandArgument.ToString()=="ASC")
+			{
+				Button1.CommandArgument="DESC";
+				this.Label2.Text="DESC";
+			}
+			else if(e.CommandName=="Sort"&&e.CommandArgument.ToString()=="DESC")
+			{
+				Button1.CommandArgument="ASC";
+				this.Label2.Text="ASC";
+			}

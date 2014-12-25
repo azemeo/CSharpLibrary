@@ -1,0 +1,21 @@
+1.查看表结构
+mysql> DESCRIBE president;
+缩写为:DESC 
+2.创建表1
+mysql> CREATE TABLE president
+    -> (
+    -> last_name VARCHAR(15) NOT NULL,
+    -> first_name VARCHAR(15) NOT NULL,
+    -> suffix VARCHAR(15) NULL,
+    -> city VARCHAR(20) NOT NULL,
+    -> state VARCHAR(2) NOT NULL,
+    -> birth DATE NOT NULL,
+    -> death DATE NULL
+    -> );
+
+5.有哪些表
+mysql> show tables;
+另外：有可从外壳程序使用的命令行等同物
+4.改变结构(增加列)
+mysql> ALTER TABLE member
+    -> ADD member_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY;

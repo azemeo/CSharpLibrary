@@ -1,0 +1,11 @@
+新增StringComparison枚举型 
+
+在2.0之前使用的代码如：
+
+string mimeType="image/jpe";
+
+String.Compare(mimeType, "image/jpe", true, CultureInfo.InvariantCulture)
+
+就可以写成：
+
+String.Compare(mimeType, "image/jpe", StringComparison.InvariantCulture);

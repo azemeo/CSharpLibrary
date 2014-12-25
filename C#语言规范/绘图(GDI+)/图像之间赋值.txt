@@ -1,0 +1,1 @@
+this.lblNurse.Image = ((System.Drawing.Bitmap)(resources.GetObject("labOrder.Image")));

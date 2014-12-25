@@ -1,0 +1,4 @@
+enableContextMenu:true/false 在用户右击鼠标时启用/禁用弹出式菜单
+fullScreen:true/false全屏/窗口切换
+URL WMP所支持协议的多媒本源如：文件、网址
+右击控件,选择Options,会弹出一个窗口，Auto start取消，这样打开时不会播放。

@@ -1,0 +1,4 @@
+//从第一个字符起取25个字符的子串(子字符串)
+string strTmpTableName;
+
+strTmpTableName=strTmpTableName.Substring(0,25);

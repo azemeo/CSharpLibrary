@@ -1,0 +1,58 @@
+1.Guitars.xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Guitars>
+	<Guitar Image="MySG.jpg">
+		<Make>Gibson</Make>
+		<Model>SG</Model>
+		<Year>1997</Year>
+		<Color>Tobacco Sunburst</Color>
+		<Neck>Rosewood</Neck>
+	</Guitar>
+	<Guitar Image="Mystrat.jpg" PreviousOwner="Eric Clapton">
+		<Make>Fender</Make>
+		<Model>Stractocaster</Model>
+		<Year>1990</Year>
+		<Color>Black</Color>
+		<Neck>Maple</Neck>
+	</Guitar>
+</Guitars>
+
+2.Class1.cs
+using System;
+using System.Xml;
+namespace MyXML1
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			XmlDocument doc=new XmlDocument();
+			doc.Load("Guitars.xml");
+			OutputNode(doc.DocumentElement);
+		}
+		static void OutputNode(XmlNode node)
+		{
+			Console.WriteLine("Type={0}\tName={1}\tValue={2}",node.NodeType,node.Name,node.Value);
+			if(node.Attributes!=null)//属性
+			{
+				foreach(XmlAttribute attr in node.Attributes)
+					Console.WriteLine("Type={0}\tName={1}\tValue={2}",attr.NodeType,attr.Name,attr.Value);
+			}
+			if(node.HasChildNodes)//字节点
+			{
+				XmlNodeList children=node.ChildNodes;
+				foreach(XmlNode child in children)
+				{
+					OutputNode(child);
+				}
+			}
+		}
+}
+}

@@ -1,0 +1,7 @@
+Microsoft .NET Compact Framework 开发常见问题解答
+http://www.microsoft.com/china/msdn/library/NetFramework/netcompactframework/understandingnetcfFAQ.mspx
+
+3. 部署
+
+11.连接
+

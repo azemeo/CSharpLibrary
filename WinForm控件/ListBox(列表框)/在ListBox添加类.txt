@@ -1,0 +1,54 @@
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace Movecont
+{
+	/// <summary>
+	/// Form1 的摘要说明。
+	/// </summary>
+	public class Form1 : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.ListBox listBox1;
+private void Form1_Load(object sender, System.EventArgs e)
+		{
+			ex1 ex=new ex1();
+			ex.name="gelifeng";
+
+			listBox1.Items.Add(ex);//在列表中显示为ex1
+			listBox1.Items.Add(new ex2());//在列表中显示为Movecont.ex2
+			listBox1.Items.Add(new ex3());//在列表中显示为Movecont.ex3
+
+		}
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			int i = listBox1.SelectedIndex ;
+			ex1 ex = (ex1)listBox1.Items[i];
+			MessageBox.Show(ex.name);
+		}
+	}
+	public class ex1
+	{
+		public ex1()
+		{}
+		public override string ToString() 
+		{
+			return "ex1";
+		}
+		public string name="";
+	}
+	public class ex2
+	{
+		public ex2()
+		{}
+	}
+	public class ex3
+	{
+		public ex3()
+		{}
+	}
+}

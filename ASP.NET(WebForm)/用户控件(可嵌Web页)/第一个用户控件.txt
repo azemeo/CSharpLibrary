@@ -1,0 +1,15 @@
+1.Hello.ascx
+<h1>Hello,world</h1>
+2.Hello.aspx
+<%@Register TagPrefix="user" TagName="Hello" src="Hello.ascx" %>
+<html>
+	<body>
+		<form runat="server">
+		<user:Hello RunAt="Server" />
+		</form>
+	</body>
+</html>
+3.说明
+TagPrefix,前缀
+TagName,标记名称
+src,映谢的源文件

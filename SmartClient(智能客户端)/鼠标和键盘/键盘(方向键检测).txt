@@ -1,0 +1,32 @@
+int way=0;//方向 1-上,2-下,3-左,4-右,5-中间确认
+		private void Form1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			if(e.KeyCode==Keys.Up)
+				way=1;
+			else if(e.KeyCode==Keys.Down)
+				way=2;
+			else if(e.KeyCode==Keys.Left)
+				way=3;
+			else if(e.KeyCode==Keys.Right)
+				way=4;
+			else if(e.KeyCode==Keys.Return)
+			{
+				label1.Text="Enter";
+			}
+			else
+			{
+				if(e.KeyCode==Keys.F21&&way==1)//4向向上键
+					label1.Text="4 Up";
+				else if(e.KeyCode==Keys.F21&&way==2)//4向向下键
+					label1.Text="4 Down";
+				else if(e.KeyCode==Keys.F21&&way==3)//4向向左键
+					label1.Text="4 Left";
+				else if(e.KeyCode==Keys.F21&&way==4)//4向向右键
+					label1.Text="4 Right";
+				else if(e.KeyCode==Keys.F20&&way==1)//2向向上键
+					label1.Text="2 Up";
+				else if(e.KeyCode==Keys.F20&&way==2)//2向向下键
+					label1.Text="2 Down";
+				else
+					way=0;//其它
+			}

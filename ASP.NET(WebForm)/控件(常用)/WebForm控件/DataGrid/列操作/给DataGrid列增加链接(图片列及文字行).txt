@@ -1,0 +1,51 @@
+<cc1:datagridex id="zdgMain" runat="server" ShowSelectType="CheckBox" ShowFooter="True" ShowAutoNumber="True"
+							ShowSelectControl="True" AutoGenerateColumns="False" AllowSorting="True" Width="100%">			
+							<Columns>
+								<cc1:myCheckBoxColumn></cc1:myCheckBoxColumn>
+								<cc1:myAutoNumberColumn></cc1:myAutoNumberColumn>
+								<asp:BoundColumn DataField="name" SortExpression="name" HeaderText="产品名称"></asp:BoundColumn>
+								<asp:TemplateColumn HeaderText="修改">
+									<HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+									<ItemStyle HorizontalAlign="Center"></ItemStyle>
+									<ItemTemplate>
+										<FONT face="宋体"><FONT face="宋体"><IMG id="imgModify" height="16" alt="" src="../Images/Common/icon_modify.gif" width="16" border="0"
+													runat="server"></FONT></FONT>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+								<asp:BoundColumn Visible="False" DataField="product_id" SortExpression="product_id" HeaderText="ID"></asp:BoundColumn>
+							</Columns>
+							<PagerStyle CssClass="dgPagerStyle"></PagerStyle>
+						</cc1:datagridex>
+
+
+
+		private void zdgMain_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
+		{
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			{
+
+
+				object oImg, oID;
+				oID		= DataBinder.Eval(e.Item.DataItem,"product_id");
+				//对采用的控件的列
+				oImg = e.Item.FindControl("imgModify");
+				if(oImg != null && oID != null) //为修改按钮指定修改页面的Url
+				{
+					HtmlImage img = (HtmlImage)oImg;
+					img.Style.Add("cursor","hand");//增加手形光标
+					img.Attributes.Add("onclick","javascript: location.href='Form_PdtModi.aspx?ID=" + oID.ToString().Trim() +"'");
+					
+				}
+
+				
+				//对采用的BoundColumn列
+				if(oID != null)
+				{
+					string sID = oID.ToString().Trim();					
+					//生成链接
+					e.Item.Cells[2].Text = "<A href='Form_PdtDetail.aspx?ID=" + sID + "'>" + e.Item.Cells[2].Text + "</A>";
+				}
+
+			}	
+		}
+

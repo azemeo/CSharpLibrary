@@ -1,0 +1,4 @@
+1.在*.aspx顶部上下面的语句:
+<%@ Page EnableViewStateMac="true" %>//防止修改
+2.在Machine.cofig,连接安全性
+<machineKye validation="3DES" />

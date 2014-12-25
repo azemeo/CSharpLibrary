@@ -1,0 +1,5 @@
+string[]fn={"glf","hyj","hzy"};
+int i;
+Console.WriteLine("Here ar {0} of my friends",fn.Length);
+for(i=0;i<fn.Length;i++)
+Console.WriteLine(fn[i]);

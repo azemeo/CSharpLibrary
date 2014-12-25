@@ -1,0 +1,32 @@
+using System.Reflection;
+using ZWCF.Diagnostics;		
+
+string applocal = "";//当前应用程序路径
+		Process ps=new Process();//windows media player 进程
+
+		public Form1()
+		{
+			InitializeComponent();
+			//得到当前程序的路径
+			string full = Assembly.GetExecutingAssembly().GetName().CodeBase.ToString();
+			string name = Assembly.GetExecutingAssembly().GetName().ToString() ;
+			name = name.Substring(0,name.IndexOf(",")) + ".exe"; 
+			applocal = full.Substring(0,full.IndexOf(name));
+			//初始化进程序的参数
+			ps.StartInfo.FileName="player.exe";
+			//ps.StartInfo.WindowStyle=ProcessWindowStyle.Hidden;//最小化
+
+		}		
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			//打开Mp3文件
+			ps.StartInfo.Arguments=applocal+"test_1.mp3"; 
+			ps.Start();
+		
+		}
+		private void button2_Click(object sender, System.EventArgs e)
+		{
+			//打开Mp3文件
+			ps.StartInfo.Arguments=applocal+"test_2.mp3"; 
+			ps.Start();
+		}

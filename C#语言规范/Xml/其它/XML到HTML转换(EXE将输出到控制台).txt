@@ -1,0 +1,36 @@
+using System;
+using System.Xml.XPath;
+using System.Xml.Xsl;
+namespace XSLT_Console
+{
+	/// <summary>
+	/// Class1 的摘要说明。
+	/// </summary>
+	class Class1
+	{
+		/// <summary>
+		/// 应用程序的主入口点。
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			if(args.Length<2)
+			{
+				Console.WriteLine("Syntax:TRANSFORM xmldoc xsldoc");
+			}
+			try
+			{
+				XPathDocument doc=new XPathDocument(args[0]);
+				XslTransform xsl=new XslTransform();
+				xsl.Load(args[1]);
+				xsl.Transform(doc,null,Console.Out);
+				//xsl.XmlResolver(doc,null,Console.Out);
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
+	}
+}

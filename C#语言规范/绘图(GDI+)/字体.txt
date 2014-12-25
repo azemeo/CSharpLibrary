@@ -1,0 +1,17 @@
+float newSize=Convert.ToSingle(textSize);
+			FontFamily currentFontFamily;
+			Font newFont;
+			currentFontFamily=this.rtfText.SelectionFont.FontFamily;
+			newFont=new Font(currentFontFamily,newSize);
+			this.rtfText.SelectionFont=newFont;
+//----粗体切换
+			Font newFont=new Font(this.rtfText.SelectionFont,(this.rtfText.SelectionFont.Bold?this.rtfText.SelectionFont.Style&~FontStyle.Bold:this.rtfText.SelectionFont.Style|FontStyle.Bold));
+			this.rtfText.SelectionFont=newFont;
+//----斜体切换
+			Font newFont=new Font(this.rtfText.SelectionFont,(this.rtfText.SelectionFont.Italic?this.rtfText.SelectionFont.Style&~FontStyle.Italic:this.rtfText.SelectionFont.Style|FontStyle.Italic));
+			this.rtfText.SelectionFont=newFont;
+//----下划线体切换
+			Font newFont=new Font(this.rtfText.SelectionFont,(this.rtfText.SelectionFont.Underline?this.rtfText.SelectionFont.Style&~FontStyle.Underline:this.rtfText.SelectionFont.Style|FontStyle.Underline));
+			this.rtfText.SelectionFont=newFont;
+
+

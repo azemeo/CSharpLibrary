@@ -1,0 +1,24 @@
+//客户端
+	//
+	function DelAffirmFrm()
+	{	
+		if (document.all('YKListSource1___SelectedRow').value>0)
+		{
+			if(!window.confirm("您确定要删除吗？"))			
+			{
+				return false;				
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			alert("请选择待删除的数据!");
+			return false;
+		}
+	}
+
+//服务器端
+this.Button5.Attributes.Add("onclick","javascript:if(!DelAffirmFrm()) return false;else return;");

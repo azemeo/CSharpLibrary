@@ -1,0 +1,47 @@
+Rows 高度(以行数计算)
+SelectedItem 返回具有最低索引值的选取项。
+SelectionMode 是单选或是多选
+
+
+1.*.aspx
+			<asp:ListBox id="ListBox1" runat="server"
+				SelectionMode="Multiple"></asp:ListBox>
+			<asp:Label id="Label1" runat="server">Label</asp:Label>
+			<asp:Button id="Button1" runat="server"
+				Text="Button"></asp:Button>
+2.*.aspx.cs
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// 在此处放置用户代码以初始化页面
+			if(!Page.IsPostBack)
+			{
+				//ListBox数据绑定
+				string strConn,strCmd;
+				strConn="server=localhost;uid=sa;pwd=;database=Northwind";
+				strCmd="Select employeeid,firstName,lastName From employees";
+				SqlDataAdapter oCMD=new SqlDataAdapter(strCmd,strConn);
+				DataSet oDS=new DataSet();
+				oCMD.Fill(oDS,"EmployeesList");
+				DataTable dt=oDS.Tables["EmployeesList"];
+				ListBox1.DataSource=oDS.Tables["EmployeesList"].DefaultView;
+				ListBox1.DataTextField="lastName";
+				ListBox1.DataValueField="employeeid";
+				ListBox1.DataBind();
+
+			}
+		}
+
+		private void Button1_Click(object sender, System.EventArgs e)
+		{
+			//检测选中项
+			StringBuilder buf=new StringBuilder("");//反复修改字串时StringBuilder比string性能更好
+			foreach(ListItem item in ListBox1.Items)
+			{
+				if(item.Selected)//选中标志
+				{
+					buf.Append(item.Text);
+					buf.Append(",");
+				}
+			}
+			Label1.Text=buf.ToString();
+		}

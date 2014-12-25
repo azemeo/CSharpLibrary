@@ -1,0 +1,27 @@
+public void CreateOleDbDataAdapter() 
+{
+    nwindConn = new OleDbConnection();
+
+    string mySelectText = "SELECT CustomerID, CompanyName FROM CUSTOMERS";
+    string myConnString = "Provider=SQLOLEDB;Data Source=localhost;" +
+                          "Integrated Security=SSPI;Initial Catalog=northwind";
+    OleDbDataAdapter custDA = new OleDbDataAdapter(mySelectText, myConnString);
+    custDA.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+   
+    custDA.InsertCommand = new OleDbCommand("INSERT INTO Customers (CustomerID, CompanyName) " +
+                                            "VALUES (?, ?)", nwindConn);
+    custDA.UpdateCommand = new OleDbCommand("UPDATE Customers SET CustomerID = ?, CompanyName = ? " +
+                                            "WHERE CustomerID = ?", nwindConn);
+    custDA.DeleteCommand = new OleDbCommand("DELETE FROM Customers WHERE CustomerID = ?", nwindConn);
+
+    custDA.InsertCommand.Parameters.Add("@CustomerID", OleDbType.Char, 5, "CustomerID");
+    custDA.InsertCommand.Parameters.Add("@CompanyName", OleDbType.VarChar, 40, "CompanyName");
+ 
+    custDA.UpdateCommand.Parameters.Add("@CustomerID", OleDbType.Char, 5, "CustomerID");
+    custDA.UpdateCommand.Parameters.Add("@CompanyName", OleDbType.VarChar, 40, "CompanyName");
+    custDA.UpdateCommand.Parameters.Add("@oldCustomerID", OleDbType.Char, 5, "CustomerID").SourceVersion = DataRowVersion.Original;
+
+    custDA.DeleteCommand.Parameters.Add("@CustomerID", OleDbType.Char, 5, "CustomerID").SourceVersion = DataRowVersion.Original;
+}
+[C++, JScript] 没有可用于 C++ 或 JScript 的示例。若要查看 Visual Basic 或 C# 示例，请单击页左上角的语言筛选器按钮 。
+

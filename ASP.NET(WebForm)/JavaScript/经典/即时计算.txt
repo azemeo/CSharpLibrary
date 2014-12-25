@@ -1,0 +1,23 @@
+1.HTML
+		<script language="javascript">
+<!--
+function getSum()
+{
+//要保证txt1,txt2是数字
+var a = document.all.txt_Price.value;
+var b = document.all.txt_Number.value;
+var c = eval(a + " * " + b)
+document.all.tbTotal.value= c;
+}
+
+//-->
+		</script>
+
+
+<asp:textbox id="txt_Price" runat="server" Width="100px">0</asp:textbox>
+<asp:textbox id="txt_Number" runat="server" Width="100px">0</asp:textbox>
+2.CS
+
+
+				this.txt_Price.Attributes.Add("onchange","javascript:getSum();");
+				this.txt_Number.Attributes.Add("onchange","javascript:getSum();");

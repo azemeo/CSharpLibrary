@@ -1,0 +1,61 @@
+说明：将下面三个文件放入同一个文件夹内,以Web方式共享
+用IE请求Quotes.aspx
+1."Guitars.xml"
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="Guitars.xsl"?>
+<Guitars>
+	<Guitar>
+		<Make>Gibson</Make>
+		<Model>Les Paul</Model>
+		<Year>1959</Year>
+		<Color>Gold</Color>
+		<Neck>Rosewood</Neck>
+	</Guitar>
+	<Guitar>
+		<Make>Fender</Make>
+		<Model>Stractocaster</Model>
+		<Year>1990</Year>
+		<Color>Black</Color>
+		<Neck>Maple</Neck>
+	</Guitar>  
+</Guitars>
+2."Guitars.xsl"
+<?xml version="1.0"?>
+<xsl:stylesheet  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:template match="/">
+<html>
+	<body>
+		<h1>My Guitars</h1>
+		<hr />
+		<table width="100%" border="1">
+			<tr bgcolor="gainsboro">
+				<td><b>Make</b></td>
+				<td><b>Model</b></td>
+				<td><b>Year</b></td>
+				<td><b>Color</b></td>
+				<td><b>Neck</b></td>
+			</tr>
+			<xsl:for-each select="Guitars/Guitar">
+				<tr>
+					<td><xsl:value-of select="Make" /></td>
+					<td><xsl:value-of select="Model" /></td>
+					<td><xsl:value-of select="Year" /></td>
+					<td><xsl:value-of select="Color" /></td>
+					<td><xsl:value-of select="Neck" /></td>
+				</tr>
+			</xsl:for-each>
+		</table>
+	</body>
+</html>
+</xsl:template>
+</xsl:stylesheet>
+3."Quotes.aspx"
+<%@ Page Language="C#" %>
+<%@ Import Namespace="System.Xml.XPath" %>
+<%@ Import Namespace="System.Xml.Xsl" %>
+<%
+	XPathDocument doc=new XPathDocument(Server.MapPath("Guitars.xml"));
+	XslTransform xsl=new XslTransform();
+	xsl.Load(Server.MapPath("Guitars.xsl"));
+	xsl.Transform(doc,null,Response.OutputStream);
+%>

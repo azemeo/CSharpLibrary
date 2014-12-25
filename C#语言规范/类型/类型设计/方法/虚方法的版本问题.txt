@@ -1,0 +1,83 @@
+new 隐藏基类中的方法,新引入的方法，和基类没有任何关系。
+
+override 重写基类中的方法
+
+1.如果基中有更改，并于子类冲突，在子类中相同方法前加new,以便继续使用自己的方法。
+using System;
+namespace CompanyA
+{
+	class Phone
+	{
+		public void Dial()
+		{
+			Console.WriteLine("Phone.Dial");
+			EstablishConnection();
+		}
+		protected virtual void EstablishConnection()//key
+		{
+			Console.WriteLine("Phone.EstablishConnection");
+		}
+	}
+}
+namespace CompanyB
+{
+	class BetterPhone:CompanyA.Phone
+	{
+		new public void Dial()//key
+		{
+			Console.WriteLine("BetterPhone.Dial");
+			EstablishConnection();
+			base.Dial();
+		}
+		new protected virtual void EstablishConnection()//key
+		{
+				Console.WriteLine("BetterPhone.EstablishConnection");
+		}
+	}
+}
+class App
+{
+	static void Main()
+	{
+		CompanyB.BetterPhone phone=new 	CompanyB.BetterPhone();
+		phone.Dial();
+	}
+}
+
+2.基类中新定义的语议是所期望的，想使用
+using System;
+namespace CompanyA
+{
+	class Phone
+	{
+		public void Dial()
+		{
+			Console.WriteLine("Phone.Dial");
+			EstablishConnection();
+		}
+		protected virtual void EstablishConnection()//key
+		{
+			Console.WriteLine("Phone.EstablishConnection");
+		}
+	}
+}
+namespace CompanyB
+{
+	class BetterPhone:CompanyA.Phone
+	{
+		protected override void EstablishConnection()//key
+		{
+				Console.WriteLine("BetterPhone.EstablishConnection");
+		}
+	}
+}
+class App
+{
+	static void Main()
+	{
+		CompanyB.BetterPhone phone=new 	CompanyB.BetterPhone();
+		phone.Dial();
+	}
+}
+
+点评:Main中调用的方法始终没有改变

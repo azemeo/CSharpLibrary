@@ -1,0 +1,4 @@
+DataGrid1.TableStyles("Products").GridColumnStyles("QuantityPerUnit").Width = 0
+or
+ds.Tables("Products").Columns("QuantityPerUnit").ColumnMapping = MappingType.Hidden
+DataGrid1.SetDataBinding(ds, "Products")

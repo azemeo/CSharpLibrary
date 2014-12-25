@@ -1,0 +1,22 @@
+1.加入NotifyIcon控件,名为niMain.
+2.加入ContextMenu控件，名为cmMain.
+3.加入相应的菜单项目，并添加事件处理程序。
+private void miShow_Click(object sender, System.EventArgs e)
+		{
+			this.Show();//显示主窗口
+			this.WindowState=FormWindowState.Normal;
+		}
+
+		private void miHide_Click(object sender, System.EventArgs e)
+		{
+			this.Hide();//隐藏主窗口
+		}
+
+		private void miExit_Click(object sender, System.EventArgs e)
+		{
+			Application.Exit();//退出应用程序
+		}
+4.在主窗口的load事件中加入
+this.Hide();
+5.NotifyIcon控件属性ContentMenu=cmMain	
+6.为niMain 的Icon定义一个图标，否则显示不出来.

@@ -1,0 +1,67 @@
+
+实例构造器:是种特珠的方法,它们负责将类型的实例初始化到一个良好的状态.
+
+如果我们没有显式为其定义实例构造器,C#会为我们定义一个公有的无参构造器(默认构造器)
+
+一个类型可以定义多个实例构造器,每个构造器都必须有一个不同的签名.多个构造器可以有不同的访问限制.
+
+对于可验证的代码,一个类的实例构造器在访问基类的继承字段之前,必须调用其基类的实例构造器.C#会自动产生对基类默认构造器的调用代码.
+
+在少数情况下,类型的实例创建不需要调用实例构造器.
+
+对于多个字段,多个构造器,我们因将这些公共初始化语句放在一个初始化构造器中,然后其他的构造显示地调用这个构造器,以减少代码的尺寸.
+
+using System;
+class SomeType
+{
+	Int32 x;
+	String s;
+	Double d;
+	Byte b;
+	public SomeType()
+	{
+		x=5;
+		s="Hi here";
+		d=3.14159;	
+	}
+	//下面的构造首选调用默认的构造器
+	public SomeType(Int32 x):this()
+	{
+		this.x=x;	
+	}
+	public SomeType(String s):this()
+	{
+		this.s=s;
+	}
+}
+
+C#不会为值类型自动产生默认的无参数构造器,CLR却允许我们为值类型定义构造器(包括无参数构造器).
+要使一个值类型的无参构造器执行,必须显示地调用.
+
+C#不允许值类型定义无参数构造器.( 结构不能包含显式的无参数构造函数)
+using System;
+struct Point
+{
+	//error
+	//public Int32 x=5;//结构中不能有实例字段初始值设定项
+	public Int32 x,y;
+	public Point(Int32 x,Int32 y)
+	{
+		this.x=y;
+		this.y=y;
+	}
+	//error
+	//public Point()
+	//{
+	//	x=y=5;
+	//}
+}
+class Rectangle
+{
+	public Point topLeft,bottomRight;
+	public Rectangle()
+	{
+		topLeft=new Point(1,2);
+		bottomRight=new Point(100,100);
+	}
+}

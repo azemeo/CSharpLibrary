@@ -1,0 +1,47 @@
+
+//互操作引用
+using System.Runtime.InteropServices;
+//在类中
+public class Form1 : System.Windows.Forms.Form
+	{
+		//导入Win32函数
+		[DllImport("coredll.dll",CharSet=CharSet.Unicode)]
+		public static extern IntPtr LoadCursor(IntPtr hInstance,int iCursorID);
+		[DllImport("coredll.dll",CharSet=CharSet.Unicode)]
+		public static extern IntPtr SetCursor(IntPtr hCursor);
+		[DllImport("coredll.dll",CharSet=CharSet.Unicode)]
+		public static extern void Sleep(int dwMilliseconds);
+		//指定资源
+		public const int IDC_WAIT=32514;
+		public const int IDC_ARROW=32512;
+		public const int IDC_IBEAM=32513;
+		public const int IDC_CROSS=32515;
+		public const int IDC_UPARROW=32516;
+		public const int IDC_NO=32648;
+		public const int IDC_HELP=32651;
+		public const int IDC_HAND=32649;
+
+		//按钮事件
+		private void button3_Click(object sender, System.EventArgs e)
+		{
+			string strButtonText=this.button3.Text;
+			Hashtable ht=new Hashtable();
+			ht.Add(IDC_WAIT,"IDC_WAIT");
+			ht.Add(IDC_ARROW,"IDC_ARROW");
+			ht.Add(IDC_IBEAM,"IDC_IBEAM");
+			ht.Add(IDC_CROSS,"IDC_CROSS");
+			ht.Add(IDC_UPARROW,"IDC_UPARROW");
+			ht.Add(IDC_NO,"IDC_NO");
+			ht.Add(IDC_HELP,"IDC_HELP");
+			ht.Add(IDC_HAND,"IDC_HAND");
+			foreach(object oKey in ht.Keys)
+			{
+				int iCursor=(int)oKey;
+				SetCursor(LoadCursor(IntPtr.Zero,iCursor));
+				button3.Text=(string)ht[oKey];
+				Sleep(1000);
+			}
+			//显示缺省光标
+			Cursor.Current=Cursors.Default;
+			button3.Text=strButtonText;
+		}
